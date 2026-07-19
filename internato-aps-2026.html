@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Internato APS II — Material de Estudo</title>
+<style>
+  :root{
+    --bg:#0f1115; --card:#171a21; --ink:#e8eaed; --muted:#9aa3af;
+    --line:#2a2f3a; --accent:#5b9dff; --good:#34d399; --warn:#fbbf24; --bad:#f87171;
+    --base:#f59e0b; --tema:#5b9dff; --rot:#a78bfa;
+  }
+  @media print{ :root{--bg:#fff;--card:#fff;--ink:#111;--muted:#555;--line:#ccc} .toc{display:none} body.js .q .ans{display:block!important} .reveal{display:none!important} }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  .wrap{max-width:920px;margin:0 auto;padding:24px 18px 80px}
+  header h1{font-size:1.5rem;margin:0 0 4px}
+  header .sub{color:var(--muted);margin:0 0 18px}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.85rem;color:var(--muted);margin-bottom:20px;align-items:center}
+  .pill{padding:2px 10px;border-radius:999px;font-weight:600;font-size:.8rem;color:#0b0d12}
+  .pill.base{background:var(--base)} .pill.tema{background:var(--tema)} .pill.rot{background:var(--rot)}
+  details.toc{margin-bottom:24px}
+  details.toc > summary{text-transform:uppercase;letter-spacing:.05em;font-size:.8rem;color:var(--muted)}
+  .toc-links{display:flex;flex-wrap:wrap;gap:8px;padding:4px 18px 16px}
+  .toc a{color:var(--accent);text-decoration:none;padding:8px 12px;font-size:.9rem;line-height:1.2;background:#1d212a;border:1px solid var(--line);border-radius:8px}
+  .toc a:hover{background:#252b36;border-color:var(--accent)}
+  .toc a.off{color:var(--muted);opacity:.55}
+  .block{margin:28px 0 8px}
+  .block > h2{font-size:1.2rem;border-left:5px solid var(--line);padding-left:10px;margin-bottom:4px}
+  .block.base > h2{border-color:var(--base)} .block.tema > h2{border-color:var(--tema)} .block.rot > h2{border-color:var(--rot)}
+  details{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:12px 0;overflow:hidden}
+  summary{cursor:pointer;padding:14px 18px;font-weight:600;list-style:none;display:flex;gap:10px;align-items:center}
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:"▸";color:var(--muted);font-size:.85em;flex:none;transition:transform .15s ease}
+  details[open] > summary::before{transform:rotate(90deg)}
+  summary > *:last-child{margin-left:auto}
+  summary:hover{background:#1d212a}
+  .body{padding:4px 18px 18px;border-top:1px solid var(--line)}
+  h3{font-size:1.02rem;margin:18px 0 6px;color:var(--accent)}
+  h4{font-size:.95rem;margin:14px 0 4px}
+  .scroll{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.92rem}
+  th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+  th{background:#1d212a;color:var(--ink)}
+  td strong,.hl{color:var(--warn)}
+  .src{font-size:.78rem;color:var(--muted);font-style:italic;margin-top:10px}
+  .verify{color:var(--bad);font-weight:700}
+  .note{border-left:3px solid var(--accent);background:#141b28;padding:8px 12px;margin:12px 0;border-radius:0 8px 8px 0;font-size:.93rem}
+  .note.warn{border-color:var(--warn);background:#231d0c}
+  .note.bad{border-color:var(--bad);background:#2a1414}
+  .note b.lbl{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;color:var(--accent)}
+  .note.warn b.lbl{color:var(--warn)} .note.bad b.lbl{color:var(--bad)}
+  .q{border-left:3px solid var(--line);padding:8px 0 8px 14px;margin:18px 0}
+  .q .stem{font-weight:600;margin-bottom:6px}
+  .q .alts{margin:2px 0 6px}
+  .q .alts div{margin:3px 0}
+  .q .ans{background:#11261c;border:1px solid #1f5138;border-radius:8px;padding:8px 10px;font-size:.9rem}
+  .q .ans b{color:var(--good)}
+  .q .ans .why{margin-top:6px;color:var(--muted);font-size:.88rem}
+  body.js .q .ans{display:none}
+  body.js .q.show .ans{display:block}
+  .reveal{font:inherit;font-size:.85rem;cursor:pointer;background:#1d212a;color:var(--accent);border:1px solid var(--line);border-radius:8px;padding:6px 12px;margin-top:2px}
+  .reveal:hover{background:#252b36;border-color:var(--accent)}
+  .status{font-size:.8rem;padding:1px 8px;border-radius:6px;border:1px solid var(--line);color:var(--muted)}
+  .status.done{color:var(--good);border-color:#1f5138;background:#11261c}
+  .status.todo{color:var(--warn);border-color:#5a4a16;background:#231d0c}
+  ol.rot{counter-reset:s;list-style:none;padding-left:0}
+  ol.rot > li{counter-increment:s;position:relative;padding:10px 0 10px 42px;border-bottom:1px solid var(--line)}
+  ol.rot > li::before{content:counter(s);position:absolute;left:0;top:10px;width:28px;height:28px;
+    border-radius:50%;background:#1d212a;border:1px solid var(--accent);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700}
+  ol.rot > li b{color:var(--ink)}
+  ol.rot .say{display:block;margin-top:4px;color:var(--good);font-style:italic;font-size:.92rem}
+  footer{color:var(--muted);font-size:.8rem;margin-top:40px;border-top:1px solid var(--line);padding-top:14px}
+  a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Internato em Atenção Primária II — material de estudo</h1>
+  <p class="sub">1º rodízio · UNEXMED FSA · 2026.2 — organizado pelas 7 temáticas oficiais do curso das terças, mais os blocos 0 e 8.</p>
+</header>
+
+<div class="legend">
+  <span><span class="pill base">0 · 8</span> base e rotina (fora da ementa)</span>
+  <span><span class="pill tema">1–7</span> temáticas oficiais</span>
+  <span>Questões em <b>estilo ENAMED</b></span>
+</div>
+
+<details class="toc" open>
+  <summary>Índice dos blocos</summary>
+  <div class="toc-links">
+    <a class="off" href="#b0">0 · Base de APS</a>
+    <a href="#b1">1 · Comunicação, MCCP e bioética</a>
+    <a class="off" href="#b2">2 · Gestão da clínica</a>
+    <a class="off" href="#b3">3 · Cardiorrenal-metabólica</a>
+    <a class="off" href="#b4">4 · Digestivo-nutricional</a>
+    <a class="off" href="#b5">5 · Pulmonar/respiratória</a>
+    <a class="off" href="#b6">6 · Neuromuscular</a>
+    <a class="off" href="#b7">7 · Urgências na APS</a>
+    <a class="off" href="#b8">8 · Rotina da unidade</a>
+  </div>
+</details>
+
+<!-- ============ BLOCO 1 ============ -->
+<section class="block tema" id="b1">
+  <h2>Bloco 1 — Comunicação, raciocínio clínico centrado na pessoa e bioética</h2>
+  <p class="sub">Temática 1 do Curso Preparatório. É também o que o preceptor observa em toda consulta e o que o OSCE pontua.</p>
+
+<details open>
+  <summary>Método Clínico Centrado na Pessoa <span class="status done">resumo</span></summary>
+  <div class="body">
+
+    <h3>Os 4 componentes</h3>
+    <div class="scroll"><table>
+      <tr><th>Componente</th><th>O que é</th><th>Como aparece na consulta</th></tr>
+      <tr>
+        <td><strong>1. Explorar a saúde, a doença e a experiência da doença</strong></td>
+        <td>Integrar a <b>doença</b> (<i>disease</i>, a categoria biomédica) com a <b>experiência</b> (<i>illness</i>, o que a pessoa vive) e a <b>saúde</b> (significados e aspirações).</td>
+        <td>Os 4 pontos <span class="hl">SIFE</span>: <b>S</b>entimentos, <b>I</b>deias, <b>F</b>unção (o que deixou de fazer) e <b>E</b>xpectativas.</td>
+      </tr>
+      <tr>
+        <td><strong>2. Entender a pessoa como um todo</strong></td>
+        <td>Contexto <b>proximal</b> (família, trabalho, renda, suporte) e <b>distal</b> (cultura, comunidade, determinantes sociais, ambiente).</td>
+        <td>Ciclo de vida, genograma, território, condições de moradia e trabalho.</td>
+      </tr>
+      <tr>
+        <td><strong>3. Elaborar um plano conjunto</strong></td>
+        <td>Chegar a um <b>terreno comum</b> sobre três coisas: qual é o problema, quais os objetivos e qual o papel de cada um.</td>
+        <td>Negociar, não prescrever. Se a pessoa não concorda com o problema, o plano não adere.</td>
+      </tr>
+      <tr>
+        <td><strong>4. Intensificar a relação</strong></td>
+        <td>Usar o vínculo, a continuidade, a empatia e o autoconhecimento do médico como <b>recurso terapêutico</b>.</td>
+        <td>É o que a longitudinalidade da APS permite e o pronto-socorro não permite.</td>
+      </tr>
+    </table></div>
+
+    <div class="note warn">
+      <b class="lbl">Divergência de edição — cuidado na prova</b>
+      A edição atual do MCCP tem <b>4 componentes</b>. Edições anteriores traziam <b>6</b>, incluindo
+      "incorporar prevenção e promoção" e "ser realista" (tempo e recursos) — que hoje estão
+      diluídos dentro dos outros quatro. Se a alternativa citar 6 componentes, a banca está
+      usando a versão antiga. <span class="verify">VERIFICAR</span> qual edição o curso adota.
+    </div>
+
+    <h3>Doença × experiência da doença — a distinção que mais cai</h3>
+    <div class="scroll"><table>
+      <tr><th></th><th><i>Disease</i> — doença</th><th><i>Illness</i> — experiência</th></tr>
+      <tr><td>Quem define</td><td>O médico</td><td>A pessoa</td></tr>
+      <tr><td>Linguagem</td><td>Diagnóstico, fisiopatologia, CID</td><td>Sofrimento, medo, limitação</td></tr>
+      <tr><td>Exemplo</td><td>"Hipertensão estágio 1"</td><td>"Tenho medo de ter um derrame como meu pai"</td></tr>
+    </table></div>
+    <p>Existe <b>doença sem experiência</b> (hipertenso assintomático) e <b>experiência sem doença</b>
+    (sintoma sem substrato orgânico). O erro clássico da consulta é tratar só a primeira coluna.</p>
+
+    <div class="note">
+      <b class="lbl">Por que isso é APS e não "conversa mole"</b>
+      Explorar a experiência da doença tem efeito mensurável em adesão, satisfação e desfecho.
+      Na prova, quando o enunciado descreve um paciente que "não adere", a resposta correta quase
+      nunca é intensificar a medicação — é <b>investigar o que a pessoa entende e teme</b>.
+    </div>
+
+    <div class="src">Stewart et al., Medicina Centrada na Pessoa · SBMFC, Currículo Baseado em Competências.</div>
+  </div>
+</details>
+
+<details>
+  <summary>Roteiro prático da consulta <span class="status done">campo</span></summary>
+  <div class="body">
+    <p>Roteiro para conduzir uma consulta pelo MCCP. As frases em itálico são exemplos de como
+    dizer — adapte ao seu jeito, não decore.</p>
+
+    <ol class="rot">
+      <li><b>Abrir e deixar falar.</b> Pergunta aberta e <b>não interrompa</b> nos primeiros 60–90 segundos.
+        <span class="say">"O que traz você aqui hoje?" — e depois: "mais alguma coisa?" até esgotar a lista.</span></li>
+      <li><b>Levantar toda a agenda antes de aprofundar.</b> Evita a "queixa da maçaneta", aquela que aparece quando você já está encerrando.
+        <span class="say">"Então hoje temos a dor no joelho e a receita da pressão. Tem mais alguma coisa? Por qual começamos?"</span></li>
+      <li><b>Explorar a experiência — SIFE.</b> Os quatro pontos, sem soar interrogatório.
+        <span class="say">"O que você acha que pode ser?" · "O que mais te preocupa nisso?" · "O que isso te impediu de fazer?" · "O que você esperava que a gente fizesse hoje?"</span></li>
+      <li><b>História e exame físico dirigidos.</b> Anamnese focada nas hipóteses e no que muda conduta. Exame físico com propósito — e avise o que vai fazer.</li>
+      <li><b>Entender o contexto.</b> Com quem mora, trabalho, renda, suporte, acesso ao serviço. Muda o plano mais do que o diagnóstico.
+        <span class="say">"Quem mora com você?" · "Como está o trabalho?"</span></li>
+      <li><b>Devolver e checar entendimento.</b> Explique em linguagem simples, sem jargão. Confirme que foi compreendido.
+        <span class="say">"Pra eu ver se expliquei direito — como você contaria isso em casa?"</span></li>
+      <li><b>Pactuar o plano.</b> Ofereça opções, exponha riscos e benefícios, pergunte o que é viável.
+        <span class="say">"Tem dois caminhos aqui. Qual parece mais possível pra você?"</span></li>
+      <li><b>Combinar o seguimento e a rede de segurança.</b> Quando retornar, e <b>o que fazer se piorar</b> — nunca omita isso.
+        <span class="say">"Se aparecer febre, falta de ar ou piora da dor, volte antes, não espere o retorno."</span></li>
+      <li><b>Registrar em SOAP</b> e classificar em CIAP-2.</li>
+    </ol>
+
+    <div class="note warn">
+      <b class="lbl">Os erros que o avaliador anota</b>
+      Interromper nos primeiros segundos · não perguntar as ideias e expectativas · usar jargão ·
+      prescrever sem negociar · <b>não combinar rede de segurança</b> · não checar entendimento ·
+      encerrar sem perguntar se ficou dúvida.
+    </div>
+  </div>
+</details>
+
+<details>
+  <summary>Comunicação: más notícias e entrevista motivacional <span class="status done">resumo</span></summary>
+  <div class="body">
+
+    <h3>SPIKES — comunicação de más notícias</h3>
+    <div class="scroll"><table>
+      <tr><th>Letra</th><th>Etapa</th><th>Na prática</th></tr>
+      <tr><td><strong>S</strong></td><td><i>Setting</i> — preparar</td><td>Ambiente privado, sentado, sem interrupção, tempo reservado, acompanhante se a pessoa quiser</td></tr>
+      <tr><td><strong>P</strong></td><td><i>Perception</i> — percepção</td><td>Antes de falar, <b>descubra o que a pessoa já sabe</b>: "o que te explicaram até agora?"</td></tr>
+      <tr><td><strong>I</strong></td><td><i>Invitation</i> — convite</td><td>Pergunte <b>quanto</b> ela quer saber: "você prefere que eu detalhe tudo ou fale das linhas gerais?"</td></tr>
+      <tr><td><strong>K</strong></td><td><i>Knowledge</i> — informar</td><td>Sinal de aviso ("infelizmente tenho uma notícia difícil"), linguagem simples, em blocos pequenos, pausas</td></tr>
+      <tr><td><strong>E</strong></td><td><i>Emotions</i> — emoções</td><td><b>Silêncio e acolhimento</b>. Nomeie a emoção: "vejo que isso te assustou". Não corra para consolar com dado técnico</td></tr>
+      <tr><td><strong>S</strong></td><td><i>Strategy</i> — estratégia</td><td>Plano combinado, próximo passo, o que não vai faltar (cuidado, alívio, acompanhamento)</td></tr>
+    </table></div>
+    <div class="note">
+      <b class="lbl">Pegadinha frequente</b>
+      A ordem importa: <b>P vem antes de K</b>. Informar antes de saber o que a pessoa já sabe e
+      quanto quer saber é o erro que a questão costuma esconder na alternativa mais "eficiente".
+    </div>
+
+    <h3>Entrevista motivacional</h3>
+    <p>Para quando existe <b>ambivalência</b>: a pessoa sabe que deveria mudar e não muda. Confrontar
+    aumenta a resistência; a entrevista motivacional faz a própria pessoa verbalizar os motivos de mudar.</p>
+    <div class="scroll"><table>
+      <tr><th>Espírito</th><th>4 processos</th><th>Ferramentas (OARS)</th></tr>
+      <tr>
+        <td>Parceria · Aceitação · Compaixão · Evocação</td>
+        <td>1. Engajar<br>2. Focar<br>3. Evocar<br>4. Planejar</td>
+        <td><b>O</b> perguntas abertas<br><b>A</b> afirmação<br><b>R</b> escuta reflexiva<br><b>S</b> sumarização</td>
+      </tr>
+    </table></div>
+    <div class="note warn">
+      <b class="lbl">Regra de ouro</b>
+      O <b>argumento de mudança tem que sair da boca da pessoa</b>, não da sua. Se você está
+      convencendo, provavelmente está gerando resistência. Pergunte: "quais seriam as vantagens de
+      parar?" em vez de listar as vantagens.
+    </div>
+
+    <h4>Estágios de mudança (Prochaska &amp; DiClemente)</h4>
+    <div class="scroll"><table>
+      <tr><th>Estágio</th><th>Onde a pessoa está</th><th>O que fazer</th></tr>
+      <tr><td>Pré-contemplação</td><td>Não vê problema</td><td>Informar sem confrontar, criar dúvida, manter vínculo</td></tr>
+      <tr><td>Contemplação</td><td>Ambivalente, "um dia eu paro"</td><td>Explorar prós e contras, evocar discurso de mudança</td></tr>
+      <tr><td>Preparação</td><td>Decidiu, planejando</td><td>Ajudar a fazer um plano concreto e definir data</td></tr>
+      <tr><td>Ação</td><td>Mudou há menos de 6 meses</td><td>Reforçar, apoiar, tratar sintomas de abstinência</td></tr>
+      <tr><td>Manutenção</td><td>Mudança sustentada</td><td>Prevenir recaída</td></tr>
+      <tr><td>Recaída</td><td>Voltou ao comportamento</td><td>Normalizar — é parte do processo, não fracasso. Reengajar</td></tr>
+    </table></div>
+    <div class="note">
+      <b class="lbl">Na prova</b>
+      A questão descreve a fala do paciente e pergunta a conduta. <b>Entregar plano de ação a quem
+      está em pré-contemplação é a alternativa errada mais tentadora.</b> Cada estágio tem sua conduta.
+    </div>
+
+    <div class="src">Baile et al. (SPIKES) · Miller &amp; Rollnick (entrevista motivacional) · Prochaska &amp; DiClemente · Dohms &amp; Gusso, Comunicação Clínica.</div>
+  </div>
+</details>
+
+<details>
+  <summary>Bioética, sigilo e documentos médicos <span class="status done">resumo</span></summary>
+  <div class="body">
+
+    <h3>Os 4 princípios</h3>
+    <div class="scroll"><table>
+      <tr><th>Princípio</th><th>Significado</th><th>Conflito típico na APS</th></tr>
+      <tr><td><strong>Autonomia</strong></td><td>Respeitar a decisão informada da pessoa capaz</td><td>Recusa de tratamento, recusa de exame</td></tr>
+      <tr><td><strong>Beneficência</strong></td><td>Agir no melhor interesse</td><td>Insistir num tratamento que a pessoa não quer</td></tr>
+      <tr><td><strong>Não-maleficência</strong></td><td>Não causar dano — <i>primum non nocere</i></td><td>Exame desnecessário, cascata diagnóstica, polifarmácia</td></tr>
+      <tr><td><strong>Justiça</strong></td><td>Distribuição equitativa de recursos</td><td>Fila, prioridade, uso racional do que é público</td></tr>
+    </table></div>
+    <div class="note">
+      <b class="lbl">Prevenção quaternária</b>
+      Proteger a pessoa de intervenção médica desnecessária — sobrediagnóstico, sobretratamento,
+      medicalização, rastreio sem indicação. É a <b>não-maleficência aplicada à prevenção</b> e é
+      conceito marcado da APS. Cai muito.
+    </div>
+
+    <h3>Sigilo médico</h3>
+    <p>Regra: o sigilo é <b>a regra</b>. Só se quebra em três situações:</p>
+    <div class="scroll"><table>
+      <tr><td><strong>Dever legal</strong></td><td>Notificação compulsória de doenças e agravos, comunicação de violência contra criança, adolescente, mulher e idoso</td></tr>
+      <tr><td><strong>Justa causa</strong></td><td>Risco concreto a terceiro identificável ou à própria pessoa</td></tr>
+      <tr><td><strong>Autorização</strong></td><td>Consentimento expresso da própria pessoa</td></tr>
+    </table></div>
+    <div class="note warn">
+      <b class="lbl">Notificação não é quebra de sigilo</b>
+      Notificar dengue, tuberculose, sífilis ou violência é <b>dever legal</b> — a questão costuma
+      opor "sigilo" e "notificação" como se fossem excludentes. Não são.
+    </div>
+
+    <h3>Adolescente — o tema mais cobrado do bloco</h3>
+    <ul>
+      <li>O adolescente tem direito a ser atendido <b>sozinho</b>, se assim desejar, e a ter sua consulta em <b>sigilo</b>.</li>
+      <li>A confidencialidade é a regra, inclusive quanto a atividade sexual e contracepção.</li>
+      <li><b>Quebra-se o sigilo</b> quando há <b>risco de vida ou risco grave à saúde</b> (ideação suicida, abuso, gravidez em menor de 14 anos, uso grave de substâncias) — e ainda assim <b>comunicando ao adolescente</b> que será compartilhado, e preferencialmente pactuando com ele.</li>
+      <li>Prescrever contraceptivo a adolescente <b>não exige</b> autorização dos pais.</li>
+    </ul>
+    <div class="note bad">
+      <b class="lbl">Erro clássico</b>
+      "Chamar a mãe para contar" é quase sempre a alternativa errada, salvo risco de vida. A
+      resposta correta costuma ser: manter o sigilo, acolher, e <b>estimular</b> que o próprio
+      adolescente envolva a família.
+    </div>
+
+    <h3>Documentos médicos</h3>
+    <div class="scroll"><table>
+      <tr><th>Documento</th><th>Regra</th></tr>
+      <tr><td><strong>Atestado</strong></td><td>Ato médico gratuito. Diagnóstico/CID <b>só com autorização expressa</b> do paciente. Atestar apenas o que se constatou.</td></tr>
+      <tr><td><strong>Receita</strong></td><td>Legível, com dose, via, posologia e duração. Identificação e assinatura do prescritor.</td></tr>
+      <tr><td><strong>Encaminhamento</strong></td><td>Hipótese, motivo, resumo da história, exames já feitos, o que já foi tentado, prioridade.</td></tr>
+      <tr><td><strong>Notificação</strong></td><td>SINAN. Dever legal, independe de autorização.</td></tr>
+      <tr><td><strong>Prontuário</strong></td><td>Pertence ao <b>paciente</b>; a guarda é do serviço. Registro claro, sem rasura, com data.</td></tr>
+    </table></div>
+    <div class="note warn">
+      <b class="lbl"><span class="verify">VERIFICAR</span></b>
+      Regras de <b>receituário especial</b> (cores, número de vias, retenção, validade) e de
+      <b>prescrição de antimicrobianos</b> mudam por norma da Anvisa e não foram conferidas contra
+      a norma vigente nesta versão. Conferir antes de responder questão que dependa de via/cor.
+    </div>
+
+    <div class="src">CFM — Código de Ética Médica · ECA · MS — notificação compulsória. Marco normativo do ENAMED 2026: 03/07/2026.</div>
+  </div>
+</details>
+
+<details>
+  <summary>Questões comentadas — estilo ENAMED <span class="status done">12 questões</span></summary>
+  <div class="body">
+    <p class="sub">Caso clínico em cenário de APS, 4 alternativas, uma correta. Clique para ver o gabarito comentado.</p>
+
+    <div class="q">
+      <div class="stem">1. Homem de 54 anos, hipertenso, comparece à USF para renovar receita. A PA está 156/98 mmHg e ele admite que "às vezes esquece" o remédio. Ao ser questionado, diz: "doutor, minha pressão só sobe quando eu fico nervoso, quando eu tô calmo ela é boa". A conduta inicial mais adequada é:</div>
+      <div class="alts">
+        <div>A) Aumentar a dose do anti-hipertensivo e reforçar a importância do uso contínuo.</div>
+        <div>B) Explorar o que ele entende sobre a hipertensão e o que espera do tratamento, antes de ajustar a conduta.</div>
+        <div>C) Solicitar MAPA para comprovar que a pressão está elevada fora do consultório.</div>
+        <div>D) Encaminhar ao cardiologista por hipertensão não controlada.</div>
+      </div>
+      <button class="reveal">Ver gabarito</button>
+      <div class="ans">
+        <b>Resposta: B</b> — O paciente verbalizou uma <b>ideia explicativa</b> ("pressão de nervoso") que é a causa provável da não adesão. O componente 1 do MCCP manda explorar ideias, sentimentos, função e expectativas antes de negociar o plano. Sem desfazer o modelo explicativo dele, qualquer ajuste de dose será tomado de forma irregular.
+        <div class="why"><b>A</b> erra ao tratar não adesão como falha de dose — aumentar dose de remédio que não é tomado não controla pressão e aumenta risco. <b>C</b> não é necessária: já há diagnóstico estabelecido e medida elevada; MAPA aqui não muda a conduta imediata. <b>D</b> é encaminhamento precoce — hipertensão não controlada por não adesão é manejo da APS, e encaminhar sem investigar a causa é perder a coordenação do cuidado.</div>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="stem">2. Adolescente de 15 anos procura a USF sozinha e solicita contracepção. Relata vida sexual ativa com parceiro único de 16 anos, consensual, e pede que os pais não sejam informados. Nega qualquer situação de violência. A conduta correta é:</div>
+      <div class="alts">
+        <div>A) Prescrever o contraceptivo, mantendo o sigilo, e estimular que ela compartilhe com a família.</div>
+        <div>B) Condicionar a prescrição à presença de um responsável legal.</div>
+        <div>C) Comunicar o Conselho Tutelar, por se tratar de menor de idade com vida sexual ativa.</div>
+        <div>D) Orientar apenas métodos de barreira, pois hormonais exigem autorização dos pais.</div>
+      </div>
+      <button class="reveal">Ver gabarito</button>
+      <div class="ans">
+        <b>Resposta: A</b> — A adolescente tem direito a atendimento sigiloso e desacompanhado, e a prescrição de contraceptivo <b>não exige</b> autorização dos pais. O papel do médico é manter a confidencialidade e, ao mesmo tempo, <b>estimular</b> (não impor) o envolvimento familiar.
+        <div class="why"><b>B</b> viola o direito à confidencialidade e é a principal barreira de acesso do adolescente ao serviço. <b>C</b> seria correta se houvesse indício de violência, exploração ou abuso — o enunciado afasta isso explicitamente (relação consensual, parceiro de idade próxima). <b>D</b> inventa uma exigência que não existe e ainda oferece método menos eficaz para contracepção.</div>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="stem">3. Durante consulta na USF, um homem de 60 anos com DPOC pergunta: "doutor, esse exame que a senhora pediu deu alguma coisa ruim? Pode falar." Você tem em mãos um laudo de tomografia com nódulo suspeito de neoplasia. Segundo o protocolo SPIKES, a etapa que deve preceder imediatamente a transmissão da informação é:</div>
+      <div class="alts">
+        <div>A) Descrever detalhadamente os achados da tomografia.</div>
+        <div>B) Verificar o quanto ele deseja saber sobre o resultado.</div>
+        <div>C) Encaminhar ao oncologista antes de qualquer informação.</div>
+        <div>D) Oferecer apoio emocional e chamar um familiar.</div>
+      </div>
+      <button class="reveal">Ver gabarito</button>
+      <div class="ans">
+        <b>Resposta: B</b> — No SPIKES, o <b>I (Invitation)</b> precede o <b>K (Knowledge)</b>: antes de informar, checa-se quanto a pessoa quer saber e em que profundidade. No caso, o paciente já sinalizou querer saber, mas a etapa formalmente anterior à transmissão é o convite.
+        <div class="why"><b>A</b> é justamente o K, que vem depois. <b>C</b> transfere a responsabilidade da comunicação e rompe o vínculo — a APS comunica e coordena, não terceiriza a má notícia. <b>D</b> corresponde ao E (emoções), que vem <b>após</b> informar; chamar familiar sem consultar o paciente ainda fere sua autonomia.</div>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="stem">4. Mulher de 47 anos, tabagista de 30 anos-maço, comparece por lombalgia. Ao ser abordada sobre o cigarro, responde: "eu sei que faz mal, mas fumar é o que me acalma. Já pensei em parar, mas não agora". Segundo os estágios de mudança, a conduta mais apropriada é:</div>
+      <div class="alts">
+        <div>A) Definir uma data para cessação e iniciar terapia de reposição de nicotina.</div>
+        <div>B) Explorar com ela os prós e os contras de continuar fumando e de parar.</div>
+        <div>C) Informar que, se não parar, desenvolverá DPOC e câncer de pulmão.</div>
+        <div>D) Encaminhar ao grupo de tabagismo e agendar retorno em 6 meses.</div>
+      </div>
+      <button class="reveal">Ver gabarito</button>
+      <div class="ans">
+        <b>Resposta: B</b> — A fala revela <b>ambivalência</b> ("já pensei em parar, mas não agora"), típica da <b>contemplação</b>. A conduta é explorar a balança decisória e evocar o discurso de mudança, sem forçar plano de ação.
+        <div class="why"><b>A</b> é conduta de quem está em <b>preparação</b>; oferecida na contemplação, gera resistência e abandono. <b>C</b> é confronto/atemorização, que aumenta a resistência e contraria o espírito da entrevista motivacional. <b>D</b> encaminha sem trabalhar a motivação e com intervalo longo demais — provável não comparecimento.</div>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="stem">5. Paciente de 72 anos, lúcida e orientada, com diagnóstico recente de neoplasia, recusa formalmente iniciar quimioterapia após ter sido informada de riscos, benefícios e alternativas. A família pressiona a equipe para "convencê-la". A conduta correta do médico de família é:</div>
+      <div class="alts">
+        <div>A) Respeitar a recusa, registrar em prontuário e manter o acompanhamento e o cuidado.</div>
+        <div>B) Solicitar avaliação psiquiátrica para atestar incapacidade de decidir.</div>
+        <div>C) Atender ao pedido da família e insistir no tratamento, pelo princípio da beneficência.</div>
+        <div>D) Encaminhar o caso ao Ministério Público para autorização judicial do tratamento.</div>
+      </div>
+      <button class="reveal">Ver gabarito</button>
+      <div class="ans">
+        <b>Resposta: A</b> — Pessoa <b>capaz</b> e <b>adequadamente informada</b> tem direito de recusar tratamento. Prevalece a <b>autonomia</b>. O vínculo não se rompe: mantém-se acompanhamento, controle de sintomas e reavaliação — a recusa pode ser revista a qualquer momento.
+        <div class="why"><b>B</b> usa a avaliação psiquiátrica como instrumento para anular uma decisão legítima — discordar da equipe não é sinal de incapacidade. <b>C</b> configura paternalismo: beneficência não se sobrepõe à autonomia de pessoa capaz. <b>D</b> judicializa uma decisão que é da paciente e não tem amparo neste cenário.</div>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="stem">6. Em consulta de rotina, homem de 58 anos assintomático solicita "aquele exame de próstata que todo mundo faz". Você explica os benefícios incertos e os riscos de sobrediagnóstico e sobretratamento do rastreio. Essa conduta exemplifica principalmente:</div>
+      <div class="alts">
+        <div>A) Prevenção primária.</div>
+        <div>B) Prevenção secundária.</div>
+        <div>C) Prevenção terciária.</div>
+        <div>D) Prevenção quaternária.</div>
+      </div>
+      <button class="reveal">Ver gabarito</button>
+      <div class="ans">
+        <b>Resposta: D</b> — <b>Prevenção quaternária</b> é a ação de proteger a pessoa de intervenções médicas desnecessárias e de seus danos — aqui, o sobrediagnóstico e o sobretratamento decorrentes de rastreio de benefício incerto. Envolve informar e decidir de forma compartilhada.
+        <div class="why"><b>A</b> é evitar a ocorrência da doença (vacinação, cessação do tabagismo). <b>B</b> é detecção precoce em assintomáticos — que é o que o rastreio <i>seria</i>, mas a questão pergunta sobre o ato de <b>proteger do excesso</b>. <b>C</b> é reduzir sequelas e reabilitar em quem já tem a doença.</div>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="stem">7. Durante o atendimento de uma criança de 6 anos por dor abdominal, você observa lesões equimóticas em diferentes estágios de evolução no dorso e a mãe dá explicações inconsistentes. A conduta correta quanto ao sigilo é:</div>
+      <div class="alts">
+        <div>A) Manter o sigilo absoluto, pois a relação médico-paciente é protegida por lei.</div>
+        <div>B) Notificar a suspeita de violência ao Conselho Tutelar, por se tratar de dever legal.</div>
+        <div>C) Só notificar após confirmação diagnóstica de maus-tratos por perícia.</div>
+        <div>D) Comunicar apenas ao gestor da unidade e aguardar orientação.</div>
+      </div>
+      <button class="reveal">Ver gabarito</button>
+      <div class="ans">
+        <b>Resposta: B</b> — Violência contra criança e adolescente é de <b>notificação compulsória</b> e a comunicação ao Conselho Tutelar é <b>dever legal</b>, que constitui exceção ao sigilo. Notifica-se a <b>suspeita</b>, não o caso confirmado.
+        <div class="why"><b>A</b> trata o sigilo como absoluto, o que ele não é. <b>C</b> exige uma confirmação que não cabe ao médico assistente e que atrasaria a proteção da criança. <b>D</b> não cumpre a obrigação legal e dilui a responsabilidade, que é do profissional que atendeu.</div>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="stem">8. Ao final de uma consulta de 12 minutos, quando você já se levanta, a paciente diz: "ah, doutor, e essa bolinha no pescoço que apareceu?". Essa situação é classicamente descrita como:</div>
+      <div class="alts">
+        <div>A) Queixa da maçaneta, evitável pelo levantamento completo da agenda no início da consulta.</div>
+        <div>B) Somatização, indicando necessidade de abordagem psicossocial.</div>
+        <div>C) Comportamento manipulador, que deve ser confrontado.</div>
+        <div>D) Falha de adesão da paciente ao contrato terapêutico.</div>
+      </div>
+      <button class="reveal">Ver gabarito</button>
+      <div class="ans">
+        <b>Resposta: A</b> — É a clássica "queixa da maçaneta" (<i>doorknob complaint</i>): a demanda mais importante ou mais temida aparece no encerramento. Previne-se levantando <b>toda a agenda</b> no início ("mais alguma coisa?" até esgotar) e pactuando prioridades.
+        <div class="why"><b>B</b> não tem sustentação — o enunciado descreve um achado físico objetivo. <b>C</b> atribui má-fé a um comportamento comum e previsível. <b>D</b> inverte a responsabilidade: a falha foi de estruturação da consulta, não da paciente.</div>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="stem">9. Mulher de 35 anos com diagnóstico de diabetes tipo 2 há 2 anos diz: "eu não aceito tomar insulina, minha avó começou insulina e ficou cega logo depois". Do ponto de vista do MCCP, esse relato corresponde a qual dimensão?</div>
+      <div class="alts">
+        <div>A) A doença (<i>disease</i>), pois descreve a evolução natural do diabetes.</div>
+        <div>B) A experiência da doença (<i>illness</i>), especificamente as ideias e os sentimentos.</div>
+        <div>C) O contexto distal, por se tratar de determinante social.</div>
+        <div>D) O terreno comum, pois já expressa um plano conjunto.</div>
+      </div>
+      <button class="reveal">Ver gabarito</button>
+      <div class="ans">
+        <b>Resposta: B</b> — É a <b>experiência da doença</b>: uma <b>ideia</b> explicativa (a insulina causou a cegueira) associada a um <b>sentimento</b> (medo). Reconhecer isso permite desfazer a inversão causal — foi o diabetes mal controlado, e não a insulina, que levou à retinopatia.
+        <div class="why"><b>A</b> confunde a narrativa da paciente com o processo biomédico. <b>C</b> descreve cultura, comunidade e determinantes sociais, não a crença individual sobre o adoecer. <b>D</b> é o componente 3, que ainda não ocorreu — não houve negociação alguma.</div>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="stem">10. Paciente solicita atestado médico para justificar falta ao trabalho no dia da consulta, pedindo que conste o diagnóstico (CID). A conduta correta é:</div>
+      <div class="alts">
+        <div>A) Incluir o CID sempre, pois é exigência do empregador.</div>
+        <div>B) Incluir o CID apenas com autorização expressa do paciente.</div>
+        <div>C) Nunca incluir o CID em atestado, sob qualquer circunstância.</div>
+        <div>D) Incluir o CID e enviar cópia ao serviço de saúde ocupacional.</div>
+      </div>
+      <button class="reveal">Ver gabarito</button>
+      <div class="ans">
+        <b>Resposta: B</b> — O diagnóstico é informação sigilosa. O CID só é aposto no atestado mediante <b>autorização expressa</b> do paciente. O atestado é ato médico gratuito e deve registrar apenas o que foi efetivamente constatado.
+        <div class="why"><b>A</b> subordina o sigilo ao interesse do empregador. <b>C</b> é absoluta demais: com autorização do paciente, o CID pode constar. <b>D</b> acrescenta uma quebra adicional de sigilo, sem amparo.</div>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="stem">11. Em uma consulta de pré-natal, a gestante pergunta sobre a via de parto. Você apresenta os benefícios e riscos do parto vaginal e da cesariana, verifica o que ela compreendeu e o que prefere, e constroem juntos a decisão. Essa prática corresponde a:</div>
+      <div class="alts">
+        <div>A) Consentimento presumido.</div>
+        <div>B) Decisão compartilhada, expressão da autonomia e do terreno comum.</div>
+        <div>C) Paternalismo esclarecido.</div>
+        <div>D) Medicina defensiva.</div>
+      </div>
+      <button class="reveal">Ver gabarito</button>
+      <div class="ans">
+        <b>Resposta: B</b> — É <b>decisão compartilhada</b>: informação em linguagem acessível, verificação de entendimento, exploração de valores e preferências, e construção conjunta — o componente 3 do MCCP (elaborar um plano conjunto) sustentado pelo princípio da autonomia.
+        <div class="why"><b>A</b> é presumir a vontade sem consultar, o oposto do descrito. <b>C</b> é decidir pelo paciente "para o bem dele", ainda que informando. <b>D</b> é agir para se proteger de litígio, não para servir ao paciente.</div>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="stem">12. Homem de 45 anos, etilista, comparece à USF trazido pela esposa, que relata preocupação. Ele diz: "eu não tenho problema nenhum com bebida, quem tem problema é ela que reclama demais". A conduta mais adequada nesse momento é:</div>
+      <div class="alts">
+        <div>A) Aplicar o AUDIT e, conforme a pontuação, encaminhar imediatamente ao CAPS AD.</div>
+        <div>B) Confrontá-lo com as consequências do etilismo para que reconheça o problema.</div>
+        <div>C) Acolher sem confrontar, manter o vínculo e criar dúvida sobre o padrão de uso.</div>
+        <div>D) Informar que só poderá atendê-lo quando ele reconhecer que precisa de ajuda.</div>
+      </div>
+      <button class="reveal">Ver gabarito</button>
+      <div class="ans">
+        <b>Resposta: C</b> — Ele está em <b>pré-contemplação</b>: não reconhece o problema. A conduta é acolher, evitar confronto, manter o vínculo e semear dúvida — o que preserva a possibilidade de ele voltar. A longitudinalidade da APS é o que torna isso viável.
+        <div class="why"><b>A</b> não está errada em rastrear, mas o encaminhamento imediato ao CAPS AD de quem não reconhece o problema resulta em não comparecimento; além disso, uso de risco sem dependência é manejo da própria APS. <b>B</b> é confronto direto, que aumenta a resistência. <b>D</b> condiciona o cuidado e rompe o vínculo — exatamente o oposto do que a APS deve fazer.</div>
+      </div>
+    </div>
+
+  </div>
+</details>
+
+</section>
+
+<!-- ============ BLOCOS PENDENTES ============ -->
+<section class="block base" id="b0">
+  <h2>Bloco 0 — Base de APS</h2>
+  <details><summary>SUS, PNAB, atributos, território, SOAP/CIAP, Previne Brasil, epidemiologia <span class="status todo">a construir</span></summary>
+  <div class="body"><p class="sub">Lacuna do APS I. Próximo bloco depois do 1.</p></div></details>
+</section>
+
+<section class="block tema" id="b2">
+  <h2>Bloco 2 — Gestão da clínica, trabalho em equipe e interprofissionalidade</h2>
+  <details><summary>Agenda, gestão de crônicos por risco, PTS, matriciamento, indicadores <span class="status todo">a construir</span></summary>
+  <div class="body"><p class="sub">Temática 2 do curso.</p></div></details>
+</section>
+
+<section class="block tema" id="b3">
+  <h2>Bloco 3 — Cardiorrenal-metabólica</h2>
+  <details><summary>HAS, DM2, IC, DRC, dislipidemia e risco cardiovascular <span class="status todo">a construir</span></summary>
+  <div class="body"><p class="sub">Temática 3 do curso.</p></div></details>
+</section>
+
+<section class="block tema" id="b4">
+  <h2>Bloco 4 — Digestivo-nutricional-metabólica</h2>
+  <details><summary>Tireoidopatias, obesidade, DRGE, H. pylori, SII, anemias <span class="status todo">a construir</span></summary>
+  <div class="body"><p class="sub">Temática 4 do curso.</p></div></details>
+</section>
+
+<section class="block tema" id="b5">
+  <h2>Bloco 5 — Pulmonar/respiratória</h2>
+  <details><summary>Asma, DPOC, tabagismo, IVAS, PAC, tuberculose <span class="status todo">a construir</span></summary>
+  <div class="body"><p class="sub">Temática 5 do curso.</p></div></details>
+</section>
+
+<section class="block tema" id="b6">
+  <h2>Bloco 6 — Neuromuscular e musculoesquelética</h2>
+  <details><summary>Dor crônica, lombalgia, cefaleias, tontura, demência <span class="status todo">a construir</span></summary>
+  <div class="body"><p class="sub">Temática 6 do curso.</p></div></details>
+</section>
+
+<section class="block tema" id="b7">
+  <h2>Bloco 7 — Urgências e emergências na APS</h2>
+  <details><summary>SBV, anafilaxia, crise hipertensiva, hipoglicemia, dengue, hidratação <span class="status todo">a construir</span></summary>
+  <div class="body"><p class="sub">Temática 7 do curso. Versão de campo já disponível no <a href="guia-bolso-aps.html">guia de bolso</a>.</p></div></details>
+</section>
+
+<section class="block base" id="b8">
+  <h2>Bloco 8 — Rotina da unidade</h2>
+  <details><summary>Pré-natal, puericultura, vacinação, rastreios, saúde mental, ISTs, TB e hanseníase <span class="status todo">a construir</span></summary>
+  <div class="body"><p class="sub">Fora da ementa, mas é o que aparece na agenda toda semana. Versão de campo no <a href="guia-bolso-aps.html">guia de bolso</a>.</p></div></details>
+</section>
+
+<footer>
+  <b>Internato em Atenção Primária II — 1º rodízio · UNEXMED FSA · 2026.2</b><br>
+  Bloco 1 completo em 19/07/2026. Questões calibradas no formato do ENAMED
+  (Portaria Inep nº 478/2025 · marco normativo 03/07/2026).<br><br>
+  Fontes: Stewart et al. (MCCP) · Baile et al. (SPIKES) · Miller &amp; Rollnick · Prochaska &amp;
+  DiClemente · CFM (Código de Ética Médica) · ECA · SBMFC (Currículo Baseado em Competências) ·
+  Ministério da Saúde.<br><br>
+  Itens marcados como <span class="verify">VERIFICAR</span> não foram conferidos contra a norma
+  vigente. Material de estudo pessoal — não substitui protocolo institucional.
+</footer>
+
+</div>
+<script>
+  document.body.classList.add('js');
+  document.querySelectorAll('.reveal').forEach(function(b){
+    b.addEventListener('click',function(){
+      var q=b.closest('.q');
+      q.classList.toggle('show');
+      b.textContent=q.classList.contains('show')?'Ocultar gabarito':'Ver gabarito';
+    });
+  });
+</script>
+</body>
+</html>

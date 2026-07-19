@@ -1,0 +1,49 @@
+Quantos componentes tem o Método Clínico Centrado na Pessoa na edição atual	4 componentes (edições antigas traziam 6)
+Componente 1 do MCCP	Explorar a saúde, a doença (disease) e a experiência da doença (illness)
+Componente 2 do MCCP	Entender a pessoa como um todo — contexto proximal e distal
+Componente 3 do MCCP	Elaborar um plano conjunto — o terreno comum
+Componente 4 do MCCP	Intensificar a relação entre pessoa e médico
+O que significa a sigla SIFE no MCCP	Sentimentos, Ideias, Função e Expectativas
+Diferença entre disease e illness	Disease é a doença definida pelo médico. Illness é a experiência vivida pela pessoa
+Sobre o que se busca acordo no terreno comum (componente 3)	Qual é o problema, quais os objetivos e qual o papel de cada um
+O que é contexto proximal no MCCP	Família, trabalho, renda e suporte social
+O que é contexto distal no MCCP	Cultura, comunidade, determinantes sociais e ambiente
+Existe doença sem experiência de doença	Sim — exemplo clássico é o hipertenso assintomático
+Quando o paciente não adere, qual a primeira conduta segundo o MCCP	Investigar o que a pessoa entende e teme, não intensificar a medicação
+Quanto tempo não interromper o paciente no início da consulta	Os primeiros 60 a 90 segundos
+O que é a queixa da maçaneta	A demanda mais importante ou temida que surge no encerramento da consulta
+Como prevenir a queixa da maçaneta	Levantar toda a agenda no início — "mais alguma coisa?" até esgotar
+O que é rede de segurança na consulta	Orientar o que fazer e quando voltar antes do retorno se houver piora
+Como checar se a explicação foi compreendida	Pedir que a pessoa conte com as próprias palavras como explicaria em casa
+O que significa a sigla SPIKES	Setting, Perception, Invitation, Knowledge, Emotions, Strategy
+Etapa P do SPIKES	Perception — descobrir o que a pessoa já sabe antes de informar
+Etapa I do SPIKES	Invitation — perguntar quanto a pessoa quer saber
+Etapa K do SPIKES	Knowledge — informar em linguagem simples, em blocos, com pausas
+Etapa E do SPIKES	Emotions — acolher a emoção com silêncio e nomeação, sem consolar com dado técnico
+No SPIKES, P vem antes ou depois de K	Antes — nunca informar sem saber o que a pessoa já sabe e quanto quer saber
+Para que serve a entrevista motivacional	Para trabalhar a ambivalência de quem sabe que deveria mudar e não muda
+Espírito da entrevista motivacional	Parceria, aceitação, compaixão e evocação
+Os 4 processos da entrevista motivacional	Engajar, focar, evocar e planejar
+O que significa OARS na entrevista motivacional	Perguntas abertas, afirmação, escuta reflexiva e sumarização
+Regra de ouro da entrevista motivacional	O argumento de mudança tem que sair da boca da pessoa, não do médico
+Os estágios de mudança de Prochaska e DiClemente	Pré-contemplação, contemplação, preparação, ação, manutenção e recaída
+Conduta na pré-contemplação	Informar sem confrontar, criar dúvida e manter o vínculo
+Conduta na contemplação	Explorar prós e contras e evocar o discurso de mudança
+Conduta na preparação	Ajudar a montar plano concreto e definir data
+Conduta diante da recaída	Normalizar como parte do processo e reengajar
+Erro clássico ao abordar tabagismo em quem diz "um dia eu paro"	Entregar plano de ação — a pessoa está em contemplação, não em preparação
+Os 4 princípios da bioética	Autonomia, beneficência, não-maleficência e justiça
+O que é prevenção quaternária	Proteger a pessoa de intervenção médica desnecessária e de seus danos
+Prevenção quaternária deriva de qual princípio bioético	Não-maleficência
+Recusa de tratamento por paciente capaz e informado — conduta	Respeitar a autonomia, registrar em prontuário e manter o acompanhamento
+As 3 exceções ao sigilo médico	Dever legal, justa causa e autorização expressa do paciente
+Notificação compulsória é quebra de sigilo	Não — é dever legal, que constitui exceção prevista
+O adolescente pode ser atendido sozinho e em sigilo	Sim, é um direito dele
+Prescrever contraceptivo a adolescente exige autorização dos pais	Não
+Quando se quebra o sigilo do adolescente	Apenas em risco de vida ou risco grave à saúde, comunicando a ele antes
+Suspeita de violência contra criança — notifica-se a suspeita ou o caso confirmado	A suspeita, sem necessidade de confirmação pericial
+Quando o CID pode constar no atestado médico	Somente com autorização expressa do paciente
+O atestado médico pode ser cobrado	Não — é ato médico gratuito
+A quem pertence o prontuário	Ao paciente — a guarda é do serviço de saúde
+O que é decisão compartilhada	Informar riscos e benefícios, verificar entendimento, explorar valores e construir a decisão junto
+Diferença entre paternalismo e decisão compartilhada	No paternalismo o médico decide pelo paciente, ainda que o informe

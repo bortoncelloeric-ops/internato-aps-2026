@@ -1,6 +1,6 @@
 # Internato — APS II · 1º Rodízio (2026.2)
 
-**Status:** guia de bolso v1 pronto · **Atualizado:** 19/07/2026
+**Status:** guia de bolso v1 + Bloco 1 completos · **Atualizado:** 19/07/2026
 **Publicado:** https://bortoncelloeric-ops.github.io/internato-aps-2026/
 
 Material de estudo e de campo do 1º rodízio do 2º semestre. Sucede
@@ -56,7 +56,7 @@ cita são as fontes oficiais.
 | # | Bloco | Origem | Status |
 |---|---|---|---|
 | 0 | Base de APS (SUS, PNAB, SOAP/CIAP, Previne, epidemiologia) | lacuna do APS I | ⬜ |
-| 1 | Comunicação, raciocínio centrado na pessoa, bioética | temática oficial | ⬜ |
+| 1 | Comunicação, raciocínio centrado na pessoa, bioética | temática oficial | ✅ |
 | 2 | Gestão da clínica, equipe, interprofissionalidade | temática oficial | ⬜ |
 | 3 | Cardiorrenal-metabólica (DM, HAS, IC) | temática oficial | ⬜ |
 | 4 | Digestivo-nutricional-metabólica (tireoide, GI) | temática oficial | ⬜ |
@@ -74,8 +74,12 @@ cita são as fontes oficiais.
   vacinação · planos A/B/C · dengue · anafilaxia · hipoglicemia · asma/convulsão/dor
   torácica · HAS e DM2 · saúde mental · encaminhamento · atributos da APS.
 - `index.html` — página inicial do site publicado.
-- `internato-aps-2026.html` — HTML de estudo com os 9 blocos ⬜
-- `flashcards-aps.md` / `.txt` — Anki ⬜
+- `internato-aps-2026.html` — **HTML de estudo** ✅ Bloco 1 completo (MCCP e os 4 componentes,
+  roteiro prático de consulta em 9 passos, SPIKES, entrevista motivacional, estágios de mudança,
+  bioética, sigilo, adolescente, documentos médicos) + **12 questões comentadas estilo ENAMED**.
+  Blocos 0 e 2–8 com esqueleto e âncora, marcados "a construir".
+- `flashcards-aps.md` / `.txt` — **Anki** ✅ 49 cartões do Bloco 1
+- `export-anki.py` — script `.md → .txt` TAB, com validação (custo zero de token)
 - `osce-casos/aps-01..03.json` — estações simuladas ⬜
 
 ## Convenções
