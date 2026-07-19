@@ -1,6 +1,6 @@
 # Internato — APS II · 1º Rodízio (2026.2)
 
-**Status:** guia de bolso v1 + Bloco 1 completos · **Atualizado:** 19/07/2026
+**Status:** guia de bolso v1 + Blocos 0 e 1 completos · **Atualizado:** 19/07/2026
 **Publicado:** https://bortoncelloeric-ops.github.io/internato-aps-2026/
 
 Material de estudo e de campo do 1º rodízio do 2º semestre. Sucede
@@ -55,7 +55,7 @@ cita são as fontes oficiais.
 
 | # | Bloco | Origem | Status |
 |---|---|---|---|
-| 0 | Base de APS (SUS, PNAB, SOAP/CIAP, Previne, epidemiologia) | lacuna do APS I | ⬜ |
+| 0 | Base de APS (SUS, PNAB, SOAP/CIAP, financiamento, epidemiologia) | lacuna do APS I | ✅ |
 | 1 | Comunicação, raciocínio centrado na pessoa, bioética | temática oficial | ✅ |
 | 2 | Gestão da clínica, equipe, interprofissionalidade | temática oficial | ⬜ |
 | 3 | Cardiorrenal-metabólica (DM, HAS, IC) | temática oficial | ⬜ |
@@ -76,9 +76,9 @@ cita são as fontes oficiais.
 - `index.html` — página inicial do site publicado.
 - `internato-aps-2026.html` — **HTML de estudo** ✅ Bloco 1 completo (MCCP e os 4 componentes,
   roteiro prático de consulta em 9 passos, SPIKES, entrevista motivacional, estágios de mudança,
-  bioética, sigilo, adolescente, documentos médicos) + **12 questões comentadas estilo ENAMED**.
-  Blocos 0 e 2–8 com esqueleto e âncora, marcados "a construir".
-- `flashcards-aps.md` / `.txt` — **Anki** ✅ 49 cartões do Bloco 1
+  bioética, sigilo, adolescente, documentos médicos) + **26 questões comentadas estilo ENAMED** (14 no Bloco 0, 12 no Bloco 1).
+  Blocos 2–8 com esqueleto e âncora, marcados "a construir".
+- `flashcards-aps.md` / `.txt` — **Anki** ✅ 112 cartões (63 do Bloco 0 + 49 do Bloco 1)
 - `export-anki.py` — script `.md → .txt` TAB, com validação (custo zero de token)
 - `osce-casos/aps-01..03.json` — estações simuladas ⬜
 
@@ -89,6 +89,20 @@ cita são as fontes oficiais.
   comentado (por que a certa acerta + por que cada errada erra).
 - Flashcards `frente;verso`, um fato por cartão, exportados para `.txt` separado por TAB.
 - Sem fonte → marcar `VERIFICAR`. Nunca inventar corte, idade ou dose.
+
+## Achados que corrigem material desatualizado
+
+1. **Previne Brasil não é mais o modelo de financiamento.** A Portaria nº 2.979/2019 foi
+   substituída pelo novo cofinanciamento federal da APS — **Portaria GM/MS nº 3.493/2024**,
+   atualizada pela **nº 6.907/2025**. Ensinar "os 7 indicadores do Previne" é ensinar modelo
+   revogado. `VERIFICAR` ainda: número e nome exatos dos componentes (fontes secundárias
+   divergem entre 3 e 5) e a lista dos novos indicadores — o portal do MS bloqueou acesso automatizado.
+2. **NASF-AB não existe mais.** Substituído pelas **eMulti** (Portaria GM/MS nº 635/2023),
+   modalidades Ampliada, Complementar e Estratégica.
+3. **PNAB 2.436/2017 segue vigente** — sem indício de substituição.
+4. **Provável erro na `medicina-wiki`:** ela registra "EC 29: União = IPCA". A correção pelo
+   IPCA era a regra da **EC 95/2016**, substituída pelo novo arcabouço fiscal em 2023.
+   Estados 12% e Municípios 15% seguem válidos. **Corrigir a wiki.**
 
 ## Pendências
 
