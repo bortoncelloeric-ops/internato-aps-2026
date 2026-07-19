@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d7a5f">
+<title>Guia de Bolso — APS / USF</title>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{
+  --bg:#f6f7f8; --card:#fff; --ink:#16191d; --mut:#5d666f; --line:#e2e6ea;
+  --acc:#0d7a5f; --acc-w:#e8f4f0;
+  --red:#c0392b; --red-w:#fdecea;
+  --amb:#9a6700; --amb-w:#fff6e0;
+  --blu:#1f5f9e; --blu-w:#eaf2fb;
+  --r:12px;
+}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  padding-bottom:4rem;
+}
+header{
+  position:sticky; top:0; z-index:20; background:var(--acc); color:#fff;
+  padding:.7rem .9rem calc(.7rem + env(safe-area-inset-bottom,0));
+  box-shadow:0 2px 10px rgba(0,0,0,.14);
+}
+.h-top{display:flex; align-items:baseline; gap:.5rem; margin-bottom:.55rem}
+.h-top b{font-size:1.05rem; letter-spacing:-.01em}
+.h-top span{font-size:.75rem; opacity:.85}
+#q{
+  width:100%; padding:.72rem .9rem; font-size:1rem; border:0; border-radius:10px;
+  background:#fff; color:var(--ink); -webkit-appearance:none;
+}
+#q:focus{outline:3px solid rgba(255,255,255,.55)}
+#count{font-size:.75rem; opacity:.9; margin-top:.4rem; min-height:1em}
+
+main{padding:.9rem .8rem 0; max-width:820px; margin:0 auto}
+h2{
+  font-size:.76rem; text-transform:uppercase; letter-spacing:.09em; color:var(--mut);
+  margin:1.6rem .2rem .55rem; font-weight:700;
+}
+h2:first-of-type{margin-top:.4rem}
+
+details.c{
+  background:var(--card); border:1px solid var(--line); border-radius:var(--r);
+  margin-bottom:.55rem; overflow:hidden;
+}
+details.c>summary{
+  padding:.85rem .95rem; font-weight:600; cursor:pointer; list-style:none;
+  display:flex; align-items:center; gap:.55rem; min-height:44px;
+}
+details.c>summary::-webkit-details-marker{display:none}
+details.c>summary::after{
+  content:"›"; margin-left:auto; color:var(--mut); font-size:1.35rem; line-height:1;
+  transform:rotate(90deg); transition:transform .15s;
+}
+details.c[open]>summary::after{transform:rotate(-90deg)}
+details.c[open]>summary{border-bottom:1px solid var(--line)}
+.body{padding:.85rem .95rem 1rem}
+
+.tag{
+  font-size:.62rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase;
+  padding:.2rem .42rem; border-radius:5px; flex:none;
+}
+.t-urg{background:var(--red-w); color:var(--red)}
+.t-rot{background:var(--acc-w); color:var(--acc)}
+.t-prg{background:var(--blu-w); color:var(--blu)}
+.t-adm{background:var(--amb-w); color:var(--amb)}
+
+table{width:100%; border-collapse:collapse; margin:.55rem 0; font-size:.9rem}
+th,td{padding:.42rem .5rem; text-align:left; border-bottom:1px solid var(--line); vertical-align:top}
+th{font-size:.7rem; text-transform:uppercase; letter-spacing:.05em; color:var(--mut); font-weight:700}
+td:first-child{font-weight:600}
+.wrap{overflow-x:auto; -webkit-overflow-scrolling:touch}
+/* tabelas de definição (rótulo + texto longo): rótulo estreito, texto quebra */
+table.def{table-layout:fixed}
+table.def td:first-child{width:34%}
+@media(max-width:420px){ table.def td:first-child{width:30%} }
+
+ul,ol{margin:.5rem 0; padding-left:1.15rem}
+li{margin:.28rem 0}
+p{margin:.5rem 0}
+code{background:#eef1f4; padding:.08rem .32rem; border-radius:4px; font-size:.88em}
+b.k{color:var(--acc)}
+
+.box{border-left:3px solid var(--line); padding:.5rem .7rem; margin:.6rem 0; border-radius:0 8px 8px 0; font-size:.92rem}
+.b-red{border-color:var(--red); background:var(--red-w)}
+.b-amb{border-color:var(--amb); background:var(--amb-w)}
+.b-blu{border-color:var(--blu); background:var(--blu-w)}
+.box b{display:block; margin-bottom:.15rem; font-size:.72rem; text-transform:uppercase; letter-spacing:.05em}
+.b-red b{color:var(--red)} .b-amb b{color:var(--amb)} .b-blu b{color:var(--blu)}
+
+.src{font-size:.74rem; color:var(--mut); margin-top:.7rem; font-style:italic}
+.chk{font-size:.72rem; font-weight:800; color:#fff; background:var(--amb);
+     padding:.1rem .36rem; border-radius:4px; letter-spacing:.04em}
+
+.empty{text-align:center; color:var(--mut); padding:2.5rem 1rem; display:none}
+footer{max-width:820px; margin:2rem auto 0; padding:1rem .9rem; color:var(--mut); font-size:.78rem; border-top:1px solid var(--line)}
+.hide{display:none !important}
+@media(min-width:640px){ body{font-size:17px} main{padding-top:1.2rem} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="h-top"><b>Guia de Bolso — APS</b><span>USF · internato</span></div>
+  <input id="q" type="search" placeholder="Buscar: hidratação, dengue, SOAP, vacina…" autocomplete="off" spellcheck="false">
+  <div id="count"></div>
+</header>
+
+<main>
+
+<h2>A consulta</h2>
+
+<details class="c" data-kw="prontuario registro evolucao anotacao nota subjetivo objetivo avaliacao plano" open>
+  <summary><span class="tag t-rot">Rotina</span>SOAP — registro da consulta</summary>
+  <div class="body">
+    <div class="wrap"><table class="def">
+      <tr><td>S — Subjetivo</td><td>Motivo da consulta nas <b>palavras da pessoa</b>. História, sintomas, o que ela acha que é, o que a preocupa, o que espera da consulta.</td></tr>
+      <tr><td>O — Objetivo</td><td>Exame físico, sinais vitais, dados de exames, medidas antropométricas.</td></tr>
+      <tr><td>A — Avaliação</td><td>Sua interpretação: hipóteses, problema ativo. Aqui entra o <b>código CIAP-2</b>.</td></tr>
+      <tr><td>P — Plano</td><td>4 sub-planos: <b>diagnóstico</b> (exames), <b>terapêutico</b> (conduta/receita), <b>educacional</b> (orientação) e <b>seguimento</b> (retorno/encaminhamento).</td></tr>
+    </table></div>
+    <div class="box b-blu"><b>Dica de campo</b>O "A" não precisa ser um diagnóstico fechado. Pode ser um sintoma ou uma queixa — a APS registra o problema como ele se apresenta.</div>
+    <div class="src">MS — e-SUS APS / registro clínico orientado por problemas.</div>
+  </div>
+</details>
+
+<details class="c" data-kw="mccp comunicacao entrevista escuta sifi sentimentos ideias funcao expectativas vinculo osce">
+  <summary><span class="tag t-rot">Rotina</span>Método Clínico Centrado na Pessoa</summary>
+  <div class="body">
+    <ol>
+      <li><b class="k">Explorar a saúde, a doença e a experiência da doença</b> — os 4 pontos: <b>Sentimentos</b>, <b>Ideias</b> (o que a pessoa acha que tem), <b>Função</b> (o que deixou de fazer) e <b>Expectativas</b>.</li>
+      <li><b class="k">Entender a pessoa como um todo</b> — contexto, família, trabalho, território, ciclo de vida.</li>
+      <li><b class="k">Elaborar um plano conjunto</b> — definir o problema, os objetivos e os papéis <b>junto</b> com a pessoa. Não é prescrever, é pactuar.</li>
+      <li><b class="k">Intensificar a relação</b> — usar o vínculo e a longitudinalidade como recurso terapêutico.</li>
+    </ol>
+    <div class="box b-blu"><b>Na prática</b>Se você não perguntou "o que <i>você</i> acha que está causando isso?" e "o que você esperava de hoje?", não foi centrado na pessoa.</div>
+    <div class="src">Stewart et al. — MCCP. É a temática 1 do curso das terças e cai no OSCE.</div>
+  </div>
+</details>
+
+<details class="c" data-kw="codigo classificacao cid capitulo componente esus pec">
+  <summary><span class="tag t-adm">Registro</span>CIAP-2 — como classificar</summary>
+  <div class="body">
+    <p>A APS classifica em <b>CIAP-2</b>, não em CID-10. O código tem <b>1 letra</b> (capítulo/sistema) + <b>2 números</b> (componente).</p>
+    <div class="wrap"><table>
+      <tr><th>Letra</th><th>Capítulo</th><th>Letra</th><th>Capítulo</th></tr>
+      <tr><td>A</td><td>Geral/inespecífico</td><td>P</td><td>Psicológico</td></tr>
+      <tr><td>B</td><td>Sangue/linfático</td><td>R</td><td>Respiratório</td></tr>
+      <tr><td>D</td><td>Digestivo</td><td>S</td><td>Pele</td></tr>
+      <tr><td>F</td><td>Olho</td><td>T</td><td>Endócrino/metabólico</td></tr>
+      <tr><td>H</td><td>Ouvido</td><td>U</td><td>Urinário</td></tr>
+      <tr><td>K</td><td>Circulatório</td><td>W</td><td>Gestação/planejamento</td></tr>
+      <tr><td>L</td><td>Musculoesquelético</td><td>X</td><td>Genital feminino</td></tr>
+      <tr><td>N</td><td>Neurológico</td><td>Y</td><td>Genital masculino</td></tr>
+      <tr><td colspan="4">Z — Problemas sociais</td></tr>
+    </table></div>
+    <p><b>Componentes (os 2 números):</b></p>
+    <div class="wrap"><table class="def">
+      <tr><td>01–29</td><td>Sinais e sintomas / queixas</td></tr>
+      <tr><td>30–49</td><td>Procedimentos diagnósticos e preventivos</td></tr>
+      <tr><td>50–59</td><td>Procedimentos terapêuticos</td></tr>
+      <tr><td>60–61</td><td>Resultados de exames</td></tr>
+      <tr><td>62</td><td>Administrativo</td></tr>
+      <tr><td>63–69</td><td>Acompanhamento / outros</td></tr>
+      <tr><td>70–99</td><td>Diagnósticos e doenças</td></tr>
+    </table></div>
+    <div class="box b-amb"><b>Verificar</b>Os códigos específicos (ex.: K86 para hipertensão) devem ser conferidos na busca do próprio e-SUS PEC, que tem o dicionário completo. Não decore lista — aprenda a lógica letra+componente e busque no sistema.</div>
+    <div class="src">CIAP-2 / WONCA. Estrutura confirmada; códigos individuais a conferir no PEC.</div>
+  </div>
+</details>
+
+<details class="c" data-kw="demanda espontanea classificacao risco triagem porta aberta fila vermelho amarelo verde azul">
+  <summary><span class="tag t-rot">Rotina</span>Acolhimento à demanda espontânea</summary>
+  <div class="body">
+    <p>Toda pessoa que chega sem agendamento passa por <b>escuta qualificada</b> — não por triagem burocrática. Avalia-se risco e vulnerabilidade, não ordem de chegada.</p>
+    <div class="wrap"><table>
+      <tr><th>Classificação</th><th>Conduta</th></tr>
+      <tr><td>Vermelho</td><td>Emergência — atendimento imediato, estabilizar e acionar SAMU/transferência</td></tr>
+      <tr><td>Amarelo</td><td>Urgência — atendimento prioritário no mesmo turno</td></tr>
+      <tr><td>Verde</td><td>Pouco urgente — atender no dia ou agendar em prazo curto</td></tr>
+      <tr><td>Azul</td><td>Não urgente — agendar / resolver com a equipe (às vezes não é consulta médica)</td></tr>
+    </table></div>
+    <div class="box b-blu"><b>Conceito de prova</b>Acolhimento não é sinônimo de triagem nem é um lugar físico — é uma <b>postura da equipe</b> e um processo de trabalho. Nem toda demanda espontânea vira consulta médica.</div>
+    <div class="src">MS — Caderno de Atenção Básica nº 28, Acolhimento à Demanda Espontânea.</div>
+  </div>
+</details>
+
+<h2>Programas — checklists</h2>
+
+<details class="c" data-kw="gestante gravida gestacao obstetricia hidratacao dtpa totg dmg pre natal prenatal alto risco">
+  <summary><span class="tag t-prg">Programa</span>Pré-natal de risco habitual</summary>
+  <div class="body">
+    <p><b>Mínimo 6 consultas:</b> 1 no 1º trimestre + 2 no 2º + 3 no 3º. (OMS recomenda 8 contatos.) Início ideal até 12 semanas.</p>
+    <p><b>Toda consulta:</b> PA · peso e ganho ponderal · altura uterina · BCF (a partir de ~12 sem com sonar) · movimentos fetais · edema · queixas.</p>
+    <p><b>Exames do 1º trimestre:</b></p>
+    <ul>
+      <li>Hemograma · tipagem ABO/Rh (<b>Coombs indireto se Rh negativo</b>)</li>
+      <li>Glicemia de jejum</li>
+      <li><b>Sífilis</b> (teste rápido/VDRL) · <b>HIV</b> · <b>HBsAg</b> · toxoplasmose IgG/IgM</li>
+      <li>Urina tipo 1 + <b>urocultura</b> (bacteriúria assintomática se trata na gestação)</li>
+      <li>Ultrassom obstétrico</li>
+    </ul>
+    <p><b>24–28 semanas:</b> <b>TOTG 75 g</b> — DMG se jejum ≥92 <i>ou</i> 1h ≥180 <i>ou</i> 2h ≥153 (um valor já fecha). No 1º trimestre, jejum ≥126 = DM franco, não DMG.</p>
+    <p><b>Vacinas:</b> <b>dTpa</b> a cada gestação a partir de 20 semanas · hepatite B · influenza.</p>
+    <p><b>Suplementação:</b> ácido fólico 400 µg/dia (pré-concepção até 12 sem; 4–5 mg se alto risco — DTN prévio, anticonvulsivante).</p>
+    <div class="box b-red"><b>Referir ao alto risco</b>Pré-eclâmpsia (PA ≥140/90 após 20 sem + proteinúria/disfunção de órgão) · DM prévio · cardiopatia · HIV · antecedente de perda fetal/prematuridade · idade extrema com intercorrência.</div>
+    <div class="box b-amb"><b>Verificar</b>Esquema de <b>ferro profilático</b> e o rol exato de exames por trimestre mudaram entre o CAB nº 32 (2012) e o <b>Guia do Pré-natal na APS (MS, 2024)</b>. Conferir qual a unidade adota antes de prescrever.</div>
+    <div class="src">MS — Guia do Pré-natal e Puerpério na APS (2024). Cortes de DMG e ácido fólico já calibrados na wiki (junho/2026).</div>
+  </div>
+</details>
+
+<details class="c" data-kw="crianca bebe lactente desenvolvimento crescimento marcos caderneta curva peso altura aleitamento">
+  <summary><span class="tag t-prg">Programa</span>Puericultura — calendário e marcos</summary>
+  <div class="body">
+    <p><b>Consultas no 1º ano:</b> 1ª semana de vida · 1 · 2 · 4 · 6 · 9 · 12 meses. <b>2º ano:</b> 18 e 24 meses. Depois, anual.</p>
+    <p><b>Toda consulta:</b> peso, comprimento/estatura, perímetro cefálico (até 2 anos), curvas da OMS na <b>Caderneta da Criança</b>, marcos do desenvolvimento, alimentação, vacinas em dia.</p>
+    <p><b>Marcos-chave:</b></p>
+    <div class="wrap"><table class="def">
+      <tr><td>3 meses</td><td>Sustenta a cabeça</td></tr>
+      <tr><td>6 meses</td><td>Rola</td></tr>
+      <tr><td>9 meses</td><td>Senta sem apoio</td></tr>
+      <tr><td>12 meses</td><td>Anda com apoio · primeiras palavras</td></tr>
+      <tr><td>15 meses</td><td>Anda sozinho</td></tr>
+    </table></div>
+    <p><b>Alimentação:</b> aleitamento <b>exclusivo até 6 meses</b>; complementado até ≥2 anos. Alimentação complementar a partir dos 6 meses.</p>
+    <p><b>Triagem neonatal — os 5 testes:</b> pezinho · olhinho (reflexo vermelho) · orelhinha (EOA) · coraçãozinho (oximetria) · linguinha.</p>
+    <div class="box b-red"><b>Sinal de alerta</b>Icterícia <b>nas primeiras 24h</b> de vida é sempre patológica. Também: bilirrubina direta elevada ou icterícia além de 12–14 dias.</div>
+    <div class="src">MS — Caderneta da Criança / curvas OMS. Marcos e triagem calibrados na wiki (junho/2026).</div>
+  </div>
+</details>
+
+<details class="c" data-kw="imunizacao pni calendario dose bcg penta rotavirus contraindicacao atraso vacina">
+  <summary><span class="tag t-prg">Programa</span>Vacinação — pontos que derrubam</summary>
+  <div class="body">
+    <p><b>Ao nascer:</b> BCG + Hepatite B.</p>
+    <p><b>Pentavalente:</b> 2, 4 e 6 meses. Reforços de DTP aos <b>15 meses</b> e <b>4 anos</b>.</p>
+    <div class="box b-red"><b>Rotavírus — janela absoluta</b>1ª dose até ~3 meses e 15 dias · 2ª até ~7 meses e 29 dias. <b>Perdeu a janela, perdeu a dose</b> — não se faz depois.</div>
+    <p><b>Falsas contraindicações</b> (pode vacinar): resfriado leve sem febre · uso de antibiótico · desnutrição · prematuridade (usar idade cronológica) · história familiar de evento adverso · doença neurológica estável.</p>
+    <p><b>Contraindicações reais:</b> anafilaxia a dose anterior ou a componente. Vacinas de <b>vírus vivo</b> (tríplice viral, varicela, febre amarela, BCG, rotavírus) — evitar em imunossupressão grave e gestação.</p>
+    <div class="box b-amb"><b>Dois calendários coexistem</b><b>PNI</b> (oficial do SUS, mais restrito) × <b>SBP</b> (sociedade, mais amplo — inclui Qdenga, proteção para VSR). Se perguntarem "o que o SUS oferece", é PNI. Sempre conferir o calendário PNI <b>vigente</b> — muda todo ano.</div>
+    <div class="src">MS/PNI — Calendário Nacional de Vacinação. Divergência PNI × SBP registrada na wiki.</div>
+  </div>
+</details>
+
+<h2>Urgências na unidade</h2>
+
+<details class="c" data-kw="hidratacao reidratacao soro oral tro sro diarreia vomito plano a plano b plano c zinco criança endovenoso">
+  <summary><span class="tag t-urg">Urgência</span>Desidratação — planos A, B e C</summary>
+  <div class="body">
+    <div class="wrap"><table>
+      <tr><th>Plano</th><th>Quando</th><th>Como</th></tr>
+      <tr><td>A</td><td>Sem desidratação</td><td>Casa. SRO após cada evacuação + líquidos habituais + manter alimentação/aleitamento</td></tr>
+      <tr><td>B</td><td>Com desidratação, sem choque</td><td><b>Na unidade</b>: SRO <b>75 mL/kg em 4 h</b>, em copo/colher, reavaliando</td></tr>
+      <tr><td>C</td><td>Desidratação grave / choque</td><td><b>Via endovenosa</b> + iniciar SRO assim que tolerar</td></tr>
+    </table></div>
+    <p><b>Plano A — volume de SRO após cada evacuação:</b></p>
+    <ul>
+      <li>&lt; 1 ano: 50–100 mL</li>
+      <li>1–10 anos: 100–200 mL</li>
+      <li>&gt; 10 anos: à vontade</li>
+    </ul>
+    <p><b>Plano C — soro fisiológico 0,9%:</b></p>
+    <div class="wrap"><table>
+      <tr><th>Idade</th><th>Fase rápida</th><th>Manutenção</th></tr>
+      <tr><td>&lt; 1 ano</td><td>30 mL/kg em 1 h</td><td>70 mL/kg em 5 h</td></tr>
+      <tr><td>≥ 1 ano</td><td>30 mL/kg em 30 min</td><td>70 mL/kg em 2 h 30</td></tr>
+    </table></div>
+    <div class="box b-blu"><b>Zinco — não esquecer</b>Toda criança com diarreia, por <b>10 a 14 dias</b>: <b>10 mg/dia</b> se ≤6 meses · <b>20 mg/dia</b> se &gt;6 meses até 5 anos. Reduz duração e recorrência.</div>
+    <div class="src">MS — Fluxograma de manejo da diarreia + SBP. Calibrado na wiki (junho/2026).</div>
+  </div>
+</details>
+
+<details class="c" data-kw="arbovirose prova do laco hidratacao hematocrito alarme choque aedes">
+  <summary><span class="tag t-urg">Urgência</span>Dengue — grupos A, B, C, D</summary>
+  <div class="body">
+    <div class="box b-red"><b>Sinais de alarme</b>Dor abdominal intensa e contínua · vômitos persistentes · acúmulo de líquidos (ascite, derrame) · hipotensão postural/lipotimia · hepatomegalia &gt;2 cm · sangramento de mucosas · letargia ou irritabilidade · aumento progressivo do hematócrito. <b>Aparecem na defervescência</b> — a queda da febre é o momento de risco, não de alívio.</div>
+    <div class="wrap"><table>
+      <tr><th>Grupo</th><th>Quem</th><th>Conduta</th></tr>
+      <tr><td>A</td><td>Sem sinais de alarme, sem sangramento, sem comorbidade/risco</td><td>Casa. Hidratação oral, retorno diário até 48 h após a febre ceder</td></tr>
+      <tr><td>B</td><td>Sangramento espontâneo de pele ou <b>prova do laço +</b>, ou condição de risco/comorbidade</td><td><b>Hemograma</b> e aguardar resultado <b>na unidade</b></td></tr>
+      <tr><td>C</td><td><b>Com sinais de alarme</b></td><td>Hidratação <b>endovenosa</b> imediata + leito de internação</td></tr>
+      <tr><td>D</td><td>Choque / dengue grave</td><td>Expansão rápida + UTI</td></tr>
+    </table></div>
+    <p><b>Hidratação:</b></p>
+    <ul>
+      <li><b>Grupo A</b> (adulto): 60 mL/kg/dia — <b>1/3 como SRO</b>, 2/3 líquidos caseiros.</li>
+      <li><b>Grupo C</b>: 10 mL/kg/h de cristaloide nas primeiras 2 horas, reavaliando a cada etapa.</li>
+      <li><b>Grupo D</b>: 20 mL/kg em até 20 minutos, repetindo conforme resposta.</li>
+    </ul>
+    <div class="box b-amb"><b>Verificar</b>Confirmar volumes e o fluxograma vigente no guia de dengue <b>do ano corrente</b> do MS antes de aplicar — este protocolo é revisado com frequência e a unidade pode ter fluxo municipal próprio.</div>
+    <div class="src">MS — Dengue: diagnóstico e manejo clínico (adulto e criança). Sinais de alarme calibrados na wiki.</div>
+  </div>
+</details>
+
+<details class="c" data-kw="alergia choque anafilatico adrenalina epinefrina im coxa urticaria angioedema hidratacao">
+  <summary><span class="tag t-urg">Urgência</span>Anafilaxia</summary>
+  <div class="body">
+    <div class="box b-red"><b>Adrenalina primeiro</b><b>IM na face ântero-lateral da coxa</b> (vasto lateral), solução <b>1:1000</b> (1 mg/mL).<br>Adulto: <b>0,3–0,5 mg</b> · Criança: <b>0,01 mg/kg</b> (máx. 0,5 mg).<br>Repetir a cada <b>5–15 minutos</b> se não melhorar. <b>Não existe contraindicação absoluta</b> na anafilaxia.</div>
+    <p><b>Depois da adrenalina:</b> deitar com <b>membros inferiores elevados</b> (não sentar nem levantar bruscamente) · O₂ · acesso venoso e cristaloide · anti-histamínico e corticoide são <b>adjuvantes</b>, nunca substituem a adrenalina.</p>
+    <p><b>Sempre:</b> acionar transferência — pode haver reação bifásica horas depois.</p>
+    <div class="box b-blu"><b>Erro clássico</b>Dar corticoide/anti-histamínico e "observar". Isso mata. Adrenalina IM é a primeira medida, sempre.</div>
+  </div>
+</details>
+
+<details class="c" data-kw="glicemia baixa acucar glicose glucagon regra dos 15 sulfonilureia">
+  <summary><span class="tag t-urg">Urgência</span>Hipoglicemia</summary>
+  <div class="body">
+    <p><b>Consciente, deglutindo:</b> 15 g de carboidrato de absorção rápida VO (≈150 mL de suco ou refrigerante comum, ou 1 colher de sopa de açúcar em água). Reavaliar glicemia em <b>15 minutos</b> e repetir se necessário — <b>regra dos 15</b>. Depois, refeição com carboidrato complexo.</p>
+    <p><b>Inconsciente ou não deglute:</b> glicose <b>50% 20–40 mL EV</b>. Sem acesso venoso: <b>glucagon 1 mg IM</b>.</p>
+    <div class="box b-amb"><b>Depois de resolver</b>Procure a causa: pulou refeição? Erro de dose? Sulfonilureia em idoso? Hipoglicemia por sulfonilureia <b>recorre</b> — essa pessoa precisa de observação prolongada e provavelmente de revisão da prescrição.</div>
+  </div>
+</details>
+
+<details class="c" data-kw="asma broncoespasmo salbutamol espacador convulsao epilepsia crise dor toracica infarto iam sca emergencia carro parada">
+  <summary><span class="tag t-urg">Urgência</span>Crise asmática · convulsão · dor torácica</summary>
+  <div class="body">
+    <p><b class="k">Crise asmática</b><br>
+    Salbutamol spray com <b>espaçador</b>, 4–10 jatos a cada 20 minutos na 1ª hora + O₂ se SatO₂ baixa + corticoide sistêmico precoce (prednisolona/prednisona VO). Sinais de gravidade: fala entrecortada, uso de musculatura acessória, sonolência, tórax silencioso → transferir.</p>
+    <p><b class="k">Crise convulsiva</b><br>
+    Proteger a via aérea e a cabeça, decúbito lateral, <b>não conter</b> nem colocar nada na boca. Glicemia capilar <b>sempre</b>. Benzodiazepínico se &gt;5 min ou crises subentrantes. Transferir se primeira crise, status ou déficit persistente.</p>
+    <p><b class="k">Dor torácica</b><br>
+    ECG o mais rápido possível se disponível · AAS · acesso venoso · <b>acionar transferência imediata</b> em caso de suspeita de síndrome coronariana. A UBS <b>estabiliza e transfere</b> — não investiga.</p>
+    <div class="box b-amb"><b>Verificar na unidade — faça isso na primeira semana</b>Onde fica o carro/maleta de emergência, o que tem dentro, se há O₂, se há DEA, se há ECG, e qual o fluxo e o telefone para acionar o SAMU. Descobrir isso durante a emergência é tarde demais.</div>
+  </div>
+</details>
+
+<h2>Crônicos e saúde mental</h2>
+
+<details class="c" data-kw="hipertensao diabetes pressao arterial glicemia hba1c metformina cronico mapa mrpa risco cardiovascular pe diabetico">
+  <summary><span class="tag t-rot">Rotina</span>HAS e DM2 — o essencial da consulta</summary>
+  <div class="body">
+    <p><b class="k">Hipertensão</b></p>
+    <ul>
+      <li>Diagnóstico: PA ≥140/90 em 2 ocasiões — ou <b>MAPA vigília ≥135/85</b> / <b>MRPA ≥130/80</b>.</li>
+      <li>Estágio 1: 140–159 / 90–99.</li>
+      <li>Sempre estratificar <b>risco cardiovascular global</b> — é ele que define a meta e a intensidade.</li>
+    </ul>
+    <p><b class="k">Diabetes tipo 2</b></p>
+    <ul>
+      <li>Diagnóstico: jejum ≥126 · TOTG 2h ≥200 · <b>HbA1c ≥6,5%</b> · aleatória ≥200 com sintomas. Precisa de <b>2 testes alterados</b>, ou 1 teste + sintomas clássicos.</li>
+      <li>1ª linha: <b>metformina + mudança de estilo de vida</b>. iSGLT2 ou GLP-1 se doença cardiovascular, insuficiência cardíaca ou doença renal crônica.</li>
+      <li>Meta geral de HbA1c &lt;7% — individualizar (idoso frágil tolera meta mais alta).</li>
+    </ul>
+    <p><b>Rastreio anual de complicações no DM:</b> pés (sensibilidade com monofilamento + pulsos) · fundo de olho · albuminúria e creatinina/TFG.</p>
+    <div class="box b-blu"><b>Isso é gestão da clínica</b>Crônico não se acompanha por demanda — se acompanha por <b>risco</b>, com agenda programada e busca ativa de faltoso. É a temática 2 do curso.</div>
+    <div class="src">Cortes calibrados na wiki (junho/2026) · diretrizes SBC e SBD.</div>
+  </div>
+</details>
+
+<details class="c" data-kw="depressao ansiedade phq9 phq gad7 gad suicidio autoextermínio caps psiquiatria matriciamento risco">
+  <summary><span class="tag t-urg">Atenção</span>Saúde mental — rastreio e risco</summary>
+  <div class="body">
+    <p><b>PHQ-9</b> (depressão): 9 itens, 0–3 cada, total 0–27. ≥10 sugere depressão de intensidade ao menos moderada.</p>
+    <p><b>GAD-7</b> (ansiedade): 7 itens, total 0–21. ≥10 sugere ansiedade ao menos moderada.</p>
+    <div class="box b-red"><b>Item 9 do PHQ-9</b>Pergunta sobre pensamentos de morte ou de se ferir. Se for positivo, <b>pare e avalie risco de suicídio diretamente</b> — não deixe para o fim da consulta.<br>Perguntar sobre suicídio <b>não induz</b> ao suicídio. Investigue: ideação, plano, meio disponível, tentativa prévia, suporte social.</div>
+    <p><b>Fica na APS:</b> depressão e ansiedade leves a moderadas, sem risco — com seguimento próximo e vínculo.</p>
+    <p><b>Vai para o CAPS:</b> risco de suicídio, psicose, uso prejudicial grave de substâncias, transtorno grave e persistente, refratariedade.</p>
+    <div class="box b-blu"><b>Matriciamento</b>Encaminhar não é transferir o caso e sumir. O CAPS apoia a equipe — o vínculo com a USF continua.</div>
+  </div>
+</details>
+
+<h2>Encaminhamento</h2>
+
+<details class="c" data-kw="referencia contrarreferencia especialista regulacao fila coordenacao">
+  <summary><span class="tag t-adm">Registro</span>Encaminhamento qualificado</summary>
+  <div class="body">
+    <p>Um encaminhamento sem informação vira consulta perdida e a pessoa volta ao ponto de partida meses depois. Todo encaminhamento precisa de:</p>
+    <ul>
+      <li><b>Hipótese diagnóstica</b> e o motivo objetivo do encaminhamento (a pergunta que você quer respondida)</li>
+      <li><b>História resumida</b> e achados relevantes do exame físico</li>
+      <li><b>Exames já realizados</b>, com resultados e datas</li>
+      <li><b>O que já foi tentado</b> — condutas e medicações, com doses e tempo de uso</li>
+      <li>Grau de prioridade</li>
+    </ul>
+    <div class="box b-blu"><b>Coordenação do cuidado</b>A pessoa continua sendo da equipe depois do encaminhamento. Registre o retorno da contrarreferência no prontuário — esse é um dos atributos da APS que mais se perde na prática.</div>
+  </div>
+</details>
+
+<details class="c" data-kw="starfield pnab principios longitudinalidade integralidade coordenacao primeiro contato prevencao quaternaria">
+  <summary><span class="tag t-adm">Base</span>Atributos da APS — a régua de tudo</summary>
+  <div class="body">
+    <p><b>Essenciais:</b></p>
+    <div class="wrap"><table class="def">
+      <tr><td>1º contato</td><td>Porta de entrada e acessibilidade — a pessoa procura a USF primeiro</td></tr>
+      <tr><td>Longitudinalidade</td><td>Vínculo ao longo do tempo, independente do problema</td></tr>
+      <tr><td>Integralidade</td><td>Dá conta do conjunto das necessidades, promoção a reabilitação</td></tr>
+      <tr><td>Coordenação</td><td>Organiza o cuidado nos outros pontos da rede</td></tr>
+    </table></div>
+    <p><b>Derivados:</b> orientação familiar · orientação comunitária · competência cultural.</p>
+    <div class="box b-blu"><b>Prevenção quaternária</b>Proteger a pessoa de intervenção médica desnecessária — sobrediagnóstico, exame sem indicação, medicalização. É conceito muito cobrado e é a marca da boa APS.</div>
+    <div class="src">Starfield · PNAB (Portaria MS nº 2.436/2017).</div>
+  </div>
+</details>
+
+<p class="empty" id="empty">Nada encontrado. Tente outro termo.</p>
+
+</main>
+
+<footer>
+  <b>Guia de bolso — APS II · 1º rodízio · UNEXMED FSA</b><br>
+  Início do rodízio: 20/07/2026<br><br>
+  Versão mínima de campo (v1). Fontes: Ministério da Saúde (PNAB, Cadernos de Atenção Básica,
+  PNI, guias de dengue e diarreia), SBMFC e fatos já calibrados na
+  <code>medicina-wiki</code> em junho/2026.<br><br>
+  Itens marcados como <b>Verificar</b> ainda não foram conferidos contra a norma vigente —
+  confirme com o preceptor ou no protocolo da unidade antes de aplicar.
+  Material de estudo pessoal, não substitui protocolo institucional.
+</footer>
+
+<script>
+(function(){
+  var q=document.getElementById('q'),
+      cards=[].slice.call(document.querySelectorAll('details.c')),
+      heads=[].slice.call(document.querySelectorAll('h2')),
+      empty=document.getElementById('empty'),
+      count=document.getElementById('count'),
+      openBefore=null;
+
+  // busca ignora acento: "hidratacao" acha "hidratação"
+  function norm(s){
+    return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  }
+  cards.forEach(function(c){ c.dataset.txt=norm(c.textContent+' '+(c.getAttribute('data-kw')||'')); });
+
+  function run(){
+    var t=norm(q.value.trim());
+    if(!t){
+      cards.forEach(function(c){
+        c.classList.remove('hide');
+        if(openBefore) c.open=false;
+      });
+      heads.forEach(function(h){ h.classList.remove('hide'); });
+      empty.style.display='none'; count.textContent=''; openBefore=null;
+      return;
+    }
+    openBefore=true;
+    var terms=t.split(/\s+/), n=0;
+    cards.forEach(function(c){
+      var hit=terms.every(function(w){ return c.dataset.txt.indexOf(w)>-1; });
+      c.classList.toggle('hide',!hit);
+      c.open=hit;
+      if(hit) n++;
+    });
+    // esconde título de seção sem nenhum card visível
+    heads.forEach(function(h){
+      var vis=false,el=h.nextElementSibling;
+      while(el && el.tagName!=='H2'){
+        if(el.tagName==='DETAILS' && !el.classList.contains('hide')) vis=true;
+        el=el.nextElementSibling;
+      }
+      h.classList.toggle('hide',!vis);
+    });
+    empty.style.display=n?'none':'block';
+    count.textContent=n?(n+(n>1?' resultados':' resultado')):'';
+  }
+
+  q.addEventListener('input',run);
+  q.addEventListener('search',run);
+})();
+</script>
+</body>
+</html>
