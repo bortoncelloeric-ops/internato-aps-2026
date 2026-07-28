@@ -1,6 +1,6 @@
 # Internato — APS II · 1º Rodízio (2026.2)
 
-**Status:** guia de bolso v1 + Blocos 0 e 1 completos · **Atualizado:** 19/07/2026
+**Status:** guia de bolso v1 + Blocos 0 e 1 completos + mapa de avaliação · **Atualizado:** 28/07/2026
 **Publicado:** https://bortoncelloeric-ops.github.io/internato-aps-2026/
 
 Material de estudo e de campo do 1º rodízio do 2º semestre. Sucede
@@ -24,6 +24,18 @@ o formato de flashcards e o simulador de OSCE.
 **Restrição central:** o Eric **não teve APS I**. As 7 temáticas oficiais assumem uma base
 (SUS, PNAB, território, e-SUS/CIAP, programas do MS) que ele não recebeu — daí os blocos 0 e 8,
 que a ementa não prevê.
+
+---
+
+## Avaliação — ver [[avaliacao-aps]]
+
+**Desempenho clínico 70%** (mini-CEX + preceptor-minuto + observação direta) ·
+OSCE 10% · prova teórica 10% · APA 10%.
+
+O material atual (questões ENAMED + flashcards) serve os **10%** da prova teórica.
+Os 70% dependem do barema global (100 pts, com 20 só para abordagem familiar e territorial)
+e da rubrica de entrustment N1–N4 do mini-CEX, cujo salto para N4 é sempre o mesmo:
+sair do paciente isolado e entrar em família, território e rede.
 
 ---
 
@@ -80,7 +92,10 @@ cita são as fontes oficiais.
   Blocos 2–8 com esqueleto e âncora, marcados "a construir".
 - `flashcards-aps.md` / `.txt` — **Anki** ✅ 112 cartões (63 do Bloco 0 + 49 do Bloco 1)
 - `export-anki.py` — script `.md → .txt` TAB, com validação (custo zero de token)
-- `osce-casos/aps-01..03.json` — estações simuladas ⬜
+- `osce-casos/aps-01..03.json` — estações simuladas ⬜ (valem 10% da nota; ancorar nas 10 EPAs)
+- `avaliacao-aps.md` — **como o rodízio é avaliado** ✅ pesos, barema global, 10 EPAs,
+  rubrica N1–N4 dos 7 domínios, feedback estruturado em 5 passos, carga horária
+  (fonte: PDFs da coordenação, 28/07/2026)
 
 ## Convenções
 
@@ -110,3 +125,10 @@ cita são as fontes oficiais.
 2. Datas das provas da faculdade (APA/OSCE/ATI)
 3. Ordem das 7 temáticas nas terças
 4. UNEX dá acesso ao Minha Biblioteca / AccessArtmed?
+5. **Contradição no PDF da coordenação:** itens 9 e 10 invertem os rótulos APS I / APS II
+   entre si e em relação ao corpo do documento. Item 9 aloca APS II em município da Região
+   de Saúde, mas a alocação real é USF Tiquaruçu (Feira de Santana). Perguntar na terça —
+   ver [[avaliacao-aps]].
+6. **Portfólio** aparece na metodologia do PDF e não é detalhado em lugar nenhum. É exigido?
+7. Se valer o item 10, APS II cobra ferramentas de gestão (FOFA, Ishikawa, SMART, PTS,
+   monitoramento de indicadores) que hoje não estão em bloco nenhum — entrariam no Bloco 2.
