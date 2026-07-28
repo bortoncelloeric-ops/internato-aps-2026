@@ -93,6 +93,9 @@ cita são as fontes oficiais.
 - `flashcards-aps.md` / `.txt` — **Anki** ✅ 112 cartões (63 do Bloco 0 + 49 do Bloco 1)
 - `export-anki.py` — script `.md → .txt` TAB, com validação (custo zero de token)
 - `osce-casos/aps-01..03.json` — estações simuladas ⬜ (valem 10% da nota; ancorar nas 10 EPAs)
+- `aula-02-cardiorrenal/` — **ATP-02, terça 28/07** ✅ `caso-02.md` (transcrição fiel) ·
+  `instrucoes-atividade.md` (regras da atividade + divisão dos 7 produtos) ·
+  `material-caso-02.md` (análise crítica cobrindo os 7 produtos + roteiro de 3 min)
 - `avaliacao-aps.md` — **como o rodízio é avaliado** ✅ pesos, barema global, 10 EPAs,
   rubrica N1–N4 dos 7 domínios, feedback estruturado em 5 passos, carga horária
   (fonte: PDFs da coordenação, 28/07/2026)
