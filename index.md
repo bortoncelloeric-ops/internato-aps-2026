@@ -95,7 +95,8 @@ cita são as fontes oficiais.
 - `osce-casos/aps-01..03.json` — estações simuladas ⬜ (valem 10% da nota; ancorar nas 10 EPAs)
 - `aula-02-cardiorrenal/` — **ATP-02, terça 28/07** ✅ `caso-02.md` (transcrição fiel) ·
   `instrucoes-atividade.md` (regras da atividade + divisão dos 7 produtos) ·
-  `material-caso-02.md` (análise crítica cobrindo os 7 produtos + roteiro de 3 min)
+  `apresentacao-caso-02.md` (**material de entrega** — os 7 produtos completos) ·
+  `material-caso-02.md` (notas de discussão + roteiro de 3 min)
 - `avaliacao-aps.md` — **como o rodízio é avaliado** ✅ pesos, barema global, 10 EPAs,
   rubrica N1–N4 dos 7 domínios, feedback estruturado em 5 passos, carga horária
   (fonte: PDFs da coordenação, 28/07/2026)
