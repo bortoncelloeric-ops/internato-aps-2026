@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# export-pdf — gera PDF 1920×1080 (1 slide = 1 página) de um deck HTML.
+# Uso:  ./export-pdf <deck.html> [saida.pdf]
+# Requer Google Chrome (ou Chromium/Edge). Honra @page{size:1920px 1080px}.
+set -euo pipefail
+
+IN="${1:?uso: ./export-pdf <deck.html> [saida.pdf]}"
+[ -f "$IN" ] || { echo "arquivo não encontrado: $IN" >&2; exit 1; }
+ABS="$(cd "$(dirname "$IN")" && pwd)/$(basename "$IN")"
+OUT="${2:-${ABS%.html}.pdf}"
+
+# acha um Chrome headless
+CHROME=""
+for c in \
+  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+  "/Applications/Chromium.app/Contents/MacOS/Chromium" \
+  "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge" \
+  "$(command -v google-chrome 2>/dev/null || true)" \
+  "$(command -v chromium 2>/dev/null || true)"; do
+  [ -n "$c" ] && [ -x "$c" ] && { CHROME="$c"; break; }
+done
+[ -n "$CHROME" ] || { echo "Chrome/Chromium não encontrado. Instale o Google Chrome." >&2; exit 1; }
+
+echo "Chrome: $CHROME"
+echo "Deck:   $ABS"
+echo "PDF:    $OUT"
+
+"$CHROME" --headless=new --disable-gpu --no-pdf-header-footer \
+  --virtual-time-budget=4000 \
+  --print-to-pdf="$OUT" "file://$ABS" 2>/dev/null
+
+[ -s "$OUT" ] && echo "OK → $OUT ($(du -h "$OUT" | cut -f1))" || { echo "falhou ao gerar PDF" >&2; exit 1; }

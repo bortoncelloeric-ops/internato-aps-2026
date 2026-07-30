@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Hepatite B e C — folder para sala de espera</title>
+<style>
+  :root{
+    --amber:#F5B301;        /* Julho Amarelo */
+    --amber-deep:#C98A00;
+    --amber-wash:#FFF7E2;
+    --navy:#123A5E;
+    --navy-deep:#0C2740;
+    --ink:#1F2A37;
+    --ink-soft:#3F4C5A;
+    --green:#0D7A5F;
+    --green-wash:#E8F5F0;
+    --red:#B23A2E;
+    --red-wash:#FCEEEC;
+    --line:#DCE3EA;
+    --line-warm:#EBD9A8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  @page{size:297mm 210mm;margin:0;}
+  html,body{background:#fff;}
+  body{
+    font-family:'Avenir Next','Helvetica Neue',Helvetica,Arial,sans-serif;
+    color:var(--ink);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+
+  /* ---------- FOLHA A4 PAISAGEM ---------- */
+  .page{
+    position:relative;width:1123px;height:794px;overflow:hidden;
+    display:flex;background:#fff;
+  }
+  .page + .page{page-break-before:always;}
+
+  /* marcas de dobra: tiquinhos na borda, quase invisíveis no papel */
+  .fold{position:absolute;top:0;bottom:0;width:0;border-left:1px dashed #D8DEE4;z-index:5;}
+  .fold.f1{left:374.3px;} .fold.f2{left:748.6px;}
+  .fold::before,.fold::after{
+    content:'';position:absolute;left:-4px;width:8px;height:14px;
+    border-left:1px solid #9AA6B2;
+  }
+  .fold::before{top:0;} .fold::after{bottom:0;}
+  @media print{ .fold{border-left-color:#E8ECEF;} }
+
+  /* ---------- PAINEL (1/3 = 99mm) ---------- */
+  .panel{
+    flex:1 1 0;min-width:0;position:relative;
+    padding:30px 26px;display:flex;flex-direction:column;
+  }
+  .panel + .panel{border-left:0;}
+
+  /* cabeçalho de painel */
+  .pill{
+    display:flex;align-items:center;gap:9px;
+    background:var(--navy);color:#fff;border-radius:9px;
+    padding:9px 13px;margin-bottom:14px;
+    min-height:56px;   /* alinha os 3 cabeçalhos com o folder aberto */
+  }
+  .pill .ico{width:20px;height:20px;color:var(--amber);}
+  .pill h2{font-size:16px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;line-height:1.15;}
+
+  /* tipografia de corpo — mínimo 15px (≈11,3pt) */
+  p{font-size:15px;line-height:1.5;color:var(--ink-soft);}
+  p + p{margin-top:9px;}
+  p b,li b{color:var(--navy);font-weight:800;}
+  .lead{font-size:16.5px;line-height:1.45;color:var(--ink);}
+
+  h3{
+    font-size:14px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;
+    color:var(--navy);margin-bottom:7px;display:flex;align-items:center;gap:7px;
+  }
+  h3 .ico{width:18px;height:18px;}
+
+  /* listas com marcador desenhado */
+  ul{list-style:none;}
+  li{font-size:15px;line-height:1.45;color:var(--ink-soft);
+     padding-left:17px;position:relative;margin-bottom:6px;}
+  li::before{content:'';position:absolute;left:0;top:8px;
+     width:7px;height:7px;border-radius:50%;background:var(--amber);}
+  li:last-child{margin-bottom:0;}
+
+  /* caixas */
+  .box{border-radius:11px;padding:13px 15px;margin-top:12px;}
+  .box.warm{background:var(--amber-wash);border:1.5px solid var(--line-warm);}
+  .box.green{background:var(--green-wash);border:1.5px solid #BFE0D5;}
+  .box.red{background:var(--red-wash);border:1.5px solid #F0CFC9;}
+  .box.navy{background:var(--navy);color:#EAF1F8;}
+  .box.navy h3{color:#fff;} .box.navy p{color:#DCE7F2;}
+  .box.navy b{color:var(--amber);}
+  .box.green h3{color:var(--green);} .box.green li::before{background:var(--green);}
+  .box.red h3{color:var(--red);}     .box.red li::before{background:var(--red);}
+
+  .ico{display:inline-block;flex:0 0 auto;background:currentColor;
+       -webkit-mask:var(--i) center/contain no-repeat;mask:var(--i) center/contain no-repeat;}
+
+  .spacer{flex:1;min-height:8px;}
+
+  /* rodapé de painel */
+  .foot{margin-top:12px;padding-top:10px;border-top:1.5px solid var(--line);
+        font-size:12.5px;line-height:1.4;color:#6B7885;}
+
+  /* ---------- P1 · CAPA ---------- */
+  .cover{background:linear-gradient(165deg,var(--navy) 0%,var(--navy-deep) 100%);color:#fff;
+         justify-content:center;text-align:center;padding:34px 28px;}
+  .cover .kicker{font-size:12px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;
+         color:var(--amber);margin-bottom:20px;}
+  .cover .bigico{width:82px;height:82px;color:var(--amber);margin:0 auto 18px;}
+  .cover h1{font-size:40px;font-weight:800;line-height:1.05;letter-spacing:-.01em;color:#fff;}
+  .cover .sub{font-size:23px;font-weight:800;color:var(--amber);margin-top:6px;letter-spacing:.01em;}
+  .cover .rule{height:3px;width:78px;background:var(--amber);border-radius:3px;margin:18px auto;}
+  .cover p{color:#CBD8E6;font-size:15.5px;line-height:1.5;}
+  .cover .cta{margin-top:22px;background:var(--amber);color:var(--navy-deep);
+         border-radius:11px;padding:15px 14px;}
+  .cover .cta .q{font-size:18.5px;font-weight:800;line-height:1.25;}
+  .cover .cta .a{font-size:14.5px;font-weight:600;margin-top:6px;line-height:1.4;}
+  .cover .tag{margin-top:20px;font-size:12.5px;font-weight:700;letter-spacing:.13em;
+         text-transform:uppercase;color:#93A8BE;}
+
+  /* passos numerados do teste */
+  .step{display:flex;gap:11px;align-items:flex-start;margin-bottom:11px;}
+  .step .n{flex:0 0 auto;width:25px;height:25px;border-radius:50%;background:var(--amber);
+     color:var(--navy-deep);font-size:14px;font-weight:800;
+     display:flex;align-items:center;justify-content:center;}
+  .step p{font-size:15px;line-height:1.4;padding-top:3px;}
+
+  /* linha de serviço do SUS */
+  .svc{display:flex;gap:11px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);}
+  .svc:last-of-type{border-bottom:0;}
+  .svc .ico{width:25px;height:25px;color:var(--green);}
+  .svc span{font-size:15.5px;font-weight:700;color:var(--navy);line-height:1.25;}
+
+  /* duo agudo/crônico */
+  .duo{display:flex;gap:9px;margin-top:11px;}
+  .duo div{flex:1;border-radius:9px;padding:10px 11px;background:#F4F7FA;border:1.5px solid var(--line);}
+  .duo h4{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;
+    color:var(--navy);margin-bottom:4px;}
+  .duo p{font-size:13.5px;line-height:1.35;}
+</style>
+</head>
+<body>
+
+<!-- ============ FACE EXTERNA ============ -->
+<!-- ordem física: [SUS] [TESTE RÁPIDO] [CAPA]  → capa à direita -->
+<div class="page">
+  <div class="fold f1"></div><div class="fold f2"></div>
+
+  <!-- ---------- P2 · SUS ---------- -->
+  <div class="panel">
+    <div class="pill">
+      <i class="ico" style="--i:url(icons/doctor.svg)"></i>
+      <h2>No SUS é tudo de graça</h2>
+    </div>
+
+    <p class="lead">Você não paga nada e não precisa de plano de saúde.</p>
+
+    <div style="margin-top:14px">
+      <div class="svc"><i class="ico" style="--i:url(icons/blood-drop.svg)"></i><span>Teste rápido</span></div>
+      <div class="svc"><i class="ico" style="--i:url(icons/syringe.svg)"></i><span>Vacina contra hepatite B</span></div>
+      <div class="svc"><i class="ico" style="--i:url(icons/stethoscope.svg)"></i><span>Consulta com a equipe</span></div>
+      <div class="svc"><i class="ico" style="--i:url(icons/microscope.svg)"></i><span>Exames de acompanhamento</span></div>
+      <div class="svc"><i class="ico" style="--i:url(icons/pills.svg)"></i><span>Remédio do tratamento</span></div>
+    </div>
+
+    <div class="box navy">
+      <h3><i class="ico" style="--i:url(icons/search.svg)"></i>Onde procurar</h3>
+      <p>Na <b>Unidade Básica de Saúde</b> (UBS ou USF) do seu bairro.</p>
+      <p>Também no <b>CTA</b> — Centro de Testagem e Aconselhamento.</p>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="box warm">
+      <p><b>Descobrir cedo muda tudo.</b> Quanto antes você faz o teste, mais simples é o tratamento e menor o risco de o fígado adoecer de vez.</p>
+    </div>
+  </div>
+
+  <!-- ---------- P3 · TESTE RÁPIDO ---------- -->
+  <div class="panel">
+    <div class="pill">
+      <i class="ico" style="--i:url(icons/blood-drop.svg)"></i>
+      <h2>O teste rápido</h2>
+    </div>
+
+    <div class="step"><div class="n">1</div><p>Uma <b>gota de sangue</b> da ponta do dedo.</p></div>
+    <div class="step"><div class="n">2</div><p>Resultado em <b>até 30 minutos</b>, ali mesmo.</p></div>
+    <div class="step"><div class="n">3</div><p>Deu reagente? A equipe já explica e encaminha o seu tratamento.</p></div>
+
+    <div class="box warm">
+      <h3><i class="ico" style="--i:url(icons/question.svg)"></i>Quem deve fazer</h3>
+      <p><b>Toda pessoa, pelo menos uma vez na vida.</b> Não precisa ter sintoma. Não precisa estar se sentindo mal.</p>
+    </div>
+
+    <div style="margin-top:13px">
+      <h3>Faça de novo se você:</h3>
+      <ul>
+        <li>Teve relação sexual sem camisinha</li>
+        <li>Compartilhou agulha ou seringa</li>
+        <li>Usou alicate, lâmina ou tesoura de outra pessoa</li>
+        <li>Fez tatuagem ou piercing sem material descartável</li>
+      </ul>
+    </div>
+
+    <div class="box red">
+      <h3><i class="ico" style="--i:url(icons/alert.svg)"></i>Atenção</h3>
+      <p>Recebeu sangue, fez cirurgia ou transplante <b>antes de 1993</b>? Peça o teste de <b>hepatite C</b>.</p>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="foot">Quem já tomou as <b>3 doses</b> da vacina está protegido contra a hepatite B.</div>
+  </div>
+
+  <!-- ---------- P1 · CAPA ---------- -->
+  <div class="panel cover">
+    <div class="kicker">Saúde do fígado</div>
+    <i class="ico bigico" style="--i:url(icons/liver.svg)"></i>
+    <h1>HEPATITE<br>B e C</h1>
+    <div class="sub">as silenciosas</div>
+    <div class="rule"></div>
+    <p>Na maior parte das vezes elas <b style="color:#fff">não dão nenhum sintoma</b>. Dá para ter o vírus por anos e não saber.</p>
+    <div class="cta">
+      <div class="q">Você já fez o teste?</div>
+      <div class="a">É rápido, é gratuito e pode salvar o seu fígado.</div>
+    </div>
+    <div class="tag">Procure a sua unidade de saúde</div>
+  </div>
+</div>
+
+<!-- ============ FACE INTERNA ============ -->
+<div class="page">
+  <div class="fold f1"></div><div class="fold f2"></div>
+
+  <!-- ---------- P4 · O QUE É ---------- -->
+  <div class="panel">
+    <div class="pill">
+      <i class="ico" style="--i:url(icons/virus.svg)"></i>
+      <h2>O que é</h2>
+    </div>
+
+    <p class="lead">É uma <b>inflamação no fígado</b> (hepatite) causada por um vírus.</p>
+    <p>O fígado limpa o sangue, guarda energia e ajuda na digestão. Quando ele inflama, vai perdendo a força aos poucos.</p>
+
+    <div class="duo">
+      <div>
+        <h4>Aguda</h4>
+        <p>Dura pouco tempo e o corpo pode se livrar do vírus.</p>
+      </div>
+      <div>
+        <h4>Crônica</h4>
+        <p>O vírus fica no corpo por mais de 6 meses.</p>
+      </div>
+    </div>
+
+    <div class="box warm">
+      <p><b>O problema é o silêncio.</b> As hepatites B e C quase sempre não dão sintoma nenhum — os sinais só aparecem quando a doença já está avançada.</p>
+    </div>
+
+    <div style="margin-top:13px">
+      <h3>Sinais que podem aparecer</h3>
+      <ul>
+        <li>Pele e olhos amarelados (icterícia)</li>
+        <li>Urina escura e fezes claras</li>
+        <li>Cansaço, febre e fraqueza</li>
+        <li>Enjoo, vômito e dor na barriga</li>
+      </ul>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="box red">
+      <p>Sem acompanhamento, a hepatite crônica pode virar <b>cirrose</b> e <b>câncer de fígado</b>. Com tratamento, dá para evitar.</p>
+    </div>
+  </div>
+
+  <!-- ---------- P5 · COMO PEGA / NÃO PEGA ---------- -->
+  <div class="panel">
+    <div class="pill">
+      <i class="ico" style="--i:url(icons/alert.svg)"></i>
+      <h2>Como pega — e como não pega</h2>
+    </div>
+
+    <div class="box red" style="margin-top:0">
+      <h3><i class="ico" style="--i:url(icons/alert.svg)"></i>Pega assim</h3>
+      <ul>
+        <li>Agulha ou seringa compartilhada</li>
+        <li><b>Alicate de unha, lâmina ou tesoura</b> de outra pessoa</li>
+        <li>Tatuagem e piercing sem material descartável</li>
+        <li>Sexo sem camisinha — principalmente a <b>hepatite B</b></li>
+        <li>Da mãe para o bebê, na gravidez ou no parto</li>
+      </ul>
+    </div>
+
+    <div class="box green">
+      <h3><i class="ico" style="--i:url(icons/shield.svg)"></i>NÃO pega assim</h3>
+      <ul>
+        <li>Dividir comida, copo e talheres</li>
+        <li>Beijo e abraço</li>
+        <li>Esporte de contato</li>
+        <li>Conviver, morar e trabalhar junto</li>
+      </ul>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="box navy">
+      <p>Quem tem hepatite <b>não precisa ser separado de ninguém</b>. Pode comer junto, beijar e viver normalmente. Preconceito só atrapalha o tratamento.</p>
+    </div>
+  </div>
+
+  <!-- ---------- P6 · PREVENIR E TRATAR ---------- -->
+  <div class="panel">
+    <div class="pill">
+      <i class="ico" style="--i:url(icons/shield.svg)"></i>
+      <h2>Prevenir e tratar</h2>
+    </div>
+
+    <h3><i class="ico" style="--i:url(icons/syringe.svg)"></i>Como se proteger</h3>
+    <ul>
+      <li><b>Vacina da hepatite B:</b> 3 doses, de graça, em qualquer idade</li>
+      <li>Camisinha na relação sexual</li>
+      <li>Não dividir alicate, lâmina, tesoura ou agulha</li>
+      <li>Exigir material descartável na manicure, na tatuagem e no piercing</li>
+    </ul>
+
+    <div class="box warm">
+      <p><b>Não existe vacina contra a hepatite C.</b> Por isso, para ela, o teste é a principal proteção.</p>
+    </div>
+
+    <div class="box green">
+      <h3><i class="ico" style="--i:url(icons/pills.svg)"></i>Tem tratamento</h3>
+      <p><b>Hepatite C:</b> cura em <b>mais de 95%</b> dos casos, com remédio que o SUS entrega de graça.</p>
+      <p><b>Hepatite B:</b> tem remédio que controla o vírus e evita a cirrose e o câncer de fígado.</p>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="box navy">
+      <p style="font-size:16px"><b>Faça o teste.</b> É uma gota de sangue e 30 minutos. O resto o SUS faz com você.</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

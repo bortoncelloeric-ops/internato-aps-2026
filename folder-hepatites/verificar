@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+# verificar — bateria de checagem do folder (v1 ou v2).
+# Uso:  ./verificar folder-hepatites-v2.html
+#
+# Roda, em ordem:
+#   1. export do PDF
+#   2. detector do impeccable (browser real, pior caso: --no-config)
+#   3. auditoria de transbordo por painel  <- pega o corte silencioso
+#   4. MediaBox e contagem de páginas
+#   5. contraste WCAG dos pares de cor
+set -euo pipefail
+
+IN="${1:-folder-hepatites-v2.html}"
+[ -f "$IN" ] || { echo "arquivo não encontrado: $IN" >&2; exit 1; }
+BASE="${IN%.html}"
+HERE="$(cd "$(dirname "$0")" && pwd)"
+REPO="$(cd "$HERE/.." && pwd)"
+IMP="$REPO/.impeccable"
+CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+export PUPPETEER_EXECUTABLE_PATH="$CHROME"
+
+[ -d "$IMP/node_modules/puppeteer" ] || {
+  echo "puppeteer ausente. Rode uma vez:"
+  echo "  cd $IMP && PUPPETEER_SKIP_DOWNLOAD=true npm install puppeteer --no-save"
+  exit 1; }
+
+echo "=== 1. PDF ==="
+"$HERE/export-pdf" "$IN" "$BASE.pdf" | tail -1
+"$CHROME" --headless=new --disable-gpu --hide-scrollbars --allow-file-access-from-files \
+  --force-device-scale-factor=2 --window-size=1123,1588 \
+  --screenshot="$BASE.png" "$IN" 2>/dev/null
+
+echo "=== 2. Detector impeccable (--no-config = sem waivers, pior caso) ==="
+( cd "$HERE" && python3 -m http.server 8899 >/dev/null 2>&1 & echo $! > /tmp/.folderqa.pid )
+sleep 1.5
+node "$IMP/cli/bin/cli.js" detect "http://localhost:8899/$(basename "$IN")" \
+  --viewport 1123x794 --no-config || true
+kill "$(cat /tmp/.folderqa.pid)" 2>/dev/null || true; rm -f /tmp/.folderqa.pid
+echo "   (nenhuma linha acima = zero achados)"
+
+echo "=== 3. Transbordo por painel (alvo: 48px de margem inferior) ==="
+cat > "$IMP/_qa.mjs" <<'JS'
+import puppeteer from 'puppeteer';
+const b=await puppeteer.launch({executablePath:process.env.PUPPETEER_EXECUTABLE_PATH,headless:'new'});
+const p=await b.newPage(); await p.setViewport({width:1123,height:1588});
+await p.goto('file://'+process.argv[2],{waitUntil:'networkidle0'});
+const r=await p.evaluate(()=>{const o=[];
+  document.querySelectorAll('.page').forEach((pg,pi)=>{
+    pg.querySelectorAll('.panel').forEach((pn,ni)=>{
+      const nr=pn.getBoundingClientRect(); let mx=-1;
+      pn.querySelectorAll('*').forEach(e=>{const r=e.getBoundingClientRect(); if(r.height>0&&r.bottom>mx)mx=r.bottom;});
+      o.push({pg:pi+1,pn:ni+1,t:((pn.querySelector('h1,h2')||{}).textContent||'capa').slice(0,26),folga:Math.round(nr.bottom-mx)});});
+    pg.querySelectorAll('.mark,.hr').forEach(m=>{const r=m.getBoundingClientRect();
+      if(r.height<1) o.push({ALERTA:'filete esmagado a 0px por flex-shrink'});});});
+  return o;});
+let bad=0;
+for(const x of r){ if(x.ALERTA){console.log('  !! '+x.ALERTA);bad++;continue;}
+  const st=x.folga<0?'CORTADO':(x.folga<24?'apertado':'ok'); if(st!=='ok')bad++;
+  console.log(`  p${x.pg}.${x.pn} ${x.t.padEnd(28)} ${String(x.folga).padStart(4)}px  ${st}`);}
+console.log('  -> '+(bad?bad+' pendencia(s)':'TUDO OK'));
+await b.close();
+JS
+node "$IMP/_qa.mjs" "$HERE/$(basename "$IN")"; rm -f "$IMP/_qa.mjs"
+
+echo "=== 4. PDF: MediaBox e paginas ==="
+python3 -c "
+import re,sys
+d=open('$BASE.pdf','rb').read()
+mb=list(set(re.findall(rb'/MediaBox\s*\[([^\]]+)\]',d)))[0].decode()
+n=len(re.findall(rb'/Type\s*/Page[^s]',d))
+ok='OK' if '841' in mb and n==2 else 'ERRO'
+print(f'   MediaBox: {mb} | Paginas: {n}  {ok}')"
+
+echo "=== 5. Contraste WCAG ==="
+python3 -c "
+def L(h):
+    c=[int(h[i:i+2],16)/255 for i in (1,3,5)]
+    c=[x/12.92 if x<=.04045 else ((x+.055)/1.055)**2.4 for x in c]
+    return .2126*c[0]+.7152*c[1]+.0722*c[2]
+def R(a,b):
+    x,y=L(a),L(b); x,y=max(x,y),min(x,y); return (x+.05)/(y+.05)
+for n,a,b in [('ink / papel','#17181A','#FFFFFF'),('ink-muted / papel','#5A6068','#FFFFFF'),('ink / ambar','#17181A','#E8A200')]:
+    r=R(a,b); print(f'   {n:<20}{r:6.2f}:1  {\"OK\" if r>=4.5 else \"FALHA\"}')"

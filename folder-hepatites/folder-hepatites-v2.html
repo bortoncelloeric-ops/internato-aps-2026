@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Hepatite B e C — folder para sala de espera</title>
+
+<!-- impeccable-disable line-length: painel de folder A4 dobrado em tres tem
+     ~70mm uteis, o que da cerca de 42 caracteres por linha a 15px. Reduzir o
+     corpo abaixo de 11pt prejudicaria o publico-alvo (sala de espera de UBS,
+     idosos, baixa escolaridade). Medida curta e escolha consciente. -->
+
+<style>
+  :root{
+    --ink:#17181A;
+    --ink-muted:#5A6068;
+    --accent:#E8A200;
+    --rule:#DCDCD8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  @page{size:297mm 210mm;margin:0;}
+  html,body{background:#fff;}
+  body{
+    font-family:Charter,'Bitstream Charter',Georgia,serif;
+    color:var(--ink);
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+
+  /* ---------- FOLHA A4 PAISAGEM ---------- */
+  .page{position:relative;width:1123px;height:794px;overflow:hidden;display:flex;}
+  .page + .page{page-break-before:always;}
+
+  /* marcas de dobra */
+  .fold{position:absolute;top:0;bottom:0;width:0;border-left:1px dashed #E4E4E0;z-index:5;}
+  .fold.f1{left:374.3px;} .fold.f2{left:748.6px;}
+
+  /* ---------- PAINEL ---------- */
+  .panel{flex:1 1 0;min-width:0;padding:48px 34px;display:flex;flex-direction:column;}
+  /* o painel e flex-column: sem isto o flex-shrink esmaga os elementos de
+     altura fixa (filete, hairline, icone) a zero quando o painel fica cheio */
+  .panel > *{flex-shrink:0;}
+
+  /* ---------- TIPOGRAFIA ---------- */
+  h1{font-size:56px;line-height:1.02;font-weight:700;letter-spacing:-.02em;}
+  h2{font-size:28px;line-height:1.14;font-weight:700;letter-spacing:-.01em;}
+  h3{font-size:12px;line-height:1.3;font-weight:700;letter-spacing:.08em;
+     text-transform:uppercase;color:var(--ink-muted);}
+
+  /* ritmo: mais espaco acima de um titulo do que abaixo */
+  h2{margin-bottom:16px;}
+  h3{margin-top:32px;margin-bottom:16px;}   /* acima > abaixo: heading-rhythm */
+  .panel > h2:first-child{margin-top:0;}
+
+  p{font-size:15px;line-height:1.55;text-align:left;}
+  p + p{margin-top:16px;}
+  .lead{font-size:20px;line-height:1.4;margin-bottom:24px;}
+  .muted{color:var(--ink-muted);}
+  .note{font-size:12px;line-height:1.45;color:var(--ink-muted);}
+  b,strong{font-weight:700;}
+
+  /* filete sob o titulo — o acento em escala nao-corpo */
+  .mark{width:48px;height:3px;background:var(--accent);margin-bottom:24px;}
+
+  /* ---------- LISTAS ---------- */
+  ul{list-style:none;}
+  li{font-size:15px;line-height:1.5;padding-left:16px;position:relative;margin-bottom:8px;}
+  li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:5px;background:var(--accent);}
+  li:last-child{margin-bottom:0;}
+
+  /* lista de servicos do SUS: icone funcional, ajuda a varrer */
+  .svc{display:flex;gap:12px;align-items:baseline;margin-bottom:16px;font-size:15px;line-height:1.4;}
+  .svc:last-of-type{margin-bottom:0;}
+  .ico{display:inline-block;flex:0 0 auto;width:16px;height:16px;background:currentColor;
+       -webkit-mask:var(--i) center/contain no-repeat;mask:var(--i) center/contain no-repeat;
+       color:var(--accent);position:relative;top:2px;}
+
+  /* ---------- REGRAS HORIZONTAIS ---------- */
+  .hr{height:1px;background:var(--rule);margin:32px 0;}
+
+  /* ---------- CONTRASTE PEGA / NAO PEGA ---------- */
+  .split h3{margin-top:0;}
+  .split + .split{margin-top:32px;}
+
+  /* ---------- CAPA ---------- */
+  .cover{justify-content:center;}
+  /* laco do Julho Amarelo — a marca da campanha nacional de hepatites virais.
+     Versao cheia (nao outline): haste fina fecha em laser sobre papel poroso. */
+  .cover .ribbon{width:88px;height:88px;background:var(--accent);
+       -webkit-mask:url(icons/ribbon.svg) center/contain no-repeat;
+       mask:url(icons/ribbon.svg) center/contain no-repeat;margin-bottom:32px;}
+  .cover .sub{font-size:20px;line-height:1.3;font-style:italic;color:var(--ink-muted);margin-top:8px;}
+  .cover .say{font-size:20px;line-height:1.4;margin-top:32px;}
+
+  /* bloco de chamada: unico preenchimento solido da peca */
+  .call{background:var(--accent);color:var(--ink);padding:24px;margin-top:32px;}
+  .call .q{font-size:28px;line-height:1.1;font-weight:700;letter-spacing:-.01em;}
+  .call .a{font-size:15px;line-height:1.5;margin-top:8px;}
+
+  .push{flex:1;min-height:16px;}
+  .foot{font-size:12px;line-height:1.45;color:var(--ink-muted);
+        border-top:1px solid var(--rule);padding-top:16px;margin-top:32px;}
+
+  /* ordem visual: SUS · TESTE · CAPA — a capa vem antes no DOM
+     para o h1 preceder os h2 e a ordem de titulos ficar correta */
+  .o1{order:1;} .o2{order:2;} .o3{order:3;}
+</style>
+</head>
+<body>
+
+<!-- ================= FACE EXTERNA ================= -->
+<div class="page">
+  <div class="fold f1"></div><div class="fold f2"></div>
+
+  <!-- ---------- CAPA (visualmente a terceira) ---------- -->
+  <div class="panel cover o3">
+    <div class="ribbon"></div>
+    <h1>Hepatite<br>B e C</h1>
+    <div class="sub">Você pode ter e não saber.</div>
+    <p class="say">Elas ficam anos no corpo sem dar sintoma nenhum. Quando avisam, já é tarde.</p>
+    <div class="call">
+      <div class="q">Não fique na dúvida. Faça o teste.</div>
+      <div class="a">É uma gota de sangue, sai em 30 minutos e não custa nada.</div>
+    </div>
+    <div class="push"></div>
+    <p class="note">Procure a sua unidade de saúde. Dúvidas: <b>Disque Saúde 136</b>, ligação gratuita.</p>
+  </div>
+
+  <!-- ---------- SUS ---------- -->
+  <div class="panel o1">
+    <h2>No SUS é tudo de graça</h2>
+    <div class="mark"></div>
+
+    <p class="lead">Você não paga nada. Não precisa de plano de saúde.</p>
+
+    <div class="svc"><i class="ico" style="--i:url(icons/blood-drop.svg)"></i><span>Teste rápido</span></div>
+    <div class="svc"><i class="ico" style="--i:url(icons/syringe.svg)"></i><span>Vacina contra hepatite B</span></div>
+    <div class="svc"><i class="ico" style="--i:url(icons/stethoscope.svg)"></i><span>Consulta com a equipe</span></div>
+    <div class="svc"><i class="ico" style="--i:url(icons/microscope.svg)"></i><span>Exames de acompanhamento</span></div>
+    <div class="svc"><i class="ico" style="--i:url(icons/pills.svg)"></i><span>Remédio do tratamento</span></div>
+
+    <h3>Onde procurar</h3>
+    <p>Na <b>Unidade Básica de Saúde</b> (UBS ou USF) do seu bairro. Também no <b>CTA</b>, Centro de Testagem e Aconselhamento.</p>
+
+    <div class="push"></div>
+    <div class="foot">Quanto antes você faz o teste, mais simples é o tratamento e menor o risco de o fígado adoecer de vez.</div>
+  </div>
+
+  <!-- ---------- TESTE RÁPIDO ---------- -->
+  <div class="panel o2">
+    <h2>O teste rápido</h2>
+    <div class="mark"></div>
+
+    <p class="lead">Uma gota de sangue da ponta do dedo. O resultado sai em até 30 minutos.</p>
+    <p><b>Toda pessoa deve fazer, pelo menos uma vez na vida.</b> Não precisa ter sintoma nem estar se sentindo mal.</p>
+    <p>Se der reagente, a equipe já explica e encaminha o tratamento.</p>
+
+    <h3>Faça de novo se você</h3>
+    <ul>
+      <li>Teve relação sexual sem camisinha</li>
+      <li>Compartilhou agulha ou seringa</li>
+      <li>Usou alicate, lâmina ou tesoura de outra pessoa</li>
+      <li>Fez tatuagem ou piercing sem material descartável</li>
+    </ul>
+
+    <div class="push"></div>
+    <div class="foot">Recebeu sangue, fez cirurgia ou transplante antes de 1993? Peça também o teste de hepatite C. Quem tomou as três doses da vacina já está protegido contra a B.</div>
+  </div>
+</div>
+
+<!-- ================= FACE INTERNA ================= -->
+<div class="page">
+  <div class="fold f1"></div><div class="fold f2"></div>
+
+  <!-- ---------- O QUE É ---------- -->
+  <div class="panel">
+    <h2>O que é</h2>
+    <div class="mark"></div>
+
+    <p class="lead">Uma inflamação no fígado, chamada hepatite, causada por um vírus.</p>
+    <p>O fígado limpa o sangue e guarda energia. Quando inflama, perde a força aos poucos.</p>
+    <p>A <b>aguda</b> passa e o corpo se livra do vírus. A <b>crônica</b> dura mais de seis meses.</p>
+    <p><b>O problema é o silêncio.</b> As hepatites B e C podem evoluir por anos sem dar sintoma. Os sinais só aparecem quando a doença já está avançada.</p>
+
+    <h3>Sinais que podem aparecer</h3>
+    <ul>
+      <li>Pele e olhos amarelados</li>
+      <li>Urina escura e fezes claras</li>
+      <li>Cansaço, febre e fraqueza</li>
+      <li>Enjoo, vômito e dor na barriga</li>
+    </ul>
+
+    <div class="push"></div>
+    <div class="foot">Sem acompanhamento, a hepatite crônica pode virar cirrose e câncer de fígado. Com tratamento, dá para evitar.</div>
+  </div>
+
+  <!-- ---------- COMO PEGA / NÃO PEGA ---------- -->
+  <div class="panel">
+    <h2>Como pega</h2>
+    <div class="mark"></div>
+
+    <div class="split">
+      <ul>
+        <li>Agulha ou seringa compartilhada</li>
+        <li>Alicate de unha, lâmina, tesoura ou <b>escova de dente</b> de outra pessoa</li>
+        <li>Tatuagem e piercing sem material descartável</li>
+        <li>Sexo sem camisinha, principalmente a hepatite B</li>
+        <li>Da mãe para o bebê, na gravidez ou no parto</li>
+      </ul>
+    </div>
+
+    <div class="hr"></div>
+
+    <div class="split">
+      <h3>Como não pega</h3>
+      <ul>
+        <li>Dividir comida, copo e talheres</li>
+        <li>Beijo e abraço</li>
+        <li>Esporte de contato</li>
+        <li>Conviver, morar e trabalhar junto</li>
+      </ul>
+    </div>
+
+    <div class="push"></div>
+    <div class="foot">Quem tem hepatite não precisa ser separado de ninguém. Pode comer junto, beijar e viver normalmente. Preconceito só atrapalha o tratamento.</div>
+  </div>
+
+  <!-- ---------- PREVENIR E TRATAR ---------- -->
+  <div class="panel">
+    <h2>Prevenir e tratar</h2>
+    <div class="mark"></div>
+
+    <ul>
+      <li><b>Vacina da hepatite B:</b> três doses, de graça, em qualquer idade</li>
+      <li>Camisinha na relação sexual</li>
+      <li>Não dividir alicate, lâmina, tesoura ou agulha</li>
+      <li>Exigir material descartável na manicure, na tatuagem e no piercing</li>
+    </ul>
+
+    <p style="margin-top:24px"><b>Não existe vacina contra a hepatite C.</b> Por isso, para ela, o teste é a principal proteção.</p>
+
+    <div class="hr"></div>
+
+    <h3 style="margin-top:0">Tem tratamento</h3>
+    <p><b>Hepatite C:</b> tem cura em mais de 95% dos casos. O remédio é simples, seguro e o SUS entrega de graça.</p>
+    <p><b>Hepatite B:</b> tem remédio que controla o vírus e evita a cirrose e o câncer de fígado.</p>
+
+    <div class="push"></div>
+    <div class="foot"><b>Está grávida?</b> O teste de hepatite B e C faz parte do pré-natal. Se a mãe tem hepatite B, dá para proteger o bebê no parto. A hepatite C é tratada depois que o bebê nasce.</div>
+  </div>
+</div>
+
+</body>
+</html>
