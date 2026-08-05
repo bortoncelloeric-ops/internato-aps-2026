@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Copiloto — testes e lint</title>
+<style>
+body{font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+     max-width:900px;margin:0 auto;padding:1.5rem 1rem 4rem;color:#16191d;background:#f6f7f8}
+h1{font-size:1.2rem} h2{font-size:.78rem;text-transform:uppercase;letter-spacing:.09em;color:#5d666f;margin-top:2rem}
+table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #e2e6ea;border-radius:12px;overflow:hidden}
+th,td{padding:.5rem .6rem;text-align:left;border-bottom:1px solid #e2e6ea;font-size:.88rem;vertical-align:top}
+th{font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:#5d666f}
+.ok{color:#0d7a5f;font-weight:700} .fail{color:#c0392b;font-weight:700}
+.sumario{padding:.8rem 1rem;border-radius:12px;font-weight:700;margin:1rem 0}
+.verde{background:#e8f4f0;color:#0d7a5f;border-left:4px solid #0d7a5f}
+.vermelho{background:#fdecea;color:#c0392b;border-left:4px solid #c0392b}
+.amarelo{background:#fff6e0;color:#9a6700;border-left:4px solid #9a6700}
+code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
+</style>
+</head>
+<body>
+<h1>Copiloto Clínico — testes e lint</h1>
+<div id="sumario"></div>
+<h2>Calculadoras</h2><table id="tc"><thead><tr><th>Caso</th><th>Obtido</th><th>Esperado</th><th></th></tr></thead><tbody></tbody></table>
+<h2>Lint de fontes</h2><div id="lint"></div>
+
+<script src="queixas.js"></script>
+<script src="calculadoras.js"></script>
+<script>
+(function(){
+  var C = {}; CALCS.forEach(function(c){ C[c.id] = c; });
+  var falhas = 0, linhas = [];
+
+  function faixa(c, n){ var f = (c.faixas||[]).filter(function(x){ return n >= x[0]; })[0]; return f ? f[1] : '—'; }
+  function ver(nome, obtido, esperado){
+    var ok = String(obtido) === String(esperado);
+    if (!ok) falhas++;
+    linhas.push('<tr><td>' + nome + '</td><td><code>' + obtido + '</code></td><td><code>' + esperado +
+                '</code></td><td class="' + (ok?'ok':'fail') + '">' + (ok?'ok':'FALHOU') + '</td></tr>');
+  }
+
+  /* IMC — aritmética pura, OMS */
+  var imc = C.imc, r = imc.calc({peso:70, alt:1.75});
+  ver('IMC 70 kg · 1,75 m', r.toFixed(2), '22.86');
+  ver('IMC 70 kg · 1,75 m → faixa', faixa(imc, r), 'Eutrofia');
+  ver('IMC 95 kg · 1,70 m → faixa', faixa(imc, imc.calc({peso:95, alt:1.70})), 'Obesidade grau I');
+
+  /* CKD-EPI 2021 — conferidos contra a calculadora da NKF, tolerância de arredondamento */
+  var ck = C.ckdepi;
+  ver('CKD-EPI ♂ 60 a · Cr 1,2', ck.calc({cr:1.2, idade:60, sexo:'m'}).toFixed(1), '69.2');
+  ver('CKD-EPI ♂ 60 a · Cr 1,2 → estágio', faixa(ck, ck.calc({cr:1.2, idade:60, sexo:'m'})), 'G2 — redução leve');
+  ver('CKD-EPI ♀ 55 a · Cr 0,9', ck.calc({cr:0.9, idade:55, sexo:'f'}).toFixed(1), '75.5');
+  ver('CKD-EPI ♂ 70 a · Cr 2,0 → estágio', faixa(ck, ck.calc({cr:2.0, idade:70, sexo:'m'})), 'G3b — moderada a grave');
+
+  /* Näegele — só a DPP é testável de forma estável (a IG depende de hoje) */
+  var dpp = C.dpp.calc({dum:'2026-01-10'});
+  ver('Näegele DUM 10/01/2026 → DPP', /DPP 17\/10\/2026/.test(dpp), 'true');
+  ver('Näegele DUM 31/12/2025 → DPP', /DPP 07\/10\/2026/.test(C.dpp.calc({dum:'2025-12-31'})), 'true');
+  ver('Näegele com DUM no futuro avisa', /futuro/.test(C.dpp.calc({dum:'2099-01-01'})), 'true');
+
+  /* PHQ-9 — o caso que importa é o último: pontuação mínima MAS item 9 positivo */
+  var p = C.phq9, todos3 = {}, zeros = {};
+  p.campos.forEach(function(f){ todos3[f.id] = 3; zeros[f.id] = 0; });
+  ver('PHQ-9 tudo 3', p.calc(todos3), 27);
+  ver('PHQ-9 tudo 3 → faixa', faixa(p, 27), 'Depressão grave');
+  ver('PHQ-9 tudo 3 → alerta dispara', !!p.alerta(todos3), 'true');
+  ver('PHQ-9 tudo 0', p.calc(zeros), 0);
+  ver('PHQ-9 tudo 0 → alerta silencioso', !!p.alerta(zeros), 'false');
+  zeros.q9 = 1;
+  ver('PHQ-9 zeros mas item 9 = 1 → total', p.calc(zeros), 1);
+  ver('PHQ-9 zeros mas item 9 = 1 → faixa', faixa(p, 1), 'Mínima');
+  ver('PHQ-9 zeros mas item 9 = 1 → ALERTA MESMO ASSIM', !!p.alerta(zeros), 'true');
+
+  /* GAD-7 */
+  var g = C.gad7, g3 = {}, g0 = {};
+  g.campos.forEach(function(f){ g3[f.id] = 3; g0[f.id] = 0; });
+  ver('GAD-7 tudo 3', g.calc(g3), 21);
+  ver('GAD-7 tudo 3 → faixa', faixa(g, 21), 'Ansiedade grave');
+  ver('GAD-7 tudo 0 → faixa', faixa(g, 0), 'Mínima');
+
+  /* Integridade dos instrumentos */
+  ver('PHQ-9 tem 9 itens', p.campos.length, 9);
+  ver('GAD-7 tem 7 itens', g.campos.length, 7);
+
+  document.querySelector('#tc tbody').innerHTML = linhas.join('');
+
+  /* ---------- lint de fontes ---------- */
+  var SEC = ['redflags','perguntas','exame','naoperder','ddx','exames','conduta','erros'];
+  var erros = [], pendencias = 0, totalItens = 0;
+
+  QUEIXAS.forEach(function(qx){
+    if (!qx.atualizado) erros.push(qx.id + ': sem campo <code>atualizado</code>');
+    if (!qx.nome || !qx.kw) erros.push(qx.id + ': sem <code>nome</code> ou <code>kw</code>');
+    (qx.scores||[]).forEach(function(s){
+      if (!C[s]) erros.push(qx.id + ': <code>scores</code> aponta para calculadora inexistente <code>' + s + '</code>');
+    });
+    SEC.forEach(function(k){
+      var sec = qx[k];
+      if (!sec) return;                                  // ausente é permitido: não renderiza
+      if (!sec.itens || !sec.itens.length) { erros.push(qx.id + '/' + k + ': seção existe mas está vazia'); return; }
+      sec.itens.forEach(function(i){
+        totalItens++;
+        var o = typeof i === 'string' ? {t:i} : i;
+        if (o.v) pendencias++;
+        if (!sec.fonte && !o.f) erros.push(qx.id + '/' + k + ': item sem fonte de seção nem de item — "' + o.t.slice(0,50) + '…"');
+      });
+      if (/^VERIFICAR/.test(sec.fonte||'')) pendencias++;
+    });
+  });
+
+  var lint = '<p>' + QUEIXAS.length + ' queixas · ' + totalItens + ' itens · ' +
+             CALCS.length + ' calculadoras</p>';
+  lint += erros.length
+    ? '<div class="sumario vermelho">' + erros.length + ' problema(s) de fonte</div><ul><li>' + erros.join('</li><li>') + '</li></ul>'
+    : '<div class="sumario verde">Nenhuma seção sem fonte.</div>';
+  if (pendencias) lint += '<div class="sumario amarelo">' + pendencias +
+    ' marcações VERIFICAR — dívida declarada, não erro. Conferir com fonte datada antes de usar em decisão.</div>';
+  document.getElementById('lint').innerHTML = lint;
+
+  document.getElementById('sumario').innerHTML = (falhas || erros.length)
+    ? '<div class="sumario vermelho">' + falhas + ' teste(s) falhando · ' + erros.length + ' problema(s) de lint</div>'
+    : '<div class="sumario verde">' + linhas.length + ' testes passaram · lint limpo</div>';
+})();
+</script>
+</body>
+</html>

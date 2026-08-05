@@ -1,2 +1,6 @@
 .DS_Store
 *.mp3
+
+# estado local de harness (impeccable / Claude Code)
+.claude/settings.local.json
+.impeccable/config.local.json
