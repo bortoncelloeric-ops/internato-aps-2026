@@ -40,7 +40,9 @@ const ok = (nome, real, esperado) => {
 };
 
 // 1. lista inicial
-ok('lista mostra 2 queixas', await evalJS(`document.querySelectorAll('.qcard').length`), 2);
+/* contra QUEIXAS.length, não contra um número fixo: a asserção é "mostra todas",
+   e travar no total do dia quebraria o e2e a cada queixa nova */
+ok('lista mostra todas as queixas', await evalJS(`document.querySelectorAll('.qcard').length === QUEIXAS.length`), true);
 ok('detalhe começa escondido', await evalJS(`document.getElementById('detalhe').classList.contains('hide')`), true);
 ok('botão Novo paciente começa desabilitado', await evalJS(`document.getElementById('novo').disabled`), true);
 
@@ -51,7 +53,7 @@ await evalJS(`(()=>{const q=document.getElementById('q');q.value='metformina';q.
 ok('busca "metformina" acha HAS/DM2', await evalJS(`document.querySelector('.qcard').dataset.id`), 'has-dm2-aps');
 await evalJS(`(()=>{const q=document.getElementById('q');q.value='xilofone';q.dispatchEvent(new Event('input'));})()`);
 ok('busca sem resultado mostra estado vazio', await evalJS(`!!document.querySelector('.vazio')`), true);
-ok('estado vazio ensina: lista as queixas existentes', await evalJS(`document.querySelectorAll('.vazio .qcard').length`), 2);
+ok('estado vazio ensina: lista as queixas existentes', await evalJS(`document.querySelectorAll('.vazio .qcard').length === QUEIXAS.length`), true);
 await evalJS(`(()=>{const q=document.getElementById('q');q.value='';q.dispatchEvent(new Event('input'));})()`);
 
 // 3. navegação
@@ -115,6 +117,53 @@ await espera(150);
 ok('peso fora de faixa marca erro no campo', await evalJS(`document.querySelector('[data-calc="imc"] [data-f="peso"]').classList.contains('erro')`), true);
 ok('peso fora de faixa esconde o resultado', await evalJS(`document.querySelector('[data-calc="imc"] .res').classList.contains('hide')`), true);
 ok('nenhum NaN na tela', await evalJS(`/NaN/.test(document.body.innerText)`), false);
+
+// 7b. antropometria, dose e conferência da nota — a fase determinística
+await evalJS(`document.getElementById('voltar').click()`); await espera(150);
+await evalJS(`document.querySelector('[data-id="crianca-aidpi"]').click()`); await espera(250);
+
+/* o caso do ex2: a nota diz 7 meses no alto e 8 embaixo */
+await evalJS(`(()=>{const t=document.querySelector('[data-calc="nota-conferencia"] [data-f="nota"]');
+  t.value='Paciente, 7 meses, feminina. Sintomas gripais ha 3 dias. Idade: 8 meses Peso 8,650kg Altura: 76 cm.';
+  t.dispatchEvent(new Event('input',{bubbles:true}));})()`);
+await espera(200);
+ok('nota com duas idades acusa contradição',
+   await evalJS(`/divergem/.test(document.querySelector('[data-calc="nota-conferencia"] .res').textContent)`), true);
+ok('contradição na nota dispara alerta',
+   await evalJS(`!document.querySelector('[data-calc="nota-conferencia"] .alerta').classList.contains('hide')`), true);
+
+/* mesmas medidas do ex2. O ChatGPT disse "próximo ou acima do P97"; o número é +3,05 */
+await evalJS(`(()=>{const b=document.querySelector('[data-calc="antropo-infantil"]');
+  const set=(f,v)=>{const e=b.querySelector('[data-f="'+f+'"]');e.value=v;
+    e.dispatchEvent(new Event(e.tagName==='SELECT'?'change':'input',{bubbles:true}));};
+  set('sexo','f');set('meses','8');set('peso','8.650');set('est','76');})()`);
+await espera(250);
+ok('antropometria mostra o escore-z exato, sem hedge',
+   await evalJS(`/z \\+3,05/.test(document.querySelector('[data-calc="antropo-infantil"] .res').textContent)`), true);
+ok('antropometria classifica pelo SISVAN',
+   await evalJS(`/Eutrofia/.test(document.querySelector('[data-calc="antropo-infantil"] .res').textContent)`), true);
+ok('escore fora de ±3 DP avisa para conferir a medida',
+   await evalJS(`!document.querySelector('[data-calc="antropo-infantil"] .alerta').classList.contains('hide')`), true);
+ok('resultado de várias linhas renderiza uma linha por indicador',
+   await evalJS(`document.querySelectorAll('[data-calc="antropo-infantil"] .lin').length`), 3);
+
+/* dose: o app converte, nunca escolhe */
+await evalJS(`(()=>{const b=document.querySelector('[data-calc="dose-peso"]');
+  const set=(f,v)=>{const e=b.querySelector('[data-f="'+f+'"]');e.value=v;
+    e.dispatchEvent(new Event(e.tagName==='SELECT'?'change':'input',{bubbles:true}));};
+  set('peso','8.650');set('mgkg','15');set('vezes','3');set('conc','50');})()`);
+await espera(200);
+ok('dose por peso dá o número, não "conforme peso"',
+   await evalJS(`/129,8 mg/.test(document.querySelector('[data-calc="dose-peso"] .res').textContent)`), true);
+ok('dose por peso converte para mL da apresentação',
+   await evalJS(`/2,60 mL/.test(document.querySelector('[data-calc="dose-peso"] .res').textContent)`), true);
+ok('nenhum NaN nas calculadoras novas', await evalJS(`/NaN/.test(document.body.innerText)`), false);
+ok('campo opcional em branco não impede o cálculo',
+   await evalJS(`document.querySelector('[data-calc="dose-peso"] [data-f="teto"]').value === '' &&
+                 !document.querySelector('[data-calc="dose-peso"] .res').classList.contains('hide')`), true);
+
+await evalJS(`document.getElementById('voltar').click()`); await espera(150);
+await evalJS(`document.querySelector('[data-id="has-dm2-aps"]').click()`); await espera(200);
 
 // 8. teclado e gestão de foco
 ok('abrir queixa move o foco para o h1', await evalJS(`document.activeElement.tagName`), 'H1');
@@ -182,6 +231,22 @@ ok('Novo paciente esconde o Revisar', await evalJS(`document.getElementById('rev
 ok('Novo paciente apaga as marcações', await evalJS(`(()=>{const q=document.querySelector('[data-id="has-dm2-aps"]');q.click();
    const n=[...document.querySelectorAll('[data-ck]')].filter(c=>c.checked).length;
    document.getElementById('voltar').click();return n})()`), 0);
+
+/* A nota da consulta é o primeiro texto livre do app e o único campo que chega a
+   conter narrativa do paciente. Levá-la para o próximo atendimento é o dano que
+   a regra de não-persistência existe para impedir. */
+await evalJS(`document.querySelector('[data-id="crianca-aidpi"]').click()`); await espera(250);
+await evalJS(`(()=>{const t=document.querySelector('[data-calc="nota-conferencia"] [data-f="nota"]');
+  t.value='Paciente, 7 meses, feminina. Peso 8,650kg';
+  t.dispatchEvent(new Event('input',{bubbles:true}));})()`);
+await espera(200);
+ok('digitar a nota já habilita o Novo paciente',
+   await evalJS(`document.getElementById('novo').disabled`), false);
+await evalJS(`document.getElementById('novo').click()`); await espera(250);
+ok('Novo paciente apaga a nota da consulta',
+   await evalJS(`(()=>{document.querySelector('[data-id="crianca-aidpi"]').click();
+     const v=document.querySelector('[data-calc="nota-conferencia"] [data-f="nota"]').value;
+     document.getElementById('voltar').click();return v})()`), '');
 
 // 10. a prova da decisão de não persistir
 ok('localStorage vazio', await evalJS(`localStorage.length`), 0);

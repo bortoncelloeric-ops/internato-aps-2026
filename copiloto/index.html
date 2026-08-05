@@ -144,8 +144,31 @@ li.v{background:var(--amb-w); margin-left:-.5rem; padding:.3rem .5rem; border-ra
 .f input:focus,.f select:focus{outline:none; border-color:var(--acc); box-shadow:var(--ring)}
 .f input.erro{border-color:var(--red); background:var(--red-w)}
 .f .un{font-size:var(--fs-sm); color:var(--mut); min-width:3.2rem}
+.f-txt{display:block; margin:.4rem 0}
+.f-txt label{display:block; font-size:var(--fs-md); margin-bottom:.3rem}
+.f-txt textarea{
+  width:100%; min-height:7.5rem; font:inherit; font-size:var(--fs-md); line-height:1.5;
+  padding:.55rem .65rem; border:1px solid var(--line); border-radius:var(--rm);
+  background:#fff; color:var(--ink); resize:vertical;
+  transition:border-color .15s,box-shadow .15s;
+}
+.f-txt textarea:hover{border-color:var(--mut)}
+.f-txt textarea:focus{outline:none; border-color:var(--acc); box-shadow:var(--ring)}
 .res{margin-top:.6rem; padding:.6rem .75rem; border-radius:var(--rm); border-left:3px solid var(--line); background:var(--bg)}
 .res b{font-size:var(--fs-xl)}
+/* resultado de várias linhas: cada indicador com a própria cor de faixa */
+.res-multi{border-left:0; background:transparent; padding:0}
+.res-multi b{font-size:var(--fs-lg)}
+.lin{display:flex; gap:.5rem; flex-wrap:wrap; align-items:baseline;
+     padding:.5rem .7rem; margin-bottom:.35rem; border-radius:var(--rm);
+     border-left:3px solid var(--line); background:var(--bg)}
+.lin:last-child{margin-bottom:0}
+.lin>span{font-size:var(--fs-md); color:var(--mut)}
+.lin>b{margin-left:auto; text-align:right}
+.lin.acc{border-color:var(--acc); background:var(--acc-w)}
+.lin.amb{border-color:var(--amb); background:var(--amb-w)}
+.lin.red{border-color:var(--red); background:var(--red-w)}
+.lin.blu{border-color:var(--blu); background:var(--blu-w)}
 .res.acc{border-color:var(--acc); background:var(--acc-w)}
 .res.amb{border-color:var(--amb); background:var(--amb-w)}
 .res.red{border-color:var(--red); background:var(--red-w)}
@@ -219,6 +242,7 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
 </footer>
 
 <script src="queixas.js"></script>
+<script src="oms-lms.js"></script>
 <script src="calculadoras.js"></script>
 <script>
 (function(){
@@ -380,7 +404,14 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
     var h = '<div class="calc" data-calc="' + esc(c.id) + '"><b>' + esc(c.nome) + '</b>';
     if (c.intro) h += '<p class="intro">' + esc(c.intro) + '</p>';
     c.campos.forEach(function(f){
-      h += '<div class="f"><label for="' + esc(c.id + '-' + f.id) + '">' + esc(f.rot) + '</label>';
+      if (f.tipo === 'texto') {
+        h += '<div class="f-txt"><label for="' + esc(c.id + '-' + f.id) + '">' + esc(f.rot) + '</label>' +
+             '<textarea id="' + esc(c.id + '-' + f.id) + '" data-f="' + esc(f.id) + '" rows="6" ' +
+             'spellcheck="false" autocomplete="off"></textarea></div>';
+        return;
+      }
+      h += '<div class="f"><label for="' + esc(c.id + '-' + f.id) + '">' + esc(f.rot) +
+           (f.opc ? ' <span class="un">(opcional)</span>' : '') + '</label>';
       if (f.tipo === 'opt') {
         h += '<select id="' + esc(c.id + '-' + f.id) + '" data-f="' + esc(f.id) + '"><option value="">—</option>' +
              f.opts.map(function(o){ return '<option value="' + esc(o[0]) + '">' + esc(o[1]) + '</option>'; }).join('') +
@@ -405,7 +436,13 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
     c.campos.forEach(function(f){
       var el = box.querySelector('[data-f="' + f.id + '"]');
       var raw = el.value;
-      if (raw === '') { faltou = true; el.classList.remove('erro'); return; }
+      /* campo opcional em branco não impede o cálculo: a antropometria roda com
+         só o peso, e o volume da dose só aparece se houver concentração */
+      if (raw === '' || !String(raw).trim()) {
+        if (!f.opc) faltou = true;
+        el.classList.remove('erro');
+        return;
+      }
       if (f.tipo === 'num') {
         var n = parseFloat(raw);
         var mau = isNaN(n) || (f.min != null && n < f.min) || (f.max != null && n > f.max);
@@ -420,7 +457,16 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
 
     var out = c.calc(v);
     res.className = 'res';
-    if (typeof out === 'number') {
+    /* null = a calculadora rodou mas não tem o que mostrar ainda (nenhuma medida
+       preenchida, nenhum dado reconhecido na nota) */
+    if (out == null) { res.className = 'res hide'; alerta.classList.add('hide'); return; }
+    if (Array.isArray(out)) {
+      res.classList.add('res-multi');
+      res.innerHTML = out.map(function(l){
+        return '<div class="lin ' + esc(l.cls || '') + '"><span>' + esc(l.rot) +
+               '</span><b>' + esc(l.val) + '</b></div>';
+      }).join('');
+    } else if (typeof out === 'number') {
       var fx = (c.faixas || []).filter(function(f){ return out >= f[0]; })[0];
       res.innerHTML = '<b>' + out.toFixed(1).replace('.', ',') + '</b> ' + esc(c.un || '') +
                       (fx ? ' — ' + esc(fx[1]) : '');

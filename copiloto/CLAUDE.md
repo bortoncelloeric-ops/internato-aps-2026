@@ -10,8 +10,13 @@ Apoio à decisão durante o atendimento, para uso próprio do Eric no rodízio d
 | `index.html` | o app inteiro: CSS, renderer, busca, motor de calculadora |
 | `queixas.js` | **conteúdo clínico. Só dados.** É o arquivo que se edita |
 | `calculadoras.js` | registro das calculadoras (contém funções puras) |
+| `oms-lms.js` | **gerado, não editar.** Tabelas LMS da OMS, 318 KB |
+| `ferramentas/gerar-oms-lms.py` | regenera o `oms-lms.js` a partir dos `.xlsx` da OMS |
 | `testes.html` | casos de teste + lint de fontes. Abrir no navegador |
 | `e2e.mjs` | verificação de interação via Chrome DevTools Protocol |
+
+A ordem das tags `<script>` importa: `oms-lms.js` antes de `calculadoras.js`,
+nos dois arquivos que carregam o app (`index.html` e `testes.html`).
 
 ## Como uma consulta funciona
 
@@ -119,6 +124,42 @@ CHA₂DS₂-VASc, HAS-BLED, FRAX, AUDIT-C.
 
 Acrescentar em `calculadoras.js` e **sempre** um caso de teste em `testes.html`.
 
+### Tipos de campo e de resultado
+
+Campo: `{id, rot, un?, tipo, opts?, min?, max?, passo?, opc?}` —
+`tipo` é `num` | `opt` | `data` | `texto`, e `opc: true` deixa o campo opcional
+(a calculadora roda sem ele; é assim que a antropometria aceita só o peso).
+
+`calc(v)` devolve **número** (usa `faixas`), **string** (renderiza direto),
+**array** de `{rot, val, cls}` (uma linha por resultado, cada uma com a própria
+cor) ou **`null`** quando ainda não há o que mostrar.
+
+### A regra vale para dose também
+
+Não existe base aberta e datada de mg/kg por fármaco em português: a RENAME não
+traz posologia, o Formulário Terapêutico Nacional é de 2010, e os CAB e PCDT são
+majoritariamente CC BY-NC-ND, que proíbe obra derivada. Além disso, tabela de
+dose é escolha terapêutica com aparência de aritmética — exatamente o que a
+regra bloqueia.
+
+Por isso `dose-peso` **converte, não decide**: a posologia vem do médico e o app
+faz a multiplicação. Para entrar dose de um fármaco específico, é preciso PCDT ou
+CAB brasileiro datado citado no item — um fármaco de cada vez.
+
+### Antropometria: o escore manda, o rótulo acompanha
+
+`omsZ()` devolve o escore-z e `sisvan()` o diagnóstico nutricional. Três coisas
+que parecem detalhe e não são:
+
+- **O mesmo escore-z muda de nome aos 5 anos.** IMC/idade de +1,5 é "risco de
+  sobrepeso" abaixo de 5 anos e "sobrepeso" a partir daí. Há teste travando os
+  dois lados da fronteira. Não unificar os quadros.
+- **Estatura para idade não tem corte superior no SISVAN**, então +3,05 sai como
+  "adequada". Por isso a linha fora de ±3 DP é forçada para âmbar: verde ao lado
+  de um alerta pedindo para conferir lê como "está tudo bem".
+- **Peso para idade só existe até 10 anos.** Acima disso `omsZ` devolve `null` e
+  a tela diz que está fora do intervalo publicado — não extrapola.
+
 ## Verificar antes de dar por pronto
 
 1. `open testes.html` — todos os casos verdes e lint sem seção sem fonte.
@@ -139,8 +180,13 @@ três raios, acento verde só para ação e estado. Tamanho literal fora da esca
 ## Limites que não se negociam
 
 - **Nenhum dado de paciente é gravado.** Sem `localStorage`, sem `sessionStorage`,
-  sem cookie, sem campo de texto livre. O estado dos checkboxes vive só em memória e
-  morre no botão "Novo paciente" ou ao recarregar. Levar marcação de um paciente para
-  o próximo é dano clínico, não conveniência.
+  sem cookie. O estado vive só em memória e morre no botão "Novo paciente" ou ao
+  recarregar. Levar marcação de um paciente para o próximo é dano clínico, não
+  conveniência.
+- **Existe um campo de texto livre**, a nota da "Conferência da nota". Ele é a
+  única exceção e continua sob a mesma regra: nada sai do computador, nada é
+  gravado, e "Novo paciente" apaga — há verificação e2e para as duas coisas.
+  Digitar a nota já habilita o "Novo paciente", justamente para que exista o
+  gesto de encerrar.
 - **Não é prontuário** e não substitui o registro oficial do serviço.
 - Se aparecer a vontade de "só um campinho para anotar", isso virou outro produto.

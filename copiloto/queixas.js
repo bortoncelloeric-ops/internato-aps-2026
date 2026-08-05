@@ -215,3 +215,94 @@ QUEIXAS.push({
 
   scores: ["imc", "ckdepi"]
 });
+
+/* ------------------------------------------------------------------------
+   Criança de 2 meses a 5 anos — a porta de entrada da consulta pediátrica.
+   Conteúdo transcrito do Manual de Quadros de Procedimentos AIDPI CRIANÇA
+   (MS/OPAS/UNICEF, Brasília, 2017). A versão brasileira tem SEIS sinais
+   gerais de perigo: além dos quatro clássicos da OMS, entram enchimento
+   capilar >2 s e batimento de asa do nariz e/ou gemência. Não substituir
+   pela lista da OMS, que é mais curta.
+   ------------------------------------------------------------------------ */
+QUEIXAS.push({
+  id: "crianca-aidpi",
+  nome: "Criança de 2 meses a 5 anos (AIDPI)",
+  kw: "crianca pediatria lactente bebe febre tosse gripe ivas resfriado diarreia sinais de perigo aidpi peso crescimento antropometria puericultura dose",
+  tag: "Agudo",
+  atualizado: "2026-08-05",
+
+  redflags: {
+    fonte: "MS/OPAS/UNICEF — Manual de Quadros de Procedimentos AIDPI Criança, 2 meses a 5 anos, 2017 (sinais gerais de perigo)",
+    itens: [
+      "Não consegue beber ou mamar no peito",
+      "Vomita tudo o que ingere",
+      "Apresentou convulsões ou movimentos anormais há menos de 72 h",
+      "Está letárgica ou inconsciente",
+      "Tempo de enchimento capilar maior que 2 segundos",
+      "Batimento de asa do nariz e/ou gemência"
+    ]
+  },
+
+  perguntas: {
+    fonte: "MS/OPAS/UNICEF — AIDPI Criança 2017",
+    itens: [
+      "Qual é o problema da criança? (deixar a mãe ou o responsável contar antes de dirigir)",
+      "É primeira consulta ou retorno para este mesmo problema?",
+      "Consegue beber ou mamar no peito?",
+      "Vomita tudo o que ingere?",
+      "Teve convulsão ou movimento anormal há menos de 72 h?",
+      "Tem tosse ou dificuldade para respirar? Há quanto tempo?",
+      "Tem sibilância (chiado)?",
+      "Tem diarreia? Há quanto tempo? Tem sangue nas fezes?",
+      "Tem febre? Há quanto tempo?",
+      "Como está a alimentação e a ingestão de líquidos?",
+      "Vacinação em dia? Conferir na caderneta, não no relato"
+    ]
+  },
+
+  exame: {
+    fonte: "MS/OPAS/UNICEF — AIDPI Criança 2017",
+    itens: [
+      "Contar a frequência respiratória por um minuto inteiro, com a criança TRANQUILA",
+      "Respiração rápida: 50 ou mais por minuto dos 2 aos 11 meses; 40 ou mais de 1 a 5 anos incompletos",
+      "Procurar tiragem subcostal",
+      "Procurar estridor em repouso ou sibilância",
+      "Verificar o tempo de enchimento capilar",
+      "Procurar batimento de asa do nariz e gemência",
+      "Avaliar o estado de consciência: letárgica, inconsciente ou irritada",
+      "Pesar e medir, e marcar na caderneta — o ponto isolado vale menos que a linha"
+    ]
+  },
+
+  naoperder: {
+    fonte: "MS/OPAS/UNICEF — AIDPI Criança 2017",
+    itens: [
+      "Qualquer sinal geral de perigo, tiragem subcostal ou estridor em repouso classifica como PNEUMONIA GRAVE OU DOENÇA MUITO GRAVE: primeira dose de antibiótico, tratar para evitar hipoglicemia, oxigênio se disponível e referir com urgência",
+      "Criança com qualquer sinal geral de perigo precisa ser assistida com urgência: completar a avaliação imediatamente, tratar e referir",
+      "Contar a frequência respiratória com a criança chorando superestima e faz classificar pneumonia onde não há"
+    ]
+  },
+
+  conduta: {
+    fonte: "MS/OPAS/UNICEF — AIDPI Criança 2017 (quadro \"Quando retornar imediatamente\")",
+    itens: [
+      "Orientar retorno IMEDIATO, para qualquer criança doente, se: não conseguir beber nem mamar no peito, piorar do estado geral, ou aparecer ou piorar a febre",
+      "Se tosse ou dificuldade para respirar, acrescentar ao retorno imediato: respiração rápida e dificuldade para respirar",
+      "Se diarreia, acrescentar ao retorno imediato: sangue nas fezes e dificuldade para beber",
+      "Combinar o retorno de seguimento conforme a classificação, e registrar na caderneta"
+    ]
+  },
+
+  erros: {
+    fonte: "MS/OPAS/UNICEF — AIDPI Criança 2017",
+    itens: [
+      "Contar a frequência respiratória com a criança agitada ou chorando",
+      "Usar a lista de sinais de perigo da OMS, mais curta, no lugar da brasileira — enchimento capilar e gemência ficam de fora",
+      "Aceitar 'vacina em dia' sem ver a caderneta",
+      "Pesar e medir sem marcar na curva: o valor isolado não mostra a inflexão",
+      "Prescrever dose pediátrica de cabeça, sem recalcular pelo peso do dia"
+    ]
+  },
+
+  scores: ["nota-conferencia", "antropo-infantil", "dose-peso"]
+});
