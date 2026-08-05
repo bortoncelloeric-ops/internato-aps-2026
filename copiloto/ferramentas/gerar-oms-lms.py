@@ -21,7 +21,8 @@ Licença dos dados: WHO, CC BY-NC-SA 3.0 IGO.
 import sys, os, json
 import openpyxl
 
-# (chave, arquivo, unidade do eixo)  — o eixo é dia (0-5a) ou mês (5-19a)
+# (chave, arquivo, unidade do eixo) — dia (0-5a), mês (5-19a) ou décimo de cm (peso/estatura).
+# O eixo "mm" é a estatura em décimos de centímetro, para virar índice inteiro: 45,0 cm = 450.
 TABELAS = [
     ("wfa",     "wfa_{s}.xlsx",      "dia"),   # peso/idade 0-5a
     ("lhfa",    "lhfa_{s}.xlsx",     "dia"),   # comprimento-estatura/idade 0-5a
@@ -30,6 +31,8 @@ TABELAS = [
     ("wfa519",  "wfa519_{s}.xlsx",   "mes"),   # peso/idade 5-10a
     ("hfa519",  "hfa519_{s}.xlsx",   "mes"),   # estatura/idade 5-19a
     ("bmi519",  "bmi519_{s}.xlsx",   "mes"),   # IMC/idade 5-19a
+    ("wfl",     "wfl_{s}.xlsx",      "mm"),    # peso/comprimento DEITADO, 45-110 cm (<2 anos)
+    ("wfh",     "wfh_{s}.xlsx",      "mm"),    # peso/estatura EM PÉ, 65-120 cm (2-5 anos)
 ]
 
 URLS = """
@@ -53,12 +56,16 @@ def ler(caminho):
     linhas = ws.iter_rows(values_only=True)
     cab = [str(c).strip() if c is not None else "" for c in next(linhas)]
     ix = {n: i for i, n in enumerate(cab)}
-    eixo = ix.get("Day", ix.get("Month"))
+    # o nome da coluna do eixo muda por indicador: Day, Month, Length ou Height
+    eixo = next(ix[n] for n in ("Day", "Month", "Length", "Height") if n in ix)
+    # eixo em cm vira décimo de cm para ser índice inteiro (45,0 -> 450);
+    # round() antes de int() porque 0.1 em float não é exato e truncaria 84,9 para 848
+    escala = 10 if cab[eixo] in ("Length", "Height") else 1
     dados = {}
     for r in linhas:
         if r is None or r[eixo] is None:
             continue
-        dados[int(r[eixo])] = (r[ix["L"]], r[ix["M"]], r[ix["S"]])
+        dados[int(round(float(r[eixo]) * escala))] = (r[ix["L"]], r[ix["M"]], r[ix["S"]])
     return dados
 
 
@@ -97,6 +104,10 @@ def main():
         " *\n"
         " * WHO Child Growth Standards (2006), 0 a 5 anos, grade DIÁRIA (dia 0 a 1856).\n"
         " * WHO Growth Reference (2007), 5 a 19 anos, grade MENSAL.\n"
+        " * Peso/estatura: eixo em DÉCIMOS DE CM (ini 450 = 45,0 cm). São DUAS tabelas com\n"
+        " * LMS diferentes: wfl deitado (45-110 cm) e wfh em pé (65-120 cm). Em 85 cm a\n"
+        " * mediana do menino é 11,50 kg deitado e 11,67 kg em pé — trocar a tabela erra o\n"
+        " * escore. A escolha é por idade (<24 meses deitado), convenção da OMS e do SISVAN.\n"
         " * Peso/idade só existe até 10 anos (mês 120) — a OMS não publica acima disso,\n"
         " * porque o peso isolado deixa de ser interpretável na puberdade. Use IMC/idade.\n"
         " *\n"

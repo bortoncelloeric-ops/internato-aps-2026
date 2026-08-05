@@ -156,8 +156,17 @@ ok('antropometria classifica pelo SISVAN',
    await evalJS(`/Eutrofia/.test(document.querySelector('[data-calc="antropo-infantil"] .res').textContent)`), true);
 ok('escore fora de ±3 DP avisa para conferir a medida',
    await evalJS(`!document.querySelector('[data-calc="antropo-infantil"] .alerta').classList.contains('hide')`), true);
+/* conta contra o que a calculadora devolveu, não contra um número fixo: a
+   asserção é "uma linha por indicador", e travar no total do dia quebraria o
+   e2e a cada indicador novo (foi o que aconteceu ao entrar peso/estatura) */
 ok('resultado de várias linhas renderiza uma linha por indicador',
-   await evalJS(`document.querySelectorAll('[data-calc="antropo-infantil"] .lin').length`), 3);
+   await evalJS(`(()=>{const c=CALCS.filter(x=>x.id==='antropo-infantil')[0];
+     return document.querySelectorAll('[data-calc="antropo-infantil"] .lin').length ===
+            c.calc({sexo:'f',meses:8,peso:8.650,est:76}).length})()`), true);
+ok('peso para estatura aparece na tela',
+   await evalJS(`/Peso para estatura/.test(document.querySelector('[data-calc="antropo-infantil"] .res').textContent)`), true);
+ok('e diz a técnica de medida usada',
+   await evalJS(`/\\(deitado\\)/.test(document.querySelector('[data-calc="antropo-infantil"] .res').textContent)`), true);
 
 /* dose: o app converte, nunca escolhe */
 await evalJS(`(()=>{const b=document.querySelector('[data-calc="dose-peso"]');

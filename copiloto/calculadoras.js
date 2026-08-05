@@ -234,6 +234,39 @@ function omsZ(indicador, sexo, meses, valor) {
   return { z: z, p: normalAcum(z) * 100 };
 }
 
+/* Peso para estatura. Não é indexado por idade, e sim pela própria estatura —
+   por isso não entra em OMS_IND nem em omsZ().
+
+   A OMS publica DUAS tabelas, e a diferença não é cosmética: em 85 cm a mediana
+   do menino é 11,50 kg deitado e 11,67 kg em pé. A escolha é por idade, que é a
+   convenção da OMS e do SISVAN: até 2 anos mede-se deitado (comprimento), a
+   partir daí em pé (estatura). Se a técnica usada não bater com a idade, o
+   escore sai errado — daí o aviso na nota da calculadora.
+
+   Devolve null fora do intervalo publicado (45-110 cm deitado, 65-120 cm em pé)
+   e acima de 5 anos, onde o SISVAN manda usar IMC para idade. */
+function omsPesoEstatura(sexo, meses, cm, peso) {
+  if (!(peso > 0) || !(cm > 0) || !(meses >= 0) || meses > 60) return null;
+
+  var tab = OMS_LMS[meses < 24 ? "wfl" : "wfh"][sexo];
+  if (!tab) return null;
+  var j = Math.round(cm * 10) - tab.ini;
+  if (j < 0 || j >= tab.M.length) return null;
+
+  var L = tab.L[j], M = tab.M[j], S = tab.S[j];
+  var z = L === 0 ? Math.log(peso / M) / S : (Math.pow(peso / M, L) - 1) / (L * S);
+
+  /* índice baseado em peso: leva a correção de cauda da OMS, igual a omsZ() */
+  if (z > 3) {
+    var p3 = lmsValor(L, M, S, 3), p2 = lmsValor(L, M, S, 2);
+    z = 3 + (peso - p3) / (p3 - p2);
+  } else if (z < -3) {
+    var n3 = lmsValor(L, M, S, -3), n2 = lmsValor(L, M, S, -2);
+    z = -3 + (peso - n3) / (n2 - n3);
+  }
+  return { z: z, p: normalAcum(z) * 100, deitado: meses < 24 };
+}
+
 /* Diagnóstico nutricional do SISVAN. Os quadros são por índice E por faixa
    etária: IMC/idade abaixo de 5 anos fala em "risco de sobrepeso", e a partir
    de 5 anos o mesmo escore-z já se chama "sobrepeso". Não unificar. */
@@ -268,6 +301,16 @@ function sisvan(indicador, meses, z) {
            [-2, "Eutrofia", "acc"],
            [-3, "Magreza", "amb"],
            [-Infinity, "Magreza acentuada", "red"]]);
+  }
+  if (indicador === "pesoest") {
+    /* Quadro 6 — mesmos cortes do IMC/idade abaixo de 5 anos, e o quadro
+       só existe até 5 anos (acima disso o SISVAN manda usar IMC para idade). */
+    return f([[3.0000001, "Obesidade", "red"],
+              [2.0000001, "Sobrepeso", "amb"],
+              [1.0000001, "Risco de sobrepeso", "amb"],
+              [-2, "Eutrofia", "acc"],
+              [-3, "Magreza", "amb"],
+              [-Infinity, "Magreza acentuada", "red"]]);
   }
   return null;                                          /* perímetro cefálico não tem quadro no SISVAN */
 }
@@ -325,6 +368,20 @@ CALCS.push({
     if (v.peso > 0 && v.est > 0) {
       var alt = v.est / 100;
       add("imc", "IMC para idade", v.peso / (alt * alt));
+
+      /* Peso para estatura: é o índice que o AIDPI usa para emaciação, e é o
+         único que compara a criança com ela mesma em vez de com a idade — por
+         isso continua valendo quando a idade é duvidosa. */
+      var pe = omsPesoEstatura(s, m, v.est, v.peso);
+      if (pe) {
+        var cpe = sisvan("pesoest", m, pe.z);
+        linhas.push({
+          rot: "Peso para estatura",
+          val: "z " + fmtZ(pe.z) + " · " + fmtP(pe.p) + (cpe ? " — " + cpe[1] : "") +
+               (pe.deitado ? " (deitado)" : " (em pé)"),
+          cls: Math.abs(pe.z) >= 3 ? "amb" : (cpe ? cpe[2] : "")
+        });
+      }
     }
     add("pc", "Perímetro cefálico", v.pc);
 
@@ -342,14 +399,18 @@ CALCS.push({
     };
     ver("peso", "peso/idade", v.peso);
     ver("estatura", "estatura/idade", v.est);
-    if (v.peso > 0 && v.est > 0) ver("imc", "IMC/idade", v.peso / Math.pow(v.est / 100, 2));
+    if (v.peso > 0 && v.est > 0) {
+      ver("imc", "IMC/idade", v.peso / Math.pow(v.est / 100, 2));
+      var rpe = omsPesoEstatura(s, m, v.est, v.peso);
+      if (rpe && Math.abs(rpe.z) >= 3) fora.push("peso/estatura " + fmtZ(rpe.z));
+    }
     ver("pc", "perímetro cefálico", v.pc);
     return fora.length
       ? "Fora de ±3 DP: " + fora.join(", ") + ". Conferir a medida e a idade antes de interpretar."
       : null;
   },
   fonte: "Escore-z: WHO Child Growth Standards 2006 (0 a 5 anos) e WHO Growth Reference 2007 (5 a 19 anos), tabelas LMS expandidas. Classificação: MS — Norma Técnica do SISVAN, 2011, quadros 5 a 9 e 13 a 14.",
-  nota: "Peso para idade só existe até 10 anos; acima disso interpretar pelo IMC. Perímetro cefálico não tem classificação no SISVAN — sai só o escore. Medir deitado até 2 anos e em pé a partir daí; a curva é a mesma, a técnica não."
+  nota: "Peso para idade só existe até 10 anos e peso para estatura até 5; acima disso interpretar pelo IMC. Perímetro cefálico não tem classificação no SISVAN — sai só o escore. Medir deitado até 2 anos e em pé a partir daí: em peso para estatura são duas tabelas diferentes, e usar a técnica errada para a idade muda o escore."
 });
 
 /* ==========================================================================

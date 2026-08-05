@@ -137,6 +137,34 @@ code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
   /* Correção da OMS nas caudas: sem ela, L negativo com valor extremo vira NaN. */
   ver('peso absurdo não vira NaN', isFinite(omsZ('peso', 'f', 8, 30).z), 'true');
 
+  /* ---------- peso para estatura: DUAS tabelas, escolhidas por idade ----------
+     O índice que o AIDPI usa para emaciação, e o único que não depende da idade
+     ser confiável. A mediana valendo exatamente z=0 prova que a tabela certa foi
+     escolhida: 11,5007 kg em 85 cm é a mediana DEITADO, 11,6707 a mediana EM PÉ. */
+  function pe(sexo, meses, cm, peso){
+    var r = omsPesoEstatura(sexo, meses, cm, peso);
+    return r ? r.z.toFixed(2) : 'null';
+  }
+  ver('mediana deitado (85 cm, 18 m) → z zero', pe('m', 18, 85, 11.5007), '0.00');
+  ver('mediana em pé (85 cm, 30 m) → z zero', pe('m', 30, 85, 11.6707), '0.00');
+  /* A troca de tabela aos 2 anos move o escore — é por isso que ela existe. */
+  ver('mesma medida aos 23 meses (deitado)', pe('f', 23, 76, 8.650), '-0.86');
+  ver('mesma medida aos 24 meses (em pé)', pe('f', 24, 76, 8.650), '-1.02');
+  ver('ex2 · 8 m · peso para estatura', pe('f', 8, 76, 8.650), '-0.86');
+  ver('ex2 · peso/estatura → SISVAN', cl('pesoest', 8, -0.86), 'Eutrofia');
+  ver('emaciação grave classifica', cl('pesoest', 12, -3.71), 'Magreza acentuada');
+  ver('quadro 6 usa "risco de sobrepeso"', cl('pesoest', 12, 1.5), 'Risco de sobrepeso');
+  /* Limites publicados: 45–110 cm deitado, 65–120 cm em pé, e só até 5 anos. */
+  ver('abaixo de 45 cm não existe', pe('f', 2, 44.9, 2.4), 'null');
+  ver('acima de 120 cm não existe', pe('m', 58, 121, 22), 'null');
+  ver('64 cm em pé está fora da tabela', pe('m', 30, 64, 7), 'null');
+  ver('acima de 5 anos o SISVAN manda usar IMC', pe('m', 61, 110, 19), 'null');
+  ver('peso/estatura absurdo não vira NaN', isFinite(omsPesoEstatura('m', 12, 80, 30).z), 'true');
+  ver('peso/estatura entra na antropometria',
+      linha(A.calc({sexo:'f', meses:8, peso:8.650, est:76}), 'Peso para estatura').indexOf('z −0,86') === 0, 'true');
+  ver('a linha diz qual técnica foi usada',
+      /\(deitado\)$/.test(linha(A.calc({sexo:'f', meses:8, peso:8.650, est:76}), 'Peso para estatura')), 'true');
+
   ver('antropometria roda só com peso',
       linha(A.calc({sexo:'f', meses:8, peso:8.650}), 'Peso para idade').indexOf('z +0,69') === 0, 'true');
   ver('sem nenhuma medida não devolve nada',
