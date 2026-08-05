@@ -18,7 +18,7 @@
 
 import { CASOS } from "./eval-casos.js";
 
-const MODELO_PADRAO = "google/gemini-3.1-flash-lite";
+const MODELO_PADRAO = "anthropic/claude-sonnet-5";
 /* Fixar o provedor: sem isso o OpenRouter pode rotear a nota para outro host.
    Os slugs do Google são estes — "google" sozinho devolve 404. */
 const PROVEDOR_POR_FAMILIA = {
@@ -126,16 +126,12 @@ const ASSERTS = [
     f: (o) => Array.isArray(o.conduta) && o.conduta.length > 0 &&
               o.conduta.every(c => c && typeof c.fonte === "string" && c.fonte.trim().length > 0) },
 
-  /* ⚠️ GABARITO NÃO CONFIRMADO — o Eric precisa dizer o que o caso era.
-     O esperado do ex1 ("impetigo") veio da resposta do ChatGPT, e o próprio
-     brainstorming apontou que ali ele ANCOROU: rebaixou varicela ignorando o
-     cartão de vacina ausente numa criança de 7 anos com lesões vesiculares.
-     Codificar a resposta dele como verdade transforma o viés do baseline em
-     gabarito, e um eval com gabarito errado é pior que nenhum.
-     O Haiku responde "varicela" — mas justifica com pródromo de 2 semanas, e o
-     da varicela é de 1 a 2 dias, então a cronologia da nota argumenta contra.
-     Nenhum dos dois é confiável aqui. Este assert vale pouco até ser conferido. */
-  { id: 9, alvo: null, nome: "hipótese principal correta ⚠️ gabarito a confirmar",
+  /* O assert que mais pesa, e o que separou os modelos. Gabarito confirmado
+     pelo Eric: o ex1 era impetigo. Errar aqui não é errar um campo — anamnese
+     dirigida, exame dirigido e conduta saem todos ancorados na doença errada.
+     Medido em 5 rodadas por modelo: Sonnet 5 acertou 5/5, Haiku 4.5 acertou 2/5
+     (respondeu varicela duas vezes). */
+  { id: 9, alvo: null, nome: "hipótese principal correta",
     f: (o, caso) => caso.espera.hipotese.test(o.hipotese_principal || "") }
 ];
 

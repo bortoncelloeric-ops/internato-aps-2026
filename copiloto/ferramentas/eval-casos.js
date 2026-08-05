@@ -27,7 +27,11 @@ export const CASOS = [
       antropometria: null
     },
     espera: {
-      hipotese: /impetigo/i,
+      /* GABARITO CONFIRMADO pelo Eric em 05/08: era impetigo. Ele atendeu a
+         paciente. Não afrouxar para aceitar varicela — o Haiku responde varicela
+         em 3 de 5 rodadas e justifica com pródromo de 2 semanas, sendo que o da
+         varicela é de 1 a 2 dias. É erro clínico do modelo, não assert estreito. */
+      hipotese: /impetigo|piodermite/i,
       /* o achado que o ChatGPT acertou e que não se pode perder */
       pontos: [/nistatina/i,
       /* o achado que o ChatGPT PERDEU: budesonida é corticoide, não antialérgico */
