@@ -16,7 +16,17 @@
  *   node ferramentas/eval.mjs --baseline      # só mostra como o ChatGPT se saiu
  */
 
+import { readFileSync } from "node:fs";
 import { CASOS } from "./eval-casos.js";
+
+/* Carrega os MESMOS arquivos que o app carrega, na mesma ordem. É isso que
+   garante que o eval mede o que roda no consultório: se o prompt mudar em
+   guia-contrato.js, muda aqui junto, sem cópia para divergir. */
+const raiz = new URL("..", import.meta.url).pathname;
+const src = ["oms-lms.js", "calculadoras.js", "guia-contrato.js"]
+  .map(f => readFileSync(raiz + f, "utf8")).join("\n");
+const { GUIA_SYS, GUIA_SCHEMA, montarDeterministica, guiaPrompt, montarSOAP } =
+  new Function(src + "; return {GUIA_SYS,GUIA_SCHEMA,montarDeterministica,guiaPrompt,montarSOAP};")();
 
 const MODELO_PADRAO = "anthropic/claude-sonnet-5";
 /* Fixar o provedor: sem isso o OpenRouter pode rotear a nota para outro host.
@@ -72,27 +82,6 @@ const SCHEMA = {
   additionalProperties: false
 };
 
-const SYS = `Você é apoio à decisão clínica na Atenção Primária brasileira, para uso de um médico.
-Recebe a nota de uma consulta e o que a camada determinística já calculou, e devolve o guia DESTE caso.
-
-REGRAS QUE NÃO SE NEGOCIAM:
-
-1. Os números da camada determinística são FATO. Reproduza-os como vieram. Nunca recalcule,
-   nunca relativize, nunca escreva "próximo de", "em torno de" ou "vale conferir" sobre um
-   escore que já foi calculado.
-2. NUNCA escreva dose numérica: nem mg, nem mg/kg, nem mL. Nomeie o fármaco e pare.
-   O aplicativo calcula a dose a partir do peso. Escrever "conforme o peso" também é proibido —
-   se falta o peso, isso vai em dados_faltantes.
-3. dados_faltantes lista o que a conduta exige e a nota não tem, dizendo o que cada dado
-   destrava. Se a nota traz tudo, devolva lista vazia.
-4. Em conduta, cada item traz "fonte". Use o literal "VERIFICAR" quando não tiver fonte
-   brasileira datada para aquele item. Não invente referência.
-5. pontos_atencao é onde entra o que o médico pode não ter percebido na própria nota:
-   contradição, fármaco de classe errada para a hipótese, dado que contraria a conclusão.
-6. avaliacao_soap e plano_soap são só o A e o P. Não escreva S nem O: você não examinou
-   o paciente e não pode registrar achado que não foi feito.
-7. Escreva para quem está com o paciente na frente: frase curta, resolvida numa linha.`;
-
 /* --------------------------------------------------------------- asserts
    Cada um aponta para uma falha real observada nos PDFs, não para uma boa
    prática genérica. `alvo` limita o assert ao caso onde a falha aconteceu. */
@@ -100,9 +89,13 @@ const ASSERTS = [
   { id: 1, alvo: "ex2", nome: "aponta a contradição de idade",
     f: (o) => /7 meses|8 meses|idade/i.test(JSON.stringify(o.pontos_atencao)) },
 
-  { id: 2, alvo: "ex2", nome: "usa o escore sem hedge",
-    f: (o) => /\+?3,0?5|3,05/.test(JSON.stringify(o)) &&
-              !/(pr[óo]ximo|em torno|vale conferir|aproximadamente)/i.test(JSON.stringify(o)) },
+  /* O defeito do ChatGPT era EVITAR o número ("próximo ou acima do P97"), não
+     pedir conferência — a própria camada determinística manda conferir a
+     aferição quando o escore passa de ±3 DP. "vale conferir" saiu da lista de
+     hedges proibidos: proibi-lo punia o comportamento correto. */
+  { id: 2, alvo: "ex2", nome: "usa o escore sem fugir do número",
+    f: (o) => /3,0?5/.test(JSON.stringify(o)) &&
+              !/(pr[óo]ximo (de|a|ou)|em torno de|aproximadamente|cerca de)/i.test(JSON.stringify(o)) },
 
   { id: 3, alvo: null, nome: 'nunca escreve "conforme o peso"',
     f: (o) => !/conforme .{0,12}peso|de acordo com .{0,12}peso|ajustad[oa] ao peso/i.test(JSON.stringify(o)) },
@@ -119,8 +112,14 @@ const ASSERTS = [
   { id: 6, alvo: "ex1", nome: "pega a nistatina (baseline do ChatGPT)",
     f: (o) => /nistatina/i.test(JSON.stringify(o.pontos_atencao)) },
 
-  { id: 7, alvo: "ex1", nome: "pega a budesonida (o ChatGPT perdeu)",
-    f: (o) => /budesonida|corticoid/i.test(JSON.stringify(o.pontos_atencao)) },
+  /* Não basta citar a budesonida: o achado é o ERRO DE CLASSE — a nota a chama
+     de antialérgico e ela é corticoide. "Budesonida sem indicação clara" cita e
+     não acha nada. Por isso o assert exige o nome E uma palavra de classe. */
+  { id: 7, alvo: "ex1", nome: "pega o erro de CLASSE da budesonida",
+    f: (o) => {
+      const s = JSON.stringify(o.pontos_atencao);
+      return /budesonida/i.test(s) && /corticoid|corticoster|antial[ée]rg|anti-?histam|classe/i.test(s);
+    } },
 
   { id: 8, alvo: null, nome: "toda conduta tem fonte ou VERIFICAR",
     f: (o) => Array.isArray(o.conduta) && o.conduta.length > 0 &&
@@ -138,21 +137,6 @@ const ASSERTS = [
 /* Como o guia do ChatGPT (os dois PDFs de 05/08) se sai em cada assert.
    É o baseline: 5 falhas em 9. Fonte: leitura dos PDFs no brainstorming. */
 const BASELINE = { 1: false, 2: false, 3: false, 4: false, 5: true, 6: true, 7: false, 8: false, 9: true };
-
-function prompt(caso) {
-  const d = caso.deter;
-  const bloco = [
-    "NOTA DA CONSULTA:", caso.nota, "",
-    "CAMADA DETERMINÍSTICA (fatos já calculados — reproduza, não recalcule):",
-    `- lido na nota: ${d.lido}`,
-    d.contradicoes.length ? `- CONTRADIÇÕES: ${d.contradicoes.join("; ")}` : "- contradições: nenhuma",
-    d.falta.length ? `- DADOS QUE FALTAM: ${d.falta.join("; ")}` : "- dados que faltam: nenhum",
-    d.antropometria
-      ? "- antropometria: " + Object.entries(d.antropometria).map(([k, v]) => `${k}: ${v}`).join(" | ")
-      : "- antropometria: não calculável (falta peso e/ou estatura)"
-  ].join("\n");
-  return bloco;
-}
 
 async function roda(caso) {
   const r = await fetch("https://openrouter.ai/api/v1/chat/completions", {
@@ -173,9 +157,10 @@ async function roda(caso) {
       seed: 20260805,
       response_format: {
         type: "json_schema",
-        json_schema: { name: "guia", strict: true, schema: SCHEMA }
+        json_schema: { name: "guia", strict: true, schema: GUIA_SCHEMA }
       },
-      messages: [{ role: "system", content: SYS }, { role: "user", content: prompt(caso) }]
+      messages: [{ role: "system", content: GUIA_SYS },
+                 { role: "user", content: guiaPrompt(caso.nota, montarDeterministica(caso.nota, caso.med)) }]
     })
   });
   const j = await r.json();
