@@ -146,6 +146,23 @@ Por isso `dose-peso` **converte, não decide**: a posologia vem do médico e o a
 faz a multiplicação. Para entrar dose de um fármaco específico, é preciso PCDT ou
 CAB brasileiro datado citado no item — um fármaco de cada vez.
 
+### Três respostas possíveis, não duas
+
+A "Conferência da nota" pode responder de três formas, e a terceira é a que
+costuma faltar em ferramenta clínica:
+
+1. **Calculei** — o dado estava lá.
+2. **Achei uma contradição** — a nota traz dois valores que divergem.
+3. **Falta um dado que a conta exige** — e diz *qual* e *o que ele destrava*.
+
+A nota do ex1 (7 anos, feridas) não traz peso. Calcular seria inventar; calar
+seria deixar o médico descobrir sozinho na hora de prescrever. A lista mora em
+`FALTAS`, no topo do bloco. Cada entrada diz a consequência, não só o nome do
+campo: `"peso — sem ele não sai dose por peso nem IMC para idade"`.
+
+Só aparece depois que algo foi reconhecido na nota — nota em branco não pode
+virar lista de cobranças. Há teste para isso.
+
 ### Antropometria: o escore manda, o rótulo acompanha
 
 `omsZ()` devolve o escore-z e `sisvan()` o diagnóstico nutricional. Três coisas

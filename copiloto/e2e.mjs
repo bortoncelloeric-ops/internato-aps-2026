@@ -132,6 +132,18 @@ ok('nota com duas idades acusa contradição',
 ok('contradição na nota dispara alerta',
    await evalJS(`!document.querySelector('[data-calc="nota-conferencia"] .alerta').classList.contains('hide')`), true);
 
+/* o caso do ex1: 7 anos, sem peso na nota — nem calcular nem calar */
+await evalJS(`(()=>{const t=document.querySelector('[data-calc="nota-conferencia"] [data-f="nota"]');
+  t.value='Paciente, 7 anos, feminino. QP: feridas aquosas no nariz, mao e perna, ha 7 dias.';
+  t.dispatchEvent(new Event('input',{bubbles:true}));})()`);
+await espera(200);
+ok('nota sem peso diz qual dado falta',
+   await evalJS(`/Falta/.test(document.querySelector('[data-calc="nota-conferencia"] .res').textContent)`), true);
+ok('e diz o que aquele dado destrava',
+   await evalJS(`/dose por peso/.test(document.querySelector('[data-calc="nota-conferencia"] .res').textContent)`), true);
+ok('não cobra o que a nota já trouxe',
+   await evalJS(`!/Falta[\\s\\S]{0,40}sexo/.test(document.querySelector('[data-calc="nota-conferencia"] .res').textContent)`), true);
+
 /* mesmas medidas do ex2. O ChatGPT disse "próximo ou acima do P97"; o número é +3,05 */
 await evalJS(`(()=>{const b=document.querySelector('[data-calc="antropo-infantil"]');
   const set=(f,v)=>{const e=b.querySelector('[data-f="'+f+'"]');e.value=v;

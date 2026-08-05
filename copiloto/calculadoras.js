@@ -432,6 +432,17 @@ function lerNota(txt) {
   return achado;
 }
 
+/* Cada dado que falta, e o que ele destrava. Dizer só "falta peso" transfere
+   para quem lê o trabalho de lembrar por que aquilo importa com paciente na
+   frente. A ordem é a da consequência: sem idade nada roda, sem peso não há
+   dose. */
+var FALTAS = [
+  { k: "idade",  t: "idade — sem ela não sai escore-z nem classificação do SISVAN" },
+  { k: "peso",   t: "peso — sem ele não sai dose por peso nem IMC para idade" },
+  { k: "sexo",   t: "sexo — a curva da OMS é uma para cada" },
+  { k: "altura", t: "estatura — sem ela não sai IMC para idade" }
+];
+
 CALCS.push({
   id: "nota-conferencia",
   nome: "Conferência da nota",
@@ -465,6 +476,15 @@ CALCS.push({
     if (a.altura.length) lidos.push(a.altura.map(num).join(" / ") + " cm");
     if (a.sexo.length) lidos.push(a.sexo.join(" / "));
     if (!lidos.length) return null;
+
+    /* O que a conta exige e a nota não tem. É a terceira resposta possível,
+       ao lado de "calculei" e "achei uma contradição": a nota do ex1 não traz
+       peso, e o certo ali não é calcular nem calar — é dizer qual dado falta
+       e o que ele destrava. Só aparece depois que algo foi reconhecido, senão
+       campo em branco viraria uma lista de cobranças. */
+    FALTAS.forEach(function (f) {
+      if (!a[f.k].length) linhas.push({ rot: "Falta", val: f.t, cls: "amb" });
+    });
 
     linhas.push({ rot: "Lido na nota", val: lidos.join(" · "), cls: linhas.length ? "" : "acc" });
     return linhas;

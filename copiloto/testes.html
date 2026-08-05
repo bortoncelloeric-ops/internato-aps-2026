@@ -170,6 +170,23 @@ code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
   ver('nota ex1 · sem contradição, sem alerta', !!C['nota-conferencia'].alerta({nota:notaEx1}), 'false');
   ver('nota vazia não devolve nada', String(C['nota-conferencia'].calc({nota:'   '})), 'null');
 
+  /* Terceira categoria: nem calcular, nem calar — dizer qual dado falta.
+     A nota do ex1 não traz peso, e sem peso não existe dose por peso. */
+  function faltas(txt){
+    return (C['nota-conferencia'].calc({nota:txt}) || [])
+      .filter(function(l){ return l.rot === 'Falta'; }).map(function(l){ return l.val; });
+  }
+  ver('nota ex1 · aponta que falta o peso',
+      faltas(notaEx1).filter(function(t){ return /^peso/.test(t); }).length, 1);
+  ver('nota ex1 · diz o que o peso destrava',
+      /dose por peso/.test(faltas(notaEx1).join(' ')), 'true');
+  ver('nota ex1 · não cobra o que já tem',
+      /^idade|^sexo/.test(faltas(notaEx1).join(' ')), 'false');
+  ver('nota ex2 · completa não cobra nada', faltas(notaEx2).length, 0);
+  ver('nota só com peso cobra idade, sexo e estatura', faltas('Peso 12kg').length, 3);
+  /* nota em branco não pode virar lista de cobranças */
+  ver('nota vazia não cobra nada', faltas('   ').length, 0);
+
   document.querySelector('#tc tbody').innerHTML = linhas.join('');
 
   /* ---------- lint de fontes ---------- */
