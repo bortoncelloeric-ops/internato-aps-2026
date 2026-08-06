@@ -123,12 +123,15 @@ QUEIXAS.push({
   atualizado: "2026-08-05",
 
   redflags: {
-    fonte: "VERIFICAR — definir cortes e gatilhos com o protocolo da USF",
+    fonte: "SBC/SBH/SBN — Barroso WKS et al., Diretrizes Brasileiras de Hipertensão Arterial 2020, Arq Bras Cardiol 2021;116(3):516-658 · SBD — Diretriz da Sociedade Brasileira de Diabetes, Ed. 2025",
     itens: [
-      { t: "PA muito elevada com sintoma agudo (dor torácica, dispneia, déficit neurológico, alteração visual): emergência hipertensiva, não ajuste de dose", v: true },
+      "PA muito elevada COM lesão aguda de órgão-alvo (dor torácica, dispneia, déficit neurológico, alteração visual) é EMERGÊNCIA hipertensiva: reduzir em minutos a horas, não ajustar dose no consultório",
+      "Sem lesão aguda de órgão-alvo é urgência, não emergência — a diferença é a lesão, não o número da PA",
       { t: "Hipoglicemia sintomática — ver card de urgência do guia de bolso", f: "guia-bolso-aps.html" },
-      { t: "Hiperglicemia com desidratação, dor abdominal, vômito ou respiração de Kussmaul: suspeitar de cetoacidose", v: true },
-      { t: "Úlcera em pé diabético com sinal flogístico, secreção ou odor: não é curativo de rotina", v: true }
+      "Hiperglicemia com desidratação, dor abdominal, vômito ou respiração de Kussmaul: suspeitar de cetoacidose",
+      { t: "Cetoacidose pode cursar com glicemia normal ou baixa (euglicêmica): glicemia <200 mg/dL com pH <7,3 e bicarbonato <18 mEq/L. Glicemia normal não descarta", f: "SBD — Diretriz da Sociedade Brasileira de Diabetes, Ed. 2025 (cetoacidose euglicêmica)" },
+      "Úlcera em pé diabético com sinal flogístico, secreção ou odor: não é curativo de rotina",
+      { t: "Estes são os cortes clínicos. Quem chamar e para onde levar é do protocolo da USF", v: true }
     ]
   },
 
@@ -163,16 +166,16 @@ QUEIXAS.push({
       "Emergência hipertensiva mascarada de 'pressão alta de rotina'",
       "Pé diabético infectado",
       "Doença renal crônica silenciosa — só aparece se pedir albuminúria e TFG",
-      { t: "Hipertensão secundária: suspeitar em início precoce, resistente ao tratamento ou com achado sugestivo", v: true }
+      { t: "Suspeitar de hipertensão secundária: início abrupto antes dos 30 ou depois dos 55 anos, HAS refratária ao tratamento, ou alteração laboratorial sugestiva", f: "SBC/SBH/SBN — Barroso WKS et al., Diretrizes Brasileiras de Hipertensão Arterial 2020, Arq Bras Cardiol 2021;116(3):516-658" }
     ]
   },
 
   ddx: {
-    fonte: "VERIFICAR — lista a completar com fonte brasileira datada",
+    fonte: "SBC/SBH/SBN — Barroso WKS et al., Diretrizes Brasileiras de Hipertensão Arterial 2020, Arq Bras Cardiol 2021;116(3):516-658",
     itens: [
       { t: "Hipertensão do jaleco branco e hipertensão mascarada: por isso MAPA e MRPA existem", f: "guia-bolso-aps.html" },
-      { t: "Causas secundárias de HAS (renal, endócrina, apneia do sono, medicamentosa)", v: true },
-      { t: "DM tipo 1, LADA e diabetes secundário em adulto com apresentação atípica", v: true }
+      "Causas secundárias de HAS: doença renal crônica, hipertensão renovascular, apneia obstrutiva do sono, hiperaldosteronismo primário, feocromocitoma, síndrome de Cushing, hipotireoidismo",
+      { t: "DM tipo 1, LADA e diabetes secundário em adulto com apresentação atípica — critérios de suspeita e quais autoanticorpos pedir: conferir no capítulo de classificação da Diretriz SBD 2025", v: true }
     ]
   },
 
@@ -194,10 +197,13 @@ QUEIXAS.push({
       "Sempre estratificar risco cardiovascular global: é ele que define a meta e a intensidade do tratamento",
       "DM2 primeira linha: metformina + mudança de estilo de vida",
       "iSGLT2 ou GLP-1 se doença cardiovascular estabelecida, insuficiência cardíaca ou doença renal crônica",
-      "Meta geral de HbA1c <7%, individualizando — idoso frágil tolera meta mais alta",
+      { t: "Meta geral de HbA1c <7,0%; idoso robusto <7,5%, individualizando", f: "SBD — Diretriz da Sociedade Brasileira de Diabetes, Ed. 2025 (metas no tratamento)" },
       "Crônico não se acompanha por demanda, se acompanha por risco: agenda programada e busca ativa de faltoso",
-      { t: "Meta pressórica por estrato de risco, escolha e dose do anti-hipertensivo: conferir na diretriz vigente e no protocolo da USF", v: true },
-      { t: "Indicação e intensidade de estatina: depende de risco CV calculado, que esta ferramenta deliberadamente não calcula ainda", v: true }
+      { t: "Meta pressórica: <140/90 mmHg em risco baixo ou moderado; <130/80 mmHg em alto risco, quando tolerado", f: "SBC/SBH/SBN — Barroso WKS et al., Diretrizes Brasileiras de Hipertensão Arterial 2020, Arq Bras Cardiol 2021;116(3):516-658" },
+      { t: "Primeira linha, cinco classes: diurético, bloqueador de canal de cálcio, IECA, BRA e betabloqueador", f: "SBC/SBH/SBN — Barroso WKS et al., Diretrizes Brasileiras de Hipertensão Arterial 2020, Arq Bras Cardiol 2021;116(3):516-658" },
+      { t: "Dose inicial e titulação de cada anti-hipertensivo: conferir na diretriz e no protocolo da USF — esta ferramenta não embute tabela de dose", v: true },
+      { t: "Meta de LDL-c por categoria de risco: <115 mg/dL baixo, <70 alto, <50 muito alto, <40 extremo", f: "SBC — Rached FH et al., Diretriz Brasileira de Dislipidemias e Prevenção da Aterosclerose 2025, Arq Bras Cardiol 2025;122(9):e20250640" },
+      { t: "Intensidade da estatina por categoria e o cálculo do risco CV: conferir na diretriz — a estratificação de risco é escore com limiar de tratamento, que esta ferramenta deliberadamente não calcula", v: true }
     ]
   },
 

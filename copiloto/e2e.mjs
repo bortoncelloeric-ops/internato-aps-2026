@@ -65,7 +65,14 @@ ok('red flags é a primeira coisa do detalhe', await evalJS(`document.querySelec
 ok('botão voltar aparece', await evalJS(`!document.getElementById('voltar').classList.contains('hide')`), true);
 // 6 seções de texto + 1 de calculadoras. Saúde mental não tem `exames` escrita,
 // e a ausência precisa sumir da tela — seção vazia lê como "nada a se preocupar".
-ok('seções renderizadas (6 texto + calculadoras)', await evalJS(`document.querySelectorAll('#detalhe .sec').length`), 7);
+/* seções de texto presentes + o bloco de calculadoras, contado a partir da
+   própria queixa em vez de um total fixo */
+ok('renderiza uma seção por seção preenchida, mais as calculadoras',
+   await evalJS(`(()=>{const q=QUEIXAS.filter(x=>x.id==='saude-mental-aps')[0];
+     const secs=['perguntas','exame','naoperder','ddx','exames','conduta','erros']
+       .filter(k=>q[k]&&q[k].itens&&q[k].itens.length).length;
+     const calcs=(q.scores||[]).length?1:0;
+     return document.querySelectorAll('#detalhe .sec').length === secs+calcs})()`), true);
 ok('seção não escrita não aparece nem como placeholder',
    await evalJS(`/Exames a discutir|A preencher/.test(document.getElementById('detalhe').innerText)`), false);
 ok('HAS, que tem exames escrita, mostra a seção',
@@ -240,7 +247,11 @@ await evalJS(`document.getElementById('voltar').click()`); await espera(150);
 await evalJS(`document.querySelector('[data-id="has-dm2-aps"]').click()`); await espera(200);
 await evalJS(`document.querySelectorAll('[data-ck^="has-dm2-aps.redflags."]').forEach(c=>{c.checked=true;c.dispatchEvent(new Event('change',{bubbles:true}));})`);
 await espera(200);
-ok('contador de red flags da queixa fecha', await evalJS(`document.querySelector('[data-cnt="redflags"]').textContent`), '4/4');
+/* contra os dados, não contra um número: esta asserção já quebrou ao entrar
+   red flag nova em HAS/DM2 (4 → 7). O que ela quer dizer é "todas marcadas". */
+ok('contador de red flags da queixa fecha', await evalJS(`(()=>{const q=QUEIXAS.filter(x=>x.id==='has-dm2-aps')[0];
+   const n=q.redflags.itens.length;
+   return document.querySelector('[data-cnt="redflags"]').textContent === n+'/'+n})()`), true);
 await evalJS(`document.getElementById('revisar').click()`); await espera(250);
 ok('só sobra 1 queixa com red flag pendente', await evalJS(`document.querySelectorAll('#revisao .pend.crit').length`), 1);
 

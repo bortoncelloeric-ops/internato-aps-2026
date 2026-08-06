@@ -78,16 +78,24 @@ FONTES_DO_PROJETO = [
 
 
 def fontes_das_queixas(txt):
-    """Só o que é autoridade externa. Referência a arquivo do próprio vault é
-    procedência, não fonte citável — e entraria como ruído no allowlist."""
+    """Só o que é autoridade externa. Pega tanto `fonte:` de seção quanto `f:`
+    de item — as duas são curadas e passam pelo lint. Referência a arquivo do
+    próprio vault é procedência, não fonte citável, e entraria como ruído."""
     achadas = []
-    for m in re.finditer(r'fonte:\s*"((?:[^"\\]|\\.)*)"', txt):
-        f = re.sub(r"\s+", " ", m.group(1).replace('\\"', '"')).strip()
-        if not f or f.startswith("VERIFICAR"):
+    for m in re.finditer(r'\b(?:fonte|f):\s*"((?:[^"\\]|\\.)*)"', txt):
+        bruto = re.sub(r"\s+", " ", m.group(1).replace('\\"', '"')).strip()
+        if not bruto or bruto.startswith("VERIFICAR"):
             continue
-        if re.search(r"\.html|\.md|wiki/", f):
-            continue
-        achadas.append(f)
+        # " · " separa fontes distintas no mesmo campo
+        for f in [x.strip() for x in bruto.split(" · ")]:
+            if re.search(r"\.html|\.md|wiki/", f):
+                continue
+            # citação sem ano não é citável: quase sempre é nota em prosa que
+            # escorregou para o campo `fonte`. Guarda contra o erro que já
+            # aconteceu uma vez.
+            if not re.search(r"\b(19|20)\d\d\b", f):
+                continue
+            achadas.append(f)
     return achadas
 
 

@@ -30,6 +30,11 @@ var FONTES_VALIDAS = [
  "MS — Norma Técnica do SISVAN, 2011",
  "WHO Child Growth Standards, 2006",
  "WHO Growth Reference, 2007",
+ "SBC/SBH/SBN — Barroso WKS et al., Diretrizes Brasileiras de Hipertensão Arterial 2020, Arq Bras Cardiol 2021;116(3):516-658",
+ "SBD — Diretriz da Sociedade Brasileira de Diabetes, Ed. 2025",
+ "SBD — Diretriz da Sociedade Brasileira de Diabetes, Ed. 2025 (cetoacidose euglicêmica)",
+ "SBD — Diretriz da Sociedade Brasileira de Diabetes, Ed. 2025 (metas no tratamento)",
+ "SBC — Rached FH et al., Diretriz Brasileira de Dislipidemias e Prevenção da Aterosclerose 2025, Arq Bras Cardiol 2025;122(9):e20250640",
  "MS/OPAS/UNICEF — Manual de Quadros de Procedimentos AIDPI Criança, 2 meses a 5 anos, 2017 (sinais gerais de perigo)",
  "MS/OPAS/UNICEF — AIDPI Criança 2017",
  "MS/OPAS/UNICEF — AIDPI Criança 2017 (quadro \"Quando retornar imediatamente\")"
