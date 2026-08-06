@@ -33,7 +33,11 @@ header{
   box-shadow:var(--shadow);
 }
 .hin{max-width:820px; margin:0 auto}
-.htop{display:flex; align-items:center; gap:.6rem; margin-bottom:.55rem}
+/* wrap porque o header chegou a quatro botões (Queixas · Gerar guia · Revisar ·
+   Novo paciente) e sem isto eles estouram a largura do celular, fazendo a
+   página inteira deslizar de lado. Quebrar linha é melhor que rolagem lateral. */
+.htop{display:flex; align-items:center; gap:.5rem; margin-bottom:.55rem; flex-wrap:wrap}
+.htop .grow{flex:1 1 auto}
 .htop b{font-size:var(--fs-xl); letter-spacing:-.01em}
 .htop span{font-size:var(--fs-sm); opacity:.85}
 .grow{margin-left:auto}
@@ -203,6 +207,28 @@ li.v{background:var(--amb-w); margin-left:-.5rem; padding:.3rem .5rem; border-ra
 .tudo-ok{background:var(--acc-w); border:1px solid var(--acc); border-radius:var(--r);
          padding:1rem; color:var(--acc); font-weight:600}
 
+/* ---------- guia do caso (camada generativa) ---------- */
+.g-sec{margin-bottom:1.2rem}
+.g-sec>h2{margin:0 0 .45rem .2rem}
+.g-cx{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:.8rem .95rem}
+.g-hip{background:var(--blu-w); border-color:var(--blu)}
+.g-hip b{font-size:var(--fs-lg); display:block; margin-bottom:.2rem}
+.g-at{background:var(--amb-w); border-color:var(--amb)}
+.g-falta{background:var(--red-w); border-color:var(--red)}
+.g-cond li{margin:.5rem 0}
+.farm{display:inline-block; font-size:var(--fs-xs); font-weight:800; letter-spacing:.04em;
+      background:var(--blu); color:#fff; padding:.1rem .38rem; border-radius:var(--rs); margin-right:.35rem}
+.g-fonte{font-size:var(--fs-sm); color:var(--mut); font-style:italic}
+.g-soap{white-space:pre-wrap; font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+        font-size:var(--fs-md); background:var(--bg); border:1px solid var(--line);
+        border-radius:var(--rm); padding:.7rem .8rem; margin-top:.4rem}
+.g-aviso{background:var(--red-w); border-left:3px solid var(--red); color:var(--red);
+         padding:.7rem .85rem; border-radius:var(--rm); font-weight:600; margin-bottom:1rem}
+.g-chave{display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; margin-bottom:1rem}
+.g-chave input{flex:1 1 16rem; font:inherit; font-size:var(--fs-md); padding:.5rem .6rem;
+               min-height:44px; border:1px solid var(--line); border-radius:var(--rm)}
+.g-carregando{padding:1.4rem .5rem; color:var(--mut)}
+
 /* ---------- estado vazio ---------- */
 .vazio{padding:2rem .5rem; color:var(--mut)}
 .vazio p{margin:0 0 .8rem}
@@ -221,6 +247,7 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
       <b>Copiloto Clínico</b><span>APS · USF</span>
       <span class="grow"></span>
       <button class="btn btn-back hide" id="voltar" type="button">‹ Queixas</button>
+      <button class="btn btn-rev hide" id="guiar" type="button">Gerar guia</button>
       <button class="btn btn-rev hide" id="revisar" type="button">Revisar consulta</button>
       <button class="btn" id="novo" type="button" disabled>Novo paciente</button>
     </div>
@@ -234,6 +261,7 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
   <div id="lista"></div>
   <div id="detalhe" class="hide"></div>
   <div id="revisao" class="hide"></div>
+  <div id="guia" class="hide"></div>
 </main>
 
 <footer>
@@ -244,6 +272,7 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
 <script src="queixas.js"></script>
 <script src="oms-lms.js"></script>
 <script src="calculadoras.js"></script>
+<script src="guia-contrato.js"></script>
 <script>
 (function(){
   var elQ = document.getElementById('q'),
@@ -254,10 +283,26 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
       elNovo = document.getElementById('novo'),
       elRev = document.getElementById('revisao'),
       elRevisar = document.getElementById('revisar'),
+      elGuia = document.getElementById('guia'),
+      elGuiar = document.getElementById('guiar'),
       marcados = {},          // estado dos checkboxes: só em memória, nunca localStorage
       naConsulta = [],        // queixas abertas nesta consulta, em ordem. Some no "Novo paciente"
-      vista = 'lista',        // lista | detalhe | revisao
+      /* A nota e as medidas vivem aqui porque o DOM da queixa é destruído ao
+         navegar, e o guia precisa delas depois. Mesma regra do resto: memória,
+         nunca disco, e morrem no "Novo paciente". */
+      notaAtual = '',
+      medidasAtual = {},
+      guiaAtual = null,
+      gerando = false,
+      vista = 'lista',        // lista | detalhe | revisao | guia
       atual = null;
+
+  /* A chave de API é a ÚNICA coisa que este app grava. Não é dado de paciente:
+     é configuração, e sem ela o BYOK não existe. O teste em testes.html falha
+     se aparecer qualquer outra chave no localStorage. */
+  var CHAVE = 'copiloto.apikey';
+  var lerChave = function () { try { return localStorage.getItem(CHAVE) || ''; } catch (e) { return ''; } };
+  var salvarChave = function (k) { try { localStorage.setItem(CHAVE, k); } catch (e) {} };
 
   function esc(s){
     return String(s).replace(/[&<>"]/g, function(c){
@@ -549,11 +594,146 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
     elRev.innerHTML = h;
   }
 
+  /* ---------- guia do caso ---------- */
+  function atualizaBotaoGuia(){
+    /* Só faz sentido com nota: o guia é sobre o texto livre, não sobre a queixa. */
+    elGuiar.classList.toggle('hide', !notaAtual.trim());
+  }
+
+  function renderGuia(estado, dados){
+    var h = '<h1 tabindex="-1">Guia do caso</h1>';
+
+    if (estado === 'chave') {
+      h += '<p class="upd">Cole a chave do OpenRouter. Ela fica só neste computador e é a ' +
+           'única coisa que este app grava — nada de paciente é gravado.</p>' +
+           '<div class="g-chave"><input id="k" type="password" placeholder="sk-or-v1-…" ' +
+           'autocomplete="off" spellcheck="false"><button class="btn" id="ksalvar" type="button" ' +
+           'style="background:var(--acc);color:#fff">Salvar e gerar</button></div>';
+      elGuia.innerHTML = h; return;
+    }
+
+    if (estado === 'carregando') {
+      elGuia.innerHTML = h + '<p class="g-carregando">Gerando o guia deste caso…</p>';
+      return;
+    }
+
+    if (estado === 'recusa') {
+      /* A lição do Gemini: um guia ausente não pode parecer um guia vazio. */
+      elGuia.innerHTML = h + '<div class="g-aviso">O modelo recusou responder a este caso (' +
+        esc(dados) + '). Não é falha da ferramenta e não significa que o caso é grave — ' +
+        'o filtro do provedor barrou o texto. Tente de novo ou siga sem o guia.</div>';
+      return;
+    }
+    if (estado === 'erro') {
+      elGuia.innerHTML = h + '<div class="g-aviso">Não deu para gerar: ' + esc(dados) + '</div>';
+      return;
+    }
+
+    var g = dados;
+    h += '<p class="upd">Apoio à decisão. Confira antes de usar — o guia não é fonte.</p>';
+
+    var bloco = function(rot, corpo, cls){
+      return '<div class="g-sec"><h2>' + esc(rot) + '</h2><div class="g-cx ' + (cls||'') + '">' +
+             corpo + '</div></div>';
+    };
+    var lista = function(a){ return '<ul>' + (a||[]).map(function(t){
+      return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>'; };
+
+    h += bloco('Hipótese principal',
+      '<b>' + esc(g.hipotese_principal) + '</b>' + esc(g.sintese), 'g-hip');
+
+    if ((g.pontos_atencao||[]).length)
+      h += bloco('Pontos que chamam atenção', lista(g.pontos_atencao), 'g-at');
+
+    if ((g.dados_faltantes||[]).length)
+      h += bloco('Falta na nota', lista(g.dados_faltantes), 'g-falta');
+
+    if ((g.diferenciais||[]).length) h += bloco('Diferenciais', lista(g.diferenciais));
+    if ((g.anamnese_dirigida||[]).length) h += bloco('Anamnese dirigida', lista(g.anamnese_dirigida));
+    if ((g.exame_dirigido||[]).length) h += bloco('Exame dirigido', lista(g.exame_dirigido));
+
+    if ((g.conduta||[]).length) {
+      /* O fármaco vira etiqueta. O NÚMERO da dose não vem daqui e nem do modelo:
+         o app não tem tabela de mg/kg por fármaco (a regra de corte proíbe), então
+         a etiqueta leva ao conversor, onde a posologia é do médico. */
+      var temPeso = medidasAtual.peso > 0;
+      h += bloco('Conduta',
+        '<ul class="g-cond">' + g.conduta.map(function(c){
+          return '<li>' + (c.farmaco ? '<span class="farm">' + esc(c.farmaco) + '</span>' : '') +
+                 esc(c.item) + ' <span class="g-fonte">(' + esc(c.fonte) + ')</span></li>';
+        }).join('') + '</ul>' +
+        (g.conduta.some(function(c){ return c.farmaco; })
+          ? '<p class="g-fonte" style="margin-top:.6rem">' + (temPeso
+              ? 'Peso ' + String(medidasAtual.peso).replace('.', ',') + ' kg registrado — ' +
+                'use a calculadora de dose com a posologia da sua fonte. Nenhuma dose foi calculada aqui.'
+              : 'Sem peso registrado: nenhuma dose pode ser calculada. Pese antes de prescrever.') +
+            '</p>'
+          : ''));
+    }
+
+    h += bloco('Evolução para o prontuário',
+      '<div class="g-soap">' + esc(montarSOAP(notaAtual, g)) + '</div>' +
+      '<p class="g-fonte" style="margin-top:.5rem">S é a sua nota, copiada literalmente. ' +
+      'O ficou em branco de propósito: o guia não registra exame que você não fez.</p>');
+
+    h += '<button class="btn" id="regerar" type="button" ' +
+         'style="background:var(--acc);color:#fff">Gerar de novo</button>';
+    elGuia.innerHTML = h;
+  }
+
+  async function gerarGuia(forcar){
+    if (gerando) return;
+    /* Já existe guia desta nota: mostrar em vez de gerar de novo. Cada geração
+       custa dinheiro, e voltar para a lista e clicar outra vez não é pedido de
+       guia novo. Regerar é explícito, pelo botão dentro da tela. */
+    if (guiaAtual && forcar !== true) { renderGuia('ok', guiaAtual); mostrar('guia'); foco(elGuia); return; }
+    if (!lerChave()) { renderGuia('chave'); mostrar('guia'); foco(elGuia); return; }
+    gerando = true;
+    renderGuia('carregando'); mostrar('guia'); foco(elGuia);
+
+    var deter = montarDeterministica(notaAtual, medidasAtual);
+    try {
+      var r = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: { Authorization: 'Bearer ' + lerChave(), 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'anthropic/claude-sonnet-5',
+          /* fixar o provedor: o OpenRouter é roteador e sem isto a nota pode
+             sair para outro host sem aviso */
+          provider: { order: ['anthropic'], allow_fallbacks: false },
+          reasoning: { effort: 'low' },
+          max_tokens: 4000,
+          response_format: { type: 'json_schema',
+                             json_schema: { name: 'guia', strict: true, schema: GUIA_SCHEMA } },
+          messages: [{ role: 'system', content: GUIA_SYS },
+                     { role: 'user', content: guiaPrompt(notaAtual, deter) }]
+        })
+      });
+      var j = await r.json();
+      if (j.error) { renderGuia('erro', j.error.message || 'erro do provedor'); return; }
+      var c = j.choices && j.choices[0];
+      var fim = c && (c.native_finish_reason || c.finish_reason);
+      if (!c || c.message.content == null || /content_filter|PROHIBITED|SAFETY|BLOCK/i.test(fim||'')) {
+        renderGuia('recusa', fim || 'sem conteúdo'); return;
+      }
+      guiaAtual = JSON.parse(c.message.content);
+      renderGuia('ok', guiaAtual);
+    } catch (e) {
+      renderGuia('erro', (e && e.message) || 'sem conexão');
+    } finally {
+      gerando = false;
+      foco(elGuia);
+    }
+  }
+
+  function foco(el){ var h1 = el.querySelector('h1'); if (h1) h1.focus(); }
+
   function mostrar(v){
     vista = v;
     elLista.classList.toggle('hide', v !== 'lista');
     elDet.classList.toggle('hide', v !== 'detalhe');
     elRev.classList.toggle('hide', v !== 'revisao');
+    elGuia.classList.toggle('hide', v !== 'guia');
     elVoltar.classList.toggle('hide', v === 'lista');
     window.scrollTo(0, 0);
   }
@@ -599,29 +779,59 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
     }
   });
 
+  /* Guarda o que o guia vai precisar depois que esta tela deixar de existir. */
+  function capturar(box){
+    var id = box.dataset.calc;
+    if (id === 'nota-conferencia') {
+      var t = box.querySelector('[data-f="nota"]');
+      if (t) notaAtual = t.value;
+    } else if (id === 'antropo-infantil') {
+      var m = {};
+      box.querySelectorAll('[data-f]').forEach(function(el){
+        if (el.value === '') return;
+        m[el.dataset.f] = el.type === 'number' ? parseFloat(el.value) : el.value;
+      });
+      medidasAtual = m;
+    } else { return; }
+    atualizaBotaoGuia();
+  }
+
   elDet.addEventListener('change', function(e){
     if (e.target.dataset.ck) { marcados[e.target.dataset.ck] = e.target.checked; atualizaContadores(); }
-    var box = e.target.closest('[data-calc]'); if (box) calcular(box);
+    var box = e.target.closest('[data-calc]'); if (box) { calcular(box); capturar(box); }
   });
   elDet.addEventListener('input', function(e){
-    var box = e.target.closest('[data-calc]'); if (box) calcular(box);
+    var box = e.target.closest('[data-calc]'); if (box) { calcular(box); capturar(box); }
   });
 
   elVoltar.addEventListener('click', function(){ voltar(true); });
   elRevisar.addEventListener('click', irRevisao);
+  elGuiar.addEventListener('click', gerarGuia);
+
+  elGuia.addEventListener('click', function(e){
+    if (e.target.id === 'regerar') { guiaAtual = null; gerarGuia(true); return; }
+    if (e.target.id !== 'ksalvar') return;
+    var k = elGuia.querySelector('#k');
+    if (k && k.value.trim()) { salvarChave(k.value.trim()); gerarGuia(true); }
+  });
 
   /* Fim da consulta: zera tudo. É o único lugar onde o estado morre, e ele morre
      inteiro — marcações, campos de calculadora e a lista de queixas da consulta. */
   elNovo.addEventListener('click', function(){
     marcados = {}; naConsulta = [];
+    /* A nota, as medidas e o guia gerado são dados de paciente: morrem aqui
+       junto com o resto. A chave de API não — ela é configuração. */
+    notaAtual = ''; medidasAtual = {}; guiaAtual = null;
+    elGuia.innerHTML = '';
     elDet.querySelectorAll('[data-ck]').forEach(function(c){ c.checked = false; });
     elDet.querySelectorAll('[data-calc]').forEach(function(box){
       box.querySelectorAll('[data-f]').forEach(function(el){ el.value=''; el.classList.remove('erro'); });
       calcular(box);
     });
-    if (vista === 'revisao') voltar(false); else atualizaContadores();
+    if (vista === 'revisao' || vista === 'guia') voltar(false); else atualizaContadores();
     elNovo.disabled = true;
     elRevisar.classList.add('hide');
+    atualizaBotaoGuia();
   });
 
   elQ.addEventListener('input', function(){

@@ -53,6 +53,15 @@ typography:
     fontWeight: 600
     lineHeight: 1.3
     letterSpacing: "-0.01em"
+  # Único uso de monospace no sistema, e é semântico: marca o bloco do SOAP como
+  # texto para copiar no prontuário, não para ler na tela. A largura fixa também
+  # preserva o alinhamento das letras S/O/A/P ao colar. Não usar em outro lugar.
+  transcricao:
+    fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace"
+    fontSize: "0.875rem"
+    fontWeight: 400
+    lineHeight: 1.55
+    letterSpacing: "normal"
 rounded:
   sm: "5px"
   md: "10px"

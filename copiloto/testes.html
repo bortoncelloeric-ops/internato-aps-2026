@@ -28,6 +28,7 @@ code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
 <script src="queixas.js"></script>
 <script src="oms-lms.js"></script>
 <script src="calculadoras.js"></script>
+<script src="guia-contrato.js"></script>
 <script>
 (function(){
   var C = {}; CALCS.forEach(function(c){ C[c.id] = c; });
@@ -214,6 +215,33 @@ code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
   ver('nota só com peso cobra idade, sexo e estatura', faltas('Peso 12kg').length, 3);
   /* nota em branco não pode virar lista de cobranças */
   ver('nota vazia não cobra nada', faltas('   ').length, 0);
+
+  /* ---------- contrato da camada generativa ---------- */
+  /* S e O por concatenação literal: é a invariante que impede registro de ato
+     não praticado. Nos PDFs de referência o ChatGPT devolveu ausculta normal
+     numa nota sem exame físico. */
+  var soap = montarSOAP('Nota do medico.', {avaliacao_soap:'Impetigo', plano_soap:'Mupirocina'});
+  ver('SOAP · S é a nota literal', /^S: Nota do medico\.$/m.test(soap), 'true');
+  ver('SOAP · O fica em branco, não inventado', /^O: \[não registrado\]/m.test(soap), 'true');
+  ver('SOAP · A vem do modelo', /^A: Impetigo$/m.test(soap), 'true');
+  ver('SOAP · nota vazia não vira achado', /^S: \[não registrado\]$/m.test(montarSOAP('', {})), 'true');
+
+  /* O bloco determinístico é o que o modelo recebe como FATO. Se ele parar de
+     carregar o escore ou a contradição, o modelo volta a hedgear. */
+  var dEx2 = montarDeterministica(notaEx2, {sexo:'f', meses:8, peso:8.650, est:76});
+  ver('determinística · acha a contradição', dEx2.contradicoes.length, 1);
+  ver('determinística · leva o escore da estatura',
+      /z \+3,05/.test(JSON.stringify(dEx2.antropometria)), 'true');
+  ver('determinística · leva o alerta de ±3 DP', /Fora de/.test(dEx2.alertaAntro || ''), 'true');
+  var pEx2 = guiaPrompt(notaEx2, dEx2);
+  ver('prompt · marca CONTRADIÇÕES em caixa alta', /CONTRADIÇÕES:/.test(pEx2), 'true');
+  ver('prompt · não emite dígito de dose', /\d+\s*mg\/kg/.test(pEx2), 'false');
+
+  var dEx1 = montarDeterministica(notaEx1, {sexo:'f', meses:84});
+  ver('determinística · ex1 sem peso não calcula antropometria', String(dEx1.antropometria), 'null');
+  ver('determinística · ex1 cobra o peso', /peso/.test(dEx1.falta.join(' ')), 'true');
+  ver('prompt · ex1 diz que a antropometria não é calculável',
+      /não calculável/.test(guiaPrompt(notaEx1, dEx1)), 'true');
 
   document.querySelector('#tc tbody').innerHTML = linhas.join('');
 

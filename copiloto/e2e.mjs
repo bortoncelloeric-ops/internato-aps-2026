@@ -269,8 +269,83 @@ ok('Novo paciente apaga a nota da consulta',
      const v=document.querySelector('[data-calc="nota-conferencia"] [data-f="nota"]').value;
      document.getElementById('voltar').click();return v})()`), '');
 
+// 10b. guia do caso — fetch mockado, nenhuma chamada real de API
+await evalJS(`localStorage.clear()`);
+await evalJS(`document.querySelector('[data-id="crianca-aidpi"]').click()`); await espera(250);
+await evalJS(`(()=>{const t=document.querySelector('[data-calc="nota-conferencia"] [data-f="nota"]');
+  t.value='Paciente, 7 anos, feminino. Feridas no nariz. Em uso de nistatina.';
+  t.dispatchEvent(new Event('input',{bubbles:true}));})()`);
+await espera(200);
+ok('nota digitada faz aparecer o botão Gerar guia',
+   await evalJS(`!document.getElementById('guiar').classList.contains('hide')`), true);
+
+/* sem chave, a primeira tela é a da chave — não uma chamada perdida */
+await evalJS(`document.getElementById('guiar').click()`); await espera(250);
+ok('sem chave, pede a chave antes de gastar API',
+   await evalJS(`!!document.querySelector('#guia #k')`), true);
+
+/* daqui em diante o fetch é substituído: o e2e não pode depender de rede nem gastar crédito */
+await evalJS(`window.__chamadas=[]; window.fetch=async(u,o)=>{window.__chamadas.push(JSON.parse(o.body));
+  return {json:async()=>({choices:[{finish_reason:'stop',message:{content:JSON.stringify({
+    sintese:'Menina de 7 anos com lesões há 7 dias.',hipotese_principal:'Impetigo',
+    diferenciais:['Varicela'],anamnese_dirigida:['Contato com outras crianças?'],
+    exame_dirigido:['Extensão das lesões'],
+    pontos_atencao:['Nistatina é antifúngica e o quadro é bacteriano'],
+    dados_faltantes:['peso — sem ele não sai dose'],
+    conduta:[{item:'Antibiótico tópico',farmaco:'Mupirocina',fonte:'VERIFICAR'}],
+    avaliacao_soap:'Impetigo',plano_soap:'Mupirocina tópica'})}}]})};}`);
+await evalJS(`(()=>{const k=document.querySelector('#guia #k');k.value='sk-or-v1-teste';
+  document.getElementById('ksalvar').click();})()`);
+await espera(400);
+ok('guia renderiza a hipótese', await evalJS(`/Impetigo/.test(document.getElementById('guia').innerText)`), true);
+ok('guia mostra o ponto de atenção', await evalJS(`/nistatina/i.test(document.getElementById('guia').innerText)`), true);
+/* case-insensitive porque os h2 têm text-transform:uppercase e innerText aplica o CSS */
+ok('guia mostra o que falta na nota', await evalJS(`/Falta na nota/i.test(document.getElementById('guia').innerText)`), true);
+ok('fármaco vira etiqueta', await evalJS(`!!document.querySelector('#guia .farm')`), true);
+/* a regra que não se negocia: o app não inventa dose */
+ok('sem peso, diz que nenhuma dose pode ser calculada',
+   await evalJS(`/nenhuma dose pode ser calculada/i.test(document.getElementById('guia').innerText)`), true);
+ok('S do SOAP é a nota literal',
+   await evalJS(`/S: Paciente, 7 anos, feminino\\. Feridas no nariz\\./.test(document.getElementById('guia').innerText)`), true);
+ok('O do SOAP fica em branco, não inventado',
+   await evalJS(`/O: \\[não registrado\\]/.test(document.getElementById('guia').innerText)`), true);
+ok('o prompt levou a camada determinística',
+   await evalJS(`/CAMADA DETERMIN/.test(window.__chamadas[0].messages[1].content)`), true);
+ok('o provedor foi fixado',
+   await evalJS(`window.__chamadas[0].provider.allow_fallbacks === false`), true);
+ok('voltar e clicar de novo não gera outra chamada',
+   await evalJS(`(()=>{document.getElementById('voltar').click();
+     document.getElementById('guiar').click();return window.__chamadas.length})()`), 1);
+await espera(200);
+
+/* recusa do modelo tem de aparecer como recusa, nunca como tela vazia */
+await evalJS(`window.fetch=async()=>({json:async()=>({choices:[{finish_reason:'content_filter',
+  native_finish_reason:'PROHIBITED_CONTENT',message:{content:null}}]})});`);
+await evalJS(`(()=>{document.getElementById('regerar').click()})()`); await espera(400);
+ok('recusa do modelo aparece na tela',
+   await evalJS(`/recusou/i.test(document.getElementById('guia').innerText)`), true);
+
+ok('Novo paciente apaga o guia', await evalJS(`(()=>{document.getElementById('novo').click();
+   return document.getElementById('guia').innerHTML})()`), '');
+ok('Novo paciente esconde o botão Gerar guia',
+   await evalJS(`document.getElementById('guiar').classList.contains('hide')`), true);
+
+/* Guarda de regressão: o quarto botão do header estourou a largura e fez a
+   página deslizar de lado no celular. Nada pode ultrapassar a viewport. */
+ok('nenhuma rolagem lateral com todos os botões visíveis',
+   await evalJS(`(()=>{document.querySelector('[data-id="crianca-aidpi"]').click();
+     const t=document.querySelector('[data-calc="nota-conferencia"] [data-f="nota"]');
+     t.value='x'; t.dispatchEvent(new Event('input',{bubbles:true}));
+     const over = document.documentElement.scrollWidth > document.documentElement.clientWidth;
+     document.getElementById('novo').click();
+     return over})()`), false);
+
 // 10. a prova da decisão de não persistir
-ok('localStorage vazio', await evalJS(`localStorage.length`), 0);
+/* A chave de API é a ÚNICA gravação permitida — configuração, não paciente. */
+ok('localStorage só tem a chave de API',
+   await evalJS(`Object.keys(localStorage).filter(k=>k!=='copiloto.apikey').length`), 0);
+ok('a nota do paciente não foi gravada',
+   await evalJS(`JSON.stringify(localStorage).includes('Feridas no nariz')`), false);
 ok('sessionStorage vazio', await evalJS(`sessionStorage.length`), 0);
 ok('sem cookie', await evalJS(`document.cookie === ''`), true);
 
