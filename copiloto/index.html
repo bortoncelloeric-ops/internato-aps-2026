@@ -272,6 +272,7 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
 <script src="queixas.js"></script>
 <script src="oms-lms.js"></script>
 <script src="calculadoras.js"></script>
+<script src="fontes.js"></script>
 <script src="guia-contrato.js"></script>
 <script>
 (function(){
@@ -659,9 +660,20 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
       var temPeso = medidasAtual.peso > 0;
       h += bloco('Conduta',
         '<ul class="g-cond">' + g.conduta.map(function(c){
+          /* fonte conferida sai em itálico discreto; VERIFICAR sai com a mesma
+             tarja âmbar que o resto do app usa para dívida de fonte, para não
+             haver dúvida sobre o que foi conferido e o que não foi */
+          var f = c.fonte === 'VERIFICAR'
+            ? '<span class="vf">VERIFICAR</span>'
+            : '<span class="g-fonte">(' + esc(c.fonte) + ')</span>';
           return '<li>' + (c.farmaco ? '<span class="farm">' + esc(c.farmaco) + '</span>' : '') +
-                 esc(c.item) + ' <span class="g-fonte">(' + esc(c.fonte) + ')</span></li>';
+                 esc(c.item) + ' ' + f + '</li>';
         }).join('') + '</ul>' +
+        ((g.fontesRebaixadas||[]).length
+          ? '<p class="g-fonte" style="margin-top:.6rem">' + g.fontesRebaixadas.length +
+            ' citação(ões) que o modelo tentou usar não estão na lista conferida e ' +
+            'viraram VERIFICAR.</p>'
+          : '') +
         (g.conduta.some(function(c){ return c.farmaco; })
           ? '<p class="g-fonte" style="margin-top:.6rem">' + (temPeso
               ? 'Peso ' + String(medidasAtual.peso).replace('.', ',') + ' kg registrado — ' +
@@ -716,7 +728,9 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
       if (!c || c.message.content == null || /content_filter|PROHIBITED|SAFETY|BLOCK/i.test(fim||'')) {
         renderGuia('recusa', fim || 'sem conteúdo'); return;
       }
-      guiaAtual = JSON.parse(c.message.content);
+      /* valida as citações ANTES de mostrar: o que não estiver no allowlist
+         vira VERIFICAR, nunca aparece como fonte conferida */
+      guiaAtual = validarFontes(JSON.parse(c.message.content));
       renderGuia('ok', guiaAtual);
     } catch (e) {
       renderGuia('erro', (e && e.message) || 'sem conexão');

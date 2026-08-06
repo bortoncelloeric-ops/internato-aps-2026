@@ -70,9 +70,11 @@ var GUIA_SYS = [
   "   \"X é antifúngico e o quadro é bacteriano\" ou \"Y é corticoide, não anti-histamínico\".",
   "3. dados_faltantes lista o que a conduta exige e a nota não tem, dizendo o que cada dado",
   "   destrava. Se a nota traz tudo, devolva lista vazia.",
-  "4. Em conduta, \"fonte\" NUNCA é vazia — ao contrário de \"farmaco\", que pode ser. Se não",
-  "   tiver fonte brasileira datada para aquele item, escreva o literal \"VERIFICAR\".",
-  "   Não invente referência. Item de conduta sem fonte nem VERIFICAR é recusado.",
+  "4. Em conduta, \"fonte\" NUNCA é vazia — ao contrário de \"farmaco\", que pode ser.",
+  "   Você só pode citar uma das fontes da lista FONTES CITÁVEIS, copiada CARACTERE POR",
+  "   CARACTERE. Para qualquer outra coisa, escreva o literal \"VERIFICAR\". Não invente",
+  "   referência e não adapte o texto da lista: o aplicativo confere a string contra a",
+  "   lista e rebaixa para VERIFICAR o que não bater. Preferir VERIFICAR a arriscar.",
   "5. pontos_atencao é onde entra o que o médico pode não ter percebido na própria nota:",
   "   contradição, fármaco de classe errada para a hipótese, dado que contraria a conclusão.",
   "6. avaliacao_soap e plano_soap são só o A e o P. Não escreva S nem O: você não examinou",
@@ -123,6 +125,49 @@ function montarDeterministica(nota, med) {
            antropometria: antro, alertaAntro: alerta };
 }
 
+/* Escolhe as páginas da wiki por palavra-chave sobre a nota. Sem embedding e sem
+   índice: são 20 KB de corpus com vocabulário técnico fechado, onde busca lexical
+   vence embedding, e RAG vetorial seria maquinaria para um `switch`. Máximo duas
+   páginas — a terceira já é ruído e custa token. */
+function paginasRelevantes(nota) {
+  var t = " " + String(nota || "").toLowerCase()
+    .normalize("NFD").replace(/[̀-ͯ]/g, "") + " ";
+  var pontos = [];
+  Object.keys(WIKI_PAGINAS).forEach(function (k) {
+    var n = 0;
+    WIKI_PAGINAS[k].kw.split(/\s+/).forEach(function (w) {
+      if (w.length > 3 && t.indexOf(w) > -1) n++;
+    });
+    if (n) pontos.push({ k: k, n: n });
+  });
+  return pontos.sort(function (a, b) { return b.n - a.n; }).slice(0, 2).map(function (p) { return p.k; });
+}
+
+/* A validação que fecha o buraco: antes disto o campo `fonte` era memória do
+   modelo — ele escrevia "SBP, Tratado de Pediatria, 2021" e ninguém conferia.
+   Agora ou a string está no allowlist, ou vira VERIFICAR na tela. Não existe
+   terceiro caminho: citação não conferida nunca aparece como se fosse conferida. */
+function fonteValida(f) {
+  f = String(f || "").trim();
+  return f === "VERIFICAR" || FONTES_VALIDAS.indexOf(f) > -1;
+}
+
+/* Devolve o guia com as fontes conferidas. `rebaixadas` conta o que o modelo
+   tentou citar e não bateu — é sinal de que o prompt ou o allowlist precisa de
+   ajuste, e a tela mostra. */
+function validarFontes(guia) {
+  var rebaixadas = [];
+  (guia.conduta || []).forEach(function (c) {
+    if (fonteValida(c.fonte)) { c.fonteOk = true; return; }
+    rebaixadas.push(c.fonte);
+    c.fonteOriginal = c.fonte;
+    c.fonte = "VERIFICAR";
+    c.fonteOk = false;
+  });
+  guia.fontesRebaixadas = rebaixadas;
+  return guia;
+}
+
 /* O bloco que vai como mensagem do usuário. Rótulos em caixa alta no que não
    pode ser suavizado — é o que o modelo tende a relativizar. */
 function guiaPrompt(nota, deter) {
@@ -142,6 +187,15 @@ function guiaPrompt(nota, deter) {
     if (deter.alertaAntro) l.push("- ALERTA ANTROPOMÉTRICO: " + deter.alertaAntro);
   } else {
     l.push("- antropometria: não calculável (falta peso e/ou estatura)");
+  }
+
+  l.push("", "FONTES CITÁVEIS (copiar verbatim; qualquer outra coisa é VERIFICAR):");
+  FONTES_VALIDAS.forEach(function (f) { l.push("- " + f); });
+
+  var pgs = paginasRelevantes(nota);
+  if (pgs.length) {
+    l.push("", "CONTEÚDO DE REFERÊNCIA (wiki do Eric, já conferido):");
+    pgs.forEach(function (k) { l.push("", WIKI_PAGINAS[k].texto); });
   }
   return l.join("\n");
 }

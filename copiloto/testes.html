@@ -28,6 +28,7 @@ code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
 <script src="queixas.js"></script>
 <script src="oms-lms.js"></script>
 <script src="calculadoras.js"></script>
+<script src="fontes.js"></script>
 <script src="guia-contrato.js"></script>
 <script>
 (function(){
@@ -242,6 +243,38 @@ code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
   ver('determinística · ex1 cobra o peso', /peso/.test(dEx1.falta.join(' ')), 'true');
   ver('prompt · ex1 diz que a antropometria não é calculável',
       /não calculável/.test(guiaPrompt(notaEx1, dEx1)), 'true');
+
+  /* ---------- validação de fonte ----------
+     O buraco que isto fecha: o campo `fonte` era memória do modelo. Ele escrevia
+     "SBP, Tratado de Pediatria, 2021" e ninguém conferia se existia. */
+  ver('allowlist não está vazio', FONTES_VALIDAS.length > 0, 'true');
+  ver('VERIFICAR é sempre válido', fonteValida('VERIFICAR'), 'true');
+  ver('fonte da wiki é válida', fonteValida('Calendário Nacional PNI (MS), 2025/26'), 'true');
+  ver('fonte inventada é rejeitada', fonteValida('SBP, Tratado de Pediatria, 2021'), 'false');
+  ver('fonte vazia é rejeitada', fonteValida(''), 'false');
+  /* adaptar o texto da lista também não passa: a conferência é exata */
+  ver('fonte quase certa é rejeitada', fonteValida('Calendário Nacional PNI (MS) 2025'), 'false');
+  /* procedência interna não é fonte citável num guia clínico */
+  ver('arquivo do vault não é fonte citável', fonteValida('guia-bolso-aps.html'), 'false');
+
+  var gFake = {conduta:[{item:'a', farmaco:'', fonte:'MS — Norma Técnica do SISVAN, 2011'},
+                        {item:'b', farmaco:'', fonte:'Diretriz inventada 2019'},
+                        {item:'c', farmaco:'', fonte:'VERIFICAR'}]};
+  validarFontes(gFake);
+  ver('validarFontes rebaixa a inventada', gFake.conduta[1].fonte, 'VERIFICAR');
+  ver('validarFontes preserva a válida', gFake.conduta[0].fonte, 'MS — Norma Técnica do SISVAN, 2011');
+  ver('validarFontes guarda o que foi rebaixado', gFake.fontesRebaixadas.join(''), 'Diretriz inventada 2019');
+  ver('validarFontes marca o que passou', gFake.conduta[0].fonteOk, 'true');
+
+  /* injeção da wiki: por palavra-chave, no máximo duas páginas */
+  ver('nota de criança puxa a página materno-infantil',
+      paginasRelevantes('Lactente de 8 meses com coriza, vacina em dia').indexOf('materno-infantil') > -1, 'true');
+  ver('nota de saúde mental puxa a página certa',
+      paginasRelevantes('Paciente com depressao e insonia, risco de suicidio').indexOf('saude-mental') > -1, 'true');
+  ver('no máximo duas páginas por prompt',
+      paginasRelevantes('crianca gestante depressao sigilo hipertensao cirurgia').length <= 2, 'true');
+  ver('o prompt leva o allowlist',
+      /FONTES CIT/.test(guiaPrompt('Lactente de 8 meses', montarDeterministica('Lactente de 8 meses', {}))), 'true');
 
   document.querySelector('#tc tbody').innerHTML = linhas.join('');
 

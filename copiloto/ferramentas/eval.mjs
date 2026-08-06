@@ -23,10 +23,10 @@ import { CASOS } from "./eval-casos.js";
    garante que o eval mede o que roda no consultório: se o prompt mudar em
    guia-contrato.js, muda aqui junto, sem cópia para divergir. */
 const raiz = new URL("..", import.meta.url).pathname;
-const src = ["oms-lms.js", "calculadoras.js", "guia-contrato.js"]
+const src = ["oms-lms.js", "calculadoras.js", "fontes.js", "guia-contrato.js"]
   .map(f => readFileSync(raiz + f, "utf8")).join("\n");
-const { GUIA_SYS, GUIA_SCHEMA, montarDeterministica, guiaPrompt, montarSOAP } =
-  new Function(src + "; return {GUIA_SYS,GUIA_SCHEMA,montarDeterministica,guiaPrompt,montarSOAP};")();
+const { GUIA_SYS, GUIA_SCHEMA, montarDeterministica, guiaPrompt, montarSOAP, fonteValida, FONTES_VALIDAS } =
+  new Function(src + "; return {GUIA_SYS,GUIA_SCHEMA,montarDeterministica,guiaPrompt,montarSOAP,fonteValida,FONTES_VALIDAS};")();
 
 const MODELO_PADRAO = "anthropic/claude-sonnet-5";
 /* Fixar o provedor: sem isso o OpenRouter pode rotear a nota para outro host.
@@ -42,45 +42,6 @@ const provedores = (m) =>
 const arg = (n, d) => (process.argv.find(a => a.startsWith(`--${n}=`)) || `=${d}`).split("=").pop();
 const MODELO = arg("modelo", MODELO_PADRAO);
 const SO_BASELINE = process.argv.includes("--baseline");
-
-/* ---------------------------------------------------------------- schema
-   Um campo por seção. O schema é o contrato anti-alucinação: `fonte` é
-   obrigatória em todo item de conduta, e o valor tem de ser um trecho da
-   fonte injetada ou o literal VERIFICAR — o modelo não pode inventar citação
-   porque só pode citar o que recebeu.
-
-   S e O do SOAP NÃO estão aqui, e a ausência é o desenho: nos dois PDFs o
-   ChatGPT devolveu ausculta normal e orofaringe sem exsudato numa nota sem
-   exame físico, e inventou linfonodomegalia com "afebril" numa nota que
-   registra febre. Colado no prontuário, isso é registro de ato não praticado.
-   S e O são montados por concatenação literal do que o médico digitou. */
-const SCHEMA = {
-  type: "object",
-  properties: {
-    sintese: { type: "string" },
-    hipotese_principal: { type: "string" },
-    diferenciais: { type: "array", items: { type: "string" } },
-    anamnese_dirigida: { type: "array", items: { type: "string" } },
-    exame_dirigido: { type: "array", items: { type: "string" } },
-    pontos_atencao: { type: "array", items: { type: "string" } },
-    dados_faltantes: { type: "array", items: { type: "string" } },
-    conduta: {
-      type: "array",
-      items: {
-        type: "object",
-        properties: { item: { type: "string" }, fonte: { type: "string" } },
-        required: ["item", "fonte"],
-        additionalProperties: false
-      }
-    },
-    avaliacao_soap: { type: "string" },
-    plano_soap: { type: "string" }
-  },
-  required: ["sintese", "hipotese_principal", "diferenciais", "anamnese_dirigida",
-             "exame_dirigido", "pontos_atencao", "dados_faltantes", "conduta",
-             "avaliacao_soap", "plano_soap"],
-  additionalProperties: false
-};
 
 /* --------------------------------------------------------------- asserts
    Cada um aponta para uma falha real observada nos PDFs, não para uma boa
@@ -121,9 +82,12 @@ const ASSERTS = [
       return /budesonida/i.test(s) && /corticoid|corticoster|antial[ée]rg|anti-?histam|classe/i.test(s);
     } },
 
-  { id: 8, alvo: null, nome: "toda conduta tem fonte ou VERIFICAR",
+  /* Antes checava só "tem alguma coisa escrita", e o modelo passava citando de
+     memória. Agora a string tem de estar no allowlist gerado da wiki, ou ser o
+     literal VERIFICAR — que é o que o app aceita mostrar. */
+  { id: 8, alvo: null, nome: "toda fonte está no allowlist ou é VERIFICAR",
     f: (o) => Array.isArray(o.conduta) && o.conduta.length > 0 &&
-              o.conduta.every(c => c && typeof c.fonte === "string" && c.fonte.trim().length > 0) },
+              o.conduta.every(c => c && fonteValida(c.fonte)) },
 
   /* O assert que mais pesa, e o que separou os modelos. Gabarito confirmado
      pelo Eric: o ex1 era impetigo. Errar aqui não é errar um campo — anamnese
