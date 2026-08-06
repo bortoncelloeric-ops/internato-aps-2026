@@ -112,7 +112,7 @@ QUEIXAS.push({
     ]
   },
 
-  scores: ["phq9", "gad7"]
+  scores: ["nota-conferencia", "phq9", "gad7", "dose-peso"]
 });
 
 QUEIXAS.push({
@@ -219,7 +219,7 @@ QUEIXAS.push({
     ]
   },
 
-  scores: ["imc", "ckdepi"]
+  scores: ["nota-conferencia", "imc", "ckdepi", "dose-peso"]
 });
 
 /* ------------------------------------------------------------------------

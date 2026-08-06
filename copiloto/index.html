@@ -695,6 +695,10 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
 
   async function gerarGuia(forcar){
     if (gerando) return;
+    /* Sem nota não há o que guiar. O botão já fica escondido, mas guardar aqui
+       também: um clique programático ou estado dessincronizado gerava um guia
+       vazio e cobrava a chamada. */
+    if (!notaAtual.trim()) { renderGuia('erro', 'digite a nota da consulta primeiro'); mostrar('guia'); foco(elGuia); return; }
     /* Já existe guia desta nota: mostrar em vez de gerar de novo. Cada geração
        custa dinheiro, e voltar para a lista e clicar outra vez não é pedido de
        guia novo. Regerar é explícito, pelo botão dentro da tela. */
