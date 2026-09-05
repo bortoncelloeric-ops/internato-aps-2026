@@ -9,6 +9,7 @@ Apoio à decisão durante o atendimento, para uso próprio do Eric no rodízio d
 |---|---|
 | `index.html` | o app inteiro: CSS, renderer, busca, motor de calculadora |
 | `queixas.js` | **conteúdo clínico. Só dados.** É o arquivo que se edita |
+| `anotacao.js` | **conteúdo do painel "Como anotar". Só dados.** Manual de como anotar a consulta |
 | `calculadoras.js` | registro das calculadoras (contém funções puras) |
 | `oms-lms.js` | **gerado, não editar.** Tabelas LMS da OMS, 318 KB |
 | `ferramentas/gerar-oms-lms.py` | regenera o `oms-lms.js` a partir dos `.xlsx` da OMS |
@@ -28,6 +29,10 @@ O app não é um livro de consulta: ele acompanha o atendimento do começo ao fi
    de uma não zera a da outra.
 3. **Red flags são marcáveis.** Marcar significa "procurei e descartei". O botão
    "Revisar consulta" mostra no header quantas ainda faltam.
+
+O painel **"Como anotar"** fica fora desse fluxo: é referência estática, não guarda
+estado, não entra na revisão de fechamento e "Novo paciente" não o zera — é manual,
+não dado de paciente. Renderiza uma vez e fica em cache.
 4. **Revisar consulta** lista, por queixa, o que ficou para trás: red flags não
    descartadas (em vermelho, primeiro) e itens de anamnese e exame em branco.
 5. **Novo paciente** encerra: apaga marcações, campos de calculadora e a lista de
