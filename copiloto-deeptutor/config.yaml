@@ -1,0 +1,15 @@
+auto_start: true
+avatar: ''
+channels: {}
+color: ''
+description: Assistente clínico de Atenção Primária — organiza notas de atendimento
+  em prontuário para o e-SUS, sustenta o raciocínio diagnóstico e propõe conduta de medicina
+  de família, sob supervisão.
+emoji: 🩺
+language: pt
+llm_selection:
+  model_id: llm-model-openai-codex-e33230db3dd7d2f0
+  profile_id: llm-profile-openai-codex-managed
+mcp_tools: []
+name: Copiloto APS
+soul_origin: {}
