@@ -48,7 +48,13 @@ ok('botão Novo paciente começa desabilitado', await evalJS(`document.getElemen
 
 // 2. busca sem acento e por sinônimo
 await evalJS(`(()=>{const q=document.getElementById('q');q.value='suicidio';q.dispatchEvent(new Event('input'));})()`);
-ok('busca "suicidio" (sem acento) acha 1', await evalJS(`document.querySelectorAll('.qcard').length`), 1);
+/* Contagem a partir dos dados, nunca fixa — armadilha nº 11 do handoff. Com o
+   módulo de psiquiatria, "suicidio" passou de 1 para 6 queixas e o número fixo
+   quebrou. O que importa é a busca sem acento casar com o texto acentuado. */
+ok('busca "suicidio" (sem acento) acha o que tem o termo',
+   await evalJS(`document.querySelectorAll('.qcard').length === QUEIXAS.filter(q => q._txt.includes('suicidio')).length`), true);
+ok('busca sem acento não devolve a lista inteira',
+   await evalJS(`document.querySelectorAll('.qcard').length < QUEIXAS.length`), true);
 await evalJS(`(()=>{const q=document.getElementById('q');q.value='metformina';q.dispatchEvent(new Event('input'));})()`);
 ok('busca "metformina" acha HAS/DM2', await evalJS(`document.querySelector('.qcard').dataset.id`), 'has-dm2-aps');
 await evalJS(`(()=>{const q=document.getElementById('q');q.value='xilofone';q.dispatchEvent(new Event('input'));})()`);
@@ -350,6 +356,78 @@ ok('nenhuma rolagem lateral com todos os botões visíveis',
      const over = document.documentElement.scrollWidth > document.documentElement.clientWidth;
      document.getElementById('novo').click();
      return over})()`), false);
+
+// 9b. painéis de referência: EEM e Psicofármacos
+/* O painel "Como anotar" nunca teve cobertura aqui. Os três dividem o mesmo
+   molde, então cobrir os três de uma vez fecha a lacuna junto com o que é novo. */
+ok('EEM abre pelo header', await evalJS(`(()=>{document.getElementById('eem').click();
+   return !document.getElementById('veem').classList.contains('hide')})()`), true);
+ok('EEM renderiza todos os domínios',
+   await evalJS(`document.querySelectorAll('#veem details.sec').length === EEM.secoes.length`), true);
+ok('EEM traz a fonte em cada domínio',
+   await evalJS(`document.querySelectorAll('#veem details.sec .src').length === EEM.secoes.length`), true);
+await evalJS(`document.getElementById('voltar').click()`);
+
+ok('Psicofármacos abre pelo header', await evalJS(`(()=>{document.getElementById('farmacos').click();
+   return !document.getElementById('vfar').classList.contains('hide')})()`), true);
+ok('o formulário renderiza um cartão por fármaco',
+   await evalJS(`document.querySelectorAll('#vfar .fx').length ===
+     PSICOFARMACOS.classes.reduce((n,c)=>n+c.farmacos.length,0)`), true);
+
+/* A INVARIANTE, conferida no DOM e não só nos dados: nenhum cartão mostra
+   dígito de dose sem mostrar de onde veio. Foi a condição para o projeto
+   passar a aceitar dose, em 16/09/2026. */
+ok('todo cartão do formulário mostra a fonte na tela',
+   await evalJS(`[...document.querySelectorAll('#vfar .fx')].every(c => !!c.querySelector('.src'))`), true);
+ok('nenhum dígito de dose sob tarja VERIFICAR',
+   await evalJS(`[...document.querySelectorAll('#vfar .fx')]
+     .filter(c => c.querySelector('.fx-nome .vf'))
+     .every(c => {
+       const t = (c.querySelector('.fx-dose') || {textContent:''}).textContent;
+       return ![...'0123456789'].some(d => t.includes(d));
+     })`), true);
+ok('o formulário marca o que não tem fonte conferida',
+   await evalJS(`document.querySelectorAll('#vfar .fx-nome .vf').length > 0`), true);
+/* Seções de combinação (onda 1.5): relação, não propriedade de um fármaco. */
+ok('as três seções de combinação renderizam',
+   await evalJS(`document.querySelectorAll('#vfar .fx-rel').length ===
+     [PSICOFARMACOS.combos, PSICOFARMACOS.proibidos, PSICOFARMACOS.dosemuda]
+       .reduce((n,r)=>n+r.itens.length,0)`), true);
+ok('toda combinação mostra a fonte na tela',
+   await evalJS(`[...document.querySelectorAll('#vfar .fx-rel')].every(c => !!c.querySelector('.src'))`), true);
+/* textContent, não innerText: os <details> ainda estão fechados aqui e innerText
+   devolve string vazia para elemento não renderizado — prima da armadilha nº 13. */
+ok('o cartão de fármaco mostra por que escolher ELE',
+   await evalJS(`[...document.querySelectorAll('#vfar .fx')].every(c =>
+     [...c.querySelectorAll('.fx-lin b')].some(b => /Por que este/i.test(b.textContent)))`), true);
+ok('o cartão de fármaco mostra contraindicações',
+   await evalJS(`[...document.querySelectorAll('#vfar .fx')].every(c =>
+     [...c.querySelectorAll('.fx-lin b')].some(b => /Contraindica/i.test(b.textContent)))`), true);
+ok('a busca do formulário acha combinação perigosa pelo nome do par',
+   await evalJS(`[...document.querySelectorAll('#vfar .fx-rel b')]
+     .some(b => /Lamotrigina . .cido valproico/.test(b.textContent))`), true);
+
+ok('sem rolagem lateral com o formulário aberto',
+   await evalJS(`(()=>{document.querySelectorAll('#vfar details.sec').forEach(d=>d.open=true);
+     return document.documentElement.scrollWidth > document.documentElement.clientWidth})()`), false);
+
+/* Decisão de layout de 16/09/2026: sete botões no header empurram a busca para
+   fora da tela do celular, então referência só aparece na lista. */
+await evalJS(`document.getElementById('voltar').click()`);
+ok('os três botões de referência aparecem na lista',
+   await evalJS(`['anotar','eem','farmacos'].every(i=>!document.getElementById(i).classList.contains('hide'))`), true);
+ok('os três somem dentro de uma queixa',
+   await evalJS(`(()=>{document.querySelector('[data-id="depressao-maior"]').click();
+     return ['anotar','eem','farmacos'].every(i=>document.getElementById(i).classList.contains('hide'))})()`), true);
+ok('a queixa de psiquiatria renderiza o tratamento farmacológico',
+   await evalJS(`[...document.querySelectorAll('#detalhe h2')].some(h=>/TRATAMENTO FARMACOL/i.test(h.innerText))`), true);
+await evalJS(`document.getElementById('voltar').click()`);
+
+/* Painel é manual, não dado de paciente: "Novo paciente" não o zera. */
+ok('Novo paciente não apaga os painéis de referência',
+   await evalJS(`(()=>{document.getElementById('novo').click();
+     return document.getElementById('vfar').innerHTML !== '' &&
+            document.getElementById('veem').innerHTML !== ''})()`), true);
 
 // 10. a prova da decisão de não persistir
 /* A chave de API é a ÚNICA gravação permitida — configuração, não paciente. */

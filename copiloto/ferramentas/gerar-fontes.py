@@ -33,9 +33,16 @@ PAGINAS = {
     "materno-infantil": ("materno-infantil-fatos.md",
                          "crianca lactente bebe recem-nascido neonato gestante gestacao "
                          "pre-natal puerperio amamentacao vacina icterica diarreia pediatria"),
+    # O rodizio de saude mental (CAPS III + HELR, set-out/2026) trouxe vocabulario
+    # que esta lista nao cobria: uma nota de psicose nao puxava esta pagina. Havia
+    # teste falhando por isso — a busca e lexical, entao o termo tem de estar aqui.
     "saude-mental": ("saude-mental-fatos.md",
                      "depressao ansiedade suicidio insonia psiquiatrico humor panico "
-                     "benzodiazepinico antidepressivo caps sofrimento"),
+                     "benzodiazepinico antidepressivo caps sofrimento "
+                     "psicose psicotico surto esquizofrenia alucinacao delirio "
+                     "antipsicotico haloperidol risperidona clozapina mania bipolar "
+                     "litio estabilizador agitacao delirium confusao alcool abstinencia "
+                     "tentativa autolesao catatonia acatisia"),
     "etica": ("etica-medica-fatos.md",
               "sigilo etica atestado notificacao obito prontuario consentimento menor"),
     "clinica-ampla": ("apa-amplo-fatos.md",
@@ -106,8 +113,14 @@ def main():
     fontes += fontes_da_wiki(io.open(caminho_fh, encoding="utf-8").read())
 
     fontes += FONTES_DO_PROJETO
-    fontes += fontes_das_queixas(
-        io.open(os.path.join(COPILOTO, "queixas.js"), encoding="utf-8").read())
+    # psicofarmacos.js e eem.js entram pelo mesmo caminho: os campos `fonte:`
+    # deles sao curados e passam pelo mesmo criterio (autoridade externa + ano).
+    for arq in ("queixas.js", "psicofarmacos.js", "eem.js"):
+        caminho = os.path.join(COPILOTO, arq)
+        if not os.path.exists(caminho):
+            print("  ! faltando: %s" % arq)
+            continue
+        fontes += fontes_das_queixas(io.open(caminho, encoding="utf-8").read())
 
     for chave, (arq, kw) in PAGINAS.items():
         caminho = os.path.join(WIKI, arq)
@@ -133,7 +146,8 @@ def main():
         " * exatamente o que a regra de ouro do projeto proíbe.\n"
         " *\n"
         " * Origem: tabela de 30-RECURSOS/medicina-wiki/wiki/fontes-e-hierarquia.md\n"
-        " * (deep-research 29/05/2026) + os campos `fonte:` já curados em queixas.js.\n"
+        " * (deep-research 29/05/2026) + os campos `fonte:` já curados em queixas.js,\n"
+        " * psicofarmacos.js e eem.js.\n"
         " *\n"
         " * WIKI_PAGINAS entra no prompt por palavra-chave, para o modelo ter o\n"
         " * conteúdo e não só o rótulo. RAG vetorial seria overkill: são %d KB no\n"

@@ -10,6 +10,8 @@ Apoio à decisão durante o atendimento, para uso próprio do Eric no rodízio d
 | `index.html` | o app inteiro: CSS, renderer, busca, motor de calculadora |
 | `queixas.js` | **conteúdo clínico. Só dados.** É o arquivo que se edita |
 | `anotacao.js` | **conteúdo do painel "Como anotar". Só dados.** Manual de como anotar a consulta |
+| `eem.js` | **conteúdo do painel "EEM". Só dados.** Os 12 domínios do exame do estado mental |
+| `psicofarmacos.js` | **conteúdo do painel "Psicofármacos". Só dados.** Formulário por classe e fármaco, mais as três seções de combinação |
 | `calculadoras.js` | registro das calculadoras (contém funções puras) |
 | `oms-lms.js` | **gerado, não editar.** Tabelas LMS da OMS, 318 KB |
 | `ferramentas/gerar-oms-lms.py` | regenera o `oms-lms.js` a partir dos `.xlsx` da OMS |
@@ -30,9 +32,14 @@ O app não é um livro de consulta: ele acompanha o atendimento do começo ao fi
 3. **Red flags são marcáveis.** Marcar significa "procurei e descartei". O botão
    "Revisar consulta" mostra no header quantas ainda faltam.
 
-O painel **"Como anotar"** fica fora desse fluxo: é referência estática, não guarda
-estado, não entra na revisão de fechamento e "Novo paciente" não o zera — é manual,
-não dado de paciente. Renderiza uma vez e fica em cache.
+Os painéis **"Como anotar"**, **"EEM"** e **"Psicofármacos"** ficam fora desse fluxo:
+são referência estática, não guardam estado, não entram na revisão de fechamento e
+"Novo paciente" não os zera — são manual, não dado de paciente. Renderizam uma vez e
+ficam em cache. Os três dividem o mesmo renderer (`painelHTML`).
+
+**Os três botões só aparecem na lista.** Sete botões no header quebram em três linhas
+no celular e empurram a busca para fora da tela — e referência não se consulta no meio
+de uma queixa aberta, se consulta antes ou depois. Há e2e para os dois lados disso.
 4. **Revisar consulta** lista, por queixa, o que ficou para trás: red flags não
    descartadas (em vermelho, primeiro) e itens de anamnese e exame em branco.
 5. **Novo paciente** encerra: apaga marcações, campos de calculadora e a lista de
@@ -99,7 +106,13 @@ QUEIXAS.push({
 ```
 
 **Chaves de seção** (todas opcionais; omitir é melhor que deixar vazia):
-`redflags` · `perguntas` · `exame` · `naoperder` · `ddx` · `exames` · `conduta` · `erros`
+`redflags` · `perguntas` · `exame` · `naoperder` · `ddx` · `exames` · `farmaco` ·
+`conduta` · `erros`
+
+`farmaco` entrou em 16/09/2026 com o módulo de psiquiatria. Nas queixas de APS o
+tratamento cabia em `conduta`; em psiquiatria a escolha do fármaco **é** a consulta,
+e misturar as duas coisas escondia a decisão no meio da lista. O detalhe por fármaco
+mora no painel Psicofármacos, para a mesma tabela não se repetir em oito queixas.
 
 **Item** = string **ou** `{ t, f?, v? }` — `t` texto, `f` fonte só deste item,
 `v: true` marca `VERIFICAR` (tarja âmbar na tela).
@@ -139,17 +152,63 @@ Campo: `{id, rot, un?, tipo, opts?, min?, max?, passo?, opc?}` —
 **array** de `{rot, val, cls}` (uma linha por resultado, cada uma com a própria
 cor) ou **`null`** quando ainda não há o que mostrar.
 
-### A regra vale para dose também
+### A regra vale para dose também — e foi alterada em 16/09/2026
 
-Não existe base aberta e datada de mg/kg por fármaco em português: a RENAME não
-traz posologia, o Formulário Terapêutico Nacional é de 2010, e os CAB e PCDT são
-majoritariamente CC BY-NC-ND, que proíbe obra derivada. Além disso, tabela de
-dose é escolha terapêutica com aparência de aritmética — exatamente o que a
-regra bloqueia.
+**A regra da calculadora não mudou:** `dose-peso` continua a **converter, não a
+decidir**. A posologia vem do médico e o app faz a multiplicação. Nenhuma
+calculadora emite dose. O modelo do "Gerar guia" continua proibido de emitir
+dígito de dose — devolve o princípio ativo no campo `farmaco` e manda usar o
+conversor.
 
-Por isso `dose-peso` **converte, não decide**: a posologia vem do médico e o app
-faz a multiplicação. Para entrar dose de um fármaco específico, é preciso PCDT ou
-CAB brasileiro datado citado no item — um fármaco de cada vez.
+**O que mudou:** o conteúdo estático passou a poder trazer dígito de dose. A
+decisão foi do Eric, em 16/09/2026, para o módulo de psiquiatria: guia de bolso
+de psiquiatria sem dose não serve no CAPS nem na emergência. A condição que ele
+aceitou junto **não é negociável**:
+
+1. **Toda dose carrega a fonte no próprio cartão ou item.** Não existe número
+   órfão. `psicofarmacos.js` tem `fonte` por fármaco, não por classe — quem
+   precisa responder de onde veio é o número.
+2. **Sem fonte brasileira datada e conferida, o cartão sai marcado `v: true`** e
+   a dose é substituída pela frase que diz que não há fonte. Quatro cartões
+   estão assim hoje, de propósito.
+3. **A fonte é lida, não lembrada.** Os PDFs estão em
+   `../../internato-sm-sc-2026-2/raw/fonte-*.pdf` e o mapa de conferência em
+   `../../internato-sm-sc-2026-2/.fontes-conferidas.md`. Texto extraído com
+   `pdftotext -layout` e lido antes de escrever.
+4. **Há teste travando as três coisas acima**, em `testes.html` (dados) e em
+   `e2e.mjs` (DOM). Sem eles a condição seria promessa. Se algum cair, a dose sai
+   antes de o teste ser afrouxado.
+
+Fontes conferidas: PCDT Esquizofrenia (Portaria SAS/MS nº 364, 2013), PCDT
+Transtorno Afetivo Bipolar do tipo I (Portaria SAS/MS nº 315, 2016), CAB nº 34
+Saúde Mental (MS, 2013), PCDT Tabagismo (Portaria Conjunta SCTIE/SAES/MS nº 10,
+2020), Dalgalarrondo 3ª ed. (Artmed, 2019), CFM/CREMEC Parecer nº 14/2021 e
+CANMAT 2023 (Can J Psychiatry, 2024).
+
+### O array `dose` só pode conter DOSE
+
+Aprendido na onda 1.5, com o teste acusando. Uma linha de recomendação
+("1ª linha como potencializador…") foi escrita dentro de `dose` e o teste do
+dígito acusou o cartão, que é marcado VERIFICAR. O teste estava certo: critério
+de escolha vai em `escolher`, monitorização em `monitor`, e `dose` fica só com
+dose. Se esse teste acusar de novo, mova o dado — não relaxe o teste.
+
+### As três seções de combinação
+
+`PSICOFARMACOS.combos`, `.proibidos` e `.dosemuda` vivem FORA de `classes`:
+
+- **combos** — combinações que se fazem, por situação clínica
+- **proibidos** — as que não se fazem; todo item declara o **MECANISMO**, e há
+  teste exigindo essa palavra. Sem mecanismo o item vira decoreba e não
+  generaliza para o fármaco que não está na lista
+- **dosemuda** — mesmo fármaco, dose diferente, indicação diferente
+
+Combinação é **relação**, não propriedade de um fármaco. Repetida em 39 cartões,
+envelheceria em 39 lugares. Item = `{t, d, f, v?}` — `f` é a fonte, obrigatória,
+e há teste.
+
+A ressalva de licença segue de pé: CAB e PCDT são CC BY-NC-ND. O que entra aqui
+é **fato posológico com citação**, não transcrição de obra.
 
 ### Três respostas possíveis, não duas
 

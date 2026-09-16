@@ -30,6 +30,8 @@ code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
 <script src="calculadoras.js"></script>
 <script src="fontes.js"></script>
 <script src="guia-contrato.js"></script>
+<script src="eem.js"></script>
+<script src="psicofarmacos.js"></script>
 <script>
 (function(){
   var C = {}; CALCS.forEach(function(c){ C[c.id] = c; });
@@ -276,10 +278,151 @@ code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
   ver('o prompt leva o allowlist',
       /FONTES CIT/.test(guiaPrompt('Lactente de 8 meses', montarDeterministica('Lactente de 8 meses', {}))), 'true');
 
+  /* ---------- painéis de psiquiatria ----------
+     A regra que estes testes travam: em 16/09/2026 o projeto passou a aceitar
+     dígito de dose, e a condição foi que TODA dose carregue fonte conferida ou
+     o cartão saia marcado VERIFICAR. Sem estes testes a condição é promessa. */
+  ver('eem.js carregou', typeof EEM !== 'undefined', 'true');
+  ver('EEM tem os domínios do exame', EEM.secoes.length >= 10, 'true');
+  ver('EEM tem consciência antes de orientação',
+      EEM.secoes.findIndex(function(s){ return /Consci..ncia/.test(s.rot); }) <
+      EEM.secoes.findIndex(function(s){ return /Orienta/.test(s.rot); }), 'true');
+  ver('EEM termina em juízo crítico e prospecção',
+      /Ju.zo cr.tico/.test(EEM.secoes[EEM.secoes.length - 1].rot), 'true');
+
+  var eemSemFonte = EEM.secoes.filter(function(s){ return !s.fonte; });
+  ver('toda seção do EEM tem fonte', eemSemFonte.length, '0');
+  var eemFonteInvalida = EEM.secoes.filter(function(s){ return !fonteValida(s.fonte); });
+  ver('toda fonte do EEM está no allowlist', eemFonteInvalida.length, '0');
+  var eemSemPar = EEM.secoes.filter(function(s){
+    return s.itens.some(function(i){ return !i.t || !i.d; });
+  });
+  ver('todo item do EEM tem termo e significado', eemSemPar.length, '0');
+
+  ver('psicofarmacos.js carregou', typeof PSICOFARMACOS !== 'undefined', 'true');
+  var FX = [];
+  PSICOFARMACOS.classes.forEach(function(c){ c.farmacos.forEach(function(f){ FX.push(f); }); });
+  ver('o formulário tem fármacos', FX.length > 20, 'true');
+  ver('todo fármaco tem fonte', FX.filter(function(f){ return !f.fonte; }).length, '0');
+
+  /* A INVARIANTE. Dígito de dose só existe com fonte conferida. */
+  var DIGITO = /\d/;
+  var doseSemFonte = FX.filter(function(f){
+    var temDigito = (f.dose || []).some(function(d){ return DIGITO.test(d.val); });
+    var fontePendente = f.v || /^VERIFICAR/.test(f.fonte || '');
+    return temDigito && fontePendente;
+  });
+  ver('nenhum dígito de dose sob fonte VERIFICAR',
+      doseSemFonte.map(function(f){ return f.nome; }).join(', '), '');
+
+  var fontePendenteSemMarca = FX.filter(function(f){
+    return /^VERIFICAR/.test(f.fonte || '') && !f.v;
+  });
+  ver('fonte VERIFICAR implica cartão marcado', fontePendenteSemMarca.length, '0');
+
+  var fxInvalida = FX.filter(function(f){
+    return !fonteValida(f.fonte) && !/^VERIFICAR/.test(f.fonte || '');
+  });
+  ver('toda fonte do formulário está no allowlist ou é VERIFICAR', fxInvalida.length, '0');
+
+  ver('o formulário cobre as classes do CAPS',
+      ['Antipsic', 'Estabilizadores', 'Antidepressivos', 'Benzodiazep'].every(function(t){
+        return PSICOFARMACOS.classes.some(function(c){ return c.rot.indexOf(t) > -1; });
+      }), 'true');
+
+  /* Os números que mais custam caro se saírem errados. Travados contra o PCDT. */
+  function dosesDe(nome){
+    var f = FX.filter(function(x){ return x.nome.indexOf(nome) === 0; })[0];
+    return f ? f.dose.map(function(d){ return d.val; }).join(' | ') : '';
+  }
+  ver('lítio · nível terapêutico do PCDT', /0,6 a 1,2 mEq\/L/.test(dosesDe('Carbonato de lítio')), 'true');
+  ver('lítio · máximo do PCDT', /1\.800 mg\/dia/.test(dosesDe('Carbonato de lítio')), 'true');
+  ver('clozapina · janela de hemograma',
+      /SEMANAL nas 18 primeiras semanas/.test(
+        FX.filter(function(f){ return f.nome === 'Clozapina'; })[0].monitor), 'true');
+  ver('haloperidol · teto agudo do PCDT', /15 mg\/dia/.test(dosesDe('Haloperidol')), 'true');
+  ver('lamotrigina · titulação em semanas, não dias',
+      /2 SEMANAS/.test(dosesDe('Lamotrigina')), 'true');
+
+  /* ---------- profundidade por fármaco e combinações (16/09/2026, onda 1.5) ---------- */
+  ver('todo fármaco diz por que escolher ELE',
+      FX.filter(function(f){ return !f.porque; }).length, '0');
+  /* Travessão é placeholder, e o renderer o omite: cartão com "—" em
+     contraindicação lê na tela como "não tem contraindicação". */
+  ver('todo fármaco tem contraindicações, sem placeholder',
+      FX.filter(function(f){ return !f.contraind || f.contraind === '\u2014'; }).length, '0');
+  ver('todo fármaco diz quando evitar',
+      FX.filter(function(f){ return !f.evitar; }).length, '0');
+
+  /* O array `dose` só pode conter DOSE. Pôr linha de recomendação ali fez o teste
+     do dígito acusar o aripiprazol — o dado estava no campo errado, não o teste. */
+  var REL = [PSICOFARMACOS.combos, PSICOFARMACOS.proibidos, PSICOFARMACOS.dosemuda];
+  ver('as três seções de combinação existem',
+      REL.every(function(r){ return r && r.itens && r.itens.length; }), 'true');
+  ver('toda combinação tem par e explicação',
+      REL.reduce(function(n, r){
+        return n + r.itens.filter(function(i){ return !i.t || !i.d; }).length;
+      }, 0), '0');
+  ver('toda combinação tem fonte',
+      REL.reduce(function(n, r){
+        return n + r.itens.filter(function(i){ return !i.f; }).length;
+      }, 0), '0');
+  ver('toda fonte de combinação está no allowlist ou é VERIFICAR',
+      REL.reduce(function(n, r){
+        return n + r.itens.filter(function(i){
+          return !fonteValida(i.f) && !/^VERIFICAR/.test(i.f || '');
+        }).length;
+      }, 0), '0');
+
+  function relTexto(sec){
+    return sec.itens.map(function(i){ return i.t + ' ' + i.d; }).join(' | ');
+  }
+  var txtProib = relTexto(PSICOFARMACOS.proibidos);
+  var txtDose  = relTexto(PSICOFARMACOS.dosemuda);
+  var txtCombo = relTexto(PSICOFARMACOS.combos);
+
+  /* Os pares cuja ausência custaria caro na enfermaria. */
+  ver('proibidos · lítio com diurético, IECA ou AINE', /L.tio \+ diur.tico/.test(txtProib), 'true');
+  ver('proibidos · lamotrigina com valproato', /Lamotrigina \+ .cido valproico/.test(txtProib), 'true');
+  ver('proibidos · antidepressivo isolado no bipolar', /monoterapia no transtorno bipolar/i.test(txtProib), 'true');
+  ver('proibidos · biperideno na acatisia', /Biperideno para acatisia/.test(txtProib), 'true');
+  ver('proibidos · glicose antes de tiamina', /glicosado antes de tiamina/.test(txtProib), 'true');
+  ver('todo item proibido traz o mecanismo', 
+      PSICOFARMACOS.proibidos.itens.filter(function(i){ return i.d.indexOf('MECANISMO') < 0; }).length, '0');
+
+  ver('dose muda função · amitriptilina abaixo de 100 mg', /100 mg\/dia/.test(txtDose), 'true');
+  ver('dose muda função · fluoxetina no TOC', /60 a 80 mg/.test(txtDose), 'true');
+  ver('dose muda função · cetamina anestésico e antidepressivo', /Cetamina/.test(txtDose), 'true');
+
+  ver('combos · fluoxetina no bipolar só acompanhada',
+      /fluoxetina \+ olanzapina, l.tio OU valproato/i.test(txtCombo), 'true');
+  ver('combos · potencialização na depressão resistente', /potencializar com antipsic.tico/i.test(txtCombo), 'true');
+
+  /* Correção factual que motivou esta onda: cetamina NÃO é opioide. */
+  var ket = FX.filter(function(f){ return /etamina/.test(f.nome); });
+  ver('cetamina e escetamina entraram no formulário', ket.length >= 2, 'true');
+  ver('a escetamina é descrita como NMDA, não opioide',
+      ket.some(function(f){ return /NMDA/.test(f.porque) && !/opioide/i.test(f.porque); }), 'true');
+  ver('a escetamina exige ambiente clínico e 2 horas de observação',
+      ket.some(function(f){
+        return f.dose.some(function(d){ return /DUAS HORAS/i.test(d.val); });
+      }), 'true');
+
+  /* A seção farmaco é nova: o lint já cobre fonte, aqui cobre existência. */
+  var psiq = QUEIXAS.filter(function(q){ return q.tag === 'Psiquiatria'; });
+  ver('as queixas de psiquiatria entraram', psiq.length >= 8, 'true');
+  ver('toda queixa de psiquiatria tem tratamento farmacológico',
+      psiq.filter(function(q){ return !q.farmaco || !q.farmaco.itens.length; }).length, '0');
+  ver('toda queixa de psiquiatria tem red flags',
+      psiq.filter(function(q){ return !q.redflags || !q.redflags.itens.length; }).length, '0');
+  ver('nota de psicose puxa a página de saúde mental',
+      paginasRelevantes('Paciente em surto psicotico, alucinacao auditiva, antipsicotico')
+        .indexOf('saude-mental') > -1, 'true');
+
   document.querySelector('#tc tbody').innerHTML = linhas.join('');
 
   /* ---------- lint de fontes ---------- */
-  var SEC = ['redflags','perguntas','exame','naoperder','ddx','exames','conduta','erros'];
+  var SEC = ['redflags','perguntas','exame','naoperder','ddx','exames','farmaco','conduta','erros'];
   var erros = [], pendencias = 0, totalItens = 0;
 
   QUEIXAS.forEach(function(qx){
