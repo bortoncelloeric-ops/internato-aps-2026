@@ -258,6 +258,19 @@ que parecem detalhe e não são:
 O sistema visual está em `../DESIGN.md` e é vinculante: cinco tamanhos de fonte,
 três raios, acento verde só para ação e estado. Tamanho literal fora da escala é drift.
 
+## Armadilha de escape no e2e — me pegou três vezes
+
+Dentro de um template literal do JavaScript, `\d` vira a letra `d` e `\/` fecha a
+expressão regular cedo (erro "Invalid regular expression flags"). Como o `evalJS`
+do `e2e.mjs` monta a expressão dentro de crase, **toda regex com contrabarra
+escrita ali está errada de véspera** — e o teste falha por motivo falso, ou pior,
+passa testando a coisa errada.
+
+Regra: em asserção de `evalJS`, nada de contrabarra. Use `[0-9]` no lugar de `\d`,
+`new RegExp('...')` com string quando precisar de barra, ou simplesmente
+`.includes()`. Prima da armadilha do `innerText`, que devolve string vazia em
+`<details>` fechado — nesse caso use `textContent`.
+
 ## Limites que não se negociam
 
 - **Nenhum dado de paciente é gravado.** Sem `localStorage`, sem `sessionStorage`,

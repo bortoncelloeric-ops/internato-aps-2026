@@ -282,6 +282,20 @@ li.v{background:var(--amb-w); margin-left:-.5rem; padding:.3rem .5rem; border-ra
 .fx-rel b{display:block; font-weight:700; color:var(--acc-d); margin-bottom:.25rem}
 .fx-rel span{display:block; font-size:var(--fs-md)}
 
+/* Botão de copiar a consulta. Verde cheio porque é ação, e a escala de cor do
+   projeto reserva o acento para ação e estado. */
+.btn-copiar{
+  background:var(--acc); color:#fff; border:0; border-radius:var(--rm);
+  padding:.7rem 1.1rem; min-height:44px; font:inherit; font-size:var(--fs-md);
+  font-weight:700; letter-spacing:.02em; cursor:pointer; width:100%;
+  transition:background .15s,transform .15s;
+}
+.btn-copiar:hover{background:var(--acc-d)}
+.btn-copiar:active{transform:scale(.99)}
+.btn-copiar:focus-visible{outline:none; box-shadow:var(--ring)}
+.btn-copiar.copiou{background:var(--acc-d)}
+.copiar-nota{font-size:var(--fs-sm); color:var(--mut); margin:.45rem 0 1rem}
+
 /* ---------- estado vazio ---------- */
 .vazio{padding:2rem .5rem; color:var(--mut)}
 .vazio p{margin:0 0 .8rem}
@@ -640,11 +654,93 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
     elRevisar.classList.toggle('alerta-pend', criticas > 0);
   }
 
+  /* ---------- copiar a consulta ----------
+     Decidido com o Eric em 16/09/2026, contra a alternativa de gravar no
+     localStorage. O raciocínio: o dado precisa SAIR do navegador para virar
+     registro — copiar resolve a necessidade sem tocar na invariante de que nada
+     de paciente é gravado aqui. O que é do paciente vai para onde ele já é
+     registrado, e o app continua morrendo no "Novo paciente". */
+  function resumoConsulta(){
+    var d = new Date(), p2 = function(n){ return (n < 10 ? '0' : '') + n; };
+    var L = ['CONSULTA · ' + p2(d.getDate()) + '/' + p2(d.getMonth() + 1) + '/' +
+             d.getFullYear() + ' ' + p2(d.getHours()) + ':' + p2(d.getMinutes()), ''];
+
+    var abertas = naConsulta.map(function(id){
+      return QUEIXAS.filter(function(x){ return x.id === id; })[0];
+    }).filter(Boolean);
+
+    L.push('QUEIXAS ABERTAS');
+    abertas.forEach(function(qx){ L.push('· ' + qx.nome); });
+    L.push('');
+
+    abertas.forEach(function(qx){
+      L.push('— ' + qx.nome.toUpperCase() + ' —');
+
+      if (qx.redflags && qx.redflags.itens && qx.redflags.itens.length) {
+        var feitas = [], faltam = [];
+        qx.redflags.itens.forEach(function(i, n){
+          (marcados[qx.id + '.redflags.' + n] ? feitas : faltam).push(item(i).t);
+        });
+        if (feitas.length) {
+          L.push('RED FLAGS DESCARTADAS');
+          feitas.forEach(function(t){ L.push('  ✓ ' + t); });
+        }
+        if (faltam.length) {
+          L.push('⚠ AINDA PENDENTE');
+          faltam.forEach(function(t){ L.push('  ✗ ' + t); });
+        }
+      }
+
+      /* Só a contagem nas seções que se executam: listar as 11 perguntas em
+         branco vira ruído no que deveria ser registro. O detalhe fica na tela
+         de revisão, que é onde se age. */
+      SECOES.filter(function(sc){ return sc.ck; }).forEach(function(sc){
+        var sec = qx[sc.k];
+        if (!sec || !sec.itens || !sec.itens.length) return;
+        var n = sec.itens.filter(function(i, k){ return marcados[qx.id + '.' + sc.k + '.' + k]; }).length;
+        L.push(sc.r.toUpperCase() + ' — ' + n + ' de ' + sec.itens.length + ' itens');
+      });
+      L.push('');
+    });
+
+    if (notaAtual.trim()) { L.push('NOTA'); L.push(notaAtual.trim()); L.push(''); }
+    L.push('Copiloto Clínico — apoio à decisão, não é prontuário.');
+    return L.join('\n');
+  }
+
+  function copiar(txt, btn){
+    var avisa = function(ok){
+      btn.textContent = ok ? 'Copiado' : 'Não consegui copiar';
+      btn.classList.toggle('copiou', ok);
+      setTimeout(function(){ btn.textContent = 'Copiar consulta'; btn.classList.remove('copiou'); }, 2200);
+    };
+    /* Fallback para quando clipboard.writeText não existe ou é negado: o
+       textarea é criado, usado e removido no mesmo gesto — nada fica no DOM. */
+    var naMao = function(){
+      try {
+        var t = document.createElement('textarea');
+        t.value = txt; t.setAttribute('readonly', '');
+        t.style.cssText = 'position:fixed;top:-9999px;opacity:0';
+        document.body.appendChild(t);
+        t.select(); t.setSelectionRange(0, txt.length);   // iOS exige o range
+        var ok = document.execCommand('copy');
+        document.body.removeChild(t);
+        avisa(ok);
+      } catch (e) { avisa(false); }
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(txt).then(function(){ avisa(true); }, naMao);
+    } else { naMao(); }
+  }
+
   function renderRevisao(){
     var ps = pendencias();
     var h = '<h1 tabindex="-1">Antes de fechar a consulta</h1><p class="upd">' +
             naConsulta.length + (naConsulta.length > 1 ? ' queixas abertas' : ' queixa aberta') +
-            ' nesta consulta. Nada aqui é gravado.</p>';
+            ' nesta consulta. Nada aqui é gravado.</p>' +
+            '<button class="btn-copiar" id="copiar" type="button">Copiar consulta</button>' +
+            '<p class="copiar-nota">Copia para a área de transferência. Cole onde você já ' +
+            'registra — o app não guarda.</p>';
     var vazio = ps.every(function(p){ return !p.grupos.length; });
     if (vazio) {
       h += '<div class="tudo-ok">Nenhuma pendência: todas as red flags foram descartadas e ' +
@@ -1014,6 +1110,10 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
   });
   elDet.addEventListener('input', function(e){
     var box = e.target.closest('[data-calc]'); if (box) { calcular(box); capturar(box); }
+  });
+
+  elRev.addEventListener('click', function(e){
+    if (e.target.id === 'copiar') copiar(resumoConsulta(), e.target);
   });
 
   elVoltar.addEventListener('click', function(){ voltar(true); });

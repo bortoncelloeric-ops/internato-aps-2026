@@ -261,6 +261,50 @@ ok('contador de red flags da queixa fecha', await evalJS(`(()=>{const q=QUEIXAS.
 await evalJS(`document.getElementById('revisar').click()`); await espera(250);
 ok('só sobra 1 queixa com red flag pendente', await evalJS(`document.querySelectorAll('#revisao .pend.crit').length`), 1);
 
+// 8b. copiar a consulta (16/09/2026)
+/* O script do app é IIFE, então resumoConsulta() não é alcançável de fora:
+   testamos pela UI, com writeText trocado por um espião. Isso cobre o conteúdo
+   e a fiação do botão; o caminho real do clipboard depende de permissão que o
+   headless não dá, e não é o que pode regredir sem avisar. */
+ok('a revisão oferece copiar a consulta',
+   await evalJS(`!!document.getElementById('copiar')`), true);
+ok('a revisão avisa que o app não guarda',
+   await evalJS(`/não guarda/.test(document.querySelector('.copiar-nota').textContent)`), true);
+
+await evalJS(`window.__copiado = null;
+  navigator.clipboard.writeText = t => { window.__copiado = t; return Promise.resolve(); };`);
+await evalJS(`document.getElementById('copiar').click()`); await espera(200);
+
+ok('copiar produz texto', await evalJS(`typeof window.__copiado === 'string' && window.__copiado.length > 50`), true);
+/* Sem backslash nas regex daqui: dentro de template literal o \d vira "d" e o
+   \/ fecha a expressão cedo. Usar [0-9] e new RegExp com string resolve de vez. */
+ok('o resumo abre com data e hora',
+   await evalJS(`new RegExp('^CONSULTA · [0-9]{2}/[0-9]{2}/[0-9]{4} [0-9]{2}:[0-9]{2}').test(window.__copiado)`), true);
+ok('o resumo lista as queixas abertas',
+   await evalJS(`(()=>{const t=window.__copiado;
+     return t.includes('QUEIXAS ABERTAS') &&
+       ['has-dm2-aps','saude-mental-aps'].every(id=>{
+         const q=QUEIXAS.filter(x=>x.id===id)[0];
+         return t.includes('· '+q.nome);
+       })})()`), true);
+ok('red flag descartada sai com visto',
+   await evalJS(`window.__copiado.includes('RED FLAGS DESCARTADAS') && window.__copiado.includes('✓ ')`), true);
+ok('red flag pendente sai marcada como pendência',
+   await evalJS(`window.__copiado.includes('AINDA PENDENTE') && window.__copiado.includes('✗ ')`), true);
+ok('anamnese e exame saem como contagem, não como lista',
+   await evalJS(`new RegExp('PERGUNTAS ESSENCIAIS — [0-9]+ de [0-9]+ itens').test(window.__copiado)`), true);
+ok('o resumo diz que não é prontuário',
+   await evalJS(`window.__copiado.includes('não é prontuário')`), true);
+ok('o botão confirma na tela que copiou',
+   await evalJS(`document.getElementById('copiar').textContent`), 'Copiado');
+
+/* A razão de ter escolhido copiar em vez de gravar: a invariante não se mexe. */
+ok('copiar não gravou nada no localStorage',
+   await evalJS(`Object.keys(localStorage).filter(k=>k!=='copiloto.apikey').length`), 0);
+ok('copiar não gravou nada no sessionStorage', await evalJS(`sessionStorage.length`), 0);
+ok('o textarea de apoio não ficou no DOM',
+   await evalJS(`document.querySelectorAll('body > textarea').length`), 0);
+
 // fim da consulta zera a sessão inteira
 await evalJS(`document.getElementById('novo').click()`); await espera(250);
 ok('Novo paciente volta para a lista', await evalJS(`document.getElementById('lista').classList.contains('hide')`), false);
