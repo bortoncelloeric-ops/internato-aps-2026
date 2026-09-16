@@ -21,7 +21,10 @@ h2:first-child{margin-top:0}
 a.card{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;
  padding:1rem 1.05rem;margin-bottom:.6rem;text-decoration:none;color:inherit}
 a.card:hover{border-color:var(--acc);box-shadow:0 2px 10px rgba(0,0,0,.06)}
-a.card b{display:block;font-size:1.05rem;margin-bottom:.2rem;color:var(--acc)}
+/* > b é o TÍTULO do cartão. Sem o filho direto, todo <b> do texto virava
+   título verde de bloco e estilhaçava as frases no meio. */
+a.card > b{display:block;font-size:1.05rem;margin-bottom:.2rem;color:var(--acc)}
+a.card span b{font-weight:700;color:var(--ink)}
 a.card span{font-size:.88rem;color:var(--mut)}
 .soon{background:var(--card);border:1px dashed var(--line);border-radius:12px;
  padding:.85rem 1.05rem;margin-bottom:.5rem;color:var(--mut);font-size:.9rem}
@@ -33,7 +36,8 @@ footer{max-width:720px;margin:0 auto;padding:1.4rem 1rem 3rem;color:var(--mut);f
 
 <header><div class="in">
   <h1>Internato em Atenção Primária II</h1>
-  <p>1º rodízio · UNEXMED FSA · 2026.2 — material de estudo e de campo</p>
+  <p>UNEXMED FSA · 2026.2 — material de estudo e de campo.<br>
+  O copiloto clínico atende também ao rodízio de Saúde Mental.</p>
 </div></header>
 
 <main class="in">
@@ -42,12 +46,21 @@ footer{max-width:720px;margin:0 auto;padding:1.4rem 1rem 3rem;color:var(--mut);f
 
 <a class="card" href="copiloto/index.html">
   <b>Copiloto clínico — durante o atendimento</b>
-  <span>Acompanha a consulta do começo ao fim: red flags primeiro e marcáveis conforme tu
+  <span>Acompanha a consulta do começo ao fim: red flags primeiro e marcáveis conforme se
   descarta, checklists de anamnese e exame, diagnósticos diferenciais, erros comuns e
   calculadoras que calculam (IMC, TFG CKD-EPI 2021, DPP/idade gestacional, PHQ-9, GAD-7).
   Várias queixas cabem na mesma consulta, e o <b>Revisar consulta</b> mostra o que ficou
-  para trás antes de fechar. Toda afirmação mostra a fonte; o que ainda não tem fonte
-  aparece marcado como <b>VERIFICAR</b>.
+  para trás antes de fechar. <b>Copiar consulta</b> joga o resumo na área de transferência
+  para colar onde o registro acontece de verdade.<br><br>
+  <b>Módulo de psiquiatria</b> (setembro/2026), para o rodízio de Saúde Mental:
+  <b>Exame do Estado Mental</b> com os 12 domínios e o vocabulário para descrever cada
+  achado; <b>formulário de 39 psicofármacos</b> com dose, por que escolher aquele, quando
+  evitar e as contraindicações do PCDT, mais as combinações que se fazem, as que não se
+  fazem (com o mecanismo) e os fármacos cuja dose muda a indicação; e <b>8 guias por
+  patologia</b> — depressão, bipolar, psicose, agitação, risco de suicídio, álcool,
+  ansiedade e delirium.<br><br>
+  Toda afirmação mostra a fonte; o que ainda não foi conferido contra fonte datada aparece
+  marcado como <b>VERIFICAR</b> e não deve embasar conduta sem confirmação.
   Não grava nada: “Novo paciente” encerra e zera tudo.</span>
 </a>
 
@@ -86,11 +99,18 @@ footer{max-width:720px;margin:0 auto;padding:1.4rem 1rem 3rem;color:var(--mut);f
 </main>
 
 <footer>
-  Material de estudo pessoal, construído sobre fontes oficiais brasileiras — Ministério da
-  Saúde (PNAB, Cadernos de Atenção Básica, PNI, PCDT), INCA e SBMFC. Questões calibradas no
-  formato do ENAMED.<br><br>
-  Não substitui protocolo institucional nem julgamento clínico. Itens marcados como
-  <b>Verificar</b> ainda não foram conferidos contra a norma vigente.
+  Material de estudo construído por um interno de medicina (UNEXMED FSA, 2026.2), sobre
+  fontes brasileiras datadas e citadas item a item — Ministério da Saúde (PNAB, Cadernos de
+  Atenção Básica, PNI, PCDT), INCA, SBMFC e as sociedades. No módulo de psiquiatria: PCDT de
+  Esquizofrenia (Portaria SAS/MS nº 364, 2013), PCDT de Transtorno Afetivo Bipolar do tipo I
+  (nº 315, 2016), Caderno de Atenção Básica nº 34 (2013), PCDT do Tabagismo (Portaria
+  Conjunta SCTIE/SAES/MS nº 10, 2020), Dalgalarrondo 3ª ed. (Artmed, 2019) e o Parecer
+  CFM/CREMEC nº 14/2021. Onde não há publicação brasileira, a fonte internacional vem
+  rotulada como tal. Questões calibradas no formato do ENAMED.<br><br>
+  <b>Não é protocolo institucional</b> e não substitui julgamento clínico nem a avaliação do
+  preceptor. Itens marcados como <b>VERIFICAR</b> ainda não foram conferidos contra a norma
+  vigente — são dívida declarada, e não devem embasar conduta sem confirmação.<br><br>
+  Nenhuma das ferramentas grava dado de paciente.
 </footer>
 
 </body>
