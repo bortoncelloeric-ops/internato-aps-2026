@@ -32,6 +32,14 @@ await espera(1200);
 
 const erros = [];
 let n = 0;
+
+/* As queixas de APS foram ESTACIONADAS do app em 16/09/2026 (ver o comentário
+   no index.html). O que dependia delas não é apagado daqui: fica atrás desta
+   guarda e volta a rodar sozinho no dia em que as tags forem descomentadas.
+   Apagar seria perder cobertura de algo que só saiu de cena. */
+const TEM_APS = await evalJS(`QUEIXAS.some(q => q.id === 'crianca-aidpi')`);
+const pulados = [];
+const pular = nome => { pulados.push(nome); console.log(`  pula  ${nome} — APS estacionada`); };
 const ok = (nome, real, esperado) => {
   n++;
   const bom = String(real) === String(esperado);
@@ -55,15 +63,15 @@ ok('busca "suicidio" (sem acento) acha o que tem o termo',
    await evalJS(`document.querySelectorAll('.qcard').length === QUEIXAS.filter(q => q._txt.includes('suicidio')).length`), true);
 ok('busca sem acento não devolve a lista inteira',
    await evalJS(`document.querySelectorAll('.qcard').length < QUEIXAS.length`), true);
-await evalJS(`(()=>{const q=document.getElementById('q');q.value='metformina';q.dispatchEvent(new Event('input'));})()`);
-ok('busca "metformina" acha HAS/DM2', await evalJS(`document.querySelector('.qcard').dataset.id`), 'has-dm2-aps');
+await evalJS(`(()=>{const q=document.getElementById('q');q.value='litemia';q.dispatchEvent(new Event('input'));})()`);
+ok('busca por termo técnico acha a queixa certa', await evalJS(`document.querySelector('.qcard').dataset.id`), 'transtorno-bipolar');
 await evalJS(`(()=>{const q=document.getElementById('q');q.value='xilofone';q.dispatchEvent(new Event('input'));})()`);
 ok('busca sem resultado mostra estado vazio', await evalJS(`!!document.querySelector('.vazio')`), true);
 ok('estado vazio ensina: lista as queixas existentes', await evalJS(`document.querySelectorAll('.vazio .qcard').length === QUEIXAS.length`), true);
 await evalJS(`(()=>{const q=document.getElementById('q');q.value='';q.dispatchEvent(new Event('input'));})()`);
 
 // 3. navegação
-await evalJS(`document.querySelector('[data-id="saude-mental-aps"]').click()`);
+await evalJS(`document.querySelector('[data-id="depressao-maior"]').click()`);
 await espera(200);
 ok('abriu o detalhe', await evalJS(`!document.getElementById('detalhe').classList.contains('hide')`), true);
 ok('red flags visível sem clique', await evalJS(`!!document.querySelector('.rf')`), true);
@@ -74,21 +82,28 @@ ok('botão voltar aparece', await evalJS(`!document.getElementById('voltar').cla
 /* seções de texto presentes + o bloco de calculadoras, contado a partir da
    própria queixa em vez de um total fixo */
 ok('renderiza uma seção por seção preenchida, mais as calculadoras',
-   await evalJS(`(()=>{const q=QUEIXAS.filter(x=>x.id==='saude-mental-aps')[0];
-     const secs=['perguntas','exame','naoperder','ddx','exames','conduta','erros']
+   await evalJS(`(()=>{const q=QUEIXAS.filter(x=>x.id==='depressao-maior')[0];
+     const secs=['perguntas','exame','naoperder','ddx','exames','farmaco','conduta','erros']
        .filter(k=>q[k]&&q[k].itens&&q[k].itens.length).length;
      const calcs=(q.scores||[]).length?1:0;
      return document.querySelectorAll('#detalhe .sec').length === secs+calcs})()`), true);
-ok('seção não escrita não aparece nem como placeholder',
-   await evalJS(`/Exames a discutir|A preencher/.test(document.getElementById('detalhe').innerText)`), false);
-ok('HAS, que tem exames escrita, mostra a seção',
-   await evalJS(`(()=>{const q=QUEIXAS.find(x=>x.id==='has-dm2-aps');return !!(q.exames&&q.exames.itens.length)})()`), true);
+/* Antes isto se apoiava numa queixa sem `exames` escrita. As oito de
+   psiquiatria têm as nove seções, então a asserção passou a ser feita contra os
+   dados: nenhum placeholder na tela — que é o modo de falha do dr-house — e
+   nenhuma seção existindo vazia. */
+ok('nenhum placeholder na tela',
+   await evalJS(`/A preencher|A definir|TODO/.test(document.getElementById('detalhe').innerText)`), false);
+ok('não existe seção criada vazia',
+   await evalJS(`QUEIXAS.every(q=>['redflags','perguntas','exame','naoperder','ddx','exames','farmaco','conduta','erros']
+     .every(k=>!q[k] || (q[k].itens && q[k].itens.length>0)))`), true);
 
 // 4. checkboxes e contador
-await evalJS(`(()=>{const c=document.querySelectorAll('[data-ck^="saude-mental-aps.perguntas."]');
+await evalJS(`(()=>{const c=document.querySelectorAll('[data-ck^="depressao-maior.perguntas."]');
   for(let i=0;i<3;i++){c[i].checked=true;c[i].dispatchEvent(new Event('change',{bubbles:true}));}})()`);
 await espera(150);
-ok('contador de perguntas vira 3/9', await evalJS(`document.querySelector('[data-cnt="perguntas"]').textContent`), '3/9');
+ok('contador de perguntas conta contra os dados',
+   await evalJS(`(()=>{const q=QUEIXAS.filter(x=>x.id==='depressao-maior')[0];
+     return document.querySelector('[data-cnt="perguntas"]').textContent === '3/'+q.perguntas.itens.length})()`), true);
 ok('Novo paciente habilita quando há marcação', await evalJS(`document.getElementById('novo').disabled`), false);
 
 // 5. estado NÃO persiste entre queixas do mesmo paciente, mas some no Novo paciente
@@ -101,7 +116,7 @@ ok('Novo paciente volta a ficar desabilitado', await evalJS(`document.getElement
 // 6. calculadora PHQ-9: o caso de segurança
 await evalJS(`document.getElementById('voltar').click()`);
 await espera(150);
-await evalJS(`document.querySelector('[data-id="saude-mental-aps"]').click()`);
+await evalJS(`document.querySelector('[data-id="depressao-maior"]').click()`);
 await espera(200);
 await evalJS(`(()=>{const b=[...document.querySelectorAll('[data-calc="phq9"]')][0];
   b.querySelectorAll('select[data-f]').forEach(s=>{s.value='0';s.dispatchEvent(new Event('change',{bubbles:true}));});})()`);
@@ -116,7 +131,7 @@ ok('PHQ-9 item 9 positivo → ALERTA APARECE', await evalJS(`!document.querySele
 
 // 7. calculadora numérica: erro e resultado
 await evalJS(`document.getElementById('voltar').click()`); await espera(150);
-await evalJS(`document.querySelector('[data-id="has-dm2-aps"]').click()`); await espera(200);
+await evalJS(`document.querySelector('[data-id="transtorno-bipolar"]').click()`); await espera(200);
 await evalJS(`(()=>{const b=document.querySelector('[data-calc="imc"]');
   const p=b.querySelector('[data-f="peso"]'),a=b.querySelector('[data-f="alt"]');
   p.value='70';p.dispatchEvent(new Event('input',{bubbles:true}));
@@ -133,7 +148,7 @@ ok('nenhum NaN na tela', await evalJS(`/NaN/.test(document.body.innerText)`), fa
 
 // 7b. antropometria, dose e conferência da nota — a fase determinística
 await evalJS(`document.getElementById('voltar').click()`); await espera(150);
-await evalJS(`document.querySelector('[data-id="crianca-aidpi"]').click()`); await espera(250);
+await evalJS(`document.querySelector('[data-id="delirium"]').click()`); await espera(250);
 
 /* o caso do ex2: a nota diz 7 meses no alto e 8 embaixo */
 await evalJS(`(()=>{const t=document.querySelector('[data-calc="nota-conferencia"] [data-f="nota"]');
@@ -157,60 +172,79 @@ ok('e diz o que aquele dado destrava',
 ok('não cobra o que a nota já trouxe',
    await evalJS(`!/Falta[\\s\\S]{0,40}sexo/.test(document.querySelector('[data-calc="nota-conferencia"] .res').textContent)`), true);
 
-/* mesmas medidas do ex2. O ChatGPT disse "próximo ou acima do P97"; o número é +3,05 */
-await evalJS(`(()=>{const b=document.querySelector('[data-calc="antropo-infantil"]');
-  const set=(f,v)=>{const e=b.querySelector('[data-f="'+f+'"]');e.value=v;
-    e.dispatchEvent(new Event(e.tagName==='SELECT'?'change':'input',{bubbles:true}));};
-  set('sexo','f');set('meses','8');set('peso','8.650');set('est','76');})()`);
-await espera(250);
-ok('antropometria mostra o escore-z exato, sem hedge',
-   await evalJS(`/z \\+3,05/.test(document.querySelector('[data-calc="antropo-infantil"] .res').textContent)`), true);
-ok('antropometria classifica pelo SISVAN',
-   await evalJS(`/Eutrofia/.test(document.querySelector('[data-calc="antropo-infantil"] .res').textContent)`), true);
-ok('escore fora de ±3 DP avisa para conferir a medida',
-   await evalJS(`!document.querySelector('[data-calc="antropo-infantil"] .alerta').classList.contains('hide')`), true);
-/* conta contra o que a calculadora devolveu, não contra um número fixo: a
-   asserção é "uma linha por indicador", e travar no total do dia quebraria o
-   e2e a cada indicador novo (foi o que aconteceu ao entrar peso/estatura) */
-ok('resultado de várias linhas renderiza uma linha por indicador',
-   await evalJS(`(()=>{const c=CALCS.filter(x=>x.id==='antropo-infantil')[0];
-     return document.querySelectorAll('[data-calc="antropo-infantil"] .lin').length ===
-            c.calc({sexo:'f',meses:8,peso:8.650,est:76}).length})()`), true);
-ok('peso para estatura aparece na tela',
-   await evalJS(`/Peso para estatura/.test(document.querySelector('[data-calc="antropo-infantil"] .res').textContent)`), true);
-ok('e diz a técnica de medida usada',
-   await evalJS(`/\\(deitado\\)/.test(document.querySelector('[data-calc="antropo-infantil"] .res').textContent)`), true);
+/* Antropometria e dose por peso só são alcançáveis pela queixa crianca-aidpi,
+   que está estacionada. Em vez de apagar a cobertura, ela fica atrás desta
+   guarda e volta sozinha quando as tags do index.html forem descomentadas. */
+if (TEM_APS) {
+  await evalJS(`document.getElementById('voltar').click()`); await espera(150);
+  await evalJS(`document.querySelector('[data-id="crianca-aidpi"]').click()`); await espera(250);
 
-/* dose: o app converte, nunca escolhe */
-await evalJS(`(()=>{const b=document.querySelector('[data-calc="dose-peso"]');
-  const set=(f,v)=>{const e=b.querySelector('[data-f="'+f+'"]');e.value=v;
-    e.dispatchEvent(new Event(e.tagName==='SELECT'?'change':'input',{bubbles:true}));};
-  set('peso','8.650');set('mgkg','15');set('vezes','3');set('conc','50');})()`);
-await espera(200);
-ok('dose por peso dá o número, não "conforme peso"',
-   await evalJS(`/129,8 mg/.test(document.querySelector('[data-calc="dose-peso"] .res').textContent)`), true);
-ok('dose por peso converte para mL da apresentação',
-   await evalJS(`/2,60 mL/.test(document.querySelector('[data-calc="dose-peso"] .res').textContent)`), true);
-ok('nenhum NaN nas calculadoras novas', await evalJS(`/NaN/.test(document.body.innerText)`), false);
-ok('campo opcional em branco não impede o cálculo',
-   await evalJS(`document.querySelector('[data-calc="dose-peso"] [data-f="teto"]').value === '' &&
-                 !document.querySelector('[data-calc="dose-peso"] .res').classList.contains('hide')`), true);
+  /* mesmas medidas do ex2. O ChatGPT disse "próximo ou acima do P97"; o número é +3,05 */
+  await evalJS(`(()=>{const b=document.querySelector('[data-calc="antropo-infantil"]');
+    const set=(f,v)=>{const e=b.querySelector('[data-f="'+f+'"]');e.value=v;
+      e.dispatchEvent(new Event(e.tagName==='SELECT'?'change':'input',{bubbles:true}));};
+    set('sexo','f');set('meses','8');set('peso','8.650');set('est','76');})()`);
+  await espera(250);
+  ok('antropometria mostra o escore-z exato, sem hedge',
+     await evalJS(`/z \\+3,05/.test(document.querySelector('[data-calc="antropo-infantil"] .res').textContent)`), true);
+  ok('antropometria classifica pelo SISVAN',
+     await evalJS(`/Eutrofia/.test(document.querySelector('[data-calc="antropo-infantil"] .res').textContent)`), true);
+  ok('escore fora de ±3 DP avisa para conferir a medida',
+     await evalJS(`!document.querySelector('[data-calc="antropo-infantil"] .alerta').classList.contains('hide')`), true);
+  /* conta contra o que a calculadora devolveu, não contra um número fixo: a
+     asserção é "uma linha por indicador", e travar no total do dia quebraria o
+     e2e a cada indicador novo (foi o que aconteceu ao entrar peso/estatura) */
+  ok('resultado de várias linhas renderiza uma linha por indicador',
+     await evalJS(`(()=>{const c=CALCS.filter(x=>x.id==='antropo-infantil')[0];
+       return document.querySelectorAll('[data-calc="antropo-infantil"] .lin').length ===
+              c.calc({sexo:'f',meses:8,peso:8.650,est:76}).length})()`), true);
+  ok('peso para estatura aparece na tela',
+     await evalJS(`/Peso para estatura/.test(document.querySelector('[data-calc="antropo-infantil"] .res').textContent)`), true);
+  ok('e diz a técnica de medida usada',
+     await evalJS(`/\\(deitado\\)/.test(document.querySelector('[data-calc="antropo-infantil"] .res').textContent)`), true);
+
+  /* dose: o app converte, nunca escolhe */
+  await evalJS(`(()=>{const b=document.querySelector('[data-calc="dose-peso"]');
+    const set=(f,v)=>{const e=b.querySelector('[data-f="'+f+'"]');e.value=v;
+      e.dispatchEvent(new Event(e.tagName==='SELECT'?'change':'input',{bubbles:true}));};
+    set('peso','8.650');set('mgkg','15');set('vezes','3');set('conc','50');})()`);
+  await espera(200);
+  ok('dose por peso dá o número, não "conforme peso"',
+     await evalJS(`/129,8 mg/.test(document.querySelector('[data-calc="dose-peso"] .res').textContent)`), true);
+  ok('dose por peso converte para mL da apresentação',
+     await evalJS(`/2,60 mL/.test(document.querySelector('[data-calc="dose-peso"] .res').textContent)`), true);
+  ok('nenhum NaN nas calculadoras novas', await evalJS(`/NaN/.test(document.body.innerText)`), false);
+  ok('campo opcional em branco não impede o cálculo',
+     await evalJS(`document.querySelector('[data-calc="dose-peso"] [data-f="teto"]').value === '' &&
+                   !document.querySelector('[data-calc="dose-peso"] .res').classList.contains('hide')`), true);
+} else {
+  ['antropometria mostra o escore-z exato, sem hedge',
+     'antropometria classifica pelo SISVAN',
+     'escore fora de ±3 DP avisa para conferir a medida',
+     'resultado de várias linhas renderiza uma linha por indicador',
+     'peso para estatura aparece na tela',
+     'e diz a técnica de medida usada',
+     'dose por peso dá o número, não "conforme peso"',
+     'dose por peso converte para mL da apresentação',
+     'nenhum NaN nas calculadoras novas',
+     'campo opcional em branco não impede o cálculo'].forEach(pular);
+}
 
 await evalJS(`document.getElementById('voltar').click()`); await espera(150);
-await evalJS(`document.querySelector('[data-id="has-dm2-aps"]').click()`); await espera(200);
+await evalJS(`document.querySelector('[data-id="transtorno-bipolar"]').click()`); await espera(200);
 
 // 8. teclado e gestão de foco
 ok('abrir queixa move o foco para o h1', await evalJS(`document.activeElement.tagName`), 'H1');
 await evalJS(`document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}))`);
 await espera(250);
 ok('Esc volta para a lista', await evalJS(`document.getElementById('detalhe').classList.contains('hide')`), true);
-ok('Esc devolve o foco ao card de origem', await evalJS(`document.activeElement.dataset.id`), 'has-dm2-aps');
+ok('Esc devolve o foco ao card de origem', await evalJS(`document.activeElement.dataset.id`), 'transtorno-bipolar');
 await evalJS(`document.dispatchEvent(new KeyboardEvent('keydown',{key:'/',bubbles:true}))`);
 await espera(150);
 ok('tecla / foca a busca', await evalJS(`document.activeElement.id`), 'q');
 
 // digitar na busca estando dentro de uma queixa não pode roubar o foco do campo
-await evalJS(`document.querySelector('[data-id="saude-mental-aps"]').click()`);
+await evalJS(`document.querySelector('[data-id="depressao-maior"]').click()`);
 await espera(200);
 await evalJS(`(()=>{const q=document.getElementById('q');q.focus();q.value='dm2';q.dispatchEvent(new Event('input'));})()`);
 await espera(200);
@@ -218,7 +252,7 @@ ok('digitar na busca dentro da queixa mantém o foco no campo', await evalJS(`do
 await evalJS(`(()=>{const q=document.getElementById('q');q.value='';q.dispatchEvent(new Event('input'));})()`);
 
 // hierarquia de cabeçalhos: h1 seguido de h2, sem pular nível
-await evalJS(`document.querySelector('[data-id="saude-mental-aps"]').click()`); await espera(200);
+await evalJS(`document.querySelector('[data-id="depressao-maior"]').click()`); await espera(200);
 ok('sem h3 pulando nível', await evalJS(`document.querySelectorAll('#detalhe h3').length`), 0);
 ok('red flags é h2', await evalJS(`document.querySelector('.rf h2').textContent`), 'Red flags');
 
@@ -226,16 +260,20 @@ ok('red flags é h2', await evalJS(`document.querySelector('.rf h2').textContent
 await evalJS(`document.getElementById('novo').click()`); await espera(200);
 ok('sessão começa sem botão Revisar', await evalJS(`document.getElementById('revisar').classList.contains('hide')`), true);
 
-await evalJS(`document.querySelector('[data-id="saude-mental-aps"]').click()`); await espera(200);
+await evalJS(`document.querySelector('[data-id="depressao-maior"]').click()`); await espera(200);
 ok('abrir queixa inicia a consulta', await evalJS(`document.getElementById('revisar').classList.contains('hide')`), false);
+/* Contra os dados, nunca contra um número: era `· 5 red flags`, da queixa
+   antiga. Trocar de hospedeiro quebrou. Armadilha nº 11 pela quinta vez. */
 ok('Revisar avisa quantas red flags faltam',
-   await evalJS(`/Revisar · 5 red flags/.test(document.getElementById('revisar').textContent)`), true);
+   await evalJS(`(()=>{const q=QUEIXAS.filter(x=>x.id==='depressao-maior')[0];
+     return document.getElementById('revisar').textContent
+       .includes('· '+q.redflags.itens.length+' red flags')})()`), true);
 ok('botão de alerta fica destacado', await evalJS(`document.getElementById('revisar').classList.contains('alerta-pend')`), true);
 
 // segunda queixa entra na mesma consulta
 await evalJS(`document.getElementById('voltar').click()`); await espera(200);
 ok('lista marca a queixa já aberta nesta consulta', await evalJS(`document.querySelectorAll('.t-nesta').length`), 1);
-await evalJS(`document.querySelector('[data-id="has-dm2-aps"]').click()`); await espera(200);
+await evalJS(`document.querySelector('[data-id="transtorno-bipolar"]').click()`); await espera(200);
 await evalJS(`document.getElementById('voltar').click()`); await espera(200);
 ok('duas queixas na mesma consulta', await evalJS(`document.querySelectorAll('.t-nesta').length`), 2);
 
@@ -250,12 +288,12 @@ ok('foco vai para o título da revisão', await evalJS(`document.activeElement.t
 
 // descartar todas as red flags de uma queixa some com a pendência crítica dela
 await evalJS(`document.getElementById('voltar').click()`); await espera(150);
-await evalJS(`document.querySelector('[data-id="has-dm2-aps"]').click()`); await espera(200);
-await evalJS(`document.querySelectorAll('[data-ck^="has-dm2-aps.redflags."]').forEach(c=>{c.checked=true;c.dispatchEvent(new Event('change',{bubbles:true}));})`);
+await evalJS(`document.querySelector('[data-id="transtorno-bipolar"]').click()`); await espera(200);
+await evalJS(`document.querySelectorAll('[data-ck^="transtorno-bipolar.redflags."]').forEach(c=>{c.checked=true;c.dispatchEvent(new Event('change',{bubbles:true}));})`);
 await espera(200);
 /* contra os dados, não contra um número: esta asserção já quebrou ao entrar
    red flag nova em HAS/DM2 (4 → 7). O que ela quer dizer é "todas marcadas". */
-ok('contador de red flags da queixa fecha', await evalJS(`(()=>{const q=QUEIXAS.filter(x=>x.id==='has-dm2-aps')[0];
+ok('contador de red flags da queixa fecha', await evalJS(`(()=>{const q=QUEIXAS.filter(x=>x.id==='transtorno-bipolar')[0];
    const n=q.redflags.itens.length;
    return document.querySelector('[data-cnt="redflags"]').textContent === n+'/'+n})()`), true);
 await evalJS(`document.getElementById('revisar').click()`); await espera(250);
@@ -283,7 +321,7 @@ ok('o resumo abre com data e hora',
 ok('o resumo lista as queixas abertas',
    await evalJS(`(()=>{const t=window.__copiado;
      return t.includes('QUEIXAS ABERTAS') &&
-       ['has-dm2-aps','saude-mental-aps'].every(id=>{
+       ['transtorno-bipolar','depressao-maior'].every(id=>{
          const q=QUEIXAS.filter(x=>x.id===id)[0];
          return t.includes('· '+q.nome);
        })})()`), true);
@@ -310,14 +348,14 @@ await evalJS(`document.getElementById('novo').click()`); await espera(250);
 ok('Novo paciente volta para a lista', await evalJS(`document.getElementById('lista').classList.contains('hide')`), false);
 ok('Novo paciente encerra a consulta', await evalJS(`document.querySelectorAll('.t-nesta').length`), 0);
 ok('Novo paciente esconde o Revisar', await evalJS(`document.getElementById('revisar').classList.contains('hide')`), true);
-ok('Novo paciente apaga as marcações', await evalJS(`(()=>{const q=document.querySelector('[data-id="has-dm2-aps"]');q.click();
+ok('Novo paciente apaga as marcações', await evalJS(`(()=>{const q=document.querySelector('[data-id="transtorno-bipolar"]');q.click();
    const n=[...document.querySelectorAll('[data-ck]')].filter(c=>c.checked).length;
    document.getElementById('voltar').click();return n})()`), 0);
 
 /* A nota da consulta é o primeiro texto livre do app e o único campo que chega a
    conter narrativa do paciente. Levá-la para o próximo atendimento é o dano que
    a regra de não-persistência existe para impedir. */
-await evalJS(`document.querySelector('[data-id="crianca-aidpi"]').click()`); await espera(250);
+await evalJS(`document.querySelector('[data-id="delirium"]').click()`); await espera(250);
 await evalJS(`(()=>{const t=document.querySelector('[data-calc="nota-conferencia"] [data-f="nota"]');
   t.value='Paciente, 7 meses, feminina. Peso 8,650kg';
   t.dispatchEvent(new Event('input',{bubbles:true}));})()`);
@@ -326,13 +364,13 @@ ok('digitar a nota já habilita o Novo paciente',
    await evalJS(`document.getElementById('novo').disabled`), false);
 await evalJS(`document.getElementById('novo').click()`); await espera(250);
 ok('Novo paciente apaga a nota da consulta',
-   await evalJS(`(()=>{document.querySelector('[data-id="crianca-aidpi"]').click();
+   await evalJS(`(()=>{document.querySelector('[data-id="delirium"]').click();
      const v=document.querySelector('[data-calc="nota-conferencia"] [data-f="nota"]').value;
      document.getElementById('voltar').click();return v})()`), '');
 
 // 10b. guia do caso — fetch mockado, nenhuma chamada real de API
 await evalJS(`localStorage.clear()`);
-await evalJS(`document.querySelector('[data-id="crianca-aidpi"]').click()`); await espera(250);
+await evalJS(`document.querySelector('[data-id="delirium"]').click()`); await espera(250);
 await evalJS(`(()=>{const t=document.querySelector('[data-calc="nota-conferencia"] [data-f="nota"]');
   t.value='Paciente, 7 anos, feminino. Feridas no nariz. Em uso de nistatina.';
   t.dispatchEvent(new Event('input',{bubbles:true}));})()`);
@@ -394,7 +432,7 @@ ok('Novo paciente esconde o botão Gerar guia',
 /* Guarda de regressão: o quarto botão do header estourou a largura e fez a
    página deslizar de lado no celular. Nada pode ultrapassar a viewport. */
 ok('nenhuma rolagem lateral com todos os botões visíveis',
-   await evalJS(`(()=>{document.querySelector('[data-id="crianca-aidpi"]').click();
+   await evalJS(`(()=>{document.querySelector('[data-id="delirium"]').click();
      const t=document.querySelector('[data-calc="nota-conferencia"] [data-f="nota"]');
      t.value='x'; t.dispatchEvent(new Event('input',{bubbles:true}));
      const over = document.documentElement.scrollWidth > document.documentElement.clientWidth;
@@ -475,6 +513,12 @@ ok('Novo paciente não apaga os painéis de referência',
 
 // 10. a prova da decisão de não persistir
 /* A chave de API é a ÚNICA gravação permitida — configuração, não paciente. */
+/* Se alguém descomentar queixas-aps.js e esquecer oms-lms.js, a antropometria
+   quebra só quando houver um paciente na frente. Este teste é o aviso: as duas
+   tags do index.html andam juntas, nos dois sentidos. */
+ok('APS e tabelas da OMS andam juntas',
+   await evalJS(`QUEIXAS.some(q=>q.id==='crianca-aidpi') === (typeof OMS_LMS !== 'undefined')`), true);
+
 ok('localStorage só tem a chave de API',
    await evalJS(`Object.keys(localStorage).filter(k=>k!=='copiloto.apikey').length`), 0);
 ok('a nota do paciente não foi gravada',
@@ -482,6 +526,7 @@ ok('a nota do paciente não foi gravada',
 ok('sessionStorage vazio', await evalJS(`sessionStorage.length`), 0);
 ok('sem cookie', await evalJS(`document.cookie === ''`), true);
 
-console.log(`\n${n - erros.length}/${n} verificações passaram`);
+console.log(`\n${n - erros.length}/${n} verificações passaram` +
+  (pulados.length ? ` · ${pulados.length} puladas (APS estacionada)` : ''));
 if (erros.length) { console.log('\nFALHAS:\n' + erros.map(e => ' - ' + e).join('\n')); process.exit(1); }
 ws.close();

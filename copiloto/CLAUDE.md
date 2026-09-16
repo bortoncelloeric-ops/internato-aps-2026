@@ -9,6 +9,7 @@ Apoio à decisão durante o atendimento, para uso próprio do Eric no rodízio d
 |---|---|
 | `index.html` | o app inteiro: CSS, renderer, busca, motor de calculadora |
 | `queixas.js` | **conteúdo clínico. Só dados.** É o arquivo que se edita |
+| `queixas-aps.js` | as 3 queixas de APS, **estacionadas do app em 16/09/2026**. Continuam sob lint e no allowlist |
 | `anotacao.js` | **conteúdo do painel "Como anotar". Só dados.** Manual de como anotar a consulta |
 | `eem.js` | **conteúdo do painel "EEM". Só dados.** Os 12 domínios do exame do estado mental |
 | `psicofarmacos.js` | **conteúdo do painel "Psicofármacos". Só dados.** Formulário por classe e fármaco, mais as três seções de combinação |
@@ -257,6 +258,32 @@ que parecem detalhe e não são:
 
 O sistema visual está em `../DESIGN.md` e é vinculante: cinco tamanhos de fonte,
 três raios, acento verde só para ação e estado. Tamanho literal fora da escala é drift.
+
+## APS estacionada, não apagada (16/09/2026)
+
+Durante o rodízio de Saúde Mental o Eric pediu para focar em psiquiatria "por
+agora". As três queixas de APS saíram da **tela**, não do projeto:
+
+- moram em `queixas-aps.js`, íntegras, 130 itens;
+- `index.html` tem as duas tags `<script>` comentadas **juntas** —
+  `queixas-aps.js` e `oms-lms.js`. Andam em par porque `crianca-aidpi` é a única
+  porta da calculadora `antropo-infantil`, que lê `OMS_LMS`. Descomentar só uma
+  quebra a antropometria em tempo de execução, e o erro aparece com paciente na
+  frente. **Há teste e2e assertando o par nos dois sentidos**;
+- `testes.html` continua carregando o arquivo: conteúdo estacionado sem lint
+  apodrece calado e volta quebrado;
+- `gerar-fontes.py` continua raspando: o guia generativo ainda pode citar AIDPI
+  e SISVAN, e a fonte tem de seguir válida;
+- as 10 verificações de e2e que dependem da antropometria e da dose por peso
+  ficam atrás de `if (TEM_APS)`, e o resumo do e2e informa quantas pulou.
+
+Suspensa dá **112/112 · 10 puladas**; descomentada, **122/122 · 0 puladas**. O
+ciclo foi rodado nos dois sentidos antes do commit.
+
+**Cuidado ao trocar ids em massa:** a substituição global de `crianca-aidpi`
+pegou a própria definição de `TEM_APS` e a guarda passou a apontar para uma
+queixa que existe, entrando no bloco errado. Conferir a guarda depois de
+qualquer renomeação.
 
 ## Armadilha de escape no e2e — me pegou três vezes
 
