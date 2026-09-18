@@ -75,6 +75,7 @@ var PSICOFARMACOS = {
       farmacos: [
         {
           nome: "Haloperidol",
+          id: "haloperidol",
           kw: "haldol incisivo alta potencia",
           apres: "comprimido de 1 e 5 mg; solução oral 2 mg/mL; solução injetável 5 mg/mL",
           dose: [
@@ -109,6 +110,7 @@ var PSICOFARMACOS = {
         },
         {
           nome: "Decanoato de haloperidol",
+          id: "decanoato-de-haloperidol",
           kw: "deposito depot injetavel mensal adesao",
           apres: "solução injetável 50 mg/mL, intramuscular",
           dose: [
@@ -134,6 +136,7 @@ var PSICOFARMACOS = {
         },
         {
           nome: "Clorpromazina",
+          id: "clorpromazina",
           kw: "amplictil baixa potencia sedativa",
           apres: "comprimido de 25 e 100 mg; solução oral 40 mg/mL",
           dose: [
@@ -167,6 +170,7 @@ var PSICOFARMACOS = {
         },
         {
           nome: "Levomepromazina",
+          id: "levomepromazina",
           kw: "neozine baixa potencia muito sedativa",
           apres: "comprimido; solução oral",
           dose: [
@@ -202,6 +206,7 @@ var PSICOFARMACOS = {
       farmacos: [
         {
           nome: "Risperidona",
+          id: "risperidona",
           kw: "risperdal prolactina",
           apres: "comprimido de 1, 2 e 3 mg",
           dose: [
@@ -239,6 +244,7 @@ var PSICOFARMACOS = {
         },
         {
           nome: "Olanzapina",
+          id: "olanzapina",
           kw: "zyprexa ganho de peso metabolico mania",
           apres: "comprimido de 5 e 10 mg",
           dose: [
@@ -273,6 +279,7 @@ var PSICOFARMACOS = {
         },
         {
           nome: "Quetiapina",
+          id: "quetiapina",
           kw: "seroquel sedativa insonia depressao bipolar",
           apres: "comprimido de 25, 100, 200 e 300 mg",
           dose: [
@@ -307,6 +314,7 @@ var PSICOFARMACOS = {
         },
         {
           nome: "Ziprasidona",
+          id: "ziprasidona",
           kw: "geodon qt metabolicamente neutra alimento",
           apres: "cápsula de 40 e 80 mg",
           dose: [
@@ -338,6 +346,7 @@ var PSICOFARMACOS = {
         },
         {
           nome: "Clozapina",
+          id: "clozapina",
           kw: "leponex refratario agranulocitose hemograma suicidio discinesia tardia dose letal",
           apres: "comprimido de 25 e 100 mg",
           dose: [
@@ -374,6 +383,7 @@ var PSICOFARMACOS = {
         },
         {
           nome: "Sulpirida",
+          id: "sulpirida",
           kw: "equilid associacao potencializar prolactina",
           apres: "comprimido; solução oral",
           dose: [
@@ -393,6 +403,7 @@ var PSICOFARMACOS = {
         },
         {
           nome: "Aripiprazol",
+          id: "aripiprazol",
           kw: "abilify acatisia agonista parcial potencializacao depressao",
           apres: "comprimido",
           dose: [
@@ -434,6 +445,7 @@ PSICOFARMACOS.classes.push({
   farmacos: [
     {
       nome: "Carbonato de lítio",
+      id: "carbonato-de-litio",
       kw: "litemia intoxicacao tireoide renal suicidio",
       apres: "comprimido de 300 mg",
       dose: [
@@ -471,6 +483,7 @@ PSICOFARMACOS.classes.push({
     },
     {
       nome: "Ácido valproico / valproato",
+      id: "acido-valproico-valproato",
       kw: "depakene depakote teratogenico tubo neural mania misto ciclagem",
       apres: "comprimido; solução oral",
       dose: [
@@ -500,6 +513,7 @@ PSICOFARMACOS.classes.push({
     },
     {
       nome: "Carbamazepina",
+      id: "carbamazepina",
       kw: "tegretol hiponatremia stevens johnson inducao enzimatica interacao",
       apres: "comprimido; suspensão oral",
       dose: [
@@ -531,6 +545,7 @@ PSICOFARMACOS.classes.push({
     },
     {
       nome: "Lamotrigina",
+      id: "lamotrigina",
       kw: "lamictal rash depressao bipolar titulacao lenta stevens johnson valproato",
       apres: "comprimido de 25, 50 e 100 mg",
       dose: [
@@ -574,6 +589,7 @@ PSICOFARMACOS.classes.push({
   farmacos: [
     {
       nome: "Fluoxetina",
+      id: "fluoxetina",
       kw: "prozac isrs meia vida longa ativadora toc",
       apres: "comprimido ou cápsula de 20 mg; solução oral",
       dose: [
@@ -602,6 +618,7 @@ PSICOFARMACOS.classes.push({
     },
     {
       nome: "Sertralina",
+      id: "sertralina",
       kw: "zoloft isrs gestante cardiopata interacao limpa",
       apres: "comprimido de 50 mg",
       dose: [
@@ -623,6 +640,7 @@ PSICOFARMACOS.classes.push({
     },
     {
       nome: "Escitalopram",
+      id: "escitalopram",
       kw: "lexapro isrs qt tolerabilidade",
       apres: "comprimido",
       dose: [
@@ -642,6 +660,7 @@ PSICOFARMACOS.classes.push({
     },
     {
       nome: "Paroxetina",
+      id: "paroxetina",
       kw: "paxil isrs retirada anticolinergico sedativa",
       apres: "comprimido",
       dose: [
@@ -663,6 +682,7 @@ PSICOFARMACOS.classes.push({
     },
     {
       nome: "Citalopram",
+      id: "citalopram",
       kw: "isrs qt idoso",
       apres: "comprimido",
       dose: [
@@ -680,6 +700,7 @@ PSICOFARMACOS.classes.push({
     },
     {
       nome: "Amitriptilina",
+      id: "amitriptilina",
       kw: "triciclico tryptanol dor cronica enxaqueca cardiotoxico overdose dose baixa",
       apres: "comprimido de 25 e 75 mg",
       dose: [
@@ -707,6 +728,7 @@ PSICOFARMACOS.classes.push({
     },
     {
       nome: "Clomipramina",
+      id: "clomipramina",
       kw: "anafranil triciclico toc panico dose alta",
       apres: "comprimido",
       dose: [
@@ -726,6 +748,7 @@ PSICOFARMACOS.classes.push({
     },
     {
       nome: "Imipramina",
+      id: "imipramina",
       kw: "tofranil triciclico",
       apres: "comprimido",
       dose: [
@@ -742,6 +765,7 @@ PSICOFARMACOS.classes.push({
     },
     {
       nome: "Bupropiona",
+      id: "bupropiona",
       kw: "zyban wellbutrin tabagismo cessacao convulsao sexual peso",
       apres: "comprimido de 150 mg de liberação prolongada",
       dose: [
@@ -766,6 +790,7 @@ PSICOFARMACOS.classes.push({
     },
     {
       nome: "Venlafaxina, mirtazapina, trazodona, duloxetina",
+      id: "venlafaxina-mirtazapina-trazodona-duloxetina",
       kw: "dual irsn venlafaxina mirtazapina trazodona duloxetina insonia",
       apres: "não constam dos PCDT psiquiátricos nem do quadro de psicofármacos do CAB nº 34",
       dose: [
@@ -801,6 +826,7 @@ PSICOFARMACOS.classes.push({
   farmacos: [
     {
       nome: "Diazepam",
+      id: "diazepam",
       kw: "valium meia vida longa abstinencia alcoolica intramuscular",
       apres: "comprimido de 5 e 10 mg; solução injetável",
       dose: [
@@ -825,6 +851,7 @@ PSICOFARMACOS.classes.push({
     },
     {
       nome: "Clonazepam",
+      id: "clonazepam",
       kw: "rivotril gotas retirada gradual acatisia",
       apres: "comprimido; solução oral em gotas",
       dose: [
@@ -850,6 +877,7 @@ PSICOFARMACOS.classes.push({
     },
     {
       nome: "Lorazepam",
+      id: "lorazepam",
       kw: "lorax hepatopata renal idoso",
       apres: "comprimido",
       dose: [
@@ -869,6 +897,7 @@ PSICOFARMACOS.classes.push({
     },
     {
       nome: "Alprazolam",
+      id: "alprazolam",
       kw: "frontal panico indutor rebote dependencia",
       apres: "comprimido",
       dose: [
@@ -890,6 +919,7 @@ PSICOFARMACOS.classes.push({
     },
     {
       nome: "Bromazepam",
+      id: "bromazepam",
       kw: "lexotan gotas indutor",
       apres: "comprimido; solução oral em gotas",
       dose: [
@@ -908,6 +938,7 @@ PSICOFARMACOS.classes.push({
     },
     {
       nome: "Midazolam",
+      id: "midazolam",
       kw: "dormonid agitacao intramuscular emergencia",
       apres: "comprimido; solução injetável",
       dose: [
@@ -930,6 +961,7 @@ PSICOFARMACOS.classes.push({
     },
     {
       nome: "Clordiazepóxido",
+      id: "clordiazepoxido",
       kw: "abstinencia alcoolica meia vida longa",
       apres: "comprimido",
       dose: [
@@ -961,6 +993,7 @@ PSICOFARMACOS.classes.push({
   farmacos: [
     {
       nome: "Biperideno",
+      id: "biperideno",
       kw: "akineton anticolinergico distonia parkinsonismo",
       apres: "comprimido; solução injetável",
       dose: [
@@ -984,6 +1017,7 @@ PSICOFARMACOS.classes.push({
     },
     {
       nome: "Propranolol (para acatisia)",
+      id: "propranolol-para-acatisia",
       kw: "acatisia betabloqueador inquietacao ansiedade de desempenho",
       apres: "comprimido de 10, 40 e 80 mg",
       dose: [
@@ -1015,6 +1049,7 @@ PSICOFARMACOS.classes.push({
   farmacos: [
     {
       nome: "Terapia de reposição de nicotina",
+      id: "terapia-de-reposicao-de-nicotina",
       kw: "adesivo transdermico goma pastilha nicotina cigarro",
       apres: "adesivo transdérmico de 7, 14 e 21 mg; goma de mascar de 2 mg; pastilha de 2 mg",
       dose: [
@@ -1039,6 +1074,7 @@ PSICOFARMACOS.classes.push({
     },
     {
       nome: "Naltrexona, acamprosato, dissulfiram",
+      id: "naltrexona-acamprosato-dissulfiram",
       kw: "alcool manutencao abstinencia aversivo fissura",
       apres: "—",
       dose: [
@@ -1062,6 +1098,7 @@ PSICOFARMACOS.classes.push({
     },
     {
       nome: "Abstinência alcoólica aguda e tiamina",
+      id: "abstinencia-alcoolica-aguda-e-tiamina",
       kw: "delirium tremens ciwa tiamina wernicke korsakoff convulsao glicose",
       apres: "—",
       dose: [
@@ -1100,6 +1137,7 @@ PSICOFARMACOS.classes.push({
   farmacos: [
     {
       nome: "Escetamina intranasal",
+      id: "escetamina-intranasal",
       kw: "spravato escetamina esketamina nmda depressao resistente suicida anvisa",
       apres: "spray nasal de cloridrato de escetamina",
       dose: [
@@ -1134,6 +1172,7 @@ PSICOFARMACOS.classes.push({
     },
     {
       nome: "Cetamina racêmica",
+      id: "cetamina-racemica",
       kw: "ketamina cetamina intravenosa off label anestesico dissociativo suicidio",
       apres: "solução injetável, registrada na ANVISA originalmente para ANESTESIA",
       dose: [
@@ -1171,21 +1210,24 @@ PSICOFARMACOS.combos = {
         "tudo: só combine depois de um fármaco em DOSE PLENA pelo TEMPO MÍNIMO. " +
         "Combinação precoce cria esquema difícil de desmontar e refratariedade aparente.",
   itens: [
-    { t: "Depressão bipolar — lítio em monoterapia",
+    { id: "dep-bipolar-litio-mono",
+      t: "Depressão bipolar — lítio em monoterapia",
       d: "É nível 1 no PCDT, à frente de todos. O segundo com melhor evidência é a quetiapina; " +
          "a lamotrigina tem eficácia comprovada na mesma posição. O tratamento do episódio " +
          "depressivo bipolar deve ser feito PREFERENCIALMENTE EM MONOTERAPIA. Objetivo é " +
          "remissão; tempo de 8 a 24 semanas; avaliar resposta em 4 a 6 semanas antes de trocar.",
       f: "MS — PCDT Transtorno Afetivo Bipolar do tipo I, Portaria SAS/MS nº 315, 2016" },
 
-    { t: "Depressão bipolar refratária — fluoxetina + olanzapina, lítio OU valproato",
+    { id: "dep-bipolar-refrataria-fluox",
+      t: "Depressão bipolar refratária — fluoxetina + olanzapina, lítio OU valproato",
       d: "O único ISRS recomendado no Protocolo é a fluoxetina, e ela deve ser usada SEMPRE " +
          "em combinação com olanzapina, carbonato de lítio ou ácido valproico. A associação é " +
          "preconizada APENAS em refratariedade, contraindicação ou intolerância a lítio, " +
          "quetiapina e lamotrigina — não é primeira escolha.",
       f: "MS — PCDT Transtorno Afetivo Bipolar do tipo I, Portaria SAS/MS nº 315, 2016" },
 
-    { t: "Depressão unipolar resistente — potencializar com antipsicótico",
+    { id: "dep-resistente-antipsicotico",
+      t: "Depressão unipolar resistente — potencializar com antipsicótico",
       d: "Depressão resistente é a que não remitiu após 2 ou mais tentativas adequadas de " +
          "antidepressivo. Duas rotas: TROCAR (inclusive para tricíclico ou IMAO) ou " +
          "POTENCIALIZAR com antipsicótico de segunda geração. Aripiprazol e brexpiprazol são " +
@@ -1193,14 +1235,16 @@ PSICOFARMACOS.combos = {
          "que a antipsicótica.",
       f: "CANMAT 2023 (Can J Psychiatry, 2024)" },
 
-    { t: "Depressão resistente — potencializar com lítio ou T3",
+    { id: "dep-resistente-litio-t3",
+      t: "Depressão resistente — potencializar com lítio ou T3",
       d: "Lítio e triiodotironina são agentes adjuvantes de SEGUNDA linha. Se o lítio for " +
          "usado como potencializador, a monitorização é a mesma do lítio em bipolar: litemia, " +
          "eletrólitos, cálcio, creatinina, eGFR e TSH no início e a cada 6 a 12 meses, ou " +
          "sempre que o quadro clínico ou a dose mudarem.",
       f: "CANMAT 2023 (Can J Psychiatry, 2024)" },
 
-    { t: "Depressão resistente com ideação suicida — cetamina IV ou escetamina intranasal",
+    { id: "dep-resistente-cetamina",
+      t: "Depressão resistente com ideação suicida — cetamina IV ou escetamina intranasal",
       d: "Segunda linha adjuvante. Ambas reduzem a ideação suicida de forma rápida e " +
          "independente do efeito sobre o humor, com efeito antissuicida da cetamina IV " +
          "estendendo-se por até uma semana após uma única infusão. Foram REBAIXADAS de " +
@@ -1209,33 +1253,38 @@ PSICOFARMACOS.combos = {
          "antidepressivo oral.",
       f: "CANMAT 2023 (Can J Psychiatry, 2024); registro brasileiro no Parecer CFM/CREMEC nº 14/2021" },
 
-    { t: "Esquizofrenia — antipsicótico + biperideno ou propranolol",
+    { id: "esq-manejo-motor",
+      t: "Esquizofrenia — antipsicótico + biperideno ou propranolol",
       d: "Não é potencialização, é manejo de efeito adverso, e a escolha depende do quadro " +
          "motor: biperideno 1 a 16 mg/dia para distonia aguda e parkinsonismo; propranolol " +
          "40 a 160 mg/dia (ou clonazepam 0,5 a 2 mg/dia) para acatisia. Trocar um pelo outro " +
          "é erro comum e não funciona.",
       f: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013" },
 
-    { t: "Esquizofrenia com má adesão — decanoato + haloperidol oral no primeiro mês",
+    { id: "esq-decanoato-oral",
+      t: "Esquizofrenia com má adesão — decanoato + haloperidol oral no primeiro mês",
       d: "O decanoato leva 3 a 6 meses para estabilizar a concentração plasmática. Por isso o " +
          "PCDT permite duas estratégias de cobertura no início: doses maiores e mais " +
          "frequentes (até 400 mg/mês, até semanalmente), ou dose usual SUPLEMENTADA com " +
          "haloperidol oral até 15 mg/dia conforme a tolerância, principalmente no primeiro mês.",
       f: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013" },
 
-    { t: "Antipsicótico atípico + sulpirida",
+    { id: "atipico-sulpirida",
+      t: "Antipsicótico atípico + sulpirida",
       d: "A sulpirida é por vezes utilizada em associação a outro atípico para potencializar o " +
          "efeito antipsicótico. Atenção à soma de hiperprolactinemia se o parceiro for a risperidona.",
       f: "MS — CAB nº 34, Saúde Mental, 2013" },
 
-    { t: "Tabagismo — TRN combinada, ou TRN + bupropiona",
+    { id: "tabagismo-trn-bupropiona",
+      t: "Tabagismo — TRN combinada, ou TRN + bupropiona",
       d: "A reposição combinada (uma forma lenta + uma rápida) é o tratamento PREFERENCIAL, " +
          "por maior eficácia. Como alternativas: bupropiona isolada, TRN isolada, ou " +
          "bupropiona associada a UMA forma de TRN. Adesivos podem ser associados entre si " +
          "(21+21, 21+14, 21+7 mg/dia) em fumantes pesados e motivados.",
       f: "MS — PCDT Tabagismo, Portaria Conjunta SCTIE/SAES/MS nº 10, 2020" },
 
-    { t: "Ansiedade crônica — antidepressivo de base, benzodiazepínico só de ponte",
+    { id: "ansiedade-ad-base-bzd-ponte",
+      t: "Ansiedade crônica — antidepressivo de base, benzodiazepínico só de ponte",
       d: "O tratamento de base dos sintomas de ansiedade que se cronificam é o antidepressivo, " +
          "em doses EQUIVALENTES às da depressão, ficando o ansiolítico para tratamento " +
          "sintomático e de curto prazo. O CAB é explícito: prescrever apenas benzodiazepínico " +
@@ -1249,7 +1298,8 @@ PSICOFARMACOS.proibidos = {
   nota: "Cada linha traz o par, o MECANISMO e o que acontece. Saber o mecanismo é o que " +
         "permite generalizar para o fármaco que não está nesta lista.",
   itens: [
-    { t: "Lítio + diurético, IECA ou AINE",
+    { id: "litio-diuretico-ieca-aine",
+      t: "Lítio + diurético, IECA ou AINE",
       d: "MECANISMO: o lítio é excretado pelo rim e acompanha o sódio. Essas três classes " +
          "reduzem a depuração. DESFECHO: a litemia sobe sem que a dose tenha mudado, e acima " +
          "de 1,5 mEq/L começa a toxicidade — acima de 3,5 mEq/L é potencialmente fatal. O PCDT " +
@@ -1257,14 +1307,16 @@ PSICOFARMACOS.proibidos = {
          "Sinais precoces: disartria, ataxia, tremor grosseiro.",
       f: "MS — PCDT Transtorno Afetivo Bipolar do tipo I, Portaria SAS/MS nº 315, 2016" },
 
-    { t: "Lamotrigina + ácido valproico",
+    { id: "lamotrigina-valproico",
+      t: "Lamotrigina + ácido valproico",
       d: "MECANISMO: o valproato inibe a glicuronidação da lamotrigina e eleva muito seu nível. " +
          "DESFECHO: aumenta MUITO o risco de rash cutâneo e de síndrome de Stevens-Johnson. O " +
          "PCDT diz que a combinação deve em princípio ser EVITADA; se for necessária, o " +
          "aumento de dose da lamotrigina tem de ser ainda mais gradual que o habitual.",
       f: "MS — PCDT Transtorno Afetivo Bipolar do tipo I, Portaria SAS/MS nº 315, 2016" },
 
-    { t: "Carbamazepina + antipsicótico (ou quase qualquer coisa)",
+    { id: "carbamazepina-inducao",
+      t: "Carbamazepina + antipsicótico (ou quase qualquer coisa)",
       d: "MECANISMO: indução potente do citocromo P450. DESFECHO: a carbamazepina REDUZ o " +
          "nível sérico da maioria dos antipsicóticos, e afeta antidepressivos, " +
          "anticonvulsivantes, risperidona e haloperidol — o PCDT manda atentar para o ajuste " +
@@ -1272,7 +1324,8 @@ PSICOFARMACOS.proibidos = {
          "A recaída aparece semanas depois e raramente é atribuída à interação.",
       f: "MS — PCDT Transtorno Afetivo Bipolar do tipo I, Portaria SAS/MS nº 315, 2016" },
 
-    { t: "ISRS ou tricíclico + IMAO",
+    { id: "isrs-triciclico-imao",
+      t: "ISRS ou tricíclico + IMAO",
       d: "MECANISMO: soma de carga serotoninérgica por bloqueio de recaptação mais bloqueio " +
          "de degradação. DESFECHO: síndrome serotoninérgica, potencialmente fatal — alteração " +
          "do estado mental, disfunção autonômica e hiperatividade neuromuscular (clônus, " +
@@ -1281,7 +1334,8 @@ PSICOFARMACOS.proibidos = {
       f: "VERIFICAR — princípio consolidado; intervalo exato de washout a confirmar em referência datada",
       v: true },
 
-    { t: "ISRS + tramadol, linezolida ou triptano",
+    { id: "isrs-tramadol",
+      t: "ISRS + tramadol, linezolida ou triptano",
       d: "MECANISMO: todos aumentam a atividade serotoninérgica por vias diferentes. DESFECHO: " +
          "síndrome serotoninérgica. A associação ISRS + tramadol é a causa mais citada, e " +
          "acontece o tempo todo porque o tramadol é prescrito por outro serviço, para dor, " +
@@ -1289,47 +1343,54 @@ PSICOFARMACOS.proibidos = {
       f: "VERIFICAR — princípio consolidado; confirmar conduta no protocolo do serviço",
       v: true },
 
-    { t: "Ziprasidona + outro fármaco que alargue QT ou cause distúrbio hidroeletrolítico",
+    { id: "ziprasidona-qt",
+      t: "Ziprasidona + outro fármaco que alargue QT ou cause distúrbio hidroeletrolítico",
       d: "MECANISMO: soma de prolongamento do intervalo QT, agravada por hipocalemia e " +
          "hipomagnesemia. DESFECHO: torsade de pointes. O PCDT lista explicitamente como " +
          "contraindicação relativa o uso concomitante de fármacos capazes de produzir " +
          "desequilíbrio hidroeletrolítico, e os sinais de alerta: tontura, palpitação e síncope.",
       f: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013" },
 
-    { t: "Bupropiona + qualquer coisa que baixe o limiar convulsivo",
+    { id: "bupropiona-limiar-convulsivo",
+      t: "Bupropiona + qualquer coisa que baixe o limiar convulsivo",
       d: "MECANISMO: a bupropiona reduz o limiar convulsivo de forma dose-dependente; " +
          "somam-se a ela os antipsicóticos de baixa potência, a clozapina, a abstinência de " +
          "álcool e a de benzodiazepínico. DESFECHO: convulsão. Por isso a bupropiona é " +
          "contraindicada em epilepsia, TCE, transtorno alimentar e abstinência.",
       f: "MS — PCDT Tabagismo, Portaria Conjunta SCTIE/SAES/MS nº 10, 2020" },
 
-    { t: "Antidepressivo em monoterapia no transtorno bipolar",
+    { id: "ad-monoterapia-tab",
+      t: "Antidepressivo em monoterapia no transtorno bipolar",
       d: "MECANISMO: ativação do polo maníaco sem estabilizador que sustente o humor. " +
          "DESFECHO: virada maníaca e possível indução de ciclagem rápida. O PCDT é textual — " +
          "os antidepressivos são CLARAMENTE CONTRAINDICADOS como monoterapia no TAB. Por isso " +
          "a pergunta sobre episódio prévio de humor elevado vem ANTES da receita, sempre.",
       f: "MS — PCDT Transtorno Afetivo Bipolar do tipo I, Portaria SAS/MS nº 315, 2016" },
 
-    { t: "Benzodiazepínico + álcool ou outro depressor do SNC",
+    { id: "bzd-alcool-depressor",
+      t: "Benzodiazepínico + álcool ou outro depressor do SNC",
       d: "MECANISMO: potenciação GABAérgica somada. DESFECHO: depressão respiratória. O CAB " +
          "cita esse risco explicitamente entre os do grupo, junto com sedação secundária e acidentes.",
       f: "MS — CAB nº 34, Saúde Mental, 2013" },
 
-    { t: "Benzodiazepínico em delirium NÃO alcoólico",
+    { id: "bzd-delirium",
+      t: "Benzodiazepínico em delirium NÃO alcoólico",
       d: "MECANISMO: piora a desatenção e a flutuação do nível de consciência, que são o " +
          "núcleo do quadro. DESFECHO: delirium mais longo e mais grave. A exceção é a " +
          "abstinência de álcool ou de benzodiazepínico, onde ele é justamente o tratamento — " +
          "e é por isso que a pergunta sobre a última dose de álcool vem antes da prescrição.",
       f: "Dalgalarrondo, Psicopatologia e Semiologia dos Transtornos Mentais, 3ª ed., Artmed, 2019" },
 
-    { t: "Haloperidol em Parkinson ou demência de corpos de Lewy",
+    { id: "haloperidol-parkinson-lewy",
+      t: "Haloperidol em Parkinson ou demência de corpos de Lewy",
       d: "MECANISMO: bloqueio D2 potente num sistema dopaminérgico já depletado, e " +
          "hipersensibilidade a neurolépticos nos corpos de Lewy. DESFECHO: piora motora " +
          "dramática, rigidez grave, e risco aumentado de síndrome neuroléptica maligna. " +
          "Parkinson consta como contraindicação do haloperidol no PCDT.",
       f: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013" },
 
-    { t: "Biperideno para acatisia ou para discinesia tardia",
+    { id: "biperideno-acatisia-dt",
+      t: "Biperideno para acatisia ou para discinesia tardia",
       d: "MECANISMO: a acatisia não vem do desequilíbrio colinérgico, e a discinesia tardia " +
          "vem de hipersensibilidade dopaminérgica que o anticolinérgico agrava. DESFECHO: na " +
          "acatisia, nada acontece e perde-se tempo; na discinesia tardia, PIORA. A conduta na " +
@@ -1337,7 +1398,8 @@ PSICOFARMACOS.proibidos = {
          "discinesia tardia, o PCDT indica substituir por clozapina.",
       f: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013" },
 
-    { t: "Clozapina sem hemograma seriado",
+    { id: "clozapina-sem-hemograma",
+      t: "Clozapina sem hemograma seriado",
       d: "MECANISMO: agranulocitose idiossincrática, que não dá aviso clínico antes da " +
          "infecção. DESFECHO: neutropenia grave e sepse. Não é combinação de fármacos, é " +
          "combinação de fármaco com ausência de monitorização — e é a que mais mata. " +
@@ -1345,7 +1407,8 @@ PSICOFARMACOS.proibidos = {
          "Febre ou dor de garganta = hemograma hoje.",
       f: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013" },
 
-    { t: "Soro glicosado antes de tiamina no alcoolista",
+    { id: "glicose-antes-tiamina",
+      t: "Soro glicosado antes de tiamina no alcoolista",
       d: "MECANISMO: a metabolização da glicose CONSOME tiamina, e o alcoolista já está " +
          "carente. DESFECHO: pode precipitar encefalopatia de Wernicke — confusão, ataxia e " +
          "oftalmoplegia — que é tratável e se torna irreversível (Korsakoff) se não tratada. " +
@@ -1360,79 +1423,91 @@ PSICOFARMACOS.dosemuda = {
         "farmacológica: é a origem de dois erros diários — subdosar achando que tratou, e " +
         "usar dose de outra indicação achando que é a mesma coisa.",
   itens: [
-    { t: "Amitriptilina — abaixo de 100 mg/dia NÃO é antidepressivo",
+    { id: "dm-amitriptilina",
+      t: "Amitriptilina — abaixo de 100 mg/dia NÃO é antidepressivo",
       d: "Em dose baixa trata dor neuropática, dor crônica, profilaxia de enxaqueca e insônia. " +
          "O efeito ANTIDEPRESSIVO só aparece acima de 100 mg/dia, com máximo em torno de 200 a " +
          "250 mg/dia considerando o risco cardíaco. Prescrever 25 mg à noite e anotar " +
          "depressão tratada é o erro clássico — e está descrito no próprio CAB como caso.",
       f: "MS — CAB nº 34, Saúde Mental, 2013" },
 
-    { t: "Fluoxetina — 20 mg para depressão, 60 a 80 mg para TOC",
+    { id: "dm-fluoxetina",
+      t: "Fluoxetina — 20 mg para depressão, 60 a 80 mg para TOC",
       d: "Sintoma obsessivo-compulsivo responde a doses normalmente MAIS ALTAS de " +
          "antidepressivo, por exemplo 60 a 80 mg/dia de fluoxetina — e ainda assim raramente " +
          "com resposta plenamente satisfatória. Já a ansiedade crônica usa doses EQUIVALENTES " +
          "às da depressão, não maiores. Três indicações, três patamares.",
       f: "MS — CAB nº 34, Saúde Mental, 2013" },
 
-    { t: "Quetiapina — 300 a 600 mg na depressão bipolar, 600 a 800 mg na mania",
+    { id: "dm-quetiapina",
+      t: "Quetiapina — 300 a 600 mg na depressão bipolar, 600 a 800 mg na mania",
       d: "A mesma molécula, no mesmo transtorno, em doses diferentes conforme a FASE. E em " +
          "dose baixa (25 a 50 mg) o que age é essencialmente o bloqueio histamínico: vira " +
          "hipnótico, uso muito difundido, sem indicação em protocolo e com o risco metabólico " +
          "da classe junto.",
       f: "MS — PCDT Transtorno Afetivo Bipolar do tipo I, Portaria SAS/MS nº 315, 2016" },
 
-    { t: "Clorpromazina — abaixo de 150 mg/dia associa-se a MAIS recidiva",
+    { id: "dm-clorpromazina",
+      t: "Clorpromazina — abaixo de 150 mg/dia associa-se a MAIS recidiva",
       d: "Existe um piso, não só um teto. Doses abaixo de 150 mg/dia estão relacionadas a maior " +
          "chance de recidiva; as médias ficam entre 400 e 800 mg/dia, com 1 g como máximo. " +
          "Manter o paciente numa dose confortável e ineficaz é uma forma silenciosa de não tratar.",
       f: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013" },
 
-    { t: "Propranolol — cardiológico numa dose, psiquiátrico na mesma faixa",
+    { id: "dm-propranolol",
+      t: "Propranolol — cardiológico numa dose, psiquiátrico na mesma faixa",
       d: "Betabloqueador anti-hipertensivo e antianginoso que, em 40 a 160 mg/dia divididos em " +
          "2 a 3 tomadas, é tratamento de ACATISIA induzida por antipsicótico. Também é o que " +
          "se usa no tremor fino do lítio. A indicação muda; a molécula e a faixa, não.",
       f: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013" },
 
-    { t: "Clonazepam — antiepiléptico, ansiolítico e antiacatísico",
+    { id: "dm-clonazepam",
+      t: "Clonazepam — antiepiléptico, ansiolítico e antiacatísico",
       d: "É usado por vezes no tratamento da epilepsia; na faixa de 0,5 a 8 mg/dia é " +
          "ansiolítico; e em 0,5 a 2 mg/dia é alternativa ao propranolol na acatisia. Três " +
          "papéis, uma caixa.",
       f: "MS — CAB nº 34, Saúde Mental, 2013" },
 
-    { t: "Bupropiona — antidepressivo que virou fármaco de cessação tabágica",
+    { id: "dm-bupropiona",
+      t: "Bupropiona — antidepressivo que virou fármaco de cessação tabágica",
       d: "Registrada como antidepressivo, é o que o SUS dispensa para PARAR DE FUMAR, no " +
          "esquema de 150 mg pela manhã por 3 dias e depois 150 mg duas vezes ao dia por 84 " +
          "dias. O efeito sobre o tabagismo não depende de haver depressão.",
       f: "MS — PCDT Tabagismo, Portaria Conjunta SCTIE/SAES/MS nº 10, 2020" },
 
-    { t: "Valproato, carbamazepina e lamotrigina — antiepilépticos que estabilizam humor",
+    { id: "dm-anticonvulsivantes",
+      t: "Valproato, carbamazepina e lamotrigina — antiepilépticos que estabilizam humor",
       d: "Três anticonvulsivantes que são estabilizadores de primeira linha no bipolar, com " +
          "faixas e níveis séricos próprios para essa indicação. E dentro do bipolar eles não " +
          "são intercambiáveis: valproato rende mais no episódio misto e na ciclagem rápida, " +
          "lamotrigina no polo depressivo.",
       f: "MS — PCDT Transtorno Afetivo Bipolar do tipo I, Portaria SAS/MS nº 315, 2016" },
 
-    { t: "Cetamina — anestésico numa dose, antidepressivo em outra",
+    { id: "dm-cetamina",
+      t: "Cetamina — anestésico numa dose, antidepressivo em outra",
       d: "Registrada na ANVISA originalmente para ANESTESIA. Em doses sub-anestésicas tem " +
          "efeito antidepressivo e antissuicida rápido, por bloqueio NMDA. É o exemplo mais " +
          "nítido de dose que troca a função — e o uso psiquiátrico da cetamina racêmica " +
          "permanece off-label no Brasil; só a escetamina intranasal tem registro próprio.",
       f: "CFM/CREMEC — Parecer nº 14/2021 (registro ANVISA Resolução-RE nº 4.413, 2020)" },
 
-    { t: "Risperidona — atípica em dose baixa, praticamente típica acima de 6 mg/dia",
+    { id: "dm-risperidona",
+      t: "Risperidona — atípica em dose baixa, praticamente típica acima de 6 mg/dia",
       d: "A manutenção fica em 3 a 6 mg/dia e o máximo em 8 mg/dia no TAB. Conforme a dose " +
          "sobe, o bloqueio D2 aumenta a ponto de o perfil extrapiramidal se aproximar do de um " +
          "antipsicótico típico — a vantagem de ser atípica se perde na dose alta.",
       f: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013; e PCDT Transtorno Afetivo Bipolar do tipo I, Portaria SAS/MS nº 315, 2016" },
 
-    { t: "Olanzapina — 20 mg é o teto usual, 30 mg só numa situação",
+    { id: "dm-olanzapina",
+      t: "Olanzapina — 20 mg é o teto usual, 30 mg só numa situação",
       d: "Não há evidência de que acima de 20 mg/dia seja mais eficaz em paciente NÃO " +
          "refratário. A exceção é estreita: até 30 mg/dia em refratário que teve efeito " +
          "adverso grave com clozapina (agranulocitose, cardiopatia, oclusão intestinal). E no " +
          "paciente debilitado e emagrecido o máximo é 5 mg/dia.",
       f: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013" },
 
-    { t: "Antipsicótico atípico como POTENCIALIZADOR de antidepressivo",
+    { id: "dm-atipico-potencializador",
+      t: "Antipsicótico atípico como POTENCIALIZADOR de antidepressivo",
       d: "Na depressão unipolar resistente o antipsicótico entra como adjuvante, em dose menor " +
          "que a usada para tratar psicose. Aripiprazol e brexpiprazol são primeira linha " +
          "adjuvante; cariprazina é segunda. Mesma classe, papel e patamar diferentes.",

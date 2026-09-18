@@ -81,12 +81,96 @@ ok('botão voltar aparece', await evalJS(`!document.getElementById('voltar').cla
 // e a ausência precisa sumir da tela — seção vazia lê como "nada a se preocupar".
 /* seções de texto presentes + o bloco de calculadoras, contado a partir da
    própria queixa em vez de um total fixo */
-ok('renderiza uma seção por seção preenchida, mais as calculadoras',
+/* Os blocos do formulário contam junto: são seções na tela vindas de `formulario`,
+   não de `q[k].itens`. Contados a partir dos dados, como o resto da asserção. */
+ok('renderiza uma seção por seção preenchida, mais as calculadoras e o formulário',
    await evalJS(`(()=>{const q=QUEIXAS.filter(x=>x.id==='depressao-maior')[0];
      const secs=['perguntas','exame','naoperder','ddx','exames','farmaco','conduta','erros']
        .filter(k=>q[k]&&q[k].itens&&q[k].itens.length).length;
      const calcs=(q.scores||[]).length?1:0;
-     return document.querySelectorAll('#detalhe .sec').length === secs+calcs})()`), true);
+     const fm=q.formulario||{}, fx=fm.farmacos||[];
+     let form=0;
+     if(fx.some(r=>!r.outra)) form++;
+     if(fx.some(r=>r.outra)) form++;
+     ['combos','proibidos','dosemuda'].forEach(k=>{ if((fm[k]||[]).length) form++; });
+     return document.querySelectorAll('#detalhe .sec').length === secs+calcs+form})()`), true);
+
+/* ---------- formulário dentro da queixa (17/09/2026) ----------
+   O pedido do Eric: o fármaco estava só na aba, e escolher fármaco É a consulta
+   em psiquiatria. Estas verificações travam que ele aparece DENTRO da queixa,
+   que o card completo abre sem sair dela, e que nenhum id ficou órfão na tela.
+   `textContent` e não `innerText`: em <details> fechado o innerText vem vazio. */
+ok('o fármaco aparece dentro da queixa',
+   await evalJS(`document.querySelectorAll('#detalhe .fx-op').length > 0`), true);
+ok('a linha fechada já traz o nome e a dose usual',
+   await evalJS(`(()=>{const d=[...document.querySelectorAll('#detalhe .fx-op')]
+     .find(x=>x.textContent.indexOf('Fluoxetina')>-1);
+     return !!d && d.open===false && d.textContent.indexOf('20 mg/dia')>-1})()`), true);
+ok('abrir a linha mostra o card inteiro, sem trocar de tela',
+   await evalJS(`(()=>{const d=[...document.querySelectorAll('#detalhe .fx-op')]
+     .find(x=>x.textContent.indexOf('Fluoxetina')>-1);
+     return d.textContent.indexOf('Por que este')>-1 &&
+            d.textContent.indexOf('Contraindicações')>-1 &&
+            d.textContent.indexOf('CAB nº 34')>-1})()`), true);
+ok('fármaco de outra classe aparece separado',
+   await evalJS(`document.getElementById('detalhe').textContent.indexOf('De outras classes')>-1`), true);
+ok('a cetamina entra pela depressão resistente',
+   await evalJS(`document.getElementById('detalhe').textContent.indexOf('Cetamina racêmica')>-1`), true);
+ok('as combinações proibidas aparecem na queixa',
+   await evalJS(`document.getElementById('detalhe').textContent.indexOf('Combinações que NÃO se fazem')>-1`), true);
+ok('o proibido vem aberto, como as red flags',
+   await evalJS(`(()=>{const h=[...document.querySelectorAll('#detalhe h2')]
+     .find(x=>x.textContent.indexOf('NÃO se fazem')>-1);
+     return h.nextElementSibling.open===true})()`), true);
+ok('o proibido traz o mecanismo dentro da queixa',
+   await evalJS(`document.getElementById('detalhe').textContent.indexOf('MECANISMO')>-1`), true);
+/* Id órfão não pode virar buraco na tela com paciente na frente. */
+ok('nenhum id referenciado ficou órfão',
+   await evalJS(`document.getElementById('detalhe').textContent.indexOf('não encontrado')>-1`), false);
+/* A razão de referenciar em vez de copiar: toda dose na tela vem do
+   psicofarmacos.js, com a fonte junto. O papel escrito na queixa diz o LUGAR do
+   fármaco neste quadro e não repete número — dose duplicada envelhece em dois
+   lugares, e a queixa não carrega fonte de dose. */
+ok('nenhuma dose foi copiada para o papel escrito na queixa',
+   await evalJS(`[...document.querySelectorAll('#detalhe .fx-op-papel')]
+     .some(x => x.textContent.indexOf('mg') > -1)`), false);
+ok('buscar pelo fármaco acha a queixa',
+   await evalJS(`QUEIXAS.filter(q=>q._txt.indexOf('aripiprazol')>-1).length > 0`), true);
+
+/* Segunda queixa, com "outras classes" de natureza diferente da depressão: aqui
+   o fármaco de fora é manejo de efeito adverso, não potencialização. */
+await evalJS(`document.getElementById('voltar').click()`);
+await espera(250);
+await evalJS(`document.querySelector('[data-id="psicose-esquizofrenia"]').click()`);
+await espera(350);
+ok('esquizofrenia mostra os antipsicóticos dentro da queixa',
+   await evalJS(`document.querySelectorAll('#detalhe .fx-op').length >= 8`), true);
+ok('o manejo do efeito motor entra como outra classe',
+   await evalJS(`(()=>{const h=[...document.querySelectorAll('#detalhe h2')]
+     .find(x=>x.textContent.indexOf('De outras classes')>-1);
+     return h.nextElementSibling.textContent.indexOf('Biperideno')>-1})()`), true);
+ok('o proibido da clozapina aparece na queixa certa',
+   await evalJS(`document.getElementById('detalhe').textContent.indexOf('Clozapina sem hemograma')>-1`), true);
+ok('nenhum id órfão na segunda queixa',
+   await evalJS(`document.getElementById('detalhe').textContent.indexOf('não encontrado')>-1`), false);
+/* Todas as oito, de uma vez: abre cada queixa e confere que o bloco montou. */
+ok('as oito queixas de psiquiatria renderizam o formulário sem órfão',
+   await evalJS(`(()=>{const ids=QUEIXAS.filter(q=>q.formulario).map(q=>q.id);
+     let bons=0;
+     for (const id of ids){
+       document.querySelector('[data-id="'+id+'"]') || document.getElementById('voltar').click();
+       const b=document.querySelector('[data-id="'+id+'"]');
+       if(!b) continue;
+       b.click();
+       const t=document.getElementById('detalhe').textContent;
+       if(document.querySelectorAll('#detalhe .fx-op').length>0 && t.indexOf('não encontrado')<0) bons++;
+       document.getElementById('voltar').click();
+     }
+     return bons===ids.length && ids.length===8})()`), true);
+/* Reabre a depressão: o resto do e2e continua a partir dela, e a varredura
+   acima passou por todas as oito. */
+await evalJS(`document.querySelector('[data-id="depressao-maior"]').click()`);
+await espera(300);
 /* Antes isto se apoiava numa queixa sem `exames` escrita. As oito de
    psiquiatria têm as nove seções, então a asserção passou a ser feita contra os
    dados: nenhum placeholder na tela — que é o modo de falha do dr-house — e

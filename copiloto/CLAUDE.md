@@ -112,8 +112,85 @@ QUEIXAS.push({
 
 `farmaco` entrou em 16/09/2026 com o módulo de psiquiatria. Nas queixas de APS o
 tratamento cabia em `conduta`; em psiquiatria a escolha do fármaco **é** a consulta,
-e misturar as duas coisas escondia a decisão no meio da lista. O detalhe por fármaco
-mora no painel Psicofármacos, para a mesma tabela não se repetir em oito queixas.
+e misturar as duas coisas escondia a decisão no meio da lista. É a seção de texto:
+os princípios que valem para o quadro (latência, quando trocar, o que a farmácia
+tem). A lista de opções é a chave `formulario`, abaixo.
+
+### `formulario` — o fármaco DENTRO da queixa (17/09/2026)
+
+Eric: os fármacos estavam só na aba Psicofármacos, e em psiquiatria escolher o
+fármaco é a consulta — a decisão não pode exigir trocar de tela. A queixa passou
+a mostrar as opções, os combos que se fazem, os de outras classes e os proibidos
+daquele quadro.
+
+**A queixa REFERENCIA por id; nunca copia.** Essa é a linha que não se cruza. O
+`psicofarmacos.js` continua sendo o único lugar onde mora dose, contraindicação e
+fonte — a razão de as combinações viverem em seção própria é a mesma: conteúdo
+repetido envelhece em cada cópia. O que mora na queixa é a **relação**, que é dado
+novo: o papel daquele fármaco NESTE quadro.
+
+```js
+formulario: {
+  fonte: "…",                                   // fonte do PAPEL, não da dose
+  farmacos: [
+    { id: "fluoxetina", papel: "1ª linha — o ISRS que o SUS dispensa" },
+    { id: "aripiprazol", outra: true,           // outra: classe primária não é esta
+      papel: "potencializador na resistente — dose MENOR que a antipsicótica" }
+  ],
+  combos:    ["dep-resistente-antipsicotico"],  // ids de PSICOFARMACOS.combos
+  proibidos: ["ad-monoterapia-tab"],            //         …proibidos
+  dosemuda:  []                                 //         …dosemuda
+}
+```
+
+Todo fármaco e toda combinação têm `id` (75 hoje, únicos entre si, com teste).
+Fármaco: slug do nome. Combinação: id curto escrito à mão.
+
+**Critério de `outra: true`** — vale para o fármaco cuja classe primária não é a
+do quadro **e** cujo uso ali não se deduz da classe. É o que a lista "De outras
+classes" responde: *além do óbvio, o que mais serve aqui?* Por isso a cetamina é
+`outra` na depressão, o biperideno e o propranolol são `outra` na esquizofrenia
+(manejo de efeito adverso, não tratamento do quadro) e a fluoxetina é `outra` no
+bipolar — mas a quetiapina **não** é `outra` no bipolar, porque atípico no TAB é
+primeira linha do próprio PCDT, não achado lateral. Marcar tudo que é de outra
+classe encheria a lista e apagaria o sinal.
+
+**Quatro coisas travadas por teste**, e cada uma já seria um jeito de o app
+mentir com paciente na frente:
+
+1. **Id órfão é erro de teste**, não buraco na tela. `testes.html` varre toda
+   referência; o e2e confere que "não encontrado" não aparece no DOM.
+2. **`papel` não pode conter dose.** Se a dose for reescrita aqui, envelhece em
+   dois lugares — e a queixa não carrega fonte de dose. Há teste nos dados e no
+   DOM. Se acusar, mova o dado: dose fica no `psicofarmacos.js`.
+3. **Queixa com `formulario` tem `farmaco`.** O bloco é renderizado colado na
+   seção de texto; sem ela não haveria onde encaixar.
+4. **A fonte do `formulario` é validada parte a parte**, separada por ` · `,
+   que é como o `gerar-fontes.py` raspa. Campo com três autoridades nunca casaria
+   inteiro contra o allowlist.
+
+**Na tela:** linha compacta (nome · dose usual · papel) que abre o card inteiro
+ali mesmo — o mesmo `farmacoHTML` do painel, sem segundo renderer. Fármacos e
+"De outras classes" vêm abertos; combos fechado; **proibidos aberto**, pelo mesmo
+motivo que red flags vêm abertas: o que causa dano é o que passa despercebido.
+
+A dose da linha fechada sai de `Dose usual` ou `Faixa`, e só se couber em 40
+caracteres. Esquema de titulação e "sem fonte conferida" não cabem numa linha —
+nesses o número aparece quando o card abre, onde vem com a fonte junto.
+
+**A aba Psicofármacos continua.** Ela responde a outra pergunta: a busca por
+fármaco, quando não se sabe de qual queixa se trata.
+
+**As oito queixas de psiquiatria têm formulário** (18/09/2026), e há teste
+exigindo isso: em psiquiatria a escolha do fármaco é a consulta, e queixa sem
+lista de opções lê na tela como "não há fármaco aqui". Mesma regra do dr-house.
+A ausência é erro de teste, não silêncio.
+
+`dosemuda` está implementado e **não é usado por nenhuma queixa ainda**. Não é
+esquecimento: o pedido cobria opções, combos, outras classes e proibidos. Ligar
+um item é acrescentar o id na lista — os candidatos óbvios são `dm-quetiapina`
+no bipolar (a fase muda o patamar), `dm-clorpromazina` na esquizofrenia (existe
+piso, não só teto) e `dm-amitriptilina` na depressão.
 
 **Item** = string **ou** `{ t, f?, v? }` — `t` texto, `f` fonte só deste item,
 `v: true` marca `VERIFICAR` (tarja âmbar na tela).
@@ -205,8 +282,9 @@ dose. Se esse teste acusar de novo, mova o dado — não relaxe o teste.
 - **dosemuda** — mesmo fármaco, dose diferente, indicação diferente
 
 Combinação é **relação**, não propriedade de um fármaco. Repetida em 39 cartões,
-envelheceria em 39 lugares. Item = `{t, d, f, v?}` — `f` é a fonte, obrigatória,
-e há teste.
+envelheceria em 39 lugares. Item = `{id, t, d, f, v?}` — `f` é a fonte,
+obrigatória, e há teste. O `id` entrou em 17/09/2026 e é o que deixa a queixa
+apontar para a combinação sem copiá-la (ver `formulario`).
 
 A ressalva de licença segue de pé: CAB e PCDT são CC BY-NC-ND. O que entra aqui
 é **fato posológico com citação**, não transcrição de obra.

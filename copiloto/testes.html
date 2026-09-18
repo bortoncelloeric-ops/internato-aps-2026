@@ -422,6 +422,95 @@ code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
       paginasRelevantes('Paciente em surto psicotico, alucinacao auditiva, antipsicotico')
         .indexOf('saude-mental') > -1, 'true');
 
+  /* ---------- formulário dentro da queixa (17/09/2026) ----------
+     A queixa REFERENCIA o fármaco por id; não o copia. Esses testes são o que
+     sustenta essa promessa: id órfão quebra o teste em vez de virar buraco na
+     tela, e dose repetida no `papel` quebra antes de envelhecer em dois lugares. */
+  var IDS_FX = {}, IDS_REL = {}, dupId = [];
+  PSICOFARMACOS.classes.forEach(function(c){
+    c.farmacos.forEach(function(f){
+      if (!f.id || IDS_FX[f.id]) dupId.push(f.nome);
+      IDS_FX[f.id] = f;
+    });
+  });
+  REL.forEach(function(sec){
+    sec.itens.forEach(function(i){
+      if (!i.id || IDS_REL[i.id] || IDS_FX[i.id]) dupId.push(i.t.slice(0, 40));
+      IDS_REL[i.id] = i;
+    });
+  });
+  ver('todo fármaco e toda combinação têm id único', dupId.join(', '), '');
+
+  var comForm = QUEIXAS.filter(function(q){ return q.formulario; });
+  ver('há queixa com formulário próprio', comForm.length > 0, 'true');
+
+  /* Em psiquiatria a escolha do fármaco É a consulta: queixa sem lista de
+     opções lê na tela como "não há fármaco aqui". Vale a mesma regra do
+     dr-house — nada entra vazio, e a ausência tem de ser erro, não silêncio. */
+  ver('toda queixa de psiquiatria tem formulário',
+      psiq.filter(function(q){ return !q.formulario; })
+          .map(function(q){ return q.id; }).join(', '), '');
+  ver('todo formulário tem ao menos um fármaco',
+      comForm.filter(function(q){ return !(q.formulario.farmacos || []).length; }).length, '0');
+
+  /* Integridade referencial: id citado que não existe vira "não encontrado" na
+     tela, com paciente na frente. Aqui ele é erro de teste. */
+  var orfaos = [];
+  comForm.forEach(function(q){
+    (q.formulario.farmacos || []).forEach(function(r){
+      if (!IDS_FX[r.id]) orfaos.push(q.id + ' → fármaco ' + r.id);
+    });
+    ['combos', 'proibidos', 'dosemuda'].forEach(function(k){
+      (q.formulario[k] || []).forEach(function(id){
+        if (!IDS_REL[id]) orfaos.push(q.id + ' → ' + k + ' ' + id);
+      });
+    });
+  });
+  ver('todo id referenciado pela queixa existe no formulário', orfaos.join(', '), '');
+
+  ver('toda referência de fármaco diz o papel NESTA condição',
+      comForm.reduce(function(n, q){
+        return n + (q.formulario.farmacos || []).filter(function(r){ return !r.papel; }).length;
+      }, 0), '0');
+
+  /* A razão de referenciar em vez de copiar: a dose mora num lugar só. Se ela
+     for reescrita no `papel`, envelhece em dois — e a queixa não carrega fonte
+     de dose. Este teste é o que impede a cópia de voltar pela porta dos fundos. */
+  var doseNoPapel = [];
+  comForm.forEach(function(q){
+    (q.formulario.farmacos || []).forEach(function(r){
+      if (/[0-9]+\s*(mg|g|mcg|mL|mEq)/i.test(r.papel)) doseNoPapel.push(q.id + ' → ' + r.id);
+    });
+  });
+  ver('nenhuma dose reescrita no papel da queixa', doseNoPapel.join(', '), '');
+
+  ver('queixa com formulário também tem a seção farmaco',
+      comForm.filter(function(q){ return !q.farmaco || !q.farmaco.itens.length; }).length, '0');
+  /* Parte a parte, separada por " · ", que é como gerar-fontes.py raspa. Campo
+     com três autoridades nunca casaria inteiro contra o allowlist. */
+  ver('toda fonte do formulário da queixa está no allowlist',
+      comForm.filter(function(q){
+        return String(q.formulario.fonte || '').split(' \u00b7 ').some(function(f){
+          return !fonteValida(f.trim());
+        });
+      }).length, '0');
+
+  /* O pedido do Eric, item a item, na depressão. */
+  var dep = QUEIXAS.filter(function(q){ return q.id === 'depressao-maior'; })[0].formulario;
+  ver('depressão · os ISRS aparecem dentro da queixa',
+      ['fluoxetina', 'sertralina', 'escitalopram'].every(function(id){
+        return dep.farmacos.some(function(r){ return r.id === id; });
+      }), 'true');
+  ver('depressão · há fármaco de outra classe marcado como tal',
+      dep.farmacos.filter(function(r){ return r.outra; }).length >= 3, 'true');
+  ver('depressão · a cetamina entra por outra classe',
+      dep.farmacos.some(function(r){ return r.id === 'cetamina-racemica' && r.outra; }), 'true');
+  ver('depressão · combos de refratariedade estão referenciados',
+      dep.combos.indexOf('dep-resistente-antipsicotico') > -1 &&
+      dep.combos.indexOf('dep-resistente-cetamina') > -1, 'true');
+  ver('depressão · o proibido que mais custa caro está referenciado',
+      dep.proibidos.indexOf('ad-monoterapia-tab') > -1, 'true');
+
   document.querySelector('#tc tbody').innerHTML = linhas.join('');
 
   /* ---------- lint de fontes ---------- */

@@ -130,6 +130,39 @@ QUEIXAS.push({
     ]
   },
 
+  /* Formulário DESTA condição: referência por id ao psicofarmacos.js, nunca cópia.
+     Dose e detalhe moram lá e são puxados na hora — o que mora aqui é a RELAÇÃO
+     entre esta queixa e o fármaco, que é dado novo: o papel dele NESTE quadro.
+     `papel` não pode conter dose (há teste): dose duplicada envelhece em dois lugares. */
+  formulario: {
+    fonte: "MS — CAB nº 34, Saúde Mental, 2013 · CANMAT 2023 (Can J Psychiatry, 2024) · CFM/CREMEC — Parecer nº 14/2021 (registro ANVISA Resolução-RE nº 4.413, 2020)",
+    farmacos: [
+      { id: "fluoxetina",   papel: "1ª linha — o ISRS que o SUS dispensa e o único dos PCDT" },
+      { id: "sertralina",   papel: "1ª linha — interação mais limpa: polimedicado, cardiopata, perinatal" },
+      { id: "escitalopram", papel: "1ª linha — quando tolerabilidade é a prioridade" },
+      { id: "paroxetina",   papel: "1ª linha — mais sedativa; a pior retirada da classe" },
+      { id: "citalopram",   papel: "1ª linha — atenção ao QT, sobretudo em idoso" },
+      { id: "amitriptilina", papel: "2ª linha — só depois de ISRS em dose plena; contraindicação relativa forte se há risco de suicídio" },
+      { id: "imipramina",   papel: "2ª linha — tricíclico menos sedativo que a amitriptilina" },
+      { id: "bupropiona",   papel: "alternativa quando disfunção sexual ou ganho de peso derrubaram o ISRS; resolve duas coisas no fumante deprimido" },
+      { id: "venlafaxina-mirtazapina-trazodona-duloxetina",
+        papel: "nichos que o ISRS não cobre (dual, sedativo, dor neuropática) — sem fonte brasileira de dose" },
+
+      /* Outras classes: o fármaco cuja classe primária não é esta, mas que tem papel
+         estabelecido aqui. É a pergunta que o formulário por classe não responde. */
+      { id: "aripiprazol", outra: true,
+        papel: "potencializador na resistente — 1ª linha adjuvante, em dose MENOR que a antipsicótica" },
+      { id: "carbonato-de-litio", outra: true,
+        papel: "potencializador de 2ª linha na resistente; pesa quando há risco de suicídio" },
+      { id: "escetamina-intranasal", outra: true,
+        papel: "resistente com ideação suicida aguda — dose sub-anestésica, em ambiente clínico e junto do antidepressivo oral" },
+      { id: "cetamina-racemica", outra: true,
+        papel: "resistente com ideação suicida — IV, dose sub-anestésica, off-label no Brasil" }
+    ],
+    combos: ["dep-resistente-antipsicotico", "dep-resistente-litio-t3", "dep-resistente-cetamina"],
+    proibidos: ["ad-monoterapia-tab", "isrs-triciclico-imao", "isrs-tramadol", "bupropiona-limiar-convulsivo"]
+  },
+
   conduta: {
     fonte: "medicina-wiki/wiki/saude-mental-fatos.md (2026-08-03) · MS — CAB nº 34, Saúde Mental, 2013",
     itens: [
@@ -264,6 +297,32 @@ QUEIXAS.push({
       "Na manutenção, reduzir o número de medicamentos sempre que possível — mas monoterapia pode ser insuficiente para prevenir recaída.",
       "O tempo de manutenção não se determina de antemão: em princípio é contínuo."
     ]
+  },
+
+  formulario: {
+    fonte: "MS — PCDT Transtorno Afetivo Bipolar do tipo I, Portaria SAS/MS nº 315, 2016",
+    farmacos: [
+      { id: "carbonato-de-litio",
+        papel: "1ª linha em todas as fases — maior lastro na manutenção e o único com efeito antissuicídio descrito" },
+      { id: "acido-valproico-valproato",
+        papel: "1ª linha — rende mais no episódio misto e na ciclagem rápida" },
+      { id: "lamotrigina",
+        papel: "o melhor perfil no polo DEPRESSIVO; titulação em semanas, não em dias" },
+      { id: "carbamazepina",
+        papel: "alternativa — induz o próprio metabolismo, e por isso a dose precisa ser revista" },
+      { id: "quetiapina",
+        papel: "o atípico com indicação própria na depressão bipolar; na mania o patamar é outro" },
+      { id: "olanzapina",
+        papel: "melhor eficácia na mania, e o pior perfil metabólico" },
+      { id: "risperidona",
+        papel: "atípico na mania, titulado até a dose-alvo" },
+      { id: "clozapina",
+        papel: "refratariedade — só com hemograma seriado" },
+      { id: "fluoxetina", outra: true,
+        papel: "o único ISRS do Protocolo no TAB, e SEMPRE sobre um estabilizador — nunca isolada" }
+    ],
+    combos: ["dep-bipolar-litio-mono", "dep-bipolar-refrataria-fluox"],
+    proibidos: ["ad-monoterapia-tab", "litio-diuretico-ieca-aine", "lamotrigina-valproico", "carbamazepina-inducao"]
   },
 
   conduta: {
@@ -404,6 +463,34 @@ QUEIXAS.push({
     ]
   },
 
+  formulario: {
+    fonte: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013",
+    farmacos: [
+      { id: "risperidona",
+        papel: "1ª linha — iniciar em duas tomadas, para evitar o efeito de primeira dose" },
+      { id: "olanzapina",
+        papel: "1ª linha — eficaz, com o pior custo metabólico" },
+      { id: "quetiapina",
+        papel: "1ª linha — a mais sedativa do grupo" },
+      { id: "ziprasidona",
+        papel: "a metabolicamente mais neutra; sem alimento a absorção cai e subdosa sem avisar" },
+      { id: "haloperidol",
+        papel: "típico de alta potência: pouca sedação, muito efeito motor" },
+      { id: "clorpromazina",
+        papel: "típico de baixa potência: sedativa e hipotensora; tem PISO de dose, não só teto" },
+      { id: "clozapina",
+        papel: "refratariedade (falha de dois adequados), discinesia tardia e tentativa de suicídio" },
+      { id: "decanoato-de-haloperidol",
+        papel: "má adesão ao oral — é a resposta formal do PCDT, não improviso" },
+      { id: "biperideno", outra: true,
+        papel: "distonia aguda e parkinsonismo. NÃO serve para acatisia nem para discinesia tardia" },
+      { id: "propranolol-para-acatisia", outra: true,
+        papel: "acatisia induzida por antipsicótico — trocar um pelo outro é erro comum" }
+    ],
+    combos: ["esq-manejo-motor", "esq-decanoato-oral", "atipico-sulpirida"],
+    proibidos: ["clozapina-sem-hemograma", "ziprasidona-qt", "biperideno-acatisia-dt", "haloperidol-parkinson-lewy", "carbamazepina-inducao"]
+  },
+
   conduta: {
     fonte: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013 · medicina-wiki/wiki/saude-mental-fatos.md (2026-08-03)",
     itens: [
@@ -532,6 +619,22 @@ QUEIXAS.push({
     ]
   },
 
+  formulario: {
+    fonte: "MS — CAB nº 34, Saúde Mental, 2013 · MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013",
+    farmacos: [
+      { id: "midazolam",
+        papel: "o CAB destaca a via intramuscular na agitação; vigiar depressão respiratória" },
+      { id: "haloperidol",
+        papel: "antipsicótico da crise: pouca sedação, muito efeito motor" },
+      { id: "diazepam",
+        papel: "por via oral serve; por via IM NÃO — a absorção intramuscular é lenta e variável" },
+      { id: "biperideno", outra: true,
+        papel: "distonia aguda depois do haloperidol — a resposta é rápida" }
+    ],
+    combos: ["esq-manejo-motor"],
+    proibidos: ["bzd-delirium", "haloperidol-parkinson-lewy", "bzd-alcool-depressor"]
+  },
+
   conduta: {
     fonte: "Dalgalarrondo, Psicopatologia e Semiologia dos Transtornos Mentais, 3ª ed., Artmed, 2019",
     itens: [
@@ -652,6 +755,21 @@ QUEIXAS.push({
       "Tricíclico é cardiotóxico em overdose — a caixa inteira é o meio. Evitar em quem tem risco.",
       "Receita em quantidade fracionada e sob guarda de familiar é medida de segurança, não desconfiança."
     ]
+  },
+
+  formulario: {
+    fonte: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013 · MS — PCDT Transtorno Afetivo Bipolar do tipo I, Portaria SAS/MS nº 315, 2016 · CANMAT 2023 (Can J Psychiatry, 2024) · CFM/CREMEC — Parecer nº 14/2021 (registro ANVISA Resolução-RE nº 4.413, 2020)",
+    farmacos: [
+      { id: "carbonato-de-litio",
+        papel: "o único estabilizador com efeito antissuicídio descrito — pesa na escolha quando há bipolaridade" },
+      { id: "clozapina",
+        papel: "a escolha formal do PCDT diante de tentativa de suicídio na esquizofrenia" },
+      { id: "escetamina-intranasal", outra: true,
+        papel: "TDM com ideação suicida aguda: reduz a ideação rápido, em ambiente clínico e junto do antidepressivo oral" },
+      { id: "cetamina-racemica", outra: true,
+        papel: "IV — o efeito antissuicida se estende por até uma semana após infusão única; off-label no Brasil" }
+    ],
+    combos: ["dep-resistente-cetamina"]
   },
 
   conduta: {
@@ -789,6 +907,25 @@ QUEIXAS.push({
     ]
   },
 
+  formulario: {
+    fonte: "MS — CAB nº 34, Saúde Mental, 2013 · Dalgalarrondo, Psicopatologia e Semiologia dos Transtornos Mentais, 3ª ed., Artmed, 2019",
+    farmacos: [
+      { id: "abstinencia-alcoolica-aguda-e-tiamina",
+        papel: "tiamina ANTES de qualquer glicose — a ordem é o tratamento" },
+      { id: "diazepam",
+        papel: "o preferido na abstinência aguda, pela meia-vida longa: não há rebote entre as doses" },
+      { id: "clordiazepoxido",
+        papel: "mesmo racional do diazepam na abstinência" },
+      { id: "lorazepam",
+        papel: "hepatopata — é o eliminado por via renal" },
+      { id: "naltrexona-acamprosato-dissulfiram",
+        papel: "manutenção da abstinência: os dois primeiros são 1ª linha; o dissulfiram é 2ª ou 3ª" },
+      { id: "haloperidol", outra: true,
+        papel: "adjuvante só em alucinação ou agitação intensa, SOBRE a base do benzodiazepínico — nunca como tratamento da abstinência" }
+    ],
+    proibidos: ["glicose-antes-tiamina", "bzd-alcool-depressor", "bupropiona-limiar-convulsivo"]
+  },
+
   conduta: {
     fonte: "medicina-wiki/wiki/saude-mental-fatos.md (2026-08-03) · MS — CAB nº 34, Saúde Mental, 2013",
     itens: [
@@ -918,6 +1055,28 @@ QUEIXAS.push({
     ]
   },
 
+  formulario: {
+    fonte: "MS — CAB nº 34, Saúde Mental, 2013",
+    farmacos: [
+      { id: "fluoxetina",
+        papel: "1ª linha — no pânico, começar baixo e subir devagar para não precipitar crise" },
+      { id: "sertralina",
+        papel: "1ª linha — a de interação mais limpa" },
+      { id: "escitalopram",
+        papel: "1ª linha — quando tolerabilidade é a prioridade" },
+      { id: "paroxetina",
+        papel: "1ª linha — a sedação ajuda na ansiedade; a retirada atrapalha depois" },
+      { id: "clomipramina",
+        papel: "o tricíclico mais serotoninérgico; no pânico costumam bastar doses menores que no TOC" },
+      { id: "alprazolam",
+        papel: "PONTE no pânico, pela ação rápida — e o de maior potencial de dependência" },
+      { id: "clonazepam",
+        papel: "PONTE — as gotas são o que torna a retirada viável" }
+    ],
+    combos: ["ansiedade-ad-base-bzd-ponte"],
+    proibidos: ["bzd-alcool-depressor", "isrs-triciclico-imao", "isrs-tramadol"]
+  },
+
   conduta: {
     fonte: "medicina-wiki/wiki/saude-mental-fatos.md (2026-08-03) · MS — CAB nº 34, Saúde Mental, 2013",
     itens: [
@@ -1044,6 +1203,15 @@ QUEIXAS.push({
       "Rever a indicação do antipsicótico todos os dias e suspender assim que a agitação ceder — antipsicótico iniciado no delirium costuma sair de alta junto com o paciente, sem ninguém ter decidido isso.",
       { t: "Doses e escolha de antipsicótico no delirium segundo o protocolo do HELR", v: true }
     ]
+  },
+
+  formulario: {
+    fonte: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013 · Dalgalarrondo, Psicopatologia e Semiologia dos Transtornos Mentais, 3ª ed., Artmed, 2019",
+    farmacos: [
+      { id: "haloperidol",
+        papel: "o mais usado — e só quando a agitação ameaça a segurança: menor dose, menor tempo, revisto todo dia" }
+    ],
+    proibidos: ["bzd-delirium", "haloperidol-parkinson-lewy"]
   },
 
   conduta: {
