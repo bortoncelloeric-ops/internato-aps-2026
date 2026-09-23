@@ -44,7 +44,9 @@ export function numerosBR(s) {
    ponto decimal), os PDFs do MS são pt-BR. Token ambíguo ganha as duas leituras. */
 export function numerosFonte(s) {
   const out = new Set();
-  for (const t of (String(s).match(/\d+(?:[.,]\d+)*/g) || [])) {
+  /* O pdftotext do Maudsley deixa hífen condicional (U+00AD) dentro de decimal:
+     "0.\u00AD25–\u00AD\u00AD2mg". Sem tirar, o 0.25 vira 0 e 25 e a faixa "não existe" na página. */
+  for (const t of (String(s).replace(/\u00AD/g, '').match(/\d+(?:[.,]\d+)*/g) || [])) {
     if (/^\d{1,3}(?:\.\d{3})+$/.test(t)) { out.add(String(Number(t.replace(/\./g, '')))); out.add(String(Number(t))); }
     else if (/^\d{1,3}(?:,\d{3})+$/.test(t)) { out.add(String(Number(t.replace(/,/g, '')))); out.add(String(Number(t.replace(',', '.')))); }
     else if (t.includes(',')) out.add(String(Number(t.replace(',', '.'))));

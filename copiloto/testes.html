@@ -598,6 +598,107 @@ code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
   ver('onda 2 · o álcool não diz mais que falta fonte de dose que já existe',
       alc.farmaco.itens.filter(function(i){ return /sem fonte brasileira datada conferida/.test(typeof i === 'string' ? i : i.t); }).length, '0');
 
+  /* ---------- auditoria da onda 2 (23/09/2026): recorte certo, não só número certo ----------
+     O conferir-doses acha o número na página; não acha população, indicação nem
+     formulação erradas. Cada teste abaixo reproduz um erro publicado em 86bc395 e
+     achado com a fonte reaberta (copiloto-onda2/relatorios/11-auditoria-claude.md).
+     Prefixo = dono da correção: B dado dos cartões, C guias, D No Brasil. */
+  function cartao(id){ return IDS_FX[id] || { dose: [] }; }
+  function linhaDe(id, rot){ return (cartao(id).dose || []).filter(function(d){ return d.rot === rot; })[0] || { rot: '', val: '' }; }
+  function queixa(id){ return QUEIXAS.filter(function(q){ return q.id === id; })[0] || {}; }
+  function textosDe(q, secoes){
+    var out = [];
+    secoes.forEach(function(k){ ((q[k] || {}).itens || []).forEach(function(i){ out.push(typeof i === 'string' ? i : i.t); }); });
+    return out;
+  }
+  function itensComF(q, k){ return ((q[k] || {}).itens || []).filter(function(i){ return typeof i !== 'string' && i.f; }); }
+  var FONTE_TEA = 'Portaria Conjunta SAES/SCTIE/MS nº 7, 2022';
+  var AMB_OPI = 'AMB/ABP — Abuso e Dependência dos Opioides e Opiáceos, 2012';
+
+  ver('auditoria B · p. 626: a faixa pediátrica sai inteira, não só o teto',
+      [['risperidona', '0,25 a 2 mg'], ['olanzapina', '2,5 a 5 mg'], ['clozapina', '6,25 a 12,5 mg']]
+        .filter(function(p){ return linhaDe(p[0], 'Criança e adolescente').val.indexOf(p[1]) < 0; })
+        .map(function(p){ return p[0]; }).join(', '), '');
+  ver('auditoria B · p. 626: linha de criança com faixa diz que a dose menor é para abaixo de 25 kg',
+      ['risperidona', 'olanzapina', 'clozapina', 'fluoxetina', 'carbonato-de-litio']
+        .filter(function(id){ return linhaDe(id, 'Criança e adolescente').val.indexOf('abaixo de 25 kg') < 0; }).join(', '), '');
+  var teaRows = (cartao('risperidona').dose || []).filter(function(d){ return (d.f || '').indexOf(FONTE_TEA) > -1; });
+  ver('auditoria B · risperidona traz a dose do PCDT TEA por peso',
+      teaRows.length >= 2 &&
+      teaRows.some(function(d){ return d.val.indexOf('0,25 mg/dia') > -1 && d.val.indexOf('20 kg') > -1; }) &&
+      teaRows.some(function(d){ return d.val.indexOf('3,5 mg') > -1; }), 'true');
+  ver('auditoria B · zolpidem: o teto de adulto jovem não está na linha do idoso',
+      /10 mg|12,5/.test(linhaDe('zolpidem', 'Idoso').val) + ' · ' + !!linhaDe('zolpidem', 'Dose máxima — adulto jovem').val, 'false · true');
+  ver('auditoria B · clonidina: tique vem da p. 615; a p. 259 é só sialorreia da clozapina',
+      (cartao('clonidina').dose || []).some(function(d){ return d.p === 615 && /Tique/.test(d.rot); }) + ' · ' +
+      (cartao('clonidina').dose || []).some(function(d){ return d.p === 259 && /tique/i.test(d.rot); }), 'true · false');
+  ver('auditoria B · clonidina traz a dose brasileira da abstinência de opioide',
+      (cartao('clonidina').dose || []).some(function(d){ return d.f === AMB_OPI; }), 'true');
+  ver('auditoria B · atomoxetina: a p. 601 é criança por peso, não adulto',
+      (cartao('atomoxetina').dose || []).filter(function(d){ return /adulto/i.test(d.rot + ' ' + d.val); }).length + ' · ' +
+      ['abaixo de 70 kg', 'acima de 70 kg'].filter(function(s){
+        return (cartao('atomoxetina').dose || []).some(function(d){ return d.rot.indexOf(s) > -1; }); }).length, '0 · 2');
+  ver('auditoria B · metilfenidato: teto por peso e 90 mg só com especialista',
+      /2,1 mg\/kg\/dia/.test(linhaDe('metilfenidato', 'Criança e adolescente').val) &&
+      /especialista/.test(linhaDe('metilfenidato', 'Criança e adolescente').val), 'true');
+  ver('auditoria B · metilfenidato: "Dose usual" não guarda duração nem OROS', !!linhaDe('metilfenidato', 'Dose usual').val, 'false');
+  ver('auditoria B · metadona: linha do hospital psiquiátrico e dose da diretriz brasileira',
+      (cartao('metadona').dose || []).some(function(d){ return /hospital psiquiátrico/.test(d.rot); }) + ' · ' +
+      (cartao('metadona').dose || []).some(function(d){ return d.f === AMB_OPI; }), 'true · true');
+  ver('auditoria B · buprenorfina e naltrexona trazem a dose brasileira do opioide',
+      ['buprenorfina', 'naltrexona'].filter(function(id){
+        return !(cartao(id).dose || []).some(function(d){ return d.f === AMB_OPI; }); }).join(', '), '');
+  ver('auditoria B · metadona e buprenorfina mostram a divergência AMB × Maudsley',
+      ['metadona', 'buprenorfina'].filter(function(id){ return !/AMB\/ABP/.test(cartao(id).diverge || ''); }).join(', '), '');
+  ver('auditoria B · lítio no idoso: liberação modificada e alvo 0,4 a 0,7',
+      /liberação modificada/.test(linhaDe('carbonato-de-litio', 'Idoso').val) && /0,4 a 0,7/.test(linhaDe('carbonato-de-litio', 'Idoso').val), 'true');
+  ver('auditoria B · bupropiona no idoso: a linha é a de liberação prolongada',
+      /liberação prolongada/.test(linhaDe('bupropiona', 'Idoso').val) && !/liberação imediata/.test(linhaDe('bupropiona', 'Idoso').val), 'true');
+  ver('auditoria B · valproato no idoso nomeia o sal', /^valproato de sódio/.test(linhaDe('acido-valproico-valproato', 'Idoso').val), 'true');
+  ver('auditoria B · haloperidol no idoso: evitar, salvo delirium', /evitar no idoso/.test(linhaDe('haloperidol', 'Idoso').val), 'true');
+  ver('auditoria B · diazepam no idoso: o máximo é o da ansiedade', /ansiedade/.test(linhaDe('diazepam', 'Idoso').val), 'true');
+  ver('auditoria B · haloperidol: o teto 15/10 é do PCDT, não do CAB', /^PCDT Esquizofrenia/.test(cartao('haloperidol').diverge || ''), 'true');
+  ver('auditoria B · tiamina tem a linha da realimentação (BRASPEN)',
+      (cartao('tiamina').dose || []).some(function(d){ return d.f === 'BRASPEN J 2019'; }), 'true');
+  ver('auditoria B · melatonina: o array de dose só tem dose',
+      (cartao('melatonina').dose || []).filter(function(d){ return !DIGITO.test(d.val); }).length + ' · ' + (cartao('melatonina').dose || []).length, '0 · 2');
+  ver('auditoria B · naloxona: a contraindicação mostra o que o SAMU diz do dependente', /SAMU/.test(cartao('naloxona').contraind || ''), 'true');
+  ver('auditoria B · trazodona: a faixa usual da ABS aparece', /50–100 mg/.test(linhaDe('trazodona', 'Insônia — uso fora de bula').val), 'true');
+  ver('auditoria B · lavagem do IMAO para a clomipramina é de 3 semanas',
+      /Do IMAO irreversível[^.]*clomipramina, 3 semanas/.test((IDS_REL['trc-imao-washout'] || {}).d || ''), 'true');
+  ver('auditoria B · "2 dias" é da alta a pedido, não de toda alta',
+      /a pedido/.test((IDS_REL['sub-naloxona-buprenorfina-alta'] || {}).d || ''), 'true');
+  ver('auditoria B · ciproeptadina: a apresentação diz que só existe em associação', /só em associação/.test(cartao('ciproeptadina').apres || ''), 'true');
+
+  ver('auditoria C · guia pediátrico não liga dose muda de adulto',
+      ['tea', 'infanto-juvenil'].filter(function(id){
+        var dm = (queixa(id).formulario || {}).dosemuda || [];
+        return dm.indexOf('dm-risperidona') > -1 || dm.indexOf('dm-fluoxetina') > -1; }).join(', '), '');
+  var clonTea = ((queixa('tea').formulario || {}).farmacos || []).filter(function(r){ return r.id === 'clonidina'; })[0] || {};
+  ver('auditoria C · TEA: clonidina é de outra classe e o papel está escrito certo',
+      (clonTea.outra === true) + ' · ' + /às vezes/.test(clonTea.papel || ''), 'true · true');
+  ver('auditoria C · outras substâncias: o "2 dias" é da alta a pedido',
+      textosDe(queixa('outras-substancias'), ['redflags']).filter(function(t){ return /dois dias seguintes concentram/.test(t); }).length + ' · ' +
+      textosDe(queixa('outras-substancias'), ['redflags']).some(function(t){ return /a pedido/.test(t) && /oito vezes/.test(t); }), '0 · true');
+  ver('auditoria C · perinatal mostra MS e Maudsley sobre estabilizador no 1º trimestre',
+      itensComF(queixa('perinatal'), 'farmaco').some(function(i){
+        return i.f.indexOf('Manual de Gestação de Alto Risco') > -1 && /primeiro trimestre/.test(i.t) && /Maudsley/.test(i.t); }), 'true');
+  ver('auditoria C · perinatal mostra a preferência do MS entre os ISRS',
+      itensComF(queixa('perinatal'), 'farmaco').some(function(i){ return /sertralina/.test(i.t) && /paroxetina/.test(i.t); }), 'true');
+  ver('auditoria C · clozapina: o PCDT fala em risco alto de suicídio, não em tentativa',
+      textosDe(queixa('clozapina'), ['perguntas', 'farmaco'])
+        .concat(((queixa('clozapina').formulario || {}).farmacos || []).map(function(r){ return r.papel; }))
+        .filter(function(t){ return /tentativa de suicídio/.test(t); }).length, '0');
+  ver('auditoria C · infanto-juvenil sem preditor que nenhuma fonte aberta traz',
+      textosDe(queixa('infanto-juvenil'), ['redflags']).filter(function(t){ return /maior preditor/.test(t); }).length, '0');
+  ver('auditoria C · TEPT: dose inicial menor, não "metade" (metade é do TAG)',
+      textosDe(queixa('tept'), ['farmaco']).filter(function(t){ return /metade da dose/.test(t); }).length, '0');
+  ver('auditoria C · buprenorfina: o guia não contradiz a dose do cartão para receptor livre',
+      textosDe(queixa('outras-substancias'), ['farmaco']).filter(function(t){ return /só entra se já houver abstinência visível/.test(t); }).length, '0');
+
+  ver('auditoria D · No Brasil: ciproeptadina registrada só em associação', /só em associação/.test((BRASIL.ciproeptadina || {}).registro || ''), 'true');
+  ver('auditoria D · No Brasil: a metadona da RENAME é pelo PCDT Dor Crônica', /PCDT Dor Crônica/.test((BRASIL.metadona || {}).sus || ''), 'true');
+
   document.querySelector('#tc tbody').innerHTML = linhas.join('');
 
   /* ---------- lint de fontes ---------- */

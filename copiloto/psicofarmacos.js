@@ -86,7 +86,7 @@ var PSICOFARMACOS = {
             { rot: "Máximo manutenção", val: "10 mg/dia" },
             { rot: "Equivalência", val: "2 mg equivalem a 100 mg de clorpromazina" },
             { rot: "Dose mínima efetiva", val: "primeiro episódio 2 mg/dia · multi-episódio 4 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 8 },
-            { rot: "Idoso", val: "início 0,25 a 0,5 mg/dia · manutenção 1 a 3,5 mg/dia · cautela acima de 3,5 mg · máximo 5 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 706 }
+            { rot: "Idoso", val: "psicose ou mania: início 0,25 a 0,5 mg/dia · manutenção 1 a 3,5 mg/dia · cautela acima de 3,5 mg (tolerância e ECG) · agitação: máximo 5 mg/dia · evitar no idoso, salvo no delirium, pelo QTc", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 706 }
           ],
           porque: "Bloqueio D2 quase puro, com pouquíssima ação em receptor histamínico, " +
                   "muscarínico e alfa-adrenérgico. É isso que o torna o antipsicótico que " +
@@ -109,7 +109,7 @@ var PSICOFARMACOS = {
                     "prolongado). Hiperprolactinemia. Síndrome neuroléptica maligna.",
           monitor: "Sinais extrapiramidais a cada consulta. Antropometria e pressão arterial em " +
                    "3, 6 e 12 meses. Glicemia de jejum e perfil lipídico em 3 e 12 meses, depois anuais.",
-          diverge: "CAB nº 34 (2013) limita o máximo agudo a 15 mg/dia e a manutenção a 10 mg/dia; o Maudsley 15ª (p. 11) lista o máximo licenciado EMA em 20 mg/dia.",
+          diverge: "PCDT Esquizofrenia (Portaria SAS/MS nº 364/2013) limita o máximo agudo a 15 mg/dia e a manutenção a 10 mg/dia; o Maudsley 15ª (p. 11) lista o máximo licenciado EMA em 20 mg/dia.",
           fonte: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013; faixa e equivalência do CAB nº 34 (MS), 2013"
         },
         {
@@ -218,14 +218,16 @@ var PSICOFARMACOS = {
           apres: "comprimido de 1, 2 e 3 mg",
           dose: [
             { rot: "Início (esquizofrenia)", val: "1 mg 2 vezes ao dia, para evitar efeito de primeira dose por bloqueio alfa-adrenérgico" },
-            { rot: "Titulação", val: "aumentar 1 mg 2 vezes ao dia até a dose-alvo de 6 mg/dia (3 mg 2 vezes ao dia) no terceiro dia" },
-            { rot: "Manutenção", val: "3 a 6 mg/dia" },
+            { rot: "Titulação (esquizofrenia, adulto)", val: "aumentar 1 mg 2 vezes ao dia até a dose-alvo de 6 mg/dia (3 mg 2 vezes ao dia) no terceiro dia" },
+            { rot: "Manutenção (adulto)", val: "3 a 6 mg/dia" },
             { rot: "Início (TAB tipo I)", val: "1 mg/dia, incremento de 1 mg/dia até a dose-alvo; faixa 1 a 6 mg/dia; máximo 8 mg/dia" },
             { rot: "Insuficiência renal ou hepática", val: "máximo 3 mg/dia" },
             { rot: "Alimento", val: "não interfere na biodisponibilidade" },
             { rot: "Dose mínima efetiva", val: "primeiro episódio 2 mg/dia · multi-episódio 4 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 8 },
             { rot: "Idoso", val: "psicose: início 0,5 mg 2x/dia · manutenção 1 a 2,5 mg/dia · máximo 4 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 705 },
-            { rot: "Criança e adolescente", val: "início 2 mg; ajustar conforme resposta e efeito adverso", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 626 }
+            { rot: "TEA, agressividade — início (acima de 5 anos)", val: "abaixo de 20 kg: 0,25 mg/dia em solução oral; 20 kg ou mais: 0,5 mg/dia; do 4º dia em diante, 0,5 mg/dia e 1,0 mg/dia, respectivamente; avaliar a resposta perto do 14º dia", f: "MS — PCDT Comportamento Agressivo no TEA, Portaria Conjunta SAES/SCTIE/MS nº 7, 2022" },
+            { rot: "TEA, agressividade — faixa", val: "abaixo de 20 kg: 0,5 a 1,5 mg/dia; 20 kg ou mais: 1,0 a 2,5 mg/dia; subir 0,25 mg ou 0,5 mg, respectivamente, em intervalos de 2 semanas ou mais; acima de 45 kg pode precisar de mais — máximo avaliado 3,5 mg/dia", f: "MS — PCDT Comportamento Agressivo no TEA, Portaria Conjunta SAES/SCTIE/MS nº 7, 2022" },
+            { rot: "Criança e adolescente", val: "início 0,25 a 2 mg; a dose menor da faixa é para criança abaixo de 25 kg; ajustar conforme resposta e efeito adverso", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 626 }
           ],
           porque: "É o atípico que mais se comporta como típico conforme a dose sobe: acima de " +
                   "6 mg/dia o bloqueio D2 é tão alto que o efeito extrapiramidal aparece. " +
@@ -267,7 +269,7 @@ var PSICOFARMACOS = {
             { rot: "Insuficiência renal ou hepática", val: "não exige ajuste" },
             { rot: "Dose mínima efetiva", val: "primeiro episódio 5 mg/dia · multi-episódio 7,5 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 8 },
             { rot: "Idoso", val: "início 2,5 mg à noite · manutenção 5 a 10 mg/dia · máximo 15 mg à noite", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 705 },
-            { rot: "Criança e adolescente", val: "início 5 mg; ajustar conforme resposta e efeito adverso", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 626 }
+            { rot: "Criança e adolescente", val: "início 2,5 a 5 mg; a dose menor da faixa é para criança abaixo de 25 kg; ajustar conforme resposta e efeito adverso", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 626 }
           ],
           porque: "Perfil receptor amplo, com forte ação histamínica — daí a eficácia rápida em " +
                   "mania e o apetite que vem junto. É o antipsicótico com melhor desempenho em " +
@@ -377,7 +379,7 @@ var PSICOFARMACOS = {
             { rot: "Prazo de avaliação", val: "6 MESES em 300 a 800 mg/dia antes de julgar falha — mecanismo mais lento que o dos demais" },
             { rot: "Dose letal", val: "2,5 g — o PCDT manda registrar alerta claro e dispensar ao responsável legal quando há risco grave de suicídio" },
             { rot: "Idoso", val: "início 6,25 a 12,5 mg · manutenção 50 a 100 mg/dia · máximo 100 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 704 },
-            { rot: "Criança e adolescente", val: "início 12,5 mg; usar nível plasmático para a manutenção", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 626 }
+            { rot: "Criança e adolescente", val: "início 6,25 a 12,5 mg; a dose menor da faixa é para criança abaixo de 25 kg; usar nível plasmático para a manutenção", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 626 }
           ],
           porque: "Ocupação D2 baixa com ação ampla em outros receptores. É o único " +
                   "antipsicótico com eficácia comprovada onde os outros falharam, e o único " +
@@ -385,7 +387,7 @@ var PSICOFARMACOS = {
                   "é rara e pode matar — daí o hemograma obrigatório.",
           escolher: "Refratariedade, definida como falha de dois antipsicóticos em dose e tempo " +
                     "adequados. E mais duas situações em que o PCDT a tira da terceira linha e " +
-                    "a torna a escolha: DISCINESIA TARDIA e TENTATIVA DE SUICÍDIO.",
+                    "a torna a escolha: DISCINESIA TARDIA SIGNIFICATIVA e RISCO ALTO DE SUICÍDIO.",
           evitar: "Sem possibilidade de hemograma seriado, não se inicia — não é excesso de " +
                   "zelo, é a condição de segurança do fármaco. Agranulocitose prévia por " +
                   "clozapina é contraindicação definitiva. Epilepsia mal controlada.",
@@ -490,8 +492,8 @@ PSICOFARMACOS.classes.push({
         { rot: "Nível terapêutico", val: "0,6 a 1,2 mEq/L (CAB 34 detalha: 0,8 a 1,2 na fase aguda, 0,6 a 0,8 na manutenção)" },
         { rot: "Como colher", val: "após 5 a 7 dias de dose estável e 12 horas após a última tomada" },
         { rot: "Toxicidade", val: "risco aumenta muito acima de 1,5 mEq/L; acima de 3,5 mEq/L é potencialmente fatal" },
-        { rot: "Idoso", val: "início 100 a 200 mg · manutenção 200 a 600 mg/dia · máximo 600 a 1200 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 709 },
-        { rot: "Criança e adolescente", val: "início 100 a 200 mg/dia de carbonato de lítio; usar nível plasmático para a manutenção", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 626 }
+        { rot: "Idoso", val: "liberação modificada: início 100 a 200 mg à noite · manutenção 200 a 600 mg/dia · máximo 600 a 1200 mg/dia · alvo de litemia no idoso 0,4 a 0,7 mmol/L (mmol/L = mEq/L no lítio)", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 709 },
+        { rot: "Criança e adolescente", val: "início 100 a 200 mg/dia de carbonato de lítio; a dose menor da faixa é para criança abaixo de 25 kg; usar nível plasmático para a manutenção", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 626 }
       ],
       porque: "É um íon, não uma molécula desenhada: não é metabolizado, é filtrado pelo rim. " +
               "Tudo o que mexe no sódio ou na função renal mexe na litemia — e é daí que vem " +
@@ -529,7 +531,7 @@ PSICOFARMACOS.classes.push({
         { rot: "Máximo", val: "2.000 mg/dia" },
         { rot: "Nível terapêutico", val: "50 a 125 mcg/mL" },
         { rot: "Como colher", val: "após 5 a 7 dias de dose estável e 12 horas após a última tomada" },
-        { rot: "Idoso", val: "início 100 a 200 mg 2x/dia · manutenção 200 a 400 mg 2x/dia · máximo 400 mg 2x/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 709 },
+        { rot: "Idoso", val: "valproato de sódio: início 100 a 200 mg 2x/dia · manutenção 200 a 400 mg 2x/dia · máximo 400 mg 2x/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 709 },
         { rot: "Criança e adolescente", val: "início 10 a 20 mg/kg/dia em doses divididas; usar nível plasmático; não oferecer a menina ou mulher com potencial de engravidar sem programa de prevenção de gravidez", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 626 }
       ],
       porque: "Titula mais rápido que o lítio e cobre bem episódio misto e ciclagem rápida, " +
@@ -639,7 +641,7 @@ PSICOFARMACOS.classes.push({
         { rot: "TOC", val: "60 a 80 mg/dia — sintoma obsessivo-compulsivo responde a doses mais altas, e ainda assim raramente com resposta plenamente satisfatória" },
         { rot: "Dose mínima efetiva", val: "20 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 342 },
         { rot: "Idoso", val: "início 20 mg pela manhã · manutenção 20 mg pela manhã · máximo 40 mg pela manhã", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 701 },
-        { rot: "Criança e adolescente", val: "início 5 a 10 mg/dia; ajustar conforme resposta e efeito adverso", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 626 }
+        { rot: "Criança e adolescente", val: "início 5 a 10 mg/dia; a dose menor da faixa é para criança abaixo de 25 kg; ajustar conforme resposta e efeito adverso", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 626 }
       ],
       porque: "Meia-vida muito longa, com metabólito ativo de vários dias. Isso a torna " +
               "perdoadora de dose esquecida e praticamente livre de síndrome de retirada — e, " +
@@ -831,7 +833,7 @@ PSICOFARMACOS.classes.push({
         { rot: "Duração", val: "84 dias no protocolo de cessação" },
         { rot: "Dose em depressão", val: "sem fonte brasileira datada conferida — confirmar no protocolo do serviço" },
         { rot: "Dose mínima efetiva", val: "150 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 342 },
-        { rot: "Idoso", val: "liberação imediata: 100 mg 2x/dia; pode aumentar para 100 mg 3x/dia após 3 dias; máximo 300 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 700 }
+        { rot: "Idoso", val: "liberação prolongada (SR): 150 mg 1x/dia; pode aumentar para 150 mg 2x/dia após 3 dias; máximo 300 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 700 }
       ],
       porque: "Não é serotoninérgica: age em dopamina e noradrenalina. É por isso que não causa " +
               "disfunção sexual nem ganho de peso — os dois efeitos que mais fazem paciente " +
@@ -911,7 +913,7 @@ PSICOFARMACOS.classes.push({
       dose: [
         {
           rot: "Insônia — uso fora de bula",
-          val: "25–150 mg VO próximo de deitar; individualizar, sem substituir TCC-I",
+          val: "usual 50–100 mg VO perto de deitar; faixa ampliada 25–150 mg; individualizar, sem substituir TCC-I",
           f: "ABS — Diretriz de Insônia em Adultos, 2023"
         },
         {
@@ -1011,7 +1013,7 @@ PSICOFARMACOS.classes.push({
         { rot: "Dose usual", val: "10 mg" },
         { rot: "Perfil", val: "ansiolítico e para insônia terminal" },
         { rot: "Abstinência alcoólica", val: "Estágio 2 (agitação, tremor, alucinação): 10–20 mg VO de hora em hora até sintomas leves, com SAMU e encaminhamento. Estágio 3 (convulsão): 10 mg EV até de hora em hora enquanto aguarda o SAMU. Não é titulação genérica de SAA leve/APS.", f: "MS — Linha de Cuidado: Transtornos por uso de álcool no adulto, manejo inicial/conduta, consulta em 2026-09-23" },
-        { rot: "Idoso", val: "agitação: início 1 mg 3x/dia · manutenção 1 mg 3x/dia · máximo 7,5 a 15 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 710 }
+        { rot: "Idoso", val: "agitação: início 1 mg 3x/dia · manutenção 1 mg 3x/dia · máximo (ansiedade) 7,5 a 15 mg/dia em doses divididas", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 710 }
       ],
       porque: "Meia-vida muito longa com metabólitos ativos: o nível cai sozinho, devagar. " +
               "É exatamente o que se quer numa abstinência alcoólica — a própria " +
@@ -1166,7 +1168,8 @@ PSICOFARMACOS.classes.push({
       apres: "comprimido de liberação imediata; conferir se a formulação é CR",
       dose: [
         { rot: "Dose usual", val: "5 a 10 mg VO de liberação imediata ao deitar, no máximo 4 semanas", f: "ABS — Diretriz de Insônia em Adultos, 2023" },
-        { rot: "Idoso", val: "iniciar 5 mg de liberação imediata; não passar de 10 mg na regular nem de 12,5 mg na CR", f: "ABS — Diretriz de Insônia em Adultos, 2023" }
+        { rot: "Idoso", val: "iniciar 5 mg de liberação imediata; começar com metade da dose do adulto", f: "ABS — Diretriz de Insônia em Adultos, 2023" },
+        { rot: "Dose máxima — adulto jovem", val: "acima de 10 mg na liberação regular ou de 12,5 mg na controlada não se recomenda", f: "ABS — Diretriz de Insônia em Adultos, 2023" }
       ],
       porque: "Agonista do sítio benzodiazepínico, seletivo de subunidade. Induz sono; não trata a causa da insônia.",
       escolher: "Insônia inicial no adulto quando a TCC-I não está disponível ou enquanto ela começa — curto e intermitente.",
@@ -1182,11 +1185,11 @@ PSICOFARMACOS.classes.push({
       kw: "hormonio pineal sono cronobiotico",
       apres: "apresentação variável; sem registro ativo na Anvisa (CSV 2026-09-23)",
       dose: [
-        { rot: "Adulto — insônia crônica", val: "a ABS não recomenda planejamento terapêutico: não há efetividade comprovada no adulto saudável", f: "ABS — Diretriz de Insônia em Adultos, 2023" },
-        { rot: "Criança e adolescente", val: "acima de 5 mg o efeito tende a ser sedativo direto, não cronobiótico", p: 621, f: "Maudsley Prescribing Guidelines, 15ª ed., 2025" }
+        { rot: "Criança e adolescente", val: "início 1 a 2 mg à noite; a dose menor da faixa é para criança abaixo de 25 kg; dose efetiva 2 a 10 mg", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 626 },
+        { rot: "Idoso", val: "liberação prolongada: 2 mg 1x/dia, 1 a 2 horas antes de deitar, por até 13 semanas", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 710 }
       ],
       porque: "Hormônio pineal; o exógeno tenta copiar o sinal de escuro. Não é hipnótico de primeira linha no adulto.",
-      escolher: "Insônia inicial do idoso ou da criança com TEA/TDAH, depois de higiene do sono — e ainda assim a evidência é limitada.",
+      escolher: "Insônia inicial do idoso ou da criança com TEA/TDAH, depois de higiene do sono — e ainda assim a evidência é limitada. No adulto saudável com insônia crônica a ABS não recomenda: não há efetividade comprovada.",
       evitar: "Vender como se fosse TCC-I. Produto sem grau farmacêutico. Sem registro ativo no Brasil.",
       contraind: "Hipersensibilidade. Gravidez: a ABS não indica.",
       adversos: "Sonolência, cefaleia; convulsão relatada em criança neurológica na literatura que o Maudsley cita.",
@@ -1294,20 +1297,25 @@ PSICOFARMACOS.classes.push({
       apres: "comprimido",
       dose: [
         {
-          rot: "Dose inicial",
+          rot: "Dose inicial (álcool)",
           val: "25 mg VO/dia na primeira semana",
           f: "ABP/RBP — Tratamento farmacológico da dependência do álcool, 2004"
         },
         {
-          rot: "Dose usual",
+          rot: "Dose usual (álcool)",
           val: "50 mg VO/dia após a primeira semana, conforme tolerância",
           f: "ABP/RBP — Tratamento farmacológico da dependência do álcool, 2004"
         },
         {
-          rot: "Titulação — referência complementar",
+          rot: "Titulação (álcool) — referência complementar",
           val: "25 mg/dia por 2 dias como teste de tolerância; depois 50 mg/dia",
           p: 490,
           f: "Maudsley Prescribing Guidelines, 15ª ed., 2025"
+        },
+        {
+          rot: "Dependência de opioide (diretriz brasileira)",
+          val: "50 a 100 mg/dia, só depois de 10 dias sem opioide",
+          f: "AMB/ABP — Abuso e Dependência dos Opioides e Opiáceos, 2012"
         }
       ],
       porque: "Antagoniza receptores opioides e reduz o reforço do álcool e recaídas no consumo pesado.",
@@ -1393,6 +1401,11 @@ PSICOFARMACOS.classes.push({
           val: "200–300 mg IM/EV uma vez ao dia por 3–5 dias, com reavaliação diária",
           p: 488,
           f: "Maudsley Prescribing Guidelines, 15ª ed., 2025"
+        },
+        {
+          rot: "Síndrome de realimentação",
+          val: "100 a 300 mg/dia EV antes de iniciar a dieta de quem tem risco",
+          f: "BRASPEN J 2019"
         }
       ],
       porque: "Repõe vitamina necessária ao metabolismo energético; deficiência no uso crônico de álcool pode causar Wernicke.",
@@ -1416,7 +1429,7 @@ PSICOFARMACOS.classes.push({
       porque: "Antagonista opioide. Reverte hipoventilação; não trata abstinência e não previne edema pulmonar.",
       escolher: "Coma com miose e frequência respiratória baixa. Via aérea primeiro se não reverter.",
       evitar: "Alta nos minutos após a dose — o opioide dura mais. Dependente: a reversão dispara abstinência aguda.",
-      contraind: "Hipersensibilidade. No dependente, a indicação permanece se há apneia — preparar para a privação.",
+      contraind: "Hipersensibilidade. O SAMU 2016 manda evitar no dependente de opioide, pela abstinência com convulsão; com apneia, ventilar primeiro e usar a dose inicial baixa da linha de dose.",
       adversos: "Abstinência precipitada, agitação, vômito, edema pulmonar não prevenido.",
       monitor: "Frequência respiratória por horas. Metadona e opioide de longa ação ressedam.",
       fonte: "MS — SAMU 192, Protocolos de Suporte Avançado de Vida, 2016"
@@ -1427,9 +1440,13 @@ PSICOFARMACOS.classes.push({
       kw: "ost agonista opioide abstinencia manutencao qt",
       apres: "solução 1 mg/mL (o Maudsley manda só nessa apresentação)",
       dose: [
-        { rot: "Dose inicial", val: "hospital geral: 10–20 mg, com 5–10 mg a cada 6 h se a abstinência persistir, até 40 mg em 24 h", p: 505 },
+        { rot: "Desintoxicação (diretriz brasileira)", val: "20 a 40 mg, 2 a 4 vezes ao dia por 24 a 72 horas; depois reduzir 10 a 20% ao dia até retirar", f: "AMB/ABP — Abuso e Dependência dos Opioides e Opiáceos, 2012" },
+        { rot: "Manutenção (diretriz brasileira)", val: "até 180 dias, na menor dose tolerada sem sintomas de privação", f: "AMB/ABP — Abuso e Dependência dos Opioides e Opiáceos, 2012" },
+        { rot: "Dose inicial — hospital psiquiátrico", val: "uso prévio não confirmado: 10–20 mg no dia 1; subir 10 mg a cada 2 dias, vigiando abstinência, sedação e respiração; no máximo 30 mg acima da dose do dia 1 em 1 semana", p: 505 },
+        { rot: "Dose inicial — hospital geral", val: "uso prévio não confirmado: 10–20 mg, com 5–10 mg a cada 6 h se a abstinência persistir, até 40 mg em 24 h", p: 505 },
         { rot: "Dose usual", val: "manutenção usual 60–100 mg/dia", p: 503 }
       ],
+      diverge: "AMB/ABP (2012) desintoxica com 20 a 40 mg de 2 a 4 vezes ao dia; o Maudsley 15ª (p. 505) começa com 10 a 20 mg quando o uso prévio não está confirmado, porque a titulação é a fase de maior mortalidade da metadona. A AMB fala em manutenção de até 180 dias; o Maudsley dá 60 a 100 mg/dia como dose terapêutica e não traz esse prazo nas páginas de manutenção (p. 503–505).",
       porque: "Agonista mu pleno, meia-vida longa. Primeira linha de abstinência e manutenção na diretriz brasileira.",
       escolher: "Dependência de opioide confirmada, com protocolo. Não iniciar no intoxicado.",
       evitar: "Intoxicação por álcool ou benzodiazepínico. QT longo. Criança em casa com o frasco.",
@@ -1444,9 +1461,11 @@ PSICOFARMACOS.classes.push({
       kw: "subutex agonista parcial opioide precipita abstinencia",
       apres: "comprimido sublingual",
       dose: [
+        { rot: "Manutenção (diretriz brasileira)", val: "8 a 16 mg/dia sublingual", f: "AMB/ABP — Abuso e Dependência dos Opioides e Opiáceos, 2012" },
         { rot: "Dose inicial", val: "em abstinência visível, sem fator de risco: 8 mg no primeiro dia; sem abstinência: 4 mg; com risco: 2–4 mg; no máximo 8 mg no primeiro dia fora de serviço especializado", p: 509 },
-        { rot: "Dose usual", val: "manutenção 12–24 mg/dia sublingual", p: 503 }
+        { rot: "Manutenção (Maudsley)", val: "manutenção 12–24 mg/dia sublingual", p: 503 }
       ],
+      diverge: "AMB/ABP (2012) mantém com 8 a 16 mg/dia; o Maudsley 15ª (p. 503) dá 12 a 24 mg/dia como dose terapêutica.",
       porque: "Agonista parcial de alta afinidade. Bloqueia o pleno; se o receptor ainda está ocupado, precipita abstinência.",
       escolher: "OST quando metadona não vai, ou em quem já está em privação visível.",
       evitar: "Iniciar com heroína ou metadona ainda no receptor. Trocar de metadona para buprenorfina sem janela.",
@@ -1639,10 +1658,10 @@ PSICOFARMACOS.classes.push({
       nome: "Metilfenidato",
       id: "metilfenidato",
       kw: "ritalina concerta estimulante tdah",
-      apres: "comprimido de liberação imediata; formulações de liberação prolongada variam de marca",
+      apres: "comprimido de liberação imediata (efeito de 2 a 4 horas); formulações de liberação prolongada variam de marca",
       dose: [
-        { rot: "Criança e adolescente", val: "iniciar 5–10 mg/dia VO; subir 5–10 mg; máximo usual 60 mg/dia (ocasionalmente 90 mg/dia)", p: 600 },
-        { rot: "Dose usual", val: "liberação imediata dura 2–4 horas; OROS (Concerta XL) inicia 18 mg pela manhã, usual até 54 mg/dia (ocasionalmente 108 mg/dia); 18 mg de OROS equivalem a 15 mg de metilfenidato", p: 600 }
+        { rot: "Criança e adolescente", val: "iniciar 5–10 mg/dia VO; subir 5–10 mg por semana; teto de 2,1 mg/kg/dia em doses divididas; máximo licenciado 60 mg/dia (até 90 mg/dia só após revisão de especialista)", p: 600 },
+        { rot: "Criança e adolescente — liberação prolongada (OROS)", val: "iniciar 18 mg pela manhã; máximo licenciado 54 mg/dia (108 mg/dia só após revisão de especialista, fora da licença); 18 mg de OROS equivalem a 15 mg de liberação imediata", p: 600 }
       ],
       porque: "Estimulante; aumenta dopamina e noradrenalina na fenda. Primeira linha do Maudsley quando o fármaco é indicado.",
       escolher: "TDAH com prejuízo depois de medida ambiental, quando a família compra — o PCDT não incorpora no SUS.",
@@ -1674,8 +1693,8 @@ PSICOFARMACOS.classes.push({
       kw: "strattera nao estimulante tdah noradrenalina",
       apres: "cápsula",
       dose: [
-        { rot: "Criança e adolescente", val: "iniciar 0,5 mg/kg/dia; alvo 1,2 mg/kg/dia; pode ir a 1,8 mg/kg/dia, máximo 120 mg", p: 601 },
-        { rot: "Dose usual", val: "adulto: iniciar 40 mg/dia por 7 dias, depois 80 mg/dia", p: 601 }
+        { rot: "Criança e adolescente abaixo de 70 kg", val: "iniciar 0,5 mg/kg/dia por 7 dias; manutenção recomendada 1,2 mg/kg/dia; até 1,8 mg/kg/dia, no máximo 120 mg/dia se necessário", p: 601 },
+        { rot: "Criança e adolescente acima de 70 kg", val: "iniciar 40 mg/dia por 7 dias; manutenção recomendada 80 mg/dia", p: 601 }
       ],
       porque: "Inibe recaptação de noradrenalina. Não é estimulante; o efeito pleno demora semanas.",
       escolher: "Quando metilfenidato e lisdexanfetamina não vão ou não podem. Comorbidade de tique ou de uso de substância pesa a favor.",
@@ -1691,10 +1710,12 @@ PSICOFARMACOS.classes.push({
       kw: "atensina alfa2 tique tdah hipotensao",
       apres: "comprimido; adesivo semanal em alguns países",
       dose: [
-        { rot: "Acatisia / adjunto", val: "0,2–0,8 mg/dia VO", p: 132 },
-        { rot: "Sialorreia / tique", val: "adesivo 0,1–0,2 mg por semana ou 0,1 mg VO à noite", p: 259 }
+        { rot: "Abstinência de opioide", val: "0,3 a 1,2 mg/dia; pouco efetiva para insônia, agitação e fissura", f: "AMB/ABP — Abuso e Dependência dos Opioides e Opiáceos, 2012" },
+        { rot: "Tiques", val: "dose terapêutica da ordem de 3 a 5 mcg/kg, subindo devagar", p: 615 },
+        { rot: "Acatisia (adulto, adjunto)", val: "0,2–0,8 mg/dia VO", p: 132 },
+        { rot: "Sialorreia da clozapina", val: "adesivo 0,1–0,2 mg por semana ou 0,1 mg VO à noite", p: 259 }
       ],
-      porque: "Agonista alfa-2. No TDAH o Maudsley a cita; o lastro de dose nesta edição está em outras indicações (acatisia, tique/sialorreia). Titular pela pressão.",
+      porque: "Agonista alfa-2. O Maudsley a cita no TDAH e nos tiques, mas só traz dose por kg para tiques; no TDAH não há dose própria nesta edição. A diretriz brasileira de opioides dá a faixa da abstinência. Titular pela pressão.",
       escolher: "TDAH com tique, ou quando estimulante não vai. Hipotensão limita.",
       evitar: "Cortar de golpe — hipertensão de rebote. Depressão, psicose (o livro alerta).",
       contraind: "Hipersensibilidade. Bradicardia grave, bloqueio.",
@@ -1747,7 +1768,7 @@ PSICOFARMACOS.classes.push({
       nome: "Ciproeptadina",
       id: "ciproeptadina",
       kw: "periactin antiserotoninergico 5ht2",
-      apres: "comprimido; no Brasil frequentemente em associação — conferir a apresentação isolada",
+      apres: "no Brasil, só em associação (com cobamamida ou polivitamínico, como estimulante de apetite); sem apresentação isolada com registro ativo (CSV Anvisa 2026-09-23) — conferir quanto de ciproeptadina há por comprimido",
       dose: [
         { rot: "Dose inicial", val: "adulto: 4–12 mg VO, depois 4 mg a cada hora se precisar", f: "SMS-SP — Manual de Toxicologia Clínica, 2017" },
         { rot: "Acatisia (outra indicação)", val: "16 mg/dia", p: 132, f: "Maudsley Prescribing Guidelines, 15ª ed., 2025" }
@@ -1894,7 +1915,7 @@ PSICOFARMACOS.combos = {
     {
       id: "sub-naloxona-buprenorfina-alta",
       t: "Alta de quem usa opioide — naloxona de casa e aviso de perda de tolerância",
-      d: "Os dois dias após a alta concentram morte: a tolerância cai e o opioide ilícito pode ser mais potente. Treinar quem mora junto e, se o serviço tiver, naloxona de casa. Observar depois da naloxona de reversão — metadona resseda.",
+      d: "Alta a pedido, contra orientação, por abstinência não tratada: nos 2 dias seguintes o risco de morte por droga é oito vezes maior — tratar a abstinência é o que segura a pessoa. Em toda alta: avisar a perda de tolerância, treinar quem mora junto e, se o serviço tiver, naloxona de casa. Observar depois da naloxona de reversão — metadona resseda.",
       f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
       p: 498
     }
@@ -2047,7 +2068,7 @@ PSICOFARMACOS.proibidos = {
     {
       id: "trc-imao-washout",
       t: "ISRS, dual ou tricíclico cruzado com IMAO sem lavagem",
-      d: "MECANISMO: bloqueio de recaptação somado a bloqueio de degradação de serotonina. DESFECHO: síndrome serotoninérgica. Da fluoxetina para IMAO irreversível esperar 5 a 6 semanas; da clomipramina, 3 semanas; da maior parte dos outros, 2 semanas; da fluvoxamina, 1 semana; do moclobemide, 24 horas. Do IMAO irreversível para outro antidepressivo, 2 semanas, salvo moclobemide (24 horas). O proibido isrs-triciclico-imao continua válido; esta relação traz o intervalo.",
+      d: "MECANISMO: bloqueio de recaptação somado a bloqueio de degradação de serotonina. DESFECHO: síndrome serotoninérgica. Da fluoxetina para IMAO irreversível esperar 5 a 6 semanas; da clomipramina, 3 semanas; da maior parte dos outros, 2 semanas; da fluvoxamina, 1 semana; do moclobemide, 24 horas. Do IMAO irreversível para outro antidepressivo, 2 semanas — para a clomipramina, 3 semanas. Do moclobemide para qualquer outro, 24 horas. O proibido isrs-triciclico-imao continua válido; esta relação traz o intervalo.",
       f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
       p: 368
     },

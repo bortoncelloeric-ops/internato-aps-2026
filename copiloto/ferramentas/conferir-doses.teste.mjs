@@ -14,6 +14,7 @@ const pags = Array.from({ length: 40 }, (_, i) => `pagina pdf ${i + 1}`);
 pags[8 + 22 - 1] = 'Drug X 10mg mane, maximum 20mg; 1,800mg/day in mania; level 0.6-1.2';
 pags[9 + 22 - 1] = 'continued table: Drug Y 25mg nocte';
 pags[10 + 22 - 1] = 'Drug Z 75mg';
+pags[11 + 22 - 1] = 'Risperidone 0.\u00AD25–\u00AD\u00AD2mg Adjust dose';
 fs.writeFileSync(path.join(RAW, 'fonte-maudsley-15-2025.txt'), pags.join('\f'));
 fs.writeFileSync(path.join(RAW, 'fonte-br.txt'), 'Dose usual de 20 a 60 mg/dia. Máximo 1.800 mg/dia. Nível 0,6 a 1,2 mEq/L.');
 fs.writeFileSync(path.join(RAW, 'fonte-br.cite'), 'PCDT Falso\n');
@@ -30,6 +31,8 @@ ok('fonte BR: número ausente falha', M.conferir('80 mg/dia', 'MS — PCDT Falso
 ok('fonte sem texto local é sinalizada', M.conferir('20 mg', 'Livro Inexistente, 2019', undefined).semTexto, true);
 ok('valor sem dígito não precisa de fonte', M.conferir('sem dose', 'qualquer', undefined).ok, true);
 
+ok('hífen condicional (U+00AD) não parte o decimal da fonte', [...M.numerosFonte('0.\u00AD25–\u00AD\u00AD2mg')].includes('0.25'), true);
+ok('Maudsley: faixa com hífen condicional casa inteira', M.conferir('início 0,25 a 2 mg', M.MAUDSLEY, 11).ok, true);
 // CLI: arquivo de cartões falso
 const psico = path.join(RAW, 'psico.js');
 fs.writeFileSync(psico, `var PSICOFARMACOS = { classes: [ { rot: "A", farmacos: [

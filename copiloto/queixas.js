@@ -1278,7 +1278,7 @@ QUEIXAS.push({
   perguntas: {
     fonte: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
     itens: [
-      "Dois antipsicóticos em dose e tempo adequados já falharam, ou há discinesia tardia ou tentativa de suicídio — é isso que autoriza a clozapina no PCDT",
+      "Dois antipsicóticos em dose e tempo adequados já falharam, ou há discinesia tardia significativa ou risco alto de suicídio — é isso que autoriza a clozapina no PCDT",
       "Há como fazer hemograma semanal nas 18 primeiras semanas, e depois o restante do esquema, sem falha de logística",
       "Última evacuação: quando, consistência, dor, vômito — o paciente quase não relata constipação grave",
       "Baba de dia e de noite, engasgo, tosse ao deitar — sialorreia e risco de aspiração",
@@ -1348,7 +1348,7 @@ QUEIXAS.push({
   farmaco: {
     fonte: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
     itens: [
-      "A clozapina é o único antipsicótico com lastro claro na refratariedade e o que o PCDT tira da terceira linha na discinesia tardia e na tentativa de suicídio",
+      "A clozapina é o único antipsicótico com lastro claro na refratariedade e o que o PCDT tira da terceira linha na discinesia tardia significativa e no risco alto de suicídio",
       "Refratariedade no PCDT: falha de pelo menos dois antipsicóticos, cada um por pelo menos 6 semanas em dose adequada, sem queda de 30% na BPRS — salvo suicídio de alto risco ou discinesia tardia grave, que autorizam antes",
       "Sem combinado real de hemograma seriado não se inicia — não é excesso de zelo",
       "Titulação lenta e individualizada; o número mora no cartão. Titulação rápida aumenta miocardite, convulsão e falha por intolerância",
@@ -1365,7 +1365,7 @@ QUEIXAS.push({
   formulario: {
     fonte: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
     farmacos: [
-      { id: "clozapina", papel: "o fármaco da refratariedade — e a escolha formal do PCDT em discinesia tardia e em tentativa de suicídio" },
+      { id: "clozapina", papel: "o fármaco da refratariedade — e a escolha formal do PCDT em discinesia tardia significativa e em risco alto de suicídio" },
       { id: "aripiprazol", papel: "adjunto depois de otimizar a clozapina — rende mais no metabólico e na enurese do que no delírio residual" },
       { id: "olanzapina", papel: "saída do PCDT se a clozapina caiu por agranulocitose — não é potencializador de rotina" },
       { id: "quetiapina", papel: "outra saída do PCDT após interrupção da clozapina" },
@@ -1743,7 +1743,7 @@ QUEIXAS.push({
     fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
     itens: [
       "Psicoterapia focada no trauma vem antes do fármaco. ISRS (paroxetina, sertralina, fluoxetina) e venlafaxina de liberação modificada são a primeira linha medicamentosa.",
-      "Começar com metade da dose de depressão: a piora inicial de ansiedade é regra.",
+      "Começar com dose menor que a da depressão: a piora inicial de ansiedade é regra.",
       "Prazosina entra na segunda linha para pesadelo e sono, com titulação lenta por hipotensão. Não trata evitação nem hipervigilância.",
       "Antipsicótico (olanzapina, quetiapina, risperidona) só para intrusão refratária — não para o TEPT inteiro.",
       "Benzodiazepínico não é tratamento. Ponte de crise, se existir, é curta e tem nome de proibido se virar manutenção.",
@@ -2206,9 +2206,8 @@ QUEIXAS.push({
       { id: "risperidona", papel: "único fármaco preconizado neste PCDT para irritabilidade/agressão do TEA — não trata o autismo" },
       { id: "aripiprazol", outra: true, papel: "citado em diretriz internacional; não é o fármaco deste PCDT brasileiro" },
       { id: "melatonina", papel: "sono no TEA, depois de higiene; não trata agressão; sem registro ativo" },
-      { id: "clonidina", papel: "à vezes no hiper-arousal; não substitui a risperidona do PCDT" }
+      { id: "clonidina", outra: true, papel: "às vezes no hiperalerta; não substitui a risperidona do PCDT" }
     ],
-    dosemuda: ["dm-risperidona"],
     proibidos: ["tea-risperidona-autismo"]
   },
 
@@ -2561,7 +2560,9 @@ QUEIXAS.push({
     fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · MS — Manual de Gestação de Alto Risco, 2022",
     itens: [
       "Não suspender psicofármaco só porque há gravidez. ACOG e o Maudsley alertam que suicídio perinatal se associa a tratamento ausente.",
+      { t: "Estabilizador no primeiro trimestre: o MS preconiza interromper quando possível e retomar no segundo; o Maudsley (pelo NICE) propõe, na gestante estável em lítio, retirar aos poucos em 4 semanas, e manter se o risco de recaída for alto. Nunca parar de golpe; decidir com a gestante e o especialista, com plano escrito de recaída. O valproato não entra nessa regra: não se retoma na gestação.", f: "MS — Manual de Gestação de Alto Risco, 2022" },
       "ISRS: não são teratógenos maiores. Há sinal de defeito cardíaco em alguns estudos com fluoxetina e paroxetina; outros não acham. Sertralina costuma ser a mais usada no perinatal. Mostrar, não escolher em silêncio. Número no cartão.",
+      { t: "No MS, entre os ISRS a preferência é a sertralina; a paroxetina deve ser evitada no primeiro trimestre por malformação cardíaca.", f: "MS — Manual de Gestação de Alto Risco, 2022" },
       "Valproato: malformação e atraso neurodesenvolvimento — contraindicado se pode engravidar, salvo o caso extremo que o livro descreve com termo de risco.",
       "Lítio: risco de malformação cardíaca superestimado no passado, ainda existe; se for o fármaco que a mantém, pode continuar com rastreio cardíaco fetal. Para na hora do parto. Amamentação: RID alto — em geral não amamenta.",
       "Benzodiazepínico crônico: hipotonia e síndrome de retirada no RN.",
@@ -2575,7 +2576,7 @@ QUEIXAS.push({
       { id: "sertralina", papel: "ISRS mais usado no perinatal — interação mais limpa; não é isenção de risco" },
       { id: "fluoxetina", papel: "ISRS; o Maudsley cita sinal de defeito cardíaco em alguns estudos e ausência em outros — mostrar os dois" },
       { id: "paroxetina", papel: "ISRS com o sinal mais citado de defeito cardíaco; a pior retirada" },
-      { id: "carbonato-de-litio", outra: true, papel: "se é o que a mantém, pode continuar com rastreio; parar no parto; amamentação em geral não" },
+      { id: "carbonato-de-litio", outra: true, papel: "o MS prefere interromper no primeiro trimestre quando possível; o Maudsley admite manter com rastreio se o risco de recaída é alto; parar no parto; amamentação em geral não" },
       { id: "acido-valproico-valproato", outra: true, papel: "contraindicado se pode engravidar — malformação e atraso de desenvolvimento" },
       { id: "lamotrigina", outra: true, papel: "alternativa de humor no perinatal com menos teratógeno que o valproato" },
       { id: "olanzapina", outra: true, papel: "antipsicótico com lastro de uso; peso e glicemia na gestação" }
@@ -2587,7 +2588,7 @@ QUEIXAS.push({
     fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · MS — Manual de Gestação de Alto Risco, 2022",
     itens: [
       "Psicose puerperal: urgência, não espera, não deixa a mãe só com o bebê",
-      "Não cortar estabilizador sem plano de recaída",
+      "Estabilizador no primeiro trimestre: MS e Maudsley admitem retirar, com ênfases diferentes — decidir com plano escrito de recaída; nunca parar de golpe",
       "ISRS: informar o que cada fonte diz; sertralina é a escolha usual, não um dogma",
       "Pré-natal de alto risco se lítio ou anticonvulsivante",
       "APS vincula; psicose e mania saem no mesmo dia"
@@ -2618,7 +2619,7 @@ QUEIXAS.push({
   redflags: {
     fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · MS — CAB nº 34, Saúde Mental, 2013",
     itens: [
-      "Ideação suicida, plano ou tentativa — o maior preditor é tentativa prévia; perguntar agora",
+      "Ideação suicida, plano ou tentativa — perguntar agora",
       "Recusa de alimento ou líquido, catatonia, psicose — emergência",
       "Virada maníaca após antidepressivo",
       "Abuso atual em casa ou na escola — a receita não é o primeiro ato",
@@ -2690,8 +2691,7 @@ QUEIXAS.push({
       { id: "risperidona", outra: true, papel: "psicose ou irritabilidade de TEA — dose de criança, não de adulto" },
       { id: "aripiprazol", outra: true, papel: "psicose de início precoce em dose menor que a do adulto" }
     ],
-    proibidos: ["ij-ad-leve-sem-terapia"],
-    dosemuda: ["dm-fluoxetina"]
+    proibidos: ["ij-ad-leve-sem-terapia"]
   },
 
   conduta: {
@@ -2887,7 +2887,7 @@ QUEIXAS.push({
       "Agitação violenta, hipertermia e luta contra contenção após crack ou cocaína — estado de excitação; contenção em prono mata",
       "Dor torácica, arritmia ou convulsão após cocaína — emergência clínica, não \"quebra de fissura\"",
       "Intoxicação por benzodiazepínico com outro depressor — flumazenil pode precipitar convulsão",
-      "Alta hospitalar de quem usa opioide — perda de tolerância; os dois dias seguintes concentram morte",
+      "Alta a pedido por abstinência não tratada — nos dois dias seguintes o risco de morte por droga é oito vezes maior; tratar a abstinência segura a pessoa",
       "Metadona em quem ainda está intoxicado por álcool ou benzodiazepínico — overdose somada",
       "Body packer com rebaixamento — ruptura de invólucro; cirurgia, não carvão de rotina"
     ]
@@ -2960,7 +2960,7 @@ QUEIXAS.push({
     fonte: "AMB/ABP — Abuso e Dependência dos Opioides e Opiáceos, 2012 · Maudsley Prescribing Guidelines, 15ª ed., 2025 · SMS-SP — Manual de Toxicologia Clínica, 2017 · MS — SAMU 192, Protocolos de Suporte Avançado de Vida, 2016",
     itens: [
       "Overdose de opioide: naloxona e suporte ventilatório. Fentanil, nitazeno e buprenorfina exigem bolus repetidos. Observar — a naloxona acaba antes do opioide.",
-      "Abstinência de opioide: metadona é primeira linha na diretriz brasileira. Buprenorfina é alternativa, sublingual, e só entra se já houver abstinência visível — senão precipita.",
+      "Abstinência de opioide: metadona é primeira linha na diretriz brasileira. Buprenorfina é alternativa, sublingual; com heroína ou metadona ainda no receptor ela precipita abstinência — nesse caso, esperar a abstinência visível.",
       "Manutenção (OST): metadona ou buprenorfina reduzem morte. Não iniciar OST no intoxicado. Interno não-especialista pede protocolo local ou o serviço de álcool e drogas antes de a primeira dose.",
       "Naltrexona não é tratamento de abstinência aguda e precipita privação se ainda há opioide no receptor.",
       "Cocaína e crack: não há fármaco de substituição. Abstinência é autolimitada (humor rebaixado, insônia, fissura). Benzodiazepínico seda a intoxicação aguda; betabloqueador na fase aguda da cocaína é armadilha.",
@@ -2981,7 +2981,7 @@ QUEIXAS.push({
       { id: "diazepam", outra: true, papel: "intoxicação por estimulante e conversão na retirada de benzodiazepínico; não substitui OST" },
       { id: "clonazepam", outra: true, papel: "não é tratamento da dependência de benzodiazepínico — se entrar, é ponte curta, não manutenção" },
       { id: "midazolam", outra: true, papel: "sedação da agitação aguda no pré-hospitalar; depressão respiratória se somar opioide" },
-      { id: "clonidina", outra: true, papel: "alternativa sintomática na abstinência de opioide quando metadona não está disponível — pouco faz em fissura e insônia" },
+      { id: "clonidina", outra: true, papel: "alternativa sintomática na abstinência de opioide quando metadona não está disponível — a faixa brasileira está no cartão; pouco faz em fissura, insônia e agitação" },
       { id: "flumazenil", papel: "só hipoventilação por benzodiazepínico isolado no não dependente — proibido no misto e no crônico" },
       { id: "cetamina-racemica", outra: true, papel: "sedativo preferido da emergência no estado de excitação refratário, depois da transferência — não é conduta de CAPS" }
     ],

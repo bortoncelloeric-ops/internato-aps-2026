@@ -361,7 +361,7 @@ var BRASIL = {
   },
   "metadona": {
     receita: "A1 — Notificação de Receita A",
-    sus: "RENAME 2024 — Componente Especializado (comprimido 10 mg)",
+    sus: "RENAME 2024 — Componente Especializado (comprimido 5 mg e 10 mg; solução injetável 10 mg/mL) pelo PCDT Dor Crônica, não para dependência de opioide",
     registro: "registrado na Anvisa",
     f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
   },
@@ -386,7 +386,7 @@ var BRASIL = {
   "ciproeptadina": {
     receita: "sem controle especial",
     sus: "não consta da RENAME 2024",
-    registro: "registrado na Anvisa",
+    registro: "registrado na Anvisa só em associação (com cobamamida ou polivitamínico); sem apresentação isolada ativa",
     f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
   },
   "flumazenil": {
