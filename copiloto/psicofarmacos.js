@@ -84,7 +84,9 @@ var PSICOFARMACOS = {
             { rot: "Faixa (CAB 34)", val: "2 a 20 mg/dia; dose média 5 a 10 mg/dia" },
             { rot: "Máximo agudo", val: "15 mg/dia" },
             { rot: "Máximo manutenção", val: "10 mg/dia" },
-            { rot: "Equivalência", val: "2 mg equivalem a 100 mg de clorpromazina" }
+            { rot: "Equivalência", val: "2 mg equivalem a 100 mg de clorpromazina" },
+            { rot: "Dose mínima efetiva", val: "primeiro episódio 2 mg/dia · multi-episódio 4 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 8 },
+            { rot: "Idoso", val: "início 0,25 a 0,5 mg/dia · manutenção 1 a 3,5 mg/dia · cautela acima de 3,5 mg · máximo 5 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 706 }
           ],
           porque: "Bloqueio D2 quase puro, com pouquíssima ação em receptor histamínico, " +
                   "muscarínico e alfa-adrenérgico. É isso que o torna o antipsicótico que " +
@@ -107,6 +109,7 @@ var PSICOFARMACOS = {
                     "prolongado). Hiperprolactinemia. Síndrome neuroléptica maligna.",
           monitor: "Sinais extrapiramidais a cada consulta. Antropometria e pressão arterial em " +
                    "3, 6 e 12 meses. Glicemia de jejum e perfil lipídico em 3 e 12 meses, depois anuais.",
+          diverge: "CAB nº 34 (2013) limita o máximo agudo a 15 mg/dia e a manutenção a 10 mg/dia; o Maudsley 15ª (p. 11) lista o máximo licenciado EMA em 20 mg/dia.",
           fonte: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013; faixa e equivalência do CAB nº 34 (MS), 2013"
         },
         {
@@ -133,6 +136,7 @@ var PSICOFARMACOS = {
           adversos: "Os do haloperidol, com o agravante de não serem reversíveis por suspensão.",
           monitor: "Avaliação de extrapiramidalismo a cada aplicação — a consulta mensal é a " +
                    "oportunidade, não uma formalidade.",
+          diverge: "PCDT Esquizofrenia (Portaria SAS/MS nº 364/2013) aceita até 400 mg/mês nos primeiros meses; o Maudsley 15ª (p. 11) lista o máximo licenciado EMA em 300 mg a cada 4 semanas.",
           fonte: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013"
         },
         {
@@ -145,7 +149,8 @@ var PSICOFARMACOS = {
             { rot: "Faixa média", val: "400 a 800 mg/dia" },
             { rot: "Máximo", val: "1 g/dia" },
             { rot: "Piso", val: "abaixo de 150 mg/dia associa-se a maior chance de recidiva" },
-            { rot: "Equilíbrio plasmático", val: "2 a 5 dias" }
+            { rot: "Equilíbrio plasmático", val: "2 a 5 dias" },
+            { rot: "Dose mínima efetiva", val: "primeiro episódio 200 mg/dia · multi-episódio 300 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 8 }
           ],
           porque: "Bloqueia D2 mas também histamínico, muscarínico e alfa-1 — daí a sedação, a " +
                   "boca seca e a hipotensão. É a referência da escala de equivalência: toda " +
@@ -187,6 +192,7 @@ var PSICOFARMACOS = {
           contraind: "As dos fenotiazínicos de baixa potência, como a clorpromazina.",
           adversos: "Sedação muito intensa, hipotensão, anticolinérgico.",
           monitor: "Pressão arterial. Risco de queda em idoso.",
+          diverge: "CAB nº 34 (2013) descreve faixa até 600 mg/dia; o Maudsley 15ª (p. 11) lista o máximo licenciado EMA em 1200 mg/dia.",
           fonte: "MS — CAB nº 34, Saúde Mental, 2013"
         }
       ]
@@ -216,7 +222,10 @@ var PSICOFARMACOS = {
             { rot: "Manutenção", val: "3 a 6 mg/dia" },
             { rot: "Início (TAB tipo I)", val: "1 mg/dia, incremento de 1 mg/dia até a dose-alvo; faixa 1 a 6 mg/dia; máximo 8 mg/dia" },
             { rot: "Insuficiência renal ou hepática", val: "máximo 3 mg/dia" },
-            { rot: "Alimento", val: "não interfere na biodisponibilidade" }
+            { rot: "Alimento", val: "não interfere na biodisponibilidade" },
+            { rot: "Dose mínima efetiva", val: "primeiro episódio 2 mg/dia · multi-episódio 4 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 8 },
+            { rot: "Idoso", val: "psicose: início 0,5 mg 2x/dia · manutenção 1 a 2,5 mg/dia · máximo 4 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 705 },
+            { rot: "Criança e adolescente", val: "início 2 mg; ajustar conforme resposta e efeito adverso", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 626 }
           ],
           porque: "É o atípico que mais se comporta como típico conforme a dose sobe: acima de " +
                   "6 mg/dia o bloqueio D2 é tão alto que o efeito extrapiramidal aparece. " +
@@ -241,6 +250,7 @@ var PSICOFARMACOS = {
                     "bradicinesia, instabilidade postural.",
           monitor: "Prolactina sempre que houver queda de libido, alteração menstrual, impotência " +
                    "ou galactorreia. Glicemia e lipídios em 3 e 12 meses, depois anuais com ECG.",
+          diverge: "PCDT TAB tipo I (Portaria SAS/MS nº 315/2016) limita a 8 mg/dia; o Maudsley 15ª (p. 11) lista o máximo licenciado EMA em 16 mg/dia.",
           fonte: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013; e PCDT Transtorno Afetivo Bipolar do tipo I, Portaria SAS/MS nº 315, 2016"
         },
         {
@@ -254,7 +264,10 @@ var PSICOFARMACOS = {
             { rot: "Teto usual", val: "20 mg/dia — não há evidência de que doses maiores sejam mais eficazes em não refratário" },
             { rot: "Refratário", val: "até 30 mg/dia, apenas quando houve efeito adverso grave com clozapina (agranulocitose, cardiopatia, oclusão intestinal)" },
             { rot: "Paciente debilitado ou emagrecido", val: "máximo 5 mg/dia" },
-            { rot: "Insuficiência renal ou hepática", val: "não exige ajuste" }
+            { rot: "Insuficiência renal ou hepática", val: "não exige ajuste" },
+            { rot: "Dose mínima efetiva", val: "primeiro episódio 5 mg/dia · multi-episódio 7,5 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 8 },
+            { rot: "Idoso", val: "início 2,5 mg à noite · manutenção 5 a 10 mg/dia · máximo 15 mg à noite", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 705 },
+            { rot: "Criança e adolescente", val: "início 5 mg; ajustar conforme resposta e efeito adverso", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 626 }
           ],
           porque: "Perfil receptor amplo, com forte ação histamínica — daí a eficácia rápida em " +
                   "mania e o apetite que vem junto. É o antipsicótico com melhor desempenho em " +
@@ -276,6 +289,7 @@ var PSICOFARMACOS = {
           adversos: "Ganho de peso expressivo, sedação, dislipidemia, resistência insulínica, diabetes.",
           monitor: "Peso, cintura e pressão arterial em 3, 6 e 12 meses. Glicemia de jejum e " +
                    "perfil lipídico em 3 e 12 meses, depois anuais com ECG.",
+          diverge: "PCDT Esquizofrenia (Portaria SAS/MS nº 364/2013) aceita até 30 mg/dia no refratário; o Maudsley 15ª (p. 11) lista o máximo licenciado EMA em 20 mg/dia.",
           fonte: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013; e PCDT Transtorno Afetivo Bipolar do tipo I, Portaria SAS/MS nº 315, 2016"
         },
         {
@@ -289,7 +303,10 @@ var PSICOFARMACOS = {
             { rot: "Máximo", val: "750 a 800 mg/dia" },
             { rot: "Depressão bipolar", val: "300 a 600 mg/dia" },
             { rot: "Mania", val: "600 a 800 mg/dia" },
-            { rot: "Ajuste", val: "incrementos ou reduções de 25 a 50 mg 2 vezes ao dia, ou a cada 2 dias" }
+            { rot: "Ajuste", val: "incrementos ou reduções de 25 a 50 mg 2 vezes ao dia, ou a cada 2 dias" },
+            { rot: "Dose mínima efetiva", val: "primeiro episódio 150 mg/dia · multi-episódio 300 mg de liberação imediata ou 500 mg de liberação modificada", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 8 },
+            { rot: "Idoso", val: "início 12,5 a 25 mg/dia · manutenção 75 a 125 mg/dia · máximo 200 a 300 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 705 },
+            { rot: "Criança e adolescente", val: "início 25 mg; dose efetiva usual na faixa 150 a 200 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 626 }
           ],
           porque: "Ocupação D2 baixa e transitória, com forte bloqueio histamínico e um " +
                   "metabólito ativo com ação noradrenérgica. É o que explica as três coisas: " +
@@ -322,7 +339,8 @@ var PSICOFARMACOS = {
             { rot: "Início", val: "40 mg 2 vezes ao dia, por via oral, administrada COM alimento" },
             { rot: "Titulação", val: "aumentos em intervalos maiores que 2 dias" },
             { rot: "Manutenção ideal", val: "40 mg 2 vezes ao dia" },
-            { rot: "Máximo", val: "160 mg/dia (80 mg 2 vezes ao dia)" }
+            { rot: "Máximo", val: "160 mg/dia (80 mg 2 vezes ao dia)" },
+            { rot: "Dose mínima efetiva", val: "primeiro episódio 40 mg/dia · multi-episódio 80 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 8 }
           ],
           porque: "Praticamente não mexe em peso, glicemia e lipídios — e cobra esse preço no " +
                   "intervalo QT. É o único da lista cuja absorção depende de comida: sem " +
@@ -357,7 +375,9 @@ var PSICOFARMACOS = {
             { rot: "Acima de 400 mg", val: "fracionar de 12 em 12 horas para melhorar tolerância" },
             { rot: "Máximo", val: "800 mg/dia" },
             { rot: "Prazo de avaliação", val: "6 MESES em 300 a 800 mg/dia antes de julgar falha — mecanismo mais lento que o dos demais" },
-            { rot: "Dose letal", val: "2,5 g — o PCDT manda registrar alerta claro e dispensar ao responsável legal quando há risco grave de suicídio" }
+            { rot: "Dose letal", val: "2,5 g — o PCDT manda registrar alerta claro e dispensar ao responsável legal quando há risco grave de suicídio" },
+            { rot: "Idoso", val: "início 6,25 a 12,5 mg · manutenção 50 a 100 mg/dia · máximo 100 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 704 },
+            { rot: "Criança e adolescente", val: "início 12,5 mg; usar nível plasmático para a manutenção", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 626 }
           ],
           porque: "Ocupação D2 baixa com ação ampla em outros receptores. É o único " +
                   "antipsicótico com eficácia comprovada onde os outros falharam, e o único " +
@@ -380,6 +400,7 @@ var PSICOFARMACOS = {
                     "expressiva, ganho de peso, oclusão intestinal.",
           monitor: "Hemograma SEMANAL nas 18 primeiras semanas e a cada aumento de dose; " +
                    "MENSAL enquanto durar o uso. Febre ou dor de garganta = hemograma hoje.",
+          diverge: "PCDT Esquizofrenia (Portaria SAS/MS nº 364/2013) limita a 800 mg/dia; o Maudsley 15ª (p. 11) lista o máximo licenciado EMA em 900 mg/dia.",
           fonte: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013; e PCDT Transtorno Afetivo Bipolar do tipo I, Portaria SAS/MS nº 315, 2016"
         },
         {
@@ -389,7 +410,8 @@ var PSICOFARMACOS = {
           apres: "comprimido; solução oral",
           dose: [
             { rot: "Dose média", val: "600 a 1.000 mg/dia" },
-            { rot: "Faixa", val: "200 a 1.000 mg/dia" }
+            { rot: "Faixa", val: "200 a 1.000 mg/dia" },
+            { rot: "Dose mínima efetiva", val: "primeiro episódio 400 mg/dia · multi-episódio 800 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 8 }
           ],
           porque: "Benzamida com bloqueio D2 seletivo. Costuma entrar somada a outro atípico " +
                   "para potencializar o efeito antipsicótico, não como monoterapia.",
@@ -400,6 +422,7 @@ var PSICOFARMACOS = {
           contraind: "Tumor dependente de prolactina. As gerais dos bloqueadores D2.",
           adversos: "Hiperprolactinemia, extrapiramidalismo em dose alta.",
           monitor: "Prolactina quando houver sintoma sugestivo.",
+          diverge: "CAB nº 34 (2013) descreve faixa até 1.000 mg/dia; o Maudsley 15ª (p. 11) lista o máximo licenciado EMA em 2400 mg/dia.",
           fonte: "MS — CAB nº 34, Saúde Mental, 2013"
         },
         {
@@ -466,7 +489,9 @@ PSICOFARMACOS.classes.push({
         { rot: "Máximo", val: "1.800 mg/dia" },
         { rot: "Nível terapêutico", val: "0,6 a 1,2 mEq/L (CAB 34 detalha: 0,8 a 1,2 na fase aguda, 0,6 a 0,8 na manutenção)" },
         { rot: "Como colher", val: "após 5 a 7 dias de dose estável e 12 horas após a última tomada" },
-        { rot: "Toxicidade", val: "risco aumenta muito acima de 1,5 mEq/L; acima de 3,5 mEq/L é potencialmente fatal" }
+        { rot: "Toxicidade", val: "risco aumenta muito acima de 1,5 mEq/L; acima de 3,5 mEq/L é potencialmente fatal" },
+        { rot: "Idoso", val: "início 100 a 200 mg · manutenção 200 a 600 mg/dia · máximo 600 a 1200 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 709 },
+        { rot: "Criança e adolescente", val: "início 100 a 200 mg/dia de carbonato de lítio; usar nível plasmático para a manutenção", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 626 }
       ],
       porque: "É um íon, não uma molécula desenhada: não é metabolizado, é filtrado pelo rim. " +
               "Tudo o que mexe no sódio ou na função renal mexe na litemia — e é daí que vem " +
@@ -503,7 +528,9 @@ PSICOFARMACOS.classes.push({
         { rot: "Faixa", val: "250 a 2.000 mg/dia conforme o nível sérico, dose única à noite" },
         { rot: "Máximo", val: "2.000 mg/dia" },
         { rot: "Nível terapêutico", val: "50 a 125 mcg/mL" },
-        { rot: "Como colher", val: "após 5 a 7 dias de dose estável e 12 horas após a última tomada" }
+        { rot: "Como colher", val: "após 5 a 7 dias de dose estável e 12 horas após a última tomada" },
+        { rot: "Idoso", val: "início 100 a 200 mg 2x/dia · manutenção 200 a 400 mg 2x/dia · máximo 400 mg 2x/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 709 },
+        { rot: "Criança e adolescente", val: "início 10 a 20 mg/kg/dia em doses divididas; usar nível plasmático; não oferecer a menina ou mulher com potencial de engravidar sem programa de prevenção de gravidez", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 626 }
       ],
       porque: "Titula mais rápido que o lítio e cobre bem episódio misto e ciclagem rápida, " +
               "que são justamente onde o lítio rende menos. É INIBIDOR enzimático — o oposto " +
@@ -533,7 +560,8 @@ PSICOFARMACOS.classes.push({
         { rot: "Faixa", val: "200 a 1.000 mg/dia conforme o nível sérico, dose única à noite" },
         { rot: "Máximo", val: "1.000 mg/dia" },
         { rot: "Nível terapêutico", val: "8 a 12 mcg/mL" },
-        { rot: "Autoindução", val: "induz o próprio metabolismo e reduz a meia-vida com o uso crônico — rever a dosagem periodicamente e por vezes dividir em 3 a 4 tomadas" }
+        { rot: "Autoindução", val: "induz o próprio metabolismo e reduz a meia-vida com o uso crônico — rever a dosagem periodicamente e por vezes dividir em 3 a 4 tomadas" },
+        { rot: "Idoso", val: "início 50 mg 2x/dia ou 100 mg 2x/dia · manutenção 200 a 400 mg/dia · máximo 600 a 800 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 709 }
       ],
       porque: "É o problema de interação da psiquiatria, não só um estabilizador: indutora " +
               "potente de citocromo P450. O PCDT é explícito — ela REDUZ o nível sérico da " +
@@ -564,7 +592,8 @@ PSICOFARMACOS.classes.push({
         { rot: "Titulação", val: "incremento de 25 mg/dia a cada 2 SEMANAS nas primeiras 4 semanas; 100 mg/dia na quinta semana; depois no máximo 100 mg por semana até a dose-alvo" },
         { rot: "Alvo", val: "100 a 200 mg/dia, dose única à noite" },
         { rot: "Faixa", val: "25 a 200 mg/dia" },
-        { rot: "Máximo", val: "300 mg/dia" }
+        { rot: "Máximo", val: "300 mg/dia" },
+        { rot: "Idoso", val: "início 25 mg/dia · máximo 200 mg/dia; 100 mg/dia se em uso de valproato", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 709 }
       ],
       porque: "É o estabilizador que protege o polo DEPRESSIVO, onde os outros protegem mais " +
               "o maníaco. Não engorda, não seda e não exige nível sérico — praticamente o " +
@@ -607,7 +636,10 @@ PSICOFARMACOS.classes.push({
         { rot: "Dose usual", val: "20 mg/dia" },
         { rot: "Faixa", val: "5 a 80 mg/dia (CAB 34)" },
         { rot: "Esquema no TAB tipo I", val: "início 20 mg/dia pela manhã, incremento de 20 mg a cada 1 a 2 semanas; faixa 20 a 40 mg; máximo 80 mg/dia" },
-        { rot: "TOC", val: "60 a 80 mg/dia — sintoma obsessivo-compulsivo responde a doses mais altas, e ainda assim raramente com resposta plenamente satisfatória" }
+        { rot: "TOC", val: "60 a 80 mg/dia — sintoma obsessivo-compulsivo responde a doses mais altas, e ainda assim raramente com resposta plenamente satisfatória" },
+        { rot: "Dose mínima efetiva", val: "20 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 342 },
+        { rot: "Idoso", val: "início 20 mg pela manhã · manutenção 20 mg pela manhã · máximo 40 mg pela manhã", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 701 },
+        { rot: "Criança e adolescente", val: "início 5 a 10 mg/dia; ajustar conforme resposta e efeito adverso", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 626 }
       ],
       porque: "Meia-vida muito longa, com metabólito ativo de vários dias. Isso a torna " +
               "perdoadora de dose esquecida e praticamente livre de síndrome de retirada — e, " +
@@ -634,7 +666,10 @@ PSICOFARMACOS.classes.push({
       apres: "comprimido de 50 mg",
       dose: [
         { rot: "Dose usual", val: "50 a 150 mg/dia" },
-        { rot: "Faixa terapêutica", val: "50 a 200 mg/dia" }
+        { rot: "Faixa terapêutica", val: "50 a 200 mg/dia" },
+        { rot: "Dose mínima efetiva", val: "50 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 342 },
+        { rot: "Idoso", val: "início 25 a 50 mg pela manhã · manutenção 50 a 100 mg pela manhã · máximo 100 mg (ocasionalmente até 150 mg pela manhã)", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 701 },
+        { rot: "Criança e adolescente", val: "início 25 mg/dia; dose efetiva usual na faixa 50 a 100 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 626 }
       ],
       porque: "Perfil de interação mais limpo que o da fluoxetina e o da paroxetina — inibe " +
               "menos o citocromo. É o que a torna a escolha tradicional em quem já toma muita " +
@@ -656,7 +691,10 @@ PSICOFARMACOS.classes.push({
       apres: "comprimido",
       dose: [
         { rot: "Dose usual", val: "10 mg/dia" },
-        { rot: "Faixa terapêutica", val: "10 a 30 mg/dia" }
+        { rot: "Faixa terapêutica", val: "10 a 30 mg/dia" },
+        { rot: "Dose mínima efetiva", val: "10 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 342 },
+        { rot: "Idoso", val: "início 5 mg pela manhã · manutenção 5 a 10 mg pela manhã · máximo 10 mg pela manhã", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 701 },
+        { rot: "Criança e adolescente", val: "início 5 mg/dia; dose efetiva 10 a 20 mg", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 626 }
       ],
       porque: "É o ISRS mais seletivo da lista, o que se traduz em boa tolerabilidade e poucas " +
               "interações. O preço aparece no QT em dose alta.",
@@ -676,7 +714,8 @@ PSICOFARMACOS.classes.push({
       apres: "comprimido",
       dose: [
         { rot: "Dose usual", val: "20 mg/dia" },
-        { rot: "Faixa terapêutica", val: "10 a 50 mg/dia" }
+        { rot: "Faixa terapêutica", val: "10 a 50 mg/dia" },
+        { rot: "Dose mínima efetiva", val: "20 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 342 }
       ],
       porque: "É o ISRS mais sedativo e o mais anticolinérgico — e o de meia-vida mais curta " +
               "sem metabólito ativo. Essa combinação explica as duas pontas: ajuda quando há " +
@@ -698,7 +737,10 @@ PSICOFARMACOS.classes.push({
       apres: "comprimido",
       dose: [
         { rot: "Dose usual", val: "20 mg/dia" },
-        { rot: "Faixa terapêutica", val: "20 a 60 mg/dia" }
+        { rot: "Faixa terapêutica", val: "20 a 60 mg/dia" },
+        { rot: "Dose mínima efetiva", val: "20 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 342 },
+        { rot: "Idoso", val: "início 10 mg pela manhã · manutenção 10 a 20 mg pela manhã · máximo 20 mg pela manhã", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 700 },
+        { rot: "Criança e adolescente", val: "início 10 mg/dia; dose efetiva 10 a 40 mg (observar efeito QT)", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 626 }
       ],
       porque: "Mistura racêmica da qual o escitalopram é o enantiômero ativo. Perfil " +
               "semelhante, com poucas interações.",
@@ -707,6 +749,7 @@ PSICOFARMACOS.classes.push({
       contraind: "Uso de IMAO. QT longo.",
       adversos: "Os do grupo. QT dose-dependente.",
       monitor: "Reavaliar em 2 a 4 semanas.",
+      diverge: "CAB nº 34 (2013) descreve faixa terapêutica de 20 a 60 mg/dia; o Maudsley 15ª (p. 700) limita o idoso a 20 mg pela manhã.",
       fonte: "MS — CAB nº 34, Saúde Mental, 2013"
     },
     {
@@ -718,7 +761,8 @@ PSICOFARMACOS.classes.push({
         { rot: "Regra dos tricíclicos", val: "sempre iniciar com 25 mg e aumentar 25 mg a cada 2 a 3 dias até o nível terapêutico" },
         { rot: "Dose usual", val: "150 a 200 mg/dia" },
         { rot: "Faixa terapêutica", val: "50 a 300 mg/dia" },
-        { rot: "Limiar antidepressivo", val: "o efeito antidepressivo só aparece ACIMA de 100 mg/dia — abaixo disso trata dor e insônia, não depressão" }
+        { rot: "Limiar antidepressivo", val: "o efeito antidepressivo só aparece ACIMA de 100 mg/dia — abaixo disso trata dor e insônia, não depressão" },
+        { rot: "Dose mínima efetiva", val: "tricíclicos: pelo menos 75 a 100 mg/dia, possivelmente 125 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 342 }
       ],
       porque: "Bloqueia recaptação de serotonina e noradrenalina, e de quebra os receptores " +
               "histamínico, muscarínico e alfa-1. A ação em dor neuropática e em sono aparece " +
@@ -745,7 +789,9 @@ PSICOFARMACOS.classes.push({
       dose: [
         { rot: "Dose usual", val: "150 a 200 mg/dia" },
         { rot: "Faixa terapêutica", val: "50 a 300 mg/dia" },
-        { rot: "Ajuste por quadro", val: "doses MENORES costumam bastar no transtorno do pânico; doses MAIORES são necessárias no TOC" }
+        { rot: "Ajuste por quadro", val: "doses MENORES costumam bastar no transtorno do pânico; doses MAIORES são necessárias no TOC" },
+        { rot: "Dose mínima efetiva", val: "tricíclicos: pelo menos 75 a 100 mg/dia, possivelmente 125 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 342 },
+        { rot: "Idoso", val: "início 10 mg à noite · manutenção 30 a 75 mg/dia · máximo 75 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 700 }
       ],
       porque: "É o tricíclico mais serotoninérgico — e é por isso que se destaca no TOC, onde " +
               "a resposta é proporcional ao bloqueio de recaptação de serotonina.",
@@ -764,7 +810,8 @@ PSICOFARMACOS.classes.push({
       apres: "comprimido",
       dose: [
         { rot: "Dose usual", val: "150 a 200 mg/dia" },
-        { rot: "Faixa terapêutica", val: "50 a 300 mg/dia" }
+        { rot: "Faixa terapêutica", val: "50 a 300 mg/dia" },
+        { rot: "Dose mínima efetiva", val: "tricíclicos: pelo menos 75 a 100 mg/dia, possivelmente 125 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 342 }
       ],
       porque: "Tricíclico de perfil intermediário, menos sedativo que a amitriptilina.",
       escolher: "Alternativa dentro da classe quando a sedação da amitriptilina incomoda.",
@@ -782,7 +829,9 @@ PSICOFARMACOS.classes.push({
       dose: [
         { rot: "Esquema no tabagismo", val: "1º ao 3º dia: 1 comprimido de 150 mg pela manhã. 4º ao 84º dia: 150 mg pela manhã e outro 150 mg oito horas após a primeira tomada" },
         { rot: "Duração", val: "84 dias no protocolo de cessação" },
-        { rot: "Dose em depressão", val: "sem fonte brasileira datada conferida — confirmar no protocolo do serviço" }
+        { rot: "Dose em depressão", val: "sem fonte brasileira datada conferida — confirmar no protocolo do serviço" },
+        { rot: "Dose mínima efetiva", val: "150 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 342 },
+        { rot: "Idoso", val: "liberação imediata: 100 mg 2x/dia; pode aumentar para 100 mg 3x/dia após 3 dias; máximo 300 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 700 }
       ],
       porque: "Não é serotoninérgica: age em dopamina e noradrenalina. É por isso que não causa " +
               "disfunção sexual nem ganho de peso — os dois efeitos que mais fazem paciente " +
@@ -961,7 +1010,8 @@ PSICOFARMACOS.classes.push({
         { rot: "Faixa terapêutica", val: "2,5 a 30 mg/dia" },
         { rot: "Dose usual", val: "10 mg" },
         { rot: "Perfil", val: "ansiolítico e para insônia terminal" },
-        { rot: "Abstinência alcoólica", val: "Estágio 2 (agitação, tremor, alucinação): 10–20 mg VO de hora em hora até sintomas leves, com SAMU e encaminhamento. Estágio 3 (convulsão): 10 mg EV até de hora em hora enquanto aguarda o SAMU. Não é titulação genérica de SAA leve/APS.", f: "MS — Linha de Cuidado: Transtornos por uso de álcool no adulto, manejo inicial/conduta, consulta em 2026-09-23" }
+        { rot: "Abstinência alcoólica", val: "Estágio 2 (agitação, tremor, alucinação): 10–20 mg VO de hora em hora até sintomas leves, com SAMU e encaminhamento. Estágio 3 (convulsão): 10 mg EV até de hora em hora enquanto aguarda o SAMU. Não é titulação genérica de SAA leve/APS.", f: "MS — Linha de Cuidado: Transtornos por uso de álcool no adulto, manejo inicial/conduta, consulta em 2026-09-23" },
+        { rot: "Idoso", val: "agitação: início 1 mg 3x/dia · manutenção 1 mg 3x/dia · máximo 7,5 a 15 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 710 }
       ],
       porque: "Meia-vida muito longa com metabólitos ativos: o nível cai sozinho, devagar. " +
               "É exatamente o que se quer numa abstinência alcoólica — a própria " +
@@ -988,7 +1038,8 @@ PSICOFARMACOS.classes.push({
         { rot: "Dose usual", val: "0,5 a 2 mg" },
         { rot: "Perfil", val: "intermediário; por vezes usado no tratamento da epilepsia" },
         { rot: "Acatisia", val: "0,5 a 2 mg/dia, como alternativa ao propranolol" },
-        { rot: "Retirada", val: "em gotas, reduzir 1 gota (cerca de 0,12 mg) a cada 2 semanas ou mais" }
+        { rot: "Retirada", val: "em gotas, reduzir 1 gota (cerca de 0,12 mg) a cada 2 semanas ou mais" },
+        { rot: "Idoso", val: "agitação: início 0,5 mg/dia · manutenção 1 a 2 mg/dia · máximo 4 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 710 }
       ],
       porque: "Junta meia-vida longa com apresentação em gotas. A gota é o detalhe que decide: " +
               "sem ela, o degrau mínimo de retirada é grande demais e o paciente não consegue " +
@@ -1012,7 +1063,8 @@ PSICOFARMACOS.classes.push({
         { rot: "Meia-vida", val: "6 a 20 horas" },
         { rot: "Faixa terapêutica", val: "0,5 a 6 mg/dia" },
         { rot: "Dose usual", val: "2 mg" },
-        { rot: "Perfil", val: "intermediário" }
+        { rot: "Perfil", val: "intermediário" },
+        { rot: "Idoso", val: "apenas se necessário — evitar uso regular · início 0,5 mg/dia · manutenção 0,5 a 2 mg/dia · máximo 2 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 710 }
       ],
       porque: "Não depende de oxidação hepática — é conjugado e eliminado por via renal. É o " +
               "único da lista que o fígado doente não acumula.",

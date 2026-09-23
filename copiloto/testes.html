@@ -414,7 +414,7 @@ code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
 
   /* A seção farmaco é nova: o lint já cobre fonte, aqui cobre existência. */
   var psiq = QUEIXAS.filter(function(q){ return q.tag === 'Psiquiatria'; });
-  ver('as queixas de psiquiatria entraram', psiq.length >= 8, 'true');
+  ver('as queixas de psiquiatria entraram', psiq.length >= 22, 'true');
   ver('toda queixa de psiquiatria tem tratamento farmacológico',
       psiq.filter(function(q){ return !q.farmaco || !q.farmaco.itens.length; }).length, '0');
   ver('toda queixa de psiquiatria tem red flags',
@@ -556,6 +556,47 @@ code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
     });
   });
   ver('onda 2 · toda entrada do No Brasil é de um cartão e está completa', brRuim.join(', '), '');
+
+  /* ---------- onda 2 · conteúdo (integrado em 23/09/2026) ---------- */
+  var NOVAS = ['toc','tept','demencia','insonia','tdah','tea','transtornos-alimentares',
+    'personalidade-borderline','perinatal','infanto-juvenil','emergencia-psicofarmaco',
+    'outras-substancias','clozapina','troca-retirada'];
+  ver('onda 2 · os 14 guias entraram',
+      NOVAS.filter(function(id){ return !QUEIXAS.some(function(q){ return q.id === id && q.tag === 'Psiquiatria'; }); }).join(', '), '');
+  var REGISTRO = ['venlafaxina','mirtazapina','trazodona','duloxetina','fluvoxamina','naltrexona',
+    'acamprosato','dissulfiram','tiamina','donepezila','rivastigmina','galantamina','memantina',
+    'metilfenidato','lisdexanfetamina','atomoxetina','clonidina','zolpidem','melatonina',
+    'naloxona','metadona','buprenorfina','dantroleno','bromocriptina','ciproeptadina',
+    'flumazenil','prazosina'];
+  ver('onda 2 · os 27 cartões do registro existem', REGISTRO.filter(function(id){ return !IDS_FX[id]; }).join(', '), '');
+  var COMPOSTOS = ['venlafaxina-mirtazapina-trazodona-duloxetina','naltrexona-acamprosato-dissulfiram',
+    'abstinencia-alcoolica-aguda-e-tiamina'];
+  ver('onda 2 · nenhum cartão composto sobrou', COMPOSTOS.filter(function(id){ return IDS_FX[id]; }).join(', '), '');
+  ver('onda 2 · nenhuma queixa aponta para cartão composto',
+      comForm.filter(function(q){ return q.formulario.farmacos.some(function(r){ return COMPOSTOS.indexOf(r.id) > -1; }); })
+             .map(function(q){ return q.id; }).join(', '), '');
+  ver('onda 2 · todo cartão tem a linha No Brasil',
+      FX.filter(function(f){ return !BRASIL[f.id]; }).map(function(f){ return f.id; }).join(', '), '');
+  function dmDe(qid){ var q = QUEIXAS.filter(function(x){ return x.id === qid; })[0]; return q.formulario.dosemuda || []; }
+  ver('onda 2 · dosemuda ligada nas três queixas',
+      dmDe('transtorno-bipolar').indexOf('dm-quetiapina') > -1 &&
+      dmDe('psicose-esquizofrenia').indexOf('dm-clorpromazina') > -1 &&
+      dmDe('depressao-maior').indexOf('dm-amitriptilina') > -1, 'true');
+  var DOSE_TXT = /[0-9]+(?:[.,][0-9]+)?\s*(?:mg|mcg|\u00b5g|mL|mEq|UI)\b/i, doseNaQueixa = [];
+  QUEIXAS.filter(function(q){ return NOVAS.indexOf(q.id) > -1; }).forEach(function(q){
+    ['redflags','perguntas','exame','naoperder','ddx','exames','farmaco','conduta','erros'].forEach(function(k){
+      ((q[k] || {}).itens || []).forEach(function(i){
+        if (DOSE_TXT.test(typeof i === 'string' ? i : i.t)) doseNaQueixa.push(q.id + '/' + k);
+      });
+    });
+  });
+  ver('onda 2 · guia novo não escreve dose: o número mora no cartão', doseNaQueixa.join(', '), '');
+  var linhasMaud = 0;
+  FX.forEach(function(f){ (f.dose || []).forEach(function(d){ if ((d.f || f.fonte || '').indexOf(MAUD) > -1) linhasMaud++; }); });
+  ver('onda 2 · o Maudsley entrou nas doses', linhasMaud > 20, 'true');
+  var alc = QUEIXAS.filter(function(q){ return q.id === 'alcool-transtorno-uso'; })[0];
+  ver('onda 2 · o álcool não diz mais que falta fonte de dose que já existe',
+      alc.farmaco.itens.filter(function(i){ return /sem fonte brasileira datada conferida/.test(typeof i === 'string' ? i : i.t); }).length, '0');
 
   document.querySelector('#tc tbody').innerHTML = linhas.join('');
 

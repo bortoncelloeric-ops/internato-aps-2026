@@ -167,6 +167,40 @@ ok('todas as queixas de psiquiatria renderizam o formulário sem órfão',
        document.getElementById('voltar').click();
      }
      return bons===ids.length && ids.length===QUEIXAS.filter(q=>q.tag==='Psiquiatria').length})()`), true);
+/* ---------- onda 2 (23/09/2026): os 14 guias novos, pela tela ---------- */
+const NOVAS = ['toc','tept','demencia','insonia','tdah','tea','transtornos-alimentares',
+  'personalidade-borderline','perinatal','infanto-juvenil','emergencia-psicofarmaco',
+  'outras-substancias','clozapina','troca-retirada'];
+/* "clozapina" é id de queixa E de cartão: o clique no card da lista tem de abrir a QUEIXA. */
+ok('onda 2 · os 14 guias novos abrem com red flags, formulário e sem órfão',
+   await evalJS(`(()=>{const ids=${JSON.stringify(NOVAS)}; let bons=0;
+     for (const id of ids){
+       document.querySelector('[data-id="'+id+'"]') || document.getElementById('voltar').click();
+       const b=document.querySelector('.qcard[data-id="'+id+'"]'); if(!b) continue;
+       b.click();
+       const t=document.getElementById('detalhe').textContent;
+       if(document.querySelector('#detalhe .rf') && document.querySelectorAll('#detalhe .fx-op').length>0 &&
+          t.indexOf('não encontrado')<0 && document.querySelector('#detalhe h1').textContent===QUEIXAS.find(q=>q.id===id).nome) bons++;
+       document.getElementById('voltar').click();
+     }
+     return bons})()`), NOVAS.length);
+for (const [termo, id] of [['clozapina','clozapina'],['sialorreia','clozapina'],['crack','outras-substancias'],
+    ['insonia','insonia'],['serotoninergica','emergencia-psicofarmaco'],['puerperio','perinatal'],
+    ['metilfenidato','tdah'],['donepezila','demencia'],['borderline','personalidade-borderline'],['anorexia','transtornos-alimentares']]) {
+  await evalJS(`(()=>{const q=document.getElementById('q');q.value='${termo}';q.dispatchEvent(new Event('input'));})()`);
+  ok(`onda 2 · busca "${termo}" acha ${id}`,
+     await evalJS(`[...document.querySelectorAll('.qcard')].some(c=>c.dataset.id==='${id}')`), true);
+}
+await evalJS(`(()=>{const q=document.getElementById('q');q.value='';q.dispatchEvent(new Event('input'));})()`);
+await evalJS(`document.querySelector('.qcard[data-id="depressao-maior"]').click()`); await espera(250);
+ok('onda 2 · dentro da queixa, o cartão aberto mostra No Brasil',
+   await evalJS(`(()=>{const d=[...document.querySelectorAll('#detalhe .fx-op')].find(x=>x.textContent.indexOf('Fluoxetina')>-1);
+     return !!d && [...d.querySelectorAll('.fx-lin b')].some(b=>b.textContent==='No Brasil')})()`), true);
+ok('onda 2 · os cartões desmembrados aparecem na depressão',
+   await evalJS(`['Venlafaxina','Mirtazapina','Trazodona','Duloxetina'].every(n=>document.getElementById('detalhe').textContent.indexOf(n)>-1)`), true);
+ok('onda 2 · a dose muda a função da amitriptilina aparece na depressão',
+   await evalJS(`document.getElementById('detalhe').textContent.indexOf('Dose muda a função')>-1`), true);
+await evalJS(`document.getElementById('voltar').click()`); await espera(200);
 /* Reabre a depressão: o resto do e2e continua a partir dela, e a varredura
    acima passou por todas. */
 await evalJS(`document.querySelector('[data-id="depressao-maior"]').click()`);
@@ -567,6 +601,10 @@ ok('onda 2 · No Brasil vem logo abaixo da dose',
 ok('onda 2 · Fontes divergem aparece quando o cartão diverge',
    await evalJS(`(()=>{const c=${CARTAO_TESTE};
      return [...c.querySelectorAll('.fx-lin b')].some(b=>b.textContent==='Fontes divergem')})()`), true);
+ok('onda 2 · no painel há linha do Maudsley com página, fora do cartão de teste',
+   await evalJS(`[...document.querySelectorAll('#vfar .fx-dose .fx-cite')].some(s=>
+     new RegExp('p[.] [0-9]+').test(s.textContent) && s.textContent.indexOf('Maudsley')>-1 &&
+     s.closest('.fx').querySelector('.fx-nome').textContent.indexOf('Cartão de teste')<0)`), true);
 /* Contra os dados, cartão a cartão: a linha aparece se e só se o dado existe. */
 ok('onda 2 · No Brasil e Fontes divergem espelham os dados em todo cartão',
    await evalJS(`(()=>{const fx=PSICOFARMACOS.classes.flatMap(c=>c.farmacos);
