@@ -153,8 +153,8 @@ ok('o proibido da clozapina aparece na queixa certa',
    await evalJS(`document.getElementById('detalhe').textContent.indexOf('Clozapina sem hemograma')>-1`), true);
 ok('nenhum id órfão na segunda queixa',
    await evalJS(`document.getElementById('detalhe').textContent.indexOf('não encontrado')>-1`), false);
-/* Todas as oito, de uma vez: abre cada queixa e confere que o bloco montou. */
-ok('as oito queixas de psiquiatria renderizam o formulário sem órfão',
+/* Todas, de uma vez: abre cada queixa de psiquiatria e confere que o bloco montou. */
+ok('todas as queixas de psiquiatria renderizam o formulário sem órfão',
    await evalJS(`(()=>{const ids=QUEIXAS.filter(q=>q.formulario).map(q=>q.id);
      let bons=0;
      for (const id of ids){
@@ -166,9 +166,9 @@ ok('as oito queixas de psiquiatria renderizam o formulário sem órfão',
        if(document.querySelectorAll('#detalhe .fx-op').length>0 && t.indexOf('não encontrado')<0) bons++;
        document.getElementById('voltar').click();
      }
-     return bons===ids.length && ids.length===8})()`), true);
+     return bons===ids.length && ids.length===QUEIXAS.filter(q=>q.tag==='Psiquiatria').length})()`), true);
 /* Reabre a depressão: o resto do e2e continua a partir dela, e a varredura
-   acima passou por todas as oito. */
+   acima passou por todas. */
 await evalJS(`document.querySelector('[data-id="depressao-maior"]').click()`);
 await espera(300);
 /* Antes isto se apoiava numa queixa sem `exames` escrita. As oito de
@@ -534,11 +534,46 @@ ok('EEM traz a fonte em cada domínio',
    await evalJS(`document.querySelectorAll('#veem details.sec .src').length === EEM.secoes.length`), true);
 await evalJS(`document.getElementById('voltar').click()`);
 
+/* Contrato do renderer para os campos da onda 2 (23/09/2026). Um cartão de teste
+   é injetado EM MEMÓRIA antes da primeira renderização do painel — não é dado
+   clínico, não toca arquivo e some ao recarregar. Os dados reais são conferidos
+   no bloco da onda 2, mais acima. */
+await evalJS(`(()=>{
+  const fx = {nome:'Cartão de teste', id:'cartao-de-teste', kw:'', apres:'teste',
+    dose:[{rot:'Faixa', val:'10 a 20 mg/dia'},
+          {rot:'Idoso', val:'5 mg/dia', f:'Maudsley Prescribing Guidelines, 15ª ed., 2025', p:700}],
+    porque:'teste', escolher:'teste', evitar:'teste', contraind:'teste', adversos:'teste', monitor:'teste',
+    diverge:'CAB nº 34 (2013) diz A; Maudsley 15ª (p. 700) diz B.',
+    fonte:'MS — CAB nº 34, Saúde Mental, 2013'};
+  PSICOFARMACOS.classes.push({rot:'Cartão de teste', kw:'', farmacos:[fx]});
+  BRASIL['cartao-de-teste'] = {receita:'C1 — teste', sus:'teste', registro:'teste', f:'Portaria SVS/MS nº 344/1998'};
+})()`);
+
 ok('Psicofármacos abre pelo header', await evalJS(`(()=>{document.getElementById('farmacos').click();
    return !document.getElementById('vfar').classList.contains('hide')})()`), true);
 ok('o formulário renderiza um cartão por fármaco',
    await evalJS(`document.querySelectorAll('#vfar .fx').length ===
      PSICOFARMACOS.classes.reduce((n,c)=>n+c.farmacos.length,0)`), true);
+
+const CARTAO_TESTE = `[...document.querySelectorAll('#vfar .fx')].find(c=>c.querySelector('.fx-nome').textContent.indexOf('Cartão de teste')>-1)`;
+ok('onda 2 · linha de dose com fonte própria mostra a fonte e a página',
+   await evalJS(`(()=>{const c=${CARTAO_TESTE};
+     return !!c && [...c.querySelectorAll('.fx-dose .fx-cite')].some(s=>s.textContent.indexOf('p. 700')>-1 && s.textContent.indexOf('Maudsley')>-1)})()`), true);
+ok('onda 2 · linha sem fonte própria não ganha citação',
+   await evalJS(`(()=>{const c=${CARTAO_TESTE}; return c.querySelectorAll('.fx-dose .fx-cite').length})()`), 1);
+ok('onda 2 · No Brasil vem logo abaixo da dose',
+   await evalJS(`(()=>{const c=${CARTAO_TESTE}; const n=c.querySelector('.fx-dose').nextElementSibling;
+     return !!n && n.querySelector('b').textContent==='No Brasil' && n.textContent.indexOf('C1')>-1})()`), true);
+ok('onda 2 · Fontes divergem aparece quando o cartão diverge',
+   await evalJS(`(()=>{const c=${CARTAO_TESTE};
+     return [...c.querySelectorAll('.fx-lin b')].some(b=>b.textContent==='Fontes divergem')})()`), true);
+/* Contra os dados, cartão a cartão: a linha aparece se e só se o dado existe. */
+ok('onda 2 · No Brasil e Fontes divergem espelham os dados em todo cartão',
+   await evalJS(`(()=>{const fx=PSICOFARMACOS.classes.flatMap(c=>c.farmacos);
+     const dom=[...document.querySelectorAll('#vfar .fx')];
+     if (dom.length!==fx.length) return 'contagem';
+     return dom.every((c,i)=>{const bs=[...c.querySelectorAll('.fx-lin b')].map(b=>b.textContent);
+       return bs.includes('No Brasil')===!!BRASIL[fx[i].id] && bs.includes('Fontes divergem')===!!fx[i].diverge;})})()`), true);
 
 /* A INVARIANTE, conferida no DOM e não só nos dados: nenhum cartão mostra
    dígito de dose sem mostrar de onde veio. Foi a condição para o projeto
@@ -552,8 +587,11 @@ ok('nenhum dígito de dose sob tarja VERIFICAR',
        const t = (c.querySelector('.fx-dose') || {textContent:''}).textContent;
        return ![...'0123456789'].some(d => t.includes(d));
      })`), true);
-ok('o formulário marca o que não tem fonte conferida',
-   await evalJS(`document.querySelectorAll('#vfar .fx-nome .vf').length > 0`), true);
+/* Exato, não "maior que zero": na onda 2 os VERIFICAR de dose podem zerar, e
+   o que se trava é que cada cartão sem fonte aparece marcado — nem mais, nem menos. */
+ok('o formulário marca exatamente os cartões sem fonte conferida',
+   await evalJS(`document.querySelectorAll('#vfar .fx-nome .vf').length ===
+     PSICOFARMACOS.classes.reduce((n,c)=>n+c.farmacos.filter(f=>f.v).length,0)`), true);
 /* Seções de combinação (onda 1.5): relação, não propriedade de um fármaco. */
 ok('as três seções de combinação renderizam',
    await evalJS(`document.querySelectorAll('#vfar .fx-rel').length ===

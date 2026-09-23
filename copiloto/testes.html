@@ -35,6 +35,7 @@ code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
 <script src="guia-contrato.js"></script>
 <script src="eem.js"></script>
 <script src="psicofarmacos.js"></script>
+<script src="brasil.js"></script>
 <script>
 (function(){
   var C = {}; CALCS.forEach(function(c){ C[c.id] = c; });
@@ -510,6 +511,51 @@ code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
       dep.combos.indexOf('dep-resistente-cetamina') > -1, 'true');
   ver('depressão · o proibido que mais custa caro está referenciado',
       dep.proibidos.indexOf('ad-monoterapia-tab') > -1, 'true');
+
+  /* ---------- onda 2 (23/09/2026): fonte por linha, divergência, No Brasil ----------
+     Com o Maudsley, o mesmo cartão passa a ter duas fontes, e a regra "quem
+     responde de onde veio é o número" desce do cartão para a linha de dose. */
+  var MAUD = 'Maudsley Prescribing Guidelines, 15ª ed., 2025';
+  var linhaSemFonte = [], maudSemPag = [], pagSemMaud = [], fLinhaRuim = [], maudVariante = [];
+  FX.forEach(function(f){
+    (f.dose || []).forEach(function(d){
+      var src = d.f || f.fonte || '', ehMaud = src.indexOf(MAUD) > -1, cita = f.id + ' · ' + d.rot;
+      if (DIGITO.test(d.val) && (f.v || /^VERIFICAR/.test(src))) linhaSemFonte.push(cita);
+      if (src.indexOf('Maudsley') > -1 && !ehMaud) maudVariante.push(cita);
+      if (ehMaud && DIGITO.test(d.val) &&
+          !(typeof d.p === 'number' && d.p % 1 === 0 && d.p >= 1 && d.p <= 974)) maudSemPag.push(cita);
+      if (d.p != null && !ehMaud) pagSemMaud.push(cita);
+      if (d.f && (d.f.indexOf(' · ') > -1 || !fonteValida(d.f))) fLinhaRuim.push(cita);
+    });
+  });
+  ver('onda 2 · toda linha de dose com dígito tem fonte conferida', linhaSemFonte.join(', '), '');
+  ver('onda 2 · linha do Maudsley traz a página impressa', maudSemPag.join(', '), '');
+  ver('onda 2 · página só aparece em linha do Maudsley', pagSemMaud.join(', '), '');
+  ver('onda 2 · fonte de linha é uma só e está no allowlist', fLinhaRuim.join(', '), '');
+  ver('onda 2 · o Maudsley é citado pela string canônica', maudVariante.join(', '), '');
+
+  ver('onda 2 · divergência cita as duas fontes',
+      FX.filter(function(f){
+        if (f.diverge == null) return false;
+        var t = String(f.diverge);
+        return !(t.indexOf('Maudsley') > -1 && /CAB|PCDT|Portaria|MS —|ABP|ABS|Manual|Consenso/.test(t));
+      }).map(function(f){ return f.id; }).join(', '), '');
+
+  ver('brasil.js carregou', typeof BRASIL !== 'undefined', 'true');
+  var RECEITA = /^((A[1-3]|B[1-2]|C[1-5]) — |sem controle especial|não se aplica|VERIFICAR)/;
+  var brRuim = [];
+  Object.keys(BRASIL).forEach(function(id){
+    var b = BRASIL[id];
+    if (!IDS_FX[id]) { brRuim.push(id + ': não é cartão'); return; }
+    ['receita', 'sus', 'registro', 'f'].forEach(function(k){
+      if (!b[k] || b[k] === '—') brRuim.push(id + ': sem ' + k);
+    });
+    if (b.receita && !RECEITA.test(b.receita)) brRuim.push(id + ': receita fora das listas da Portaria 344');
+    String(b.f || '').split(' · ').forEach(function(p){
+      if (p.trim() && !fonteValida(p.trim())) brRuim.push(id + ': fonte fora do allowlist — ' + p.trim());
+    });
+  });
+  ver('onda 2 · toda entrada do No Brasil é de um cartão e está completa', brRuim.join(', '), '');
 
   document.querySelector('#tc tbody').innerHTML = linhas.join('');
 

@@ -269,6 +269,9 @@ li.v{background:var(--amb-w); margin-left:-.5rem; padding:.3rem .5rem; border-ra
 .fx-lin b{display:block; font-weight:600; font-size:var(--fs-sm);
           text-transform:uppercase; letter-spacing:.03em; color:var(--mut)}
 .fx-lin span{font-size:var(--fs-md)}
+/* Citação de uma linha de dose ou do No Brasil (onda 2): mesmo tom do rodapé
+   de fonte. `.fx .fx-cite` vence `.fx-lin span`, que fixaria o tamanho maior. */
+.fx .fx-cite{display:block; font-size:var(--fs-sm); color:var(--mut); font-style:italic; margin-top:.1rem}
 .fx-quando{font-size:var(--fs-md); margin:0 0 .7rem}
 .fx-quando b{color:var(--acc-d)}
 @media(max-width:479px){ .fx-dose{grid-template-columns:1fr; gap:.1rem .5rem}
@@ -391,6 +394,7 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
 <script src="anotacao.js"></script>
 <script src="eem.js"></script>
 <script src="psicofarmacos.js"></script>
+<script src="brasil.js"></script>
 <script>
 (function(){
   var elQ = document.getElementById('q'),
@@ -1055,6 +1059,28 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
     elEem.innerHTML = painelHTML(e, 'Exame do Estado Mental');
   }
 
+  /* Uma linha de dose. Com o Maudsley (23/09/2026) o mesmo cartão passou a ter
+     mais de uma fonte: a linha que tem fonte ou página própria mostra isso
+     embaixo do número. A que não tem herda a do cartão, que sai no rodapé. */
+  function doseLinhaHTML(d){
+    var cite = (d.f || d.p)
+      ? '<span class="fx-cite">' + (d.f ? esc(d.f) + (d.p ? ' · ' : '') : '') + (d.p ? 'p. ' + d.p : '') + '</span>'
+      : '';
+    return '<span class="fx-drot">' + esc(d.rot) + '</span><span>' + esc(d.val) + cite + '</span>';
+  }
+
+  /* No Brasil (23/09/2026): o Maudsley diz qual e quanto; não diz que receita,
+     se o SUS dispensa, nem se existe registro aqui. Mora em brasil.js, por id,
+     porque é outra fonte e muda por RDC — não por edição do cartão. */
+  function brasilHTML(id){
+    var b = typeof BRASIL !== 'undefined' ? BRASIL[id] : null;
+    if (!b) return '';
+    return '<div class="fx-lin"><b>No Brasil</b><span>' +
+           (b.v ? '<span class="vf">VERIFICAR</span>' : '') +
+           esc('Receita: ' + b.receita + ' · SUS: ' + b.sus + ' · Registro: ' + b.registro) +
+           '<span class="fx-cite">' + esc(b.f) + '</span></span></div>';
+  }
+
   /* Um fármaco não cabe em par termo/explicação: tem dose, escolha,
      contraindicação, efeito adverso, monitorização — e fonte PRÓPRIA, porque
      quem precisa responder de onde veio é o número, não a classe. */
@@ -1062,11 +1088,10 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
     var h = '<div class="fx"><div class="fx-nome">' +
             (f.v ? '<span class="vf">VERIFICAR</span>' : '') + esc(f.nome) + '</div>';
     if (f.apres) h += '<div class="fx-apres">' + esc(f.apres) + '</div>';
-    if (f.dose && f.dose.length) {
-      h += '<div class="fx-dose">' + f.dose.map(function(d){
-        return '<span class="fx-drot">' + esc(d.rot) + '</span><span>' + esc(d.val) + '</span>';
-      }).join('') + '</div>';
-    }
+    if (f.dose && f.dose.length) h += '<div class="fx-dose">' + f.dose.map(doseLinhaHTML).join('') + '</div>';
+    h += brasilHTML(f.id);
+    /* Divergência não é dívida: sem cor nova (DESIGN.md — âmbar é só VERIFICAR). */
+    if (f.diverge) h += '<div class="fx-lin"><b>Fontes divergem</b><span>' + esc(f.diverge) + '</span></div>';
     /* A ordem é a da decisão real: primeiro por que ESTE fármaco existe e o que o
        distingue, depois quando serve, quando não serve, o que a bula proíbe, o que
        incomoda e o que se acompanha. */
@@ -1104,12 +1129,13 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
 
   /* Dose para a linha fechada: só a usual ou a faixa, e só se couber. Esquema de
      titulação e "sem fonte conferida" não cabem numa linha — nesses o número
-     aparece quando o card abre, onde vem acompanhado da fonte. */
+     aparece quando o card abre, onde vem acompanhado da fonte. Linha com fonte
+     própria também não: na linha fechada não cabe a citação. */
   function doseCurta(f){
     if (f.v) return '';
     var ds = f.dose || [];
-    var d = ds.filter(function(x){ return x.rot.indexOf('Dose usual') === 0; })[0] ||
-            ds.filter(function(x){ return x.rot.indexOf('Faixa') === 0; })[0];
+    var d = ds.filter(function(x){ return !x.f && x.rot.indexOf('Dose usual') === 0; })[0] ||
+            ds.filter(function(x){ return !x.f && x.rot.indexOf('Faixa') === 0; })[0];
     return (d && d.val.length <= 40) ? d.val : '';
   }
 

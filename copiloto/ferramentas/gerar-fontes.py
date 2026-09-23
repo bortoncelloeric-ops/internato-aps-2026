@@ -113,11 +113,11 @@ def main():
     fontes += fontes_da_wiki(io.open(caminho_fh, encoding="utf-8").read())
 
     fontes += FONTES_DO_PROJETO
-    # psicofarmacos.js e eem.js entram pelo mesmo caminho: os campos `fonte:`
-    # deles sao curados e passam pelo mesmo criterio (autoridade externa + ano).
+    # psicofarmacos.js, eem.js e brasil.js entram pelo mesmo caminho: os campos
+    # `fonte:`/`f:` deles sao curados e passam pelo mesmo criterio (autoridade externa + ano).
     # queixas-aps.js está estacionado no app mas continua no allowlist: o guia
     # generativo ainda pode citar AIDPI e SISVAN, e a fonte tem de ser válida.
-    for arq in ("queixas.js", "queixas-aps.js", "psicofarmacos.js", "eem.js"):
+    for arq in ("queixas.js", "queixas-aps.js", "psicofarmacos.js", "eem.js", "brasil.js"):
         caminho = os.path.join(COPILOTO, arq)
         if not os.path.exists(caminho):
             print("  ! faltando: %s" % arq)
