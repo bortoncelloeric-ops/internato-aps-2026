@@ -35,6 +35,7 @@ var FONTES_VALIDAS = [
  "Dalgalarrondo, Psicopatologia e Semiologia dos Transtornos Mentais, 3ª ed., Artmed, 2019",
  "MS — CAB nº 34, Saúde Mental, 2013",
  "MS — PCDT Transtorno Afetivo Bipolar do tipo I, Portaria SAS/MS nº 315, 2016",
+ "RENAME 2024",
  "CANMAT 2023 (Can J Psychiatry, 2024)",
  "CFM/CREMEC — Parecer nº 14/2021 (registro ANVISA Resolução-RE nº 4.413, 2020)",
  "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013",
@@ -59,7 +60,10 @@ var FONTES_VALIDAS = [
  "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013; alternativa com clonazepam do CAB nº 34 (MS), 2013",
  "CFM/CREMEC — Parecer nº 14/2021 (registro ANVISA Resolução-RE nº 4.413, 2020); linha de recomendação do CANMAT 2023 (Can J Psychiatry, 2024)",
  "CFM/CREMEC — Parecer nº 14/2021 (uso off-label, Resolução CFM nº 1.982/2012); linhas de recomendação do CANMAT 2023 (Can J Psychiatry, 2024)",
- "CANMAT 2023 (Can J Psychiatry, 2024); registro brasileiro no Parecer CFM/CREMEC nº 14/2021"
+ "CANMAT 2023 (Can J Psychiatry, 2024); registro brasileiro no Parecer CFM/CREMEC nº 14/2021",
+ "Portaria SVS/MS nº 344/1998",
+ "RDC Anvisa nº 1.036/2026",
+ "Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
 ];
 
 var WIKI_PAGINAS = {

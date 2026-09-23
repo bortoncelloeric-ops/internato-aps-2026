@@ -125,7 +125,7 @@ QUEIXAS.push({
       "Tricíclico só quando o ISRS falhou ou quando há indicação clínica associada. Amitriptilina: iniciar 25 mg e subir 25 mg a cada 2 a 3 dias; usual 150 a 200 mg/dia; efeito antidepressivo só acima de 100 mg/dia.",
       "Latência de 2 a 4 semanas para o efeito antidepressivo. Piora inicial de ansiedade e sono é comum e não é falha do fármaco.",
       "Manter a dose plena por 6 a 8 semanas antes de julgar que não funcionou. Trocar antes disso é o erro que cria falsa refratariedade.",
-      { t: "Escitalopram, sertralina, venlafaxina e mirtazapina não constam da RENAME como antidepressivos de uso geral — conferir o que a farmácia tem antes de prescrever", f: "MS — CAB nº 34, Saúde Mental, 2013" },
+      { t: "Escitalopram, sertralina, venlafaxina e mirtazapina não constam da RENAME 2024 como antidepressivos de uso geral. Bupropiona 150 mg de liberação prolongada está no Componente Estratégico — conferir o que a farmácia tem antes de prescrever", f: "RENAME 2024" },
       { t: "Tempo total de tratamento e critério de retirada: confirmar com o protocolo do serviço", v: true }
     ]
   },

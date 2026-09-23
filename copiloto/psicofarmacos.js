@@ -42,7 +42,8 @@ var PSICOFARMACOS = {
       { rot: "O SUS",
         txt: "O que os PCDT listam é o que a farmácia do SUS dispensa por protocolo. " +
              "Escitalopram, sertralina, venlafaxina e mirtazapina não estão na RENAME " +
-             "como antidepressivos de uso geral. Prescrever o que não tem é receita que " +
+             "2024 como antidepressivos de uso geral. Bupropiona 150 mg de liberação " +
+             "prolongada está no Componente Estratégico. Prescrever o que não tem é receita que " +
              "não vira tratamento." },
       { rot: "A ESCOLHA",
         txt: "Dentro de uma classe a eficácia média é parecida — a exceção é a clozapina " +
@@ -960,7 +961,7 @@ PSICOFARMACOS.classes.push({
         { rot: "Faixa terapêutica", val: "2,5 a 30 mg/dia" },
         { rot: "Dose usual", val: "10 mg" },
         { rot: "Perfil", val: "ansiolítico e para insônia terminal" },
-        { rot: "Abstinência alcoólica", val: "10–20 mg VO de hora em hora até sintomas leves no manejo inicial; manter observação, monitorar consciência e respiração e encaminhar casos graves", f: "MS — Linha de Cuidado: Transtornos por uso de álcool no adulto, manejo inicial/conduta, consulta em 2026-09-23" }
+        { rot: "Abstinência alcoólica", val: "Estágio 2 (agitação, tremor, alucinação): 10–20 mg VO de hora em hora até sintomas leves, com SAMU e encaminhamento. Estágio 3 (convulsão): 10 mg EV até de hora em hora enquanto aguarda o SAMU. Não é titulação genérica de SAA leve/APS.", f: "MS — Linha de Cuidado: Transtornos por uso de álcool no adulto, manejo inicial/conduta, consulta em 2026-09-23" }
       ],
       porque: "Meia-vida muito longa com metabólitos ativos: o nível cai sozinho, devagar. " +
               "É exatamente o que se quer numa abstinência alcoólica — a própria " +
