@@ -1485,7 +1485,21 @@ PSICOFARMACOS.combos = {
          "em doses EQUIVALENTES às da depressão, ficando o ansiolítico para tratamento " +
          "sintomático e de curto prazo. O CAB é explícito: prescrever apenas benzodiazepínico " +
          "para queixa crônica de ansiedade é IATROGÊNICO.",
-      f: "MS — CAB nº 34, Saúde Mental, 2013" }
+      f: "MS — CAB nº 34, Saúde Mental, 2013" },
+    {
+      id: "clz-aripiprazol",
+      t: "Clozapina + aripiprazol depois de otimizar",
+      d: "Adjunto, não atalho. O Maudsley admite aripiprazol após otimizar a clozapina: o ganho antipsicótico costuma ser pequeno, o metabólico e a enurese rendem mais. Sem benefício claro em 3 a 6 meses, tira — somar adverso sem efeito é prejuízo.",
+      f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+      p: 220
+    },
+    {
+      id: "trc-cross-taper",
+      t: "Cross-taper de antidepressivo",
+      d: "Desce o que sai enquanto sobe o que entra, no ritmo da tolerância. É o padrão quando não há evento grave e o par não é IMAO. Manter a soma das frações abaixo do teto de cada um. Parada brusca do primeiro só se o adverso for sério.",
+      f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+      p: 366
+    }
   ]
 };
 
@@ -1610,7 +1624,49 @@ PSICOFARMACOS.proibidos = {
          "Wernicke — confusão, ataxia e oftalmoplegia — tratável, e irreversível (Korsakoff) " +
          "se não tratada. EXCEÇÃO: hipoglicemia se corrige imediatamente; dar tiamina " +
          "prontamente, sem atrasar a glicose para esperá-la.",
-      f: "MS — Linha de Cuidado: Transtornos por uso de álcool no adulto, manejo inicial/conduta, consulta em 2026-09-23" }
+      f: "MS — Linha de Cuidado: Transtornos por uso de álcool no adulto, manejo inicial/conduta, consulta em 2026-09-23" },
+    {
+      id: "clz-parar-fumar",
+      t: "Parar tabaco na clozapina sem vigiar o nível",
+      d: "MECANISMO: a fumaça de tabaco induz CYP1A2 por hidrocarboneto policíclico; ao parar, a enzima cai pela metade a cada par de dias e o nível da clozapina sobe. Adesivo, vape e cigarro eletrônico não induzem. DESFECHO: sedação, convulsão, constipação grave e outros efeitos de nível alto, sobretudo na internação. Reduzir com quem prescreve e repetir nível — não esperar toxicidade.",
+      f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+      p: 892
+    },
+    {
+      id: "clz-carbamazepina",
+      t: "Clozapina + carbamazepina",
+      d: "MECANISMO: a carbamazepina deprime medula e ainda induz o citocromo, derrubando o nível da clozapina. DESFECHO: neutropenia somada a recaída por nível baixo. O Maudsley lista a carbamazepina entre os concomitantes hematotóxicos; mielossupressor com clozapina é contraindicação formal. Não é o anticonvulsivante da titulação.",
+      f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+      p: 269
+    },
+    {
+      id: "clz-anticolinergico-sistemico",
+      t: "Anticolinérgico sistêmico de primeira linha na sialorreia da clozapina",
+      d: "MECANISMO: o antimuscarínico sistêmico soma bloqueio colinérgico ao da clozapina no tubo digestivo e no cérebro. DESFECHO: hipomotilidade, íleo e piora cognitiva. A baba se trata; a primeira linha não é o comprimido anticolinérgico — o intestino mata mais que a sialorreia.",
+      f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+      p: 241
+    },
+    {
+      id: "trc-imao-washout",
+      t: "ISRS, dual ou tricíclico cruzado com IMAO sem lavagem",
+      d: "MECANISMO: bloqueio de recaptação somado a bloqueio de degradação de serotonina. DESFECHO: síndrome serotoninérgica. Da fluoxetina para IMAO irreversível esperar 5 a 6 semanas; da clomipramina, 3 semanas; da maior parte dos outros, 2 semanas; da fluvoxamina, 1 semana; do moclobemide, 24 horas. Do IMAO irreversível para outro antidepressivo, 2 semanas, salvo moclobemide (24 horas). O proibido isrs-triciclico-imao continua válido; esta relação traz o intervalo.",
+      f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+      p: 368
+    },
+    {
+      id: "trc-parada-brusca",
+      t: "Parada brusca de antipsicótico ou de antidepressivo de meia-vida curta",
+      d: "MECANISMO: ocupação receptora cai de uma vez sobre um sistema já adaptado (hipersensibilidade D2, serotonina, histamina, acetilcolina). DESFECHO: retirada somática, psicose de descontinuação e recaída concentrada nas primeiras semanas. Paroxetina e venlafaxina são o caso diário no antidepressivo; no antipsicótico o último degrau linear é o maior em D2.",
+      f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+      p: 119
+    },
+    {
+      id: "trc-litio-abrupto",
+      t: "Retirada rápida de lítio",
+      d: "MECANISMO: a adaptação ao lítio persiste depois da queda do nível; o corte rápido desmascara o transtorno e soma retirada. DESFECHO: mania ou depressão em semanas, mesmo em quem estava estável. Descer devagar; golpe não é atalho.",
+      f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+      p: 332
+    }
   ]
 };
 

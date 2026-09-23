@@ -1246,3 +1246,308 @@ QUEIXAS.push({
 
   scores: ["nota-conferencia"]
 });
+
+/* =====================================================================
+ * PSIQUIATRIA — onda 2 (23/09/2026): 12 quadros por doença e 2 por situação
+ * (clozapina, troca e retirada). Mesmas regras da onda 1, e uma a mais: a
+ * queixa não escreve dose — o número mora no cartão do psicofarmacos.js,
+ * com fonte e página.
+ * ===================================================================== */
+
+QUEIXAS.push({
+  id: "clozapina",
+  nome: "Clozapina — início, monitorização e efeitos graves",
+  kw: "clozapina clozaril leponex sialorreia hemograma neutropenia agranulocitose miocardite constipacao ileo convulsao tabagismo refrataria pneumonia",
+  tag: "Psiquiatria",
+  atualizado: "2026-09-23",
+
+  redflags: {
+    fonte: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Febre, dor de garganta ou úlcera oral — hemograma no mesmo dia, não no retorno",
+      "Prisão de ventre nova, distensão, vômito, diarreia de transbordo ou abdome agudo — hipomotilidade e íleo matam mais que agranulocitose",
+      "Dor torácica, dispneia, taquipneia, hipotensão ou mal-estar gripal nas primeiras semanas — miocardite até prova em contrário",
+      "Taquicardia de repouso com febre, hipotensão ou dor no peito — não é a taquicardia benigna do início",
+      "Convulsão ou mioclonia com joelho que cede — reduzir e discutir anticonvulsivante; não subir a titulação",
+      "Parou de fumar, internou ou teve pneumonia — o nível sobe mesmo com adesivo de nicotina",
+      "Última dose há mais de 48 horas — retitular; dose plena de manutenção num ingênuo pode matar",
+      "Citopenia: leucócitos abaixo de 3.000, neutrófilos abaixo de 1.500 ou plaquetas abaixo de 100.000 — suspender e chamar hematologista"
+    ]
+  },
+
+  perguntas: {
+    fonte: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Dois antipsicóticos em dose e tempo adequados já falharam, ou há discinesia tardia ou tentativa de suicídio — é isso que autoriza a clozapina no PCDT",
+      "Há como fazer hemograma semanal nas 18 primeiras semanas, e depois o restante do esquema, sem falha de logística",
+      "Última evacuação: quando, consistência, dor, vômito — o paciente quase não relata constipação grave",
+      "Baba de dia e de noite, engasgo, tosse ao deitar — sialorreia e risco de aspiração",
+      "Fuma quanto, mudou na internação, vapeia ou usa adesivo — só a fumaça de tabaco induz o fígado",
+      "Febre, dor no peito, falta de ar, palpitações nas últimas semanas",
+      "Já teve convulsão, epilepsia ou deficiência intelectual — o PCDT exige parecer de neurologista",
+      "Cardiopatia, diabetes instável, íleo prévio ou agranulocitose por clozapina — contraindicam início na comunidade",
+      "Quem observa o paciente fora do horário e o que fazer se o hemograma vier vermelho",
+      "Outros mielossupressores: carbamazepina, quimioterapia, alguns antibióticos e inibidores de bomba",
+      "Gravidez possível ou lactação — o PCDT manda evitar se a gravidez não puder ser prevenida",
+      "Adesão real: quem guarda o comprimido e quem leva ao laboratório"
+    ]
+  },
+
+  exame: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Pressão sentado e em pé, frequência, saturação, temperatura e frequência respiratória na titulação",
+      "Abdome: distensão, ruídos, dor — exame abdominal antes de iniciar se já há prisão de ventre",
+      "Sialorreia visível, toalha no travesseiro, voz molhada, estertor — pista de aspiração",
+      "Sedação, hipotensão postural e sialorreia são o trio do começo, não sinal de dose plena atingida",
+      "Sinais de insuficiência cardíaca: edema, dispneia, terceira bulha — parar e referir cardiologia",
+      "Peso, cintura e exame metabólico de base — o ganho costuma ser intenso no primeiro ano"
+    ]
+  },
+
+  naoperder: {
+    fonte: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Constipação tratada como detalhe — a hipomotilidade é emergência abdominal",
+      "Febre de titulação tratada como virose, sem hemograma e sem pensar em miocardite ou pneumonia",
+      "Parada de tabaco na enfermaria sem ajuste nem nível",
+      "Anticolinérgico sistêmico de primeira linha para baba — piora o intestino e a cognição",
+      "Chamar de falha a clozapina com poucas semanas: o PCDT pede meses em dose plena",
+      "Reiniciar a dose de manutenção depois de mais de 48 horas parado",
+      "Agranulocitose prévia por clozapina seguida de rechallenge"
+    ]
+  },
+
+  ddx: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Neutropenia coincidental — queda breve, não contínua, outra causa óbvia; a agranulocitose da clozapina cai rápido rumo a zero, em geral nas 18 primeiras semanas",
+      "Febre de titulação — comum nas primeiras 4 semanas, com PCR e eosinófilos altos; ainda assim hemograma no dia e miocardite no DDx",
+      "Miocardite — hipotensão, dispneia, dor torácica, febre ou náusea isolada nas primeiras 6 a 8 semanas",
+      "Taquicardia sinusal benigna do início — frequente e sozinha não manda parar; com febre, hipotensão ou dor no peito vira cardiotoxicidade",
+      "Pneumonia por aspiração da saliva — causa comum de morte; infecção ainda sobe o nível",
+      "Síndrome neuroléptica maligna — rigidez, instabilidade autonômica e CK alta, não só febre de titulação",
+      "Íleo e hipomotilidade — dor, distensão, vômito fecaloide ou diarreia de transbordo; não é prisão de ventre banal",
+      "Convulsão da clozapina — ligada a nível e a subida rápida; mioclonia pode anteceder a crise tônico-clônica"
+    ]
+  },
+
+  exames: {
+    fonte: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Hemograma completo obrigatório antes de iniciar",
+      "No Brasil o PCDT manda semanal nas 18 primeiras semanas e a cada aumento de dose, depois mensal enquanto durar o uso",
+      "O Maudsley, no esquema britânico, acrescenta quinzenal no restante do primeiro ano antes do mensal — divergência: seguir o protocolo do serviço e não misturar os dois calendários",
+      "ECG de base; ecocardiograma se houver indício clínico",
+      "Glicemia, lipídios, função hepática, ureia e eletrólitos de base",
+      { t: "PCR, CK, troponina e peptídeo natriurético na titulação ou se a temperatura passar de 38 °C: conferir o painel do serviço", v: true },
+      "Peso, IMC e cintura no início, no primeiro mês e depois no ritmo metabólico do protocolo"
+    ]
+  },
+
+  farmaco: {
+    fonte: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "A clozapina é o único antipsicótico com lastro claro na refratariedade e o que o PCDT tira da terceira linha na discinesia tardia e na tentativa de suicídio",
+      "Refratariedade no PCDT: falha de pelo menos dois antipsicóticos, cada um por pelo menos 6 semanas em dose adequada, sem queda de 30% na BPRS — salvo suicídio de alto risco ou discinesia tardia grave, que autorizam antes",
+      "Sem combinado real de hemograma seriado não se inicia — não é excesso de zelo",
+      "Titulação lenta e individualizada; o número mora no cartão. Titulação rápida aumenta miocardite, convulsão e falha por intolerância",
+      "Julgar falha só depois de 6 meses em dose plena: o mecanismo é mais lento que o dos outros",
+      "O PCDT não recomenda somar segundo antipsicótico de rotina depois da clozapina; o Maudsley admite adjunto depois de otimizar, com efeito pequeno e reavaliação em 3 a 6 meses",
+      "Parar tabaco (inclusive internar) reduz a indução de CYP1A2: o nível sobe. Adesivo e vape não substituem a fumaça nesse ponto",
+      "Constipação: laxante estimulante cedo, não esperar o relato. Formador de bolo não resolve trânsito lento",
+      "Sialorreia é dose-relacionada e persiste; tratar, porque aspira. Anticolinérgico sistêmico não é primeira linha",
+      "Se a última dose foi há mais de 48 horas, retitular. Interrupção de mais de uma semana trata-se como início de novo",
+      "Saída do PCDT se caiu por agranulocitose: olanzapina, quetiapina, risperidona ou ziprasidona, de preferência as que ainda não foram usadas"
+    ]
+  },
+
+  formulario: {
+    fonte: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    farmacos: [
+      { id: "clozapina", papel: "o fármaco da refratariedade — e a escolha formal do PCDT em discinesia tardia e em tentativa de suicídio" },
+      { id: "aripiprazol", papel: "adjunto depois de otimizar a clozapina — rende mais no metabólico e na enurese do que no delírio residual" },
+      { id: "olanzapina", papel: "saída do PCDT se a clozapina caiu por agranulocitose — não é potencializador de rotina" },
+      { id: "quetiapina", papel: "outra saída do PCDT após interrupção da clozapina" },
+      { id: "risperidona", papel: "saída possível após interrupção; não soma de rotina com a clozapina" },
+      { id: "lamotrigina", outra: true, papel: "depois de convulsão ou sintoma negativo residual — o PCDT ainda não a incorpora como adjunto da clozapina" },
+      { id: "carbonato-de-litio", outra: true, papel: "sobe neutrófilo em neutropenia coincidental — não rechallenge depois de agranulocitose da clozapina" },
+      { id: "terapia-de-reposicao-de-nicotina", outra: true, papel: "substitui nicotina; não induz CYP1A2 — o nível da clozapina sobe mesmo assim" }
+    ],
+    combos: ["clz-aripiprazol"],
+    proibidos: ["clozapina-sem-hemograma", "clz-parar-fumar", "clz-carbamazepina", "clz-anticolinergico-sistemico"]
+  },
+
+  conduta: {
+    fonte: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Combinar hemograma, evacuação e tabaco ANTES da primeira dose — depois a logística vira o risco",
+      "Início na comunidade só se adesão, contato e acesso fora do horário estiverem resolvidos; senão, internar para titulação",
+      "Perguntar evacuação em toda coleta de hemograma; laxante estimulante cedo, não formador de bolo",
+      "Febre: hemograma hoje. Se houver pista cardíaca ou PCR/troponina altas, parar e referir",
+      "Mudança de tabaco: avisar, pedir nível se o serviço tiver, e reduzir com quem prescreve — não esperar toxicidade",
+      "Citopenia do PCDT: suspender, hematologista, e só reavaliar inclusão com parecer",
+      "Agranulocitose atribuída à clozapina: não rechallenge. Neutropenia breve e coincidental é outra conversa, com o serviço de monitorização",
+      "Encaminhar não é transferir: o CAPS que inicia é o que garante a coleta semanal"
+    ]
+  },
+
+  erros: {
+    fonte: "MS — PCDT Esquizofrenia, Portaria SAS/MS nº 364, 2013 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Iniciar clozapina sem combinado de hemograma seriado",
+      "Tratar febre de titulação como virose e não pedir hemograma",
+      "Ignorar prisão de ventre porque o paciente não se queixa",
+      "Anticolinérgico sistêmico de primeira linha para sialorreia",
+      "Parar de fumar na enfermaria sem avisar quem prescreve clozapina",
+      "Chamar de falha a clozapina com poucas semanas em dose ainda em subida",
+      "Reiniciar a dose de manutenção depois de mais de 48 horas parado",
+      "Somar carbamazepina para proteger de convulsão",
+      "Rechallenge depois de agranulocitose da própria clozapina"
+    ]
+  },
+
+  scores: ["nota-conferencia"]
+});
+
+QUEIXAS.push({
+  id: "troca-retirada",
+  nome: "Troca e retirada de psicofármaco",
+  kw: "troca retirada descontinuacao washout imao cross-taper recaida sindrome paroxetina venlafaxina clozapina litio",
+  tag: "Psiquiatria",
+  atualizado: "2026-09-23",
+
+  redflags: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Parar IMAO e começar ISRS ou tricíclico sem lavagem — síndrome serotoninérgica",
+      "Fluoxetina parada há pouco e IMAO iniciado — a meia-vida longa ainda ocupa o sistema",
+      "Clozapina interrompida há mais de 48 horas e retomada na dose de manutenção — hipotensão, convulsão, miocardite",
+      "Lítio parado de golpe — recaída maníaca ou depressiva em semanas, não em meses",
+      "Antipsicótico cortado em dias — recaída e sintomas de retirada, inclusive psicose de descontinuação",
+      "Ideação suicida nova ao retirar paroxetina ou outro ISRS — pode ser retirada, não só recaída",
+      "Rebound colinérgico da clozapina: náusea, diarreia, sudorese, cefaleia, distonia ou catatonia nas primeiras horas e dias"
+    ]
+  },
+
+  perguntas: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Qual fármaco, há quanto tempo, em que dose plena, e por que troca: falha, intolerância ou pedido do paciente",
+      "Já tentou parar antes, e o que apareceu nos primeiros dias",
+      "ISRS, dual, tricíclico ou IMAO — a lavagem muda de par para par",
+      "Fluoxetina recente: mesmo já suspensa, o metabólito ainda conta semanas",
+      "Antipsicótico oral ou depósito, e a última aplicação do depósito",
+      "Clozapina: última tomada, em horas — o corte de 48 horas muda a conduta",
+      "Lítio: última litemia e se a retirada foi rápida",
+      "Tabaco: vai internar ou parar agora, em cima de clozapina ou olanzapina",
+      "Zaps, tontura, náusea, insônia e choque elétrico na cabeça — pista de retirada, não de recaída",
+      "Quanto tempo de remissão: primeiro episódio psicótico ou multi-episódio muda quando se tenta parar",
+      "Outro serotonérgico na lista: tramadol, linezolida, triptano, erva de São João",
+      "Quem observa os primeiros 14 dias da troca e o que fazer se piorar"
+    ]
+  },
+
+  exame: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Estado mental de agora contra o da semana passada — retirada começa em dias; recaída, em semanas",
+      "Hiperreflexia, clônus, tremor, diaforese e febre baixa — sobreposição serotoninérgica na troca",
+      "Agitação, insônia e ansiedade nas primeiras 72 horas após corte de antipsicótico — retirada histaminérgica e colinérgica",
+      "Náusea, diarreia, sialorreia e sudorese após corte de clozapina — rebound colinérgico",
+      "Sinais motores novos: acatisia, distonia ou discinesia de retirada",
+      "Pressão e pulso se sai de IMAO ou de clozapina"
+    ]
+  },
+
+  naoperder: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Lavagem de IMAO — o proibido isrs-triciclico-imao já existe; o intervalo exato muda com a fluoxetina",
+      "Parada brusca de paroxetina ou venlafaxina chamada de recaída",
+      "Stop-start para fluoxetina como se o primeiro comprimido já cobrisse o ISRS que saiu",
+      "Clozapina retomada na dose antiga depois de mais de 48 horas",
+      "Corte linear de antipsicótico até zero — o último degrau é o maior em ocupação D2",
+      "Retirada rápida de lítio em quem estava bem",
+      "Internação do fumante de clozapina tratada como troca de ambiente, não como parada de indutor"
+    ]
+  },
+
+  ddx: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Síndrome de retirada de antidepressivo — início em dias, zaps, tontura, náusea; some em horas ou dias ao reintroduzir",
+      "Recaída da depressão ou da ansiedade — semanas, o quadro antigo volta, sem os somáticos típicos da retirada",
+      "Síndrome serotoninérgica na sobreposição — clônus, hiperreflexia, febre, agitação; não é ativação leve de ISRS",
+      "Psicose de descontinuação — alucinação e delírio em quem tomava antipsicótico até para náusea; não prova esquizofrenia nova",
+      "Recaída da esquizofrenia — pode ser precipitada pela velocidade do corte, não só pela doença de fundo",
+      "Rebound colinérgico da clozapina — diarreia, vômito, sudorese e catatonia; não é gastroenterite isolada",
+      "Mania de retirada de lítio — semanas após corte rápido; não é história natural inevitável",
+      "Abstinência de benzodiazepínico — insônia, tremor, convulsão; não tratar com outro depressor sem plano"
+    ]
+  },
+
+  farmaco: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Cross-taper é o padrão: desce o que sai enquanto sobe o que entra, no ritmo da tolerância. Parada brusca só se o evento adverso for grave",
+      "Quem usa antidepressivo há menos de 3 a 4 semanas em geral tolera parar e começar o outro no dia seguinte; depois disso, retirar devagar",
+      "Entre ISRS a troca direta às vezes cobre a retirada; para fluoxetina o nível sobe lento — stop-start deixa um buraco de efeito",
+      "IMAO irreversível: não se cruza. Fluoxetina pede a lavagem mais longa; moclobemide, a mais curta. Os números estão na relação de washout",
+      "Paroxetina e venlafaxina têm a retirada mais dura da prática diária; meia-vida curta e uso irregular pioram",
+      "Antipsicótico: não cortar de golpe. Recaída concentra-se nas primeiras semanas após parada rápida. Taper lento, cortes menores no fim",
+      "Tentativa de parar antipsicótico só entra em conversa depois de meses de remissão no primeiro episódio, ou de um ano no multi-episódio — e ainda assim a recaída é frequente",
+      "Clozapina: mais de 48 horas parado manda retitular; mais de uma semana, como início. Rebound colinérgico e psicose rápida são o preço da parada abrupta",
+      "Lítio: retirada rápida dispara recaída; descer devagar",
+      "Troca por tolerância (peso, prolactina, acatisia): o Maudsley aponta aripiprazol, ziprasidona e outros de menor impacto — o papel está no formulário, a dose no cartão",
+      "Distinguir retirada de recaída muda a conduta: retirada grave manda reintroduzir o mesmo fármaco e descer mais devagar, não pular para outro"
+    ]
+  },
+
+  formulario: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    farmacos: [
+      { id: "fluoxetina", papel: "meia-vida longa — cobre retirada de ISRS curto; para IMAO é a lavagem mais longa" },
+      { id: "paroxetina", papel: "a pior retirada da classe ISRS — não se corta de golpe" },
+      { id: "sertralina", papel: "ISRS de troca; entre pares da classe a passagem direta às vezes basta" },
+      { id: "venlafaxina", papel: "dual com retirada intensa — descer devagar, como a paroxetina" },
+      { id: "mirtazapina", papel: "exemplo clássico de cross-taper quando o ISRS sai por insônia ou náusea" },
+      { id: "clozapina", papel: "se parou mais de 48 horas, retitular; parada abrupta dá rebound colinérgico e psicose rápida" },
+      { id: "olanzapina", papel: "também CYP1A2: parar de fumar sobe o nível; no corte, o último degrau é o maior em D2" },
+      { id: "aripiprazol", papel: "destino frequente na troca por peso, glicose, prolactina ou acatisia" },
+      { id: "carbonato-de-litio", papel: "não se para de golpe — recaída maníaca ou depressiva segue a velocidade da retirada" }
+    ],
+    combos: ["trc-cross-taper"],
+    proibidos: ["isrs-triciclico-imao", "trc-imao-washout", "trc-parada-brusca", "trc-litio-abrupto"]
+  },
+
+  conduta: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Escrever o plano de descida e de subida em dias, com quem observa e o que fazer se zaps, insônia ou psicose aparecerem",
+      "Evento grave (serotoninérgica, agranulocitose, miocardite): para o culpado agora; o resto não se cruza",
+      "Retirada leve de antidepressivo: explicar que é comum e que passa. Retirada grave: reintroduzir o mesmo e descer mais devagar",
+      "IMAO: conferir o par na tabela de lavagem antes de qualquer primeiro comprimido do outro",
+      "Antipsicótico de manutenção: testar um corte pequeno e esperar semanas antes do próximo; se piorar, voltar um ou dois degraus — não prova que parar seja impossível para sempre",
+      "Depósito não é auto-taper eterno: no fim ainda falta passar para oral em frações pequenas",
+      "Clozapina parada: tratar rebound, não retomar a dose antiga depois de 48 horas",
+      "Fumante internado em clozapina ou olanzapina: tratar como parada de indutor, não como detalhe da enfermaria"
+    ]
+  },
+
+  erros: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Parar paroxetina ou venlafaxina de uma vez",
+      "Começar IMAO no dia seguinte de um ISRS",
+      "Trocar para fluoxetina em stop-start e achar que o primeiro dia já cobre o que saiu",
+      "Chamar zaps e tontura de recaída e religar dose plena de outro fármaco",
+      "Cortar antipsicótico em degraus iguais até zero",
+      "Retomar clozapina na dose de manutenção depois de três dias parado",
+      "Parar lítio de golpe em quem estava estável",
+      "Esquecer que internar o fumante de clozapina é parar de fumar"
+    ]
+  },
+
+  scores: ["nota-conferencia"]
+});
