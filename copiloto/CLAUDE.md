@@ -13,6 +13,8 @@ Apoio à decisão durante o atendimento, para uso próprio do Eric no rodízio d
 | `anotacao.js` | **conteúdo do painel "Como anotar". Só dados.** Manual de como anotar a consulta |
 | `eem.js` | **conteúdo do painel "EEM". Só dados.** Os 12 domínios do exame do estado mental |
 | `psicofarmacos.js` | **conteúdo do painel "Psicofármacos". Só dados.** Formulário por classe e fármaco, mais as três seções de combinação |
+| `brasil.js` | **conteúdo da linha "No Brasil". Só dados.** Mapa id do cartão → receita (Portaria 344), SUS (RENAME) e registro (Anvisa). Muda por RDC, não por revisão clínica |
+| `ferramentas/conferir-doses.mjs` | confere se cada número de dose está escrito na página/fonte citada (textos das fontes fora do repo, em `../../internato-sm-sc-2026-2/raw/`) |
 | `calculadoras.js` | registro das calculadoras (contém funções puras) |
 | `oms-lms.js` | **gerado, não editar.** Tabelas LMS da OMS, 318 KB |
 | `ferramentas/gerar-oms-lms.py` | regenera o `oms-lms.js` a partir dos `.xlsx` da OMS |
@@ -143,7 +145,7 @@ formulario: {
 }
 ```
 
-Todo fármaco e toda combinação têm `id` (75 hoje, únicos entre si, com teste).
+Todo fármaco e toda combinação têm `id` (129 em 23/09/2026 — 63 cartões e 66 relações —, únicos entre si, com teste).
 Fármaco: slug do nome. Combinação: id curto escrito à mão.
 
 **Critério de `outra: true`** — vale para o fármaco cuja classe primária não é a
@@ -181,16 +183,16 @@ nesses o número aparece quando o card abre, onde vem com a fonte junto.
 **A aba Psicofármacos continua.** Ela responde a outra pergunta: a busca por
 fármaco, quando não se sabe de qual queixa se trata.
 
-**As oito queixas de psiquiatria têm formulário** (18/09/2026), e há teste
+**As 22 queixas de psiquiatria têm formulário** (8 em 18/09/2026, 14 na onda 2 em 23/09/2026), e há teste
 exigindo isso: em psiquiatria a escolha do fármaco é a consulta, e queixa sem
 lista de opções lê na tela como "não há fármaco aqui". Mesma regra do dr-house.
 A ausência é erro de teste, não silêncio.
 
-`dosemuda` está implementado e **não é usado por nenhuma queixa ainda**. Não é
-esquecimento: o pedido cobria opções, combos, outras classes e proibidos. Ligar
-um item é acrescentar o id na lista — os candidatos óbvios são `dm-quetiapina`
-no bipolar (a fase muda o patamar), `dm-clorpromazina` na esquizofrenia (existe
-piso, não só teto) e `dm-amitriptilina` na depressão.
+`dosemuda` está ligado desde a onda 2: `dm-amitriptilina` na depressão, `dm-quetiapina` no
+bipolar, `dm-clorpromazina` na esquizofrenia, `dm-fluoxetina` e `toc-isrs-dose-maior` no TOC.
+**Dose muda de adulto não entra em guia pediátrico:** a seção renderiza a dose do CAB/PCDT
+de adulto dentro do guia. A auditoria de 23/09/2026 tirou `dm-risperidona` do TEA e
+`dm-fluoxetina` do infanto-juvenil por isso.
 
 **Item** = string **ou** `{ t, f?, v? }` — `t` texto, `f` fonte só deste item,
 `v: true` marca `VERIFICAR` (tarja âmbar na tela).
@@ -207,6 +209,34 @@ executam. Não tentar reordenar pelo `queixas.js`.
 - Em "erros comuns", escrever o erro, não a regra: `"Pedir urocultura em toda cistite
   não complicada"` funciona melhor que `"A urocultura é indicada quando…"`.
 - Sem emoji. Sem eufemismo.
+
+## Onda 2 (23/09/2026) — Maudsley, No Brasil e a lição do recorte
+
+- **Fonte por linha.** Linha de dose pode ter `f` e `p` próprios. `p` é a página IMPRESSA do
+  Maudsley (página do PDF − 22) e só existe em linha cuja fonte é o Maudsley. String exata:
+  `Maudsley Prescribing Guidelines, 15ª ed., 2025` — a página nunca vai dentro dela, porque o
+  `gerar-fontes.py` raspa a string para o allowlist.
+- **`diverge`** mostra as duas fontes quando brasileira e Maudsley discordam. A dose brasileira
+  nunca é apagada; na tela a brasileira vem primeiro. Sem cor nova: divergência não é dívida.
+- **`brasil.js`** é a linha "No Brasil" (receita, SUS, registro). Sem registro ativo →
+  `receita: "não se aplica — sem registro no Brasil"`.
+- **Guia novo não escreve dose.** Nenhum texto de queixa tem `número + mg/mcg/mL/mEq/UI`; o
+  número mora no cartão, e há teste.
+- **`ferramentas/conferir-doses.mjs`** procura cada número do `val` na página citada (e na
+  seguinte) ou no `.txt` da fonte brasileira, achada pela chave do `.cite`. Roda antes de
+  todo commit de dose: `node ferramentas/conferir-doses.mjs --estrito`. Os textos ficam fora
+  do repo (direito autoral). O leitor remove o hífen condicional (U+00AD) que o pdftotext
+  deixa dentro de decimal — sem isso "0,25 a 2 mg" parece não existir na página.
+- **A lição da auditoria (23/09/2026): número certo não é recorte certo.** O conferir-doses
+  acha o número; não acha população, indicação, formulação ou estágio errados. Casos reais que
+  passaram em todos os testes: teto pediátrico publicado como início (risperidona 2 mg em
+  criança), teto do adulto jovem na linha do idoso (zolpidem), dose de sialorreia rotulada como
+  de tique (clonidina), criança acima de 70 kg rotulada adulto (atomoxetina). Toda linha nova
+  de dose passa por alguém que reabre a página e lê a linha INTEIRA da tabela, com o rodapé.
+  Os testes `auditoria ·` em `testes.html` travam cada um desses casos.
+- **Fragmentos.** A onda 2 foi escrita em fragmentos fora do repo
+  (`../../internato-sm-sc-2026-2/copiloto-onda2/fragmentos/`) e integrada por
+  `copiloto-onda2/ferramentas/integrar.mjs`. Para uma onda 3, é o mesmo fluxo.
 
 ## Como adicionar uma calculadora
 
@@ -247,8 +277,7 @@ aceitou junto **não é negociável**:
    órfão. `psicofarmacos.js` tem `fonte` por fármaco, não por classe — quem
    precisa responder de onde veio é o número.
 2. **Sem fonte brasileira datada e conferida, o cartão sai marcado `v: true`** e
-   a dose é substituída pela frase que diz que não há fonte. Quatro cartões
-   estão assim hoje, de propósito.
+   a dose é substituída pela frase que diz que não há fonte. Em 23/09/2026 nenhum cartão está assim: os quatro VERIFICAR viraram cartões com dose lida.
 3. **A fonte é lida, não lembrada.** Os PDFs estão em
    `../../internato-sm-sc-2026-2/raw/fonte-*.pdf` e o mapa de conferência em
    `../../internato-sm-sc-2026-2/.fontes-conferidas.md`. Texto extraído com
