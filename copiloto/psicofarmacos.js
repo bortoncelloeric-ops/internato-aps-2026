@@ -1106,6 +1106,40 @@ PSICOFARMACOS.classes.push({
       adversos: "Sedação, acúmulo.",
       monitor: "Prazo definido.",
       fonte: "MS — CAB nº 34, Saúde Mental, 2013"
+    },
+    {
+      nome: "Zolpidem",
+      id: "zolpidem",
+      kw: "stilnox z drug hipnotico insonia queda",
+      apres: "comprimido de liberação imediata; conferir se a formulação é CR",
+      dose: [
+        { rot: "Dose usual", val: "5 a 10 mg VO de liberação imediata ao deitar, no máximo 4 semanas", f: "ABS — Diretriz de Insônia em Adultos, 2023" },
+        { rot: "Idoso", val: "iniciar 5 mg de liberação imediata; não passar de 10 mg na regular nem de 12,5 mg na CR", f: "ABS — Diretriz de Insônia em Adultos, 2023" }
+      ],
+      porque: "Agonista do sítio benzodiazepínico, seletivo de subunidade. Induz sono; não trata a causa da insônia.",
+      escolher: "Insônia inicial no adulto quando a TCC-I não está disponível ou enquanto ela começa — curto e intermitente.",
+      evitar: "Idoso com queda, apneia, uso de álcool, gravidez, parasomnia. Não é tratamento crônico.",
+      contraind: "Miastenia, insuficiência respiratória grave, hipersensibilidade.",
+      adversos: "Sonolência residual, amnésia, sonambulismo, queda, dependência, efeito rebote ao cortar.",
+      monitor: "Queda, uso além de 4 semanas, parasomnia, uso concomitante de álcool.",
+      fonte: "ABS — Diretriz de Insônia em Adultos, 2023"
+    },
+    {
+      nome: "Melatonina",
+      id: "melatonina",
+      kw: "hormonio pineal sono cronobiotico",
+      apres: "apresentação variável; sem registro ativo na Anvisa (CSV 2026-09-23)",
+      dose: [
+        { rot: "Adulto — insônia crônica", val: "a ABS não recomenda planejamento terapêutico: não há efetividade comprovada no adulto saudável", f: "ABS — Diretriz de Insônia em Adultos, 2023" },
+        { rot: "Criança e adolescente", val: "acima de 5 mg o efeito tende a ser sedativo direto, não cronobiótico", p: 621, f: "Maudsley Prescribing Guidelines, 15ª ed., 2025" }
+      ],
+      porque: "Hormônio pineal; o exógeno tenta copiar o sinal de escuro. Não é hipnótico de primeira linha no adulto.",
+      escolher: "Insônia inicial do idoso ou da criança com TEA/TDAH, depois de higiene do sono — e ainda assim a evidência é limitada.",
+      evitar: "Vender como se fosse TCC-I. Produto sem grau farmacêutico. Sem registro ativo no Brasil.",
+      contraind: "Hipersensibilidade. Gravidez: a ABS não indica.",
+      adversos: "Sonolência, cefaleia; convulsão relatada em criança neurológica na literatura que o Maudsley cita.",
+      monitor: "Horário, produto usado, crise em quem já tem epilepsia.",
+      fonte: "ABS — Diretriz de Insônia em Adultos, 2023"
     }
   ]
 });
@@ -1317,6 +1351,57 @@ PSICOFARMACOS.classes.push({
       monitor: "Glicemia, estado nutricional, consciência, marcha, motricidade ocular e resposta clínica. Preferir tiamina antes da glicose quando possível, sem retardar resgate da hipoglicemia.",
       fonte: "MS — Linha de Cuidado: Transtornos por uso de álcool no adulto, manejo inicial/conduta, consulta em 2026-09-23",
       diverge: "MS — Linha de Cuidado, consulta 2026, descreve profilaxia inicial antes do encaminhamento; Maudsley, 2025, p. 488, detalha profilaxia hospitalar com dose e duração diferentes. Nenhum desses esquemas deve ser apresentado como tratamento completo de Wernicke estabelecida."
+    },
+    {
+      nome: "Naloxona",
+      id: "naloxona",
+      kw: "narcan antidoto opioide overdose hipoventilacao",
+      apres: "ampola 0,4 mg/mL; spray nasal em alguns serviços",
+      dose: [
+        { rot: "Dose inicial", val: "adulto: 0,04 mg na primeira, 0,4 mg na segunda, 2 mg na terceira e 10 mg na quarta, IV/IO/ET a cada 2 a 3 min", f: "MS — SAMU 192, Protocolos de Suporte Avançado de Vida, 2016" },
+        { rot: "Faixa", val: "0,4 a 2 mg IV, repetir a cada 2 a 3 min até 10 mg; começar com 0,04 mg se ainda ventila", f: "SMS-SP — Manual de Toxicologia Clínica, 2017" }
+      ],
+      porque: "Antagonista opioide. Reverte hipoventilação; não trata abstinência e não previne edema pulmonar.",
+      escolher: "Coma com miose e frequência respiratória baixa. Via aérea primeiro se não reverter.",
+      evitar: "Alta nos minutos após a dose — o opioide dura mais. Dependente: a reversão dispara abstinência aguda.",
+      contraind: "Hipersensibilidade. No dependente, a indicação permanece se há apneia — preparar para a privação.",
+      adversos: "Abstinência precipitada, agitação, vômito, edema pulmonar não prevenido.",
+      monitor: "Frequência respiratória por horas. Metadona e opioide de longa ação ressedam.",
+      fonte: "MS — SAMU 192, Protocolos de Suporte Avançado de Vida, 2016"
+    },
+    {
+      nome: "Metadona",
+      id: "metadona",
+      kw: "ost agonista opioide abstinencia manutencao qt",
+      apres: "solução 1 mg/mL (o Maudsley manda só nessa apresentação)",
+      dose: [
+        { rot: "Dose inicial", val: "hospital geral: 10–20 mg, com 5–10 mg a cada 6 h se a abstinência persistir, até 40 mg em 24 h", p: 505 },
+        { rot: "Dose usual", val: "manutenção usual 60–100 mg/dia", p: 503 }
+      ],
+      porque: "Agonista mu pleno, meia-vida longa. Primeira linha de abstinência e manutenção na diretriz brasileira.",
+      escolher: "Dependência de opioide confirmada, com protocolo. Não iniciar no intoxicado.",
+      evitar: "Intoxicação por álcool ou benzodiazepínico. QT longo. Criança em casa com o frasco.",
+      contraind: "Intoxicação aguda por depressor. Hipersensibilidade.",
+      adversos: "Depressão respiratória na titulação, QT, sedação, constipação, morte se desviar.",
+      monitor: "Sedação, frequência respiratória, ECG se dose alta ou fator de QT. Não-especialista pede protocolo local.",
+      fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025"
+    },
+    {
+      nome: "Buprenorfina",
+      id: "buprenorfina",
+      kw: "subutex agonista parcial opioide precipita abstinencia",
+      apres: "comprimido sublingual",
+      dose: [
+        { rot: "Dose inicial", val: "em abstinência visível, sem fator de risco: 8 mg no primeiro dia; sem abstinência: 4 mg; com risco: 2–4 mg; no máximo 8 mg no primeiro dia fora de serviço especializado", p: 509 },
+        { rot: "Dose usual", val: "manutenção 12–24 mg/dia sublingual", p: 503 }
+      ],
+      porque: "Agonista parcial de alta afinidade. Bloqueia o pleno; se o receptor ainda está ocupado, precipita abstinência.",
+      escolher: "OST quando metadona não vai, ou em quem já está em privação visível.",
+      evitar: "Iniciar com heroína ou metadona ainda no receptor. Trocar de metadona para buprenorfina sem janela.",
+      contraind: "Hipersensibilidade. Intoxicação aguda.",
+      adversos: "Abstinência precipitada, náusea, insônia, cefaleia. Menos QT que metadona.",
+      monitor: "Sinais de privação antes da primeira dose. Não-especialista pede protocolo.",
+      fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025"
     }
 ]
 });
@@ -1391,6 +1476,253 @@ PSICOFARMACOS.classes.push({
       monitor: "Pressão arterial e sintomas dissociativos durante e após. Urinálise periódica " +
                "no uso prolongado.",
       fonte: "CFM/CREMEC — Parecer nº 14/2021 (uso off-label, Resolução CFM nº 1.982/2012); linhas de recomendação do CANMAT 2023 (Can J Psychiatry, 2024)"
+    },
+    {
+      nome: "Prazosina",
+      id: "prazosina",
+      kw: "minipress alfa bloqueador pesadelo tept trauma hipotensao",
+      apres: "cápsula de liberação retardada; conferir se ainda há apresentação no Brasil",
+      dose: [
+        {
+          rot: "TEPT — pesadelo e distúrbio do sono",
+          val: "iniciar 1 mg à noite e titular devagar até 2–15 mg à noite, pelo risco de hipotensão",
+          p: 452
+        }
+      ],
+      porque: "Alfa-1 bloqueador. O Maudsley coloca na segunda linha do TEPT para pesadelo e sono, não como tratamento do transtorno.",
+      escolher: "Pesadelo e fragmentação do sono no TEPT, depois de ISRS, quando o sono é o que mais destrói o dia.",
+      evitar: "Hipotensão, primeira dose em pé, associação com inibidor de PDE-5. Sem registro ativo na Anvisa (CSV 2026-09-23) — o cartão é clínico, não uma autorização de receita.",
+      contraind: "Hipersensibilidade à prazosina. A bula do Minipress SR é de hipertensão, não de TEPT.",
+      adversos: "Hipotensão postural, tontura, síncope na primeira dose, priapismo raro.",
+      monitor: "Pressão deitado e em pé na titulação. Avisar para tomar a primeira dose ao deitar.",
+      fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025"
+    }
+  ]
+});
+
+PSICOFARMACOS.classes.push({
+  rot: "Antidemência",
+  kw: "alzheimer donepezila rivastigmina galantamina memantina colinesterase nmda",
+  quando: "Doença de Alzheimer com diagnóstico e estadiamento pelo PCDT. Não tratar demência frontotemporal nem prejuízo cognitivo da esclerose múltipla com estes fármacos.",
+  nota: "Inibidor de colinesterase na leve a moderada; memantina entra na moderada a grave ou quando o inibidor não vai. Antipsicótico no BPSD só depois de causa física e medida não farmacológica — risco de AVC e morte.",
+  farmacos: [
+    {
+      nome: "Donepezila",
+      id: "donepezila",
+      kw: "aricept colinesterase alzheimer",
+      apres: "comprimido 5 mg e 10 mg",
+      dose: [
+        { rot: "Dose inicial", val: "5 mg/dia VO", f: "MS — PCDT Doença de Alzheimer, Portaria Conjunta SAES/SCTIE nº 27, 2025" },
+        { rot: "Dose usual", val: "10 mg/dia VO após 4 a 6 semanas", f: "MS — PCDT Doença de Alzheimer, Portaria Conjunta SAES/SCTIE nº 27, 2025" }
+      ],
+      porque: "Inibe a acetilcolinesterase de modo seletivo e reversível.",
+      escolher: "Doença de Alzheimer leve a grave, em monoterapia ou com memantina na grave, segundo o PCDT.",
+      evitar: "Bradicardia, bloqueio, asma grave, úlcera ativa. Anticolinérgico anula o efeito.",
+      contraind: "Hipersensibilidade à donepezila ou aos derivados de piperidina.",
+      adversos: "Náusea, diarreia, insônia, pesadelo, cãibra, síncope, bradicardia.",
+      monitor: "Peso, pulso, queda, função cognitiva e cuidador. Revisar anticolinérgico da lista.",
+      fonte: "MS — PCDT Doença de Alzheimer, Portaria Conjunta SAES/SCTIE nº 27, 2025"
+    },
+    {
+      nome: "Rivastigmina",
+      id: "rivastigmina",
+      kw: "exelon patch adesivo colinesterase alzheimer parkinson",
+      apres: "cápsula 1,5 a 6 mg; solução 2 mg/mL; adesivo 4,6 e 9,5 mg/24 h",
+      dose: [
+        { rot: "Dose inicial", val: "3 mg/dia VO, dividido em duas tomadas com a refeição", f: "MS — PCDT Doença de Alzheimer, Portaria Conjunta SAES/SCTIE nº 27, 2025" },
+        { rot: "Dose máxima", val: "12 mg/dia VO, com aumentos a cada 2 semanas conforme tolerância (6, 9 e 12 mg/dia)", f: "MS — PCDT Doença de Alzheimer, Portaria Conjunta SAES/SCTIE nº 27, 2025" }
+      ],
+      porque: "Inibe acetilcolinesterase e butirilcolinesterase.",
+      escolher: "Alzheimer quando a via transdérmica ajuda a tolerar; o Maudsley também a cita na demência da Parkinson.",
+      evitar: "Peso baixo, náusea grave, adesivo cortado (superdose). Troca de cápsula para adesivo segue regra de dose, não improviso.",
+      contraind: "Hipersensibilidade à rivastigmina ou ao carbamato.",
+      adversos: "Náusea, vômito, anorexia, perda de peso, tontura — menos no adesivo que na cápsula.",
+      monitor: "Peso, pele sob o adesivo, pulso, queda.",
+      fonte: "MS — PCDT Doença de Alzheimer, Portaria Conjunta SAES/SCTIE nº 27, 2025"
+    },
+    {
+      nome: "Galantamina",
+      id: "galantamina",
+      kw: "reminyl colinesterase nicotinico alzheimer",
+      apres: "cápsula de liberação prolongada 8, 16 e 24 mg",
+      dose: [
+        { rot: "Dose inicial", val: "8 mg/dia VO pela manhã, com alimento, por 4 semanas", f: "MS — PCDT Doença de Alzheimer, Portaria Conjunta SAES/SCTIE nº 27, 2025" },
+        { rot: "Dose usual", val: "manutenção 16 mg/dia; máxima 24 mg/dia", f: "MS — PCDT Doença de Alzheimer, Portaria Conjunta SAES/SCTIE nº 27, 2025" }
+      ],
+      porque: "Inibe acetilcolinesterase e tem ação agonista nicotínica.",
+      escolher: "Alzheimer leve a moderada quando donepezila ou rivastigmina não servem.",
+      evitar: "Insuficiência hepática ou renal grave (contraindicada no PCDT). Na moderada, teto 16 mg/dia.",
+      contraind: "Hipersensibilidade; insuficiência hepática ou renal graves no PCDT.",
+      adversos: "Náusea, vômito, síncope, bradicardia.",
+      monitor: "Função renal e hepática, pulso, peso.",
+      fonte: "MS — PCDT Doença de Alzheimer, Portaria Conjunta SAES/SCTIE nº 27, 2025"
+    },
+    {
+      nome: "Memantina",
+      id: "memantina",
+      kw: "ebixa nmda alzheimer moderada grave",
+      apres: "comprimido 10 mg",
+      dose: [
+        { rot: "Dose inicial", val: "5 mg/dia VO (meio comprimido); subir 5 mg por semana até 20 mg/dia na quarta semana", f: "MS — PCDT Doença de Alzheimer, Portaria Conjunta SAES/SCTIE nº 27, 2025" },
+        { rot: "Dose usual", val: "20 mg/dia (10 mg duas vezes ao dia)", f: "MS — PCDT Doença de Alzheimer, Portaria Conjunta SAES/SCTIE nº 27, 2025" }
+      ],
+      porque: "Antagonista NMDA de afinidade baixa a moderada; reduz excitotoxicidade glutamatérgica.",
+      escolher: "Alzheimer moderada a grave, só ou com inibidor de colinesterase, conforme o PCDT.",
+      evitar: "Convulsão, insuficiência renal grave (teto 10 mg/dia se depuração 5 a 29 mL/min).",
+      contraind: "Hipersensibilidade à memantina.",
+      adversos: "Tontura, sonolência, hipertensão, constipação, cefaleia.",
+      monitor: "Função renal antes de titular, queda, confusão nova.",
+      fonte: "MS — PCDT Doença de Alzheimer, Portaria Conjunta SAES/SCTIE nº 27, 2025"
+    }
+  ]
+});
+
+PSICOFARMACOS.classes.push({
+  rot: "TDAH",
+  kw: "tdah metilfenidato ritalina lisdexanfetamina atomoxetina clonidina estimulante",
+  quando: "TDAH com diagnóstico por quem treina o quadro, em dois ambientes, com história da infância. O PCDT brasileiro não incorpora estimulante — o SUS deste protocolo não dispensa.",
+  nota: "Metilfenidato é primeira linha do Maudsley quando há fármaco. Lisdexanfetamina depois de falha. Atomoxetina quando estimulante não vai. Clonidina: tique e TDAH, hipotensão. Receita A3 no estimulante.",
+  farmacos: [
+    {
+      nome: "Metilfenidato",
+      id: "metilfenidato",
+      kw: "ritalina concerta estimulante tdah",
+      apres: "comprimido de liberação imediata; formulações de liberação prolongada variam de marca",
+      dose: [
+        { rot: "Criança e adolescente", val: "iniciar 5–10 mg/dia VO; subir 5–10 mg; máximo usual 60 mg/dia (ocasionalmente 90 mg/dia)", p: 600 },
+        { rot: "Dose usual", val: "liberação imediata dura 2–4 horas; OROS (Concerta XL) inicia 18 mg pela manhã, usual até 54 mg/dia (ocasionalmente 108 mg/dia); 18 mg de OROS equivalem a 15 mg de metilfenidato", p: 600 }
+      ],
+      porque: "Estimulante; aumenta dopamina e noradrenalina na fenda. Primeira linha do Maudsley quando o fármaco é indicado.",
+      escolher: "TDAH com prejuízo depois de medida ambiental, quando a família compra — o PCDT não incorpora no SUS.",
+      evitar: "Cardiopatia, uso de cocaína ou anfetamina, psicose, glaucoma. Desvio da receita. Não promete caixa do SUS.",
+      contraind: "Hipertireoidismo descompensado, glaucoma de ângulo estreito, uso de IMAO, hipersensibilidade.",
+      adversos: "Insônia, anorexia, desaceleração do crescimento, taquicardia, aumento de pressão, tique, irritabilidade.",
+      monitor: "Pressão, pulso, peso e altura na criança a cada retorno. Sono, humor, desvio.",
+      fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025"
+    },
+    {
+      nome: "Lisdexanfetamina",
+      id: "lisdexanfetamina",
+      kw: "venvanse anfetamina prodrug tdah",
+      apres: "cápsula",
+      dose: [
+        { rot: "Criança e adolescente", val: "iniciar 20 ou 30 mg pela manhã; máxima 70 mg/dia", p: 601 }
+      ],
+      porque: "Pró-droga da dexanfetamina; o efeito se estende e desvia menos que a anfetamina solta.",
+      escolher: "Criança que fez seis semanas de metilfenidato em dose adequada e não rendeu o bastante (Maudsley/NICE). Adulto: primeira linha junto do metilfenidato. PCDT não incorpora.",
+      evitar: "Mesmas contraindicações do estimulante. Uso de anfetamina ilícita exige juízo — o livro cita dado, não é licença para improvisar.",
+      contraind: "Uso de IMAO, cardiopatia sintomática, hipersensibilidade.",
+      adversos: "Anorexia, insônia, taquicardia, irritabilidade, boca seca.",
+      monitor: "Pressão, pulso, peso, crescimento, humor, desvio.",
+      fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025"
+    },
+    {
+      nome: "Atomoxetina",
+      id: "atomoxetina",
+      kw: "strattera nao estimulante tdah noradrenalina",
+      apres: "cápsula",
+      dose: [
+        { rot: "Criança e adolescente", val: "iniciar 0,5 mg/kg/dia; alvo 1,2 mg/kg/dia; pode ir a 1,8 mg/kg/dia, máximo 120 mg", p: 601 },
+        { rot: "Dose usual", val: "adulto: iniciar 40 mg/dia por 7 dias, depois 80 mg/dia", p: 601 }
+      ],
+      porque: "Inibe recaptação de noradrenalina. Não é estimulante; o efeito pleno demora semanas.",
+      escolher: "Quando metilfenidato e lisdexanfetamina não vão ou não podem. Comorbidade de tique ou de uso de substância pesa a favor.",
+      evitar: "Hepatite, glaucoma, IMAO. Ideação suicida no início — avisar a família.",
+      contraind: "Uso de IMAO, glaucoma de ângulo estreito, feocromocitoma, hipersensibilidade.",
+      adversos: "Náusea, anorexia, sonolência ou insônia, aumento de pressão e pulso, hepatotoxicidade rara, ideação suicida.",
+      monitor: "Fígado (sintoma), humor e suicídio nas primeiras semanas, pressão e pulso.",
+      fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025"
+    },
+    {
+      nome: "Clonidina",
+      id: "clonidina",
+      kw: "atensina alfa2 tique tdah hipotensao",
+      apres: "comprimido; adesivo semanal em alguns países",
+      dose: [
+        { rot: "Acatisia / adjunto", val: "0,2–0,8 mg/dia VO", p: 132 },
+        { rot: "Sialorreia / tique", val: "adesivo 0,1–0,2 mg por semana ou 0,1 mg VO à noite", p: 259 }
+      ],
+      porque: "Agonista alfa-2. No TDAH o Maudsley a cita; o lastro de dose nesta edição está em outras indicações (acatisia, tique/sialorreia). Titular pela pressão.",
+      escolher: "TDAH com tique, ou quando estimulante não vai. Hipotensão limita.",
+      evitar: "Cortar de golpe — hipertensão de rebote. Depressão, psicose (o livro alerta).",
+      contraind: "Hipersensibilidade. Bradicardia grave, bloqueio.",
+      adversos: "Sedação, hipotensão, boca seca, rebote pressórico se parar.",
+      monitor: "Pressão e pulso. Não suspender de uma vez.",
+      fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025"
+    }
+  ]
+});
+
+PSICOFARMACOS.classes.push({
+  rot: "Antídotos e fármacos de emergência",
+  kw: "snm serotoninergica flumazenil dantroleno bromocriptina ciproeptadina antidoto",
+  quando: "Emergência por psicofármaco ou overdose. Não substituem via aérea, resfriamento e suspender o agente.",
+  nota: "Dantroleno e bromocriptina são do leito clínico no SNM. Flumazenil só no benzodiazepínico isolado. Ciproeptadina na serotoninérgica refratária.",
+  farmacos: [
+    {
+      nome: "Dantroleno",
+      id: "dantroleno",
+      kw: "snm hipertermia rabdomiolise relaxante muscular",
+      apres: "pó liofilizado 20 mg",
+      dose: [
+        { rot: "Dose usual", val: "adultos e crianças: 2–3 mg/kg IV em bolus a cada 5 a 10 min, até no máximo 10 mg/kg/dia", f: "SMS-SP — Manual de Toxicologia Clínica, 2017" }
+      ],
+      porque: "Reduz liberação de cálcio no retículo sarcoplasmático; cai temperatura e consumo de oxigênio.",
+      escolher: "SNM com hipertermia e rabdomiólise no leito clínico, depois de suspender o antipsicótico.",
+      evitar: "Não substitui hidratação nem ventilação. Hepatotoxicidade.",
+      contraind: "Hipersensibilidade. Doença hepática ativa pesa contra.",
+      adversos: "Hepatotoxicidade, fraqueza muscular, flebite.",
+      monitor: "Temperatura, CK, transaminase, via aérea.",
+      fonte: "SMS-SP — Manual de Toxicologia Clínica, 2017"
+    },
+    {
+      nome: "Bromocriptina",
+      id: "bromocriptina",
+      kw: "parlodel agonista dopamina snm",
+      apres: "comprimido 2,5 mg; sem registro ativo na Anvisa (CSV 2026-09-23)",
+      dose: [
+        { rot: "Dose usual", val: "2,5–10 mg VO ou por sonda 3 a 4 vezes ao dia", f: "SMS-SP — Manual de Toxicologia Clínica, 2017" }
+      ],
+      porque: "Agonista dopaminérgico central. No SNM entra no leito clínico, em geral com dantroleno.",
+      escolher: "SNM depois de suspender o antipsicótico. Cartão clínico; registro ativo não.",
+      evitar: "Afirmar que a farmácia tem. Psicose pode piorar.",
+      contraind: "Hipersensibilidade. Hipertensão não controlada, puerpério com risco vascular (bula clássica).",
+      adversos: "Hipotensão, náusea, piora psicótica.",
+      monitor: "Pressão, mental, temperatura.",
+      fonte: "SMS-SP — Manual de Toxicologia Clínica, 2017"
+    },
+    {
+      nome: "Ciproeptadina",
+      id: "ciproeptadina",
+      kw: "periactin antiserotoninergico 5ht2",
+      apres: "comprimido; no Brasil frequentemente em associação — conferir a apresentação isolada",
+      dose: [
+        { rot: "Dose inicial", val: "adulto: 4–12 mg VO, depois 4 mg a cada hora se precisar", f: "SMS-SP — Manual de Toxicologia Clínica, 2017" },
+        { rot: "Acatisia (outra indicação)", val: "16 mg/dia", p: 132, f: "Maudsley Prescribing Guidelines, 15ª ed., 2025" }
+      ],
+      porque: "Antagonista 5-HT2. Na síndrome serotoninérgica entra no refratário a benzodiazepínico e resfriamento.",
+      escolher: "Serotoninérgica que não cede com suspender o agente, resfriar e benzodiazepínico.",
+      evitar: "Glaucoma de ângulo estreito, retenção urinária — é também anticolinérgica.",
+      contraind: "Glaucoma de ângulo estreito, obstrução pilórica, hipersensibilidade. A toxicologia a contraindica em ingestão de corrosivo.",
+      adversos: "Sedação, boca seca, retenção urinária.",
+      monitor: "Temperatura, clônus, consciência. Não substitui via aérea na hipertermia extrema.",
+      fonte: "SMS-SP — Manual de Toxicologia Clínica, 2017"
+    },
+    {
+      nome: "Flumazenil",
+      id: "flumazenil",
+      kw: "lanexat antagonista benzodiazepinico convulsao",
+      apres: "ampola 0,5 mg em 5 mL (0,1 mg/mL)",
+      dose: [
+        { rot: "Dose inicial", val: "intoxicação por benzodiazepínico: 0,1 a 0,2 mg IV/IO em 15 a 30 s; repetir até reverter a hipoventilação ou até 1 mg", f: "MS — SAMU 192, Protocolos de Suporte Avançado de Vida, 2016" }
+      ],
+      porque: "Antagonista competitivo do sítio benzodiazepínico. Meia-vida curta: a sedação volta.",
+      escolher: "Depressão respiratória por benzodiazepínico isolado, em quem não é dependente crônico.",
+      evitar: "Coma de causa desconhecida, overdose mista com tricíclico, epiléptico em benzodiazepínico de longo prazo, dependente — convulsão e arritmia.",
+      contraind: "Epilepsia em benzodiazepínico crônico, overdose de tricíclico, hipersensibilidade.",
+      adversos: "Convulsão, arritmia, síndrome de abstinência, vômito se infundir rápido.",
+      monitor: "Consciência e respiração por horas. O flumazenil acaba antes de muitos benzodiazepínicos.",
+      fonte: "MS — SAMU 192, Protocolos de Suporte Avançado de Vida, 2016"
     }
   ]
 });
@@ -1499,6 +1831,20 @@ PSICOFARMACOS.combos = {
       d: "Desce o que sai enquanto sobe o que entra, no ritmo da tolerância. É o padrão quando não há evento grave e o par não é IMAO. Manter a soma das frações abaixo do teto de cada um. Parada brusca do primeiro só se o adverso for sério.",
       f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
       p: 366
+    },
+    {
+      id: "emg-snm-dantroleno-bromocriptina",
+      t: "SNM no leito clínico — dantroleno e bromocriptina depois de suspender o antipsicótico",
+      d: "Na unidade psiquiátrica: parar o antipsicótico, monitorar temperatura, pulso e pressão, benzodiazepínico. No leito clínico ou na emergência: hidratação, dantroleno mais bromocriptina, ventilação se precisar. Um não substitui o outro nem a suspensão do agente.",
+      f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+      p: 150
+    },
+    {
+      id: "sub-naloxona-buprenorfina-alta",
+      t: "Alta de quem usa opioide — naloxona de casa e aviso de perda de tolerância",
+      d: "Os dois dias após a alta concentram morte: a tolerância cai e o opioide ilícito pode ser mais potente. Treinar quem mora junto e, se o serviço tiver, naloxona de casa. Observar depois da naloxona de reversão — metadona resseda.",
+      f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+      p: 498
     }
   ]
 };
@@ -1666,6 +2012,136 @@ PSICOFARMACOS.proibidos = {
       d: "MECANISMO: a adaptação ao lítio persiste depois da queda do nível; o corte rápido desmascara o transtorno e soma retirada. DESFECHO: mania ou depressão em semanas, mesmo em quem estava estável. Descer devagar; golpe não é atalho.",
       f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
       p: 332
+    },
+    {
+      id: "tept-bzd-manutencao",
+      t: "Benzodiazepínico de manutenção no TEPT",
+      d: "MECANISMO: o TEPT já tem hipervigilância, amnésia e risco de uso. O benzodiazepínico alivia rápido, gera tolerância e retirada, e o livro o descreve como relativamente ineficaz no TEPT, com ressalva de cuidado. DESFECHO: dependência, piora da extinção do medo e desinibição. Ponte curta de crise não é tratamento do transtorno.",
+      f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+      p: 460
+    },
+    {
+      id: "dem-anticolinergico-ieca",
+      t: "Anticolinérgico forte junto de inibidor de colinesterase",
+      d: "MECANISMO: o anticolinérgico compete no receptor que o inibidor tenta preservar. DESFECHO: o cognitivo piora e o risco de delirium e queda sobe. Trocar ou parar o de escore alto; não 'compensar' subindo donepezila.",
+      f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+      p: 654
+    },
+    {
+      id: "dem-antipsicotico-bpsd-rotina",
+      t: "Antipsicótico de rotina no BPSD",
+      d: "MECANISMO: bloqueio D2 em cérebro já vulnerável soma AVC, morte, queda e Parkinsonismo. Na Lewy o risco é maior — o proibido haloperidol-parkinson-lewy continua válido. DESFECHO: sedar a agitação e acelerar o declínio. Causa física e medida não farmacológica vêm primeiro.",
+      f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+      p: 667
+    },
+    {
+      id: "ins-zolpidem-cronico",
+      t: "Zolpidem contínuo além de 4 semanas como tratamento da insônia crônica",
+      d: "MECANISMO: tolerância, rebote e parasomnia. A ABS limita a 4 semanas e prefere uso intermitente. DESFECHO: queda no idoso, dependência e insônia de retirada tratada com mais caixa.",
+      f: "ABS — Diretriz de Insônia em Adultos, 2023"
+    },
+    {
+      id: "tdah-estimulante-cardiopata",
+      t: "Estimulante sem checar coração",
+      d: "MECANISMO: metilfenidato e lisdexanfetamina sobem pressão e pulso; em cardiopatia estrutural ou história de morte súbita o risco deixa de ser teórico. DESFECHO: síncope, arritmia. O Maudsley não pede ECG de rotina no saudável — pede história e exame. Sem isso, não começa.",
+      f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+      p: 599
+    },
+    {
+      id: "tea-risperidona-autismo",
+      t: "Risperidona 'para tratar autismo'",
+      d: "MECANISMO: a risperidona no PCDT é para irritabilidade e agressão, depois de causa física e medida não farmacológica. Não altera o diagnóstico nem a comunicação. DESFECHO: ganho de peso, prolactina e Parkinsonismo sem o desfecho que a família pediu. Reduzir quando a crise ceder.",
+      f: "MS — PCDT Comportamento Agressivo no TEA, Portaria Conjunta SAES/SCTIE/MS nº 7, 2022"
+    },
+    {
+      id: "ta-farmaco-unico",
+      t: "Fármaco como único tratamento de anorexia, bulimia ou compulsão",
+      d: "MECANISMO: nenhum fármaco tem registro para anorexia; na bulimia e na compulsão o efeito é adjuvante. O eixo é realimentar e psicoterapia estruturada. DESFECHO: achar que a caixa substitui peso e terapia — a mortalidade da anorexia não cai com ISRS isolado.",
+      f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+      p: 792
+    },
+    {
+      id: "ta-bupropiona",
+      t: "Bupropiona na anorexia ou na bulimia",
+      d: "MECANISMO: a bupropiona emagrece e baixa o limiar convulsivo. Na anorexia isso soma catabolismo; na bulimia, o vômito e o distúrbio eletrolítico já baixam o limiar. DESFECHO: mais perda de peso e crise convulsiva. O proibido bupropiona-limiar-convulsivo continua válido; este recorta o transtorno alimentar.",
+      f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+      p: 792
+    },
+    {
+      id: "ta-risperidona-prolactina",
+      t: "Risperidona, sulpirida ou amisulprida para ganhar peso na anorexia",
+      d: "MECANISMO: elevam prolactina e pioram osso numa doença que já desmineraliza. Um RCT de risperidona não mostrou ganho de peso. DESFECHO: osteoporose somada a efeito extrapiramidal, sem o desfecho que se buscava.",
+      f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+      p: 792
+    },
+    {
+      id: "tpb-bzd-manutencao",
+      t: "Benzodiazepínico de manutenção no transtorno de personalidade borderline",
+      d: "MECANISMO: o borderline já tem impulsividade, raiva e risco de overdose. O benzodiazepínico desinibe — em ensaio a taxa de reação paradoxal chegou a mais da metade. DESFECHO: agressão, desinibição sexual, nova dependência e mais um meio letal em casa.",
+      f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+      p: 471
+    },
+    {
+      id: "per-valproato-gestante",
+      t: "Valproato em quem pode engravidar",
+      d: "MECANISMO: o valproato é teratógeno com associação causal a malformação e a atraso de desenvolvimento. DESFECHO: defeito de tubo neural, prejuízo cognitivo. Se for o único fármaco que a mantém, o Maudsley descreve termo de risco — não é a receita do pré-natal de rotina.",
+      f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+      p: 724
+    },
+    {
+      id: "per-litio-amamentacao",
+      t: "Amamentar em lítio sem plano",
+      d: "MECANISMO: o lítio equilibra através da placenta e o RID no leite chega a 12–30 por cento, com ureia e creatinina altas no lactente. DESFECHO: toxicidade neonatal. Se o lítio é imprescindível, em geral não se amamenta. Não é o mesmo que ISRS.",
+      f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+      p: 745
+    },
+    {
+      id: "ij-ad-leve-sem-terapia",
+      t: "Antidepressivo na depressão leve da criança ou do adolescente sem tentativa de apoio ou terapia",
+      d: "MECANISMO: NICE e AACAP, citados pelo Maudsley, não põem fármaco na depressão leve. DESFECHO: ativação, ideação e caixa sem o tratamento que muda o quadro. Moderada a grave é outro recorte.",
+      f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+      p: 566
+    },
+    {
+      id: "emg-flumazenil-convulsao",
+      t: "Flumazenil no coma de causa desconhecida ou na overdose mista",
+      d: "MECANISMO: o flumazenil tira de uma vez a inibição GABAérgica. Se há tricíclico, outro convulsivante ou dependência de benzodiazepínico, o córtex dispara. DESFECHO: convulsão e arritmia. Só no benzodiazepínico isolado, no não dependente, com hipoventilação.",
+      f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+      p: 462
+    },
+    {
+      id: "emg-olanzapina-im-bzd",
+      t: "Olanzapina IM combinada com benzodiazepínico IM",
+      d: "MECANISMO: a associação parenteral soma depressão respiratória e hipotensão, descrita na agitação. DESFECHO: hipoventilação. A ABP manda via oral primeiro e evitar intravenosa; olanzapina IM não se combina com benzodiazepínico IM.",
+      f: "ABP — Diretrizes brasileiras para o manejo da agitação psicomotora, 2021"
+    },
+    {
+      id: "sub-buprenorfina-agonista-pleno",
+      t: "Buprenorfina com agonista pleno ainda no receptor",
+      d: "MECANISMO: a buprenorfina tem alta afinidade e baixa atividade intrínseca; desloca heroína ou metadona e deixa o receptor a meio-gás. DESFECHO: abstinência precipitada. Só entra se a privação já está visível, ou em indução lenta protocolada.",
+      f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+      p: 508
+    },
+    {
+      id: "sub-metadona-intoxicado",
+      t: "Metadona em quem ainda está intoxicado",
+      d: "MECANISMO: agonista pleno soma depressão respiratória à do álcool, do benzodiazepínico ou do opioide que ainda está lá. DESFECHO: overdose. Abstinência de opioide não mata; metadona na titulação mata. Primeiro: está dependente? Vai tolerar esta dose?",
+      f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+      p: 505
+    },
+    {
+      id: "sub-naltrexona-opioide",
+      t: "Naltrexona com opioide ainda no receptor",
+      d: "MECANISMO: antagonista competitivo em quem ainda tem agonista no mu. DESFECHO: abstinência precipitada, tão grave quanto a da naloxona, e mais longa. Não é tratamento de abstinência aguda. Só depois de limpeza do opioide.",
+      f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+      p: 498
+    },
+    {
+      id: "sub-metadona-bzd",
+      t: "Metadona somada a benzodiazepínico no intoxicado ou na titulação cega",
+      d: "MECANISMO: dois depressores respiratórios. O livro marca aumento de morte quando metadona e benzodiazepínico se somam, sobretudo na titulação. DESFECHO: apneia. Conversão de benzodiazepínico é outro protocolo, não 'mais um comprimido para ansiedade'.",
+      f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+      p: 505
     }
   ]
 };
@@ -1764,6 +2240,13 @@ PSICOFARMACOS.dosemuda = {
       d: "Na depressão unipolar resistente o antipsicótico entra como adjuvante, em dose menor " +
          "que a usada para tratar psicose. Aripiprazol e brexpiprazol são primeira linha " +
          "adjuvante; cariprazina é segunda. Mesma classe, papel e patamar diferentes.",
-      f: "CANMAT 2023 (Can J Psychiatry, 2024)" }
+      f: "CANMAT 2023 (Can J Psychiatry, 2024)" },
+    {
+      id: "toc-isrs-dose-maior",
+      t: "ISRS no TOC — a dose é maior que a da depressão",
+      d: "A fluoxetina no TOC vai a 60 mg; a paroxetina a 40–60 mg. A resposta inicial demora 10 a 12 semanas, mais que na depressão. Manter pelo menos 1 ano. O dm-fluoxetina do CAB (60 a 80 mg) cobre o mesmo fato pela fonte brasileira.",
+      f: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+      p: 447
+    }
   ]
 };

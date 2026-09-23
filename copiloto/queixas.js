@@ -1551,3 +1551,1478 @@ QUEIXAS.push({
 
   scores: ["nota-conferencia"]
 });
+
+QUEIXAS.push({
+  id: "toc",
+  nome: "Transtorno obsessivo-compulsivo",
+  kw: "toc obsessivo compulsivo ritual lavagem verificacao clomipramina fluvoxamina",
+  tag: "Psiquiatria",
+  atualizado: "2026-09-23",
+
+  redflags: {
+    fonte: "AMB/ABP — Transtorno Obsessivo-Compulsivo: Diagnóstico, 2009 · AMB/ABP — Transtorno Obsessivo-Compulsivo: Tratamento, 2011",
+    itens: [
+      "Ritual que impede comer, beber ou dormir — o TOC grave é incapacidade, não mania",
+      "Ideação suicida: perguntar agora; depressão comórbida é a regra, não a exceção",
+      "Automutilação ligada a ritual (lavagem até ferir, escovação até gengiva sangrar)",
+      "Início súbito na criança com tique e infecção — PANDAS/PANS entra no DDx, não fecha sozinho",
+      "Insight ausente com convicção delirante — não é TOC simples; rever psicose"
+    ]
+  },
+
+  perguntas: {
+    fonte: "AMB/ABP — Transtorno Obsessivo-Compulsivo: Diagnóstico, 2009 · AMB/ABP — Transtorno Obsessivo-Compulsivo: Tratamento, 2011",
+    itens: [
+      "O que a mente impõe (obsessão) e o que a pessoa faz para aliviar (compulsão) — os dois, não só o ritual visível",
+      "Quanto tempo do dia some com isso — uma hora já é limiar clínico; várias horas é grave",
+      "Preocupação com um defeito físico mínimo ou imaginado, conferir no espelho, evitar ser visto",
+      "Tiques motores ou vocais, agora ou na infância, e em parentes de primeiro grau",
+      "Quando começou e quando procurou ajuda — no Brasil a demora média passa de 10 anos, porque o sintoma é escondido por vergonha",
+      "Humor: tristeza, perda de interesse, ideação suicida",
+      "Já tentou ISRS? Qual, quanto tempo, se chegou na faixa alta — troca precoce fabrica refratariedade",
+      "Uso de substância, gravidez, outro fármaco serotoninérgico"
+    ]
+  },
+
+  exame: {
+    fonte: "AMB/ABP — Transtorno Obsessivo-Compulsivo: Diagnóstico, 2009",
+    itens: [
+      "Mãos, pele, couro e mucosa oral — lesão de lavagem ou de ritual",
+      "Insight: a pessoa sabe que o medo é excessivo, ou está convencida",
+      "Tique, estereotipia, lentificação",
+      "Humor observado e ideação suicida em voz alta",
+      "Exame físico dirigido se o ritual substitui higiene ou alimentação"
+    ]
+  },
+
+  naoperder: {
+    fonte: "AMB/ABP — Transtorno Obsessivo-Compulsivo: Diagnóstico, 2009 · AMB/ABP — Transtorno Obsessivo-Compulsivo: Tratamento, 2011 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Tratar com dose de depressão e declarar falha em quatro semanas",
+      "Clomipramina de primeira linha em quem nunca fez ISRS em faixa alta",
+      "Benzodiazepínico como tratamento do TOC",
+      "Depressão e suicídio não perguntados porque o quadro 'é só ritual'",
+      "Tique e TOC tratados como a mesma coisa"
+    ]
+  },
+
+  ddx: {
+    fonte: "AMB/ABP — Transtorno Obsessivo-Compulsivo: Diagnóstico, 2009",
+    itens: [
+      "TOC — obsessão egodistônica e compulsão que alivia de modo incompleto",
+      "Transtorno dismórfico corporal — o conteúdo é aparência; o ritual é espelho e camuflagem",
+      "Transtorno de tique / Tourette — movimento ou som involuntário, não um ritual para desfazer um pensamento",
+      "Transtorno de ansiedade generalizada — preocupação com problemas reais, sem ritual de desfazer",
+      "Esquizofrenia — a convicção é delirante e o insight não volta com argumentação",
+      "Transtorno do espectro autista — ritual de sameness, sem o medo obsessivo típico",
+      "Uso de estimulante ou de cocaína — ritual induzido, some com a substância"
+    ]
+  },
+
+  farmaco: {
+    fonte: "AMB/ABP — Transtorno Obsessivo-Compulsivo: Tratamento, 2011 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Primeira linha: ISRS em dose alta e por tempo longo. A faixa da depressão não basta. Fluoxetina, sertralina, fluvoxamina, paroxetina, citalopram e escitalopram entram; a fluvoxamina tem lastro específico de TOC.",
+      "Latência de 10 a 12 semanas para julgar resposta — mais lenta que a depressão. Manter pelo menos um ano depois de responder.",
+      "Clomipramina é segunda linha, depois de ISRS em faixa alta. Mais efeito e mais adverso (cardíaco, anticolinérgico, convulsão).",
+      "Antipsicótico em dose baixa só como reforço se o ISRS falhou; não é tratamento do TOC.",
+      "Exposição e prevenção de resposta (TCC) anda junto. Fármaco isolado raramente fecha o caso.",
+      "O número de cada fármaco está no cartão. O dm-fluoxetina e o toc-isrs-dose-maior marcam que a dose muda de função."
+    ]
+  },
+
+  formulario: {
+    fonte: "AMB/ABP — Transtorno Obsessivo-Compulsivo: Tratamento, 2011 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    farmacos: [
+      { id: "fluoxetina", papel: "ISRS de primeira linha no TOC — a faixa é a alta, não a da depressão" },
+      { id: "sertralina", papel: "ISRS de primeira linha; faixa larga e interação mais limpa" },
+      { id: "fluvoxamina", papel: "ISRS com lastro específico de TOC; interações CYP1A2" },
+      { id: "paroxetina", papel: "ISRS; retirada pior da classe — não cortar de golpe" },
+      { id: "escitalopram", papel: "ISRS; a diretriz brasileira cita faixa mais estreita que os outros" },
+      { id: "citalopram", papel: "ISRS; QT na dose alta, sobretudo no idoso" },
+      { id: "clomipramina", papel: "segunda linha — tricíclico serotoninérgico depois de ISRS em faixa alta" },
+      { id: "venlafaxina", papel: "alternativa quando o ISRS falhou; pressórica na faixa alta" }
+    ],
+    dosemuda: ["dm-fluoxetina", "toc-isrs-dose-maior"],
+    proibidos: ["isrs-triciclico-imao"]
+  },
+
+  conduta: {
+    fonte: "AMB/ABP — Transtorno Obsessivo-Compulsivo: Tratamento, 2011 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Nomear obsessão e compulsão na frente do paciente — o segredo alimenta o ritual",
+      "ISRS em faixa de TOC + TCC (exposição e prevenção de resposta) como eixo",
+      "Reavaliar em semanas para adesão e suicídio; julgar eficácia só depois de dois a três meses em dose plena",
+      "Clomipramina se dois ISRS falharam em tempo e dose",
+      "APS segura o leve com vínculo; ritual incapacitante, suicídio ou insight delirante saem para o CAPS",
+      "Encaminhar não é sumir"
+    ]
+  },
+
+  erros: {
+    fonte: "AMB/ABP — Transtorno Obsessivo-Compulsivo: Tratamento, 2011 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Prescrever fluoxetina na dose da depressão e trocar em quatro semanas",
+      "Chamar de refratário quem nunca fez faixa alta",
+      "Clomipramina de primeira linha no jovem cardíaco",
+      "Benzodiazepínico para 'acalmar o ritual'",
+      "Não perguntar suicídio porque o quadro parece 'só mania de limpeza'"
+    ]
+  },
+
+  scores: ["phq9", "gad7", "nota-conferencia"]
+});
+
+QUEIXAS.push({
+  id: "tept",
+  nome: "Transtorno de estresse pós-traumático",
+  kw: "tept trauma estresse pesadelo flashback hipervigilancia prazosina",
+  tag: "Psiquiatria",
+  atualizado: "2026-09-23",
+
+  redflags: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · MS — CAB nº 34, Saúde Mental, 2013",
+    itens: [
+      "Ideação suicida, plano ou meio disponível — o TEPT concentra suicídio; perguntar agora",
+      "Dissociação com risco (atravessar rua, não lembrar trajetos, automutilação)",
+      "Uso de álcool ou benzodiazepínico para dormir o pesadelo — troca um trauma por dependência",
+      "Violência atual em casa — o 'tratamento' começa por segurança, não por receita",
+      "Psicose, mania ou recusa de líquido — não é TEPT simples"
+    ]
+  },
+
+  perguntas: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · MS — CAB nº 34, Saúde Mental, 2013",
+    itens: [
+      "O evento: o que aconteceu, quando, se ainda está exposto",
+      "Revivescência (flashback, pesadelo), evitação, hipervigilância e embotamento — os quatro eixos",
+      "Sono: pesadelo, despertar, medo de deitar",
+      "Álcool, maconha, estimulante, benzodiazepínico — o que usa para 'desligar'",
+      "Ideação suicida e automutilação",
+      "Já fez psicoterapia focada no trauma (exposição, EMDR, TCC) — fármaco não é a primeira linha",
+      "Gravidez, outro ISRS, pressão baixa se já tentou prazosina"
+    ]
+  },
+
+  exame: {
+    fonte: "MS — CAB nº 34, Saúde Mental, 2013 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Hipervigilância na sala: sobressalto, olhar na porta, dificuldade de sentar de costas",
+      "Humor, dissociação, insight",
+      "Lesão de automutilação, cheiro de álcool",
+      "Pressão sentado e em pé se prazosina entrar",
+      "Sinais de uso de substância"
+    ]
+  },
+
+  naoperder: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Benzodiazepínico de manutenção — o livro o descreve como relativamente ineficaz e de uso cuidadoso",
+      "Tratar só o pesadelo e ignorar o trauma ainda acontecendo",
+      "ISRS em dose de arranque plena — piora inicial de ansiedade",
+      "Declarar falha antes de semanas em dose plena",
+      "Prazosina como se tratasse o TEPT inteiro"
+    ]
+  },
+
+  ddx: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · MS — CAB nº 34, Saúde Mental, 2013",
+    itens: [
+      "TEPT — trauma identificável, revivescência, evitação e hipervigilância por mais de um mês",
+      "Transtorno de adaptação — estressor e proporcionalidade, sem revivescência típica",
+      "Depressão — anedonia sem o eixo de ameaça e pesadelo traumático",
+      "Pânico — ataque sem o fio do trauma",
+      "Uso de substância — a abstinência imita hipervigilância",
+      "TCE e epilepsia temporal — revivescência orgânica",
+      "Psicose — a voz não é o flashback; o delírio não cede com o relato do evento"
+    ]
+  },
+
+  farmaco: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Psicoterapia focada no trauma vem antes do fármaco. ISRS (paroxetina, sertralina, fluoxetina) e venlafaxina de liberação modificada são a primeira linha medicamentosa.",
+      "Começar com metade da dose de depressão: a piora inicial de ansiedade é regra.",
+      "Prazosina entra na segunda linha para pesadelo e sono, com titulação lenta por hipotensão. Não trata evitação nem hipervigilância.",
+      "Antipsicótico (olanzapina, quetiapina, risperidona) só para intrusão refratária — não para o TEPT inteiro.",
+      "Benzodiazepínico não é tratamento. Ponte de crise, se existir, é curta e tem nome de proibido se virar manutenção.",
+      "Número no cartão."
+    ]
+  },
+
+  formulario: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · MS — CAB nº 34, Saúde Mental, 2013",
+    farmacos: [
+      { id: "sertralina", papel: "ISRS preferido no TEPT — primeira linha medicamentosa depois da psicoterapia" },
+      { id: "fluoxetina", papel: "ISRS preferido; começar baixo" },
+      { id: "paroxetina", papel: "ISRS preferido; a pior retirada da classe" },
+      { id: "venlafaxina", papel: "primeira linha medicamentosa em liberação modificada; pressórica" },
+      { id: "prazosina", outra: true, papel: "segunda linha só para pesadelo e sono — titular devagar, hipotensão" },
+      { id: "mirtazapina", papel: "segunda linha; o livro a cita, não é o eixo" },
+      { id: "olanzapina", outra: true, papel: "intrusão refratária — não trata evitação nem hipervigilância" },
+      { id: "quetiapina", outra: true, papel: "intrusão; metabólico pesa" }
+    ],
+    proibidos: ["tept-bzd-manutencao"]
+  },
+
+  conduta: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · MS — CAB nº 34, Saúde Mental, 2013",
+    itens: [
+      "Segurança primeiro: o trauma ainda acontece? Encaminhar proteção, não só receita",
+      "Oferecer psicoterapia focada no trauma; fármaco se o sintoma impede a terapia ou se ela não está disponível",
+      "ISRS em arranque baixo; reavaliar suicídio cedo",
+      "Prazosina só se o pesadelo restar depois do ISRS, com pressão medida",
+      "Não prescrever benzodiazepínico de caixa para 'dormir o TEPT'",
+      "APS segura o vínculo; risco, dissociação grave ou violência atual saem com matriciamento"
+    ]
+  },
+
+  erros: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Diazepam todas as noites para o pesadelo",
+      "Prazosina como único tratamento do TEPT",
+      "ISRS em dose plena no primeiro dia",
+      "Ignorar o álcool que 'ajuda a dormir'",
+      "Mandar para casa sem perguntar se o agressor mora junto"
+    ]
+  },
+
+  scores: ["phq9", "gad7", "nota-conferencia"]
+});
+
+QUEIXAS.push({
+  id: "demencia",
+  nome: "Demência e BPSD — Alzheimer, Lewy e o que não se seda",
+  kw: "demencia alzheimer donepezila rivastigmina memantina bpsd lewy agitacao",
+  tag: "Psiquiatria",
+  atualizado: "2026-09-23",
+
+  redflags: {
+    fonte: "MS — PCDT Doença de Alzheimer, Portaria Conjunta SAES/SCTIE nº 27, 2025 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Queda, síncope ou confusão nova após inibidor de colinesterase — bradicardia até prova em contrário",
+      "Agitação com febre, dor, retenção urinária ou obstipação — BPSD começa por causa física",
+      "Alucinação visual precoce, parkinsonismo e flutuações — Lewy; haloperidol aqui mata",
+      "Declínio em semanas, não em meses — delirium ou hematoma, não Alzheimer",
+      "Cuidador exausto com ideação de agressão — a urgência é a dupla, não só o Mini-Mental"
+    ]
+  },
+
+  perguntas: {
+    fonte: "MS — PCDT Doença de Alzheimer, Portaria Conjunta SAES/SCTIE nº 27, 2025 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Quem nota o quê, e há quanto tempo — o paciente minimiza; a família data",
+      "Memória, orientação, linguagem, praxia, julgamento e quanto já perdeu de autonomia",
+      "Alucinação visual, queda, sonolência que vai e volta — pista de Lewy",
+      "Mudança de personalidade, desinibição, linguagem — pista de frontotemporal (o PCDT não trata com estes fármacos)",
+      "Lista de remédio com anticolinérgico, opioide, benzodiazepínico e Z-drug",
+      "Dor, prisão de ventre, infecção, fome, sono — o BPSD costuma ser necessidade não dita",
+      "Quem cuida de noite e o que acontece se essa pessoa adoecer"
+    ]
+  },
+
+  exame: {
+    fonte: "MS — PCDT Doença de Alzheimer, Portaria Conjunta SAES/SCTIE nº 27, 2025 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Marcha, tremor, rigidez, reflexo postural — Parkinson e Lewy mudam o fármaco",
+      "Pulso e pressão sentado e em pé antes de subir colinesterase",
+      "Sinais de dor, retenção, fecaloma, desidratação",
+      "Pele sob adesivo de rivastigmina, se já usa",
+      "Estado mental: flutuação da atenção (delirium) versus déficit estável"
+    ]
+  },
+
+  naoperder: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · MS — PCDT Doença de Alzheimer, Portaria Conjunta SAES/SCTIE nº 27, 2025",
+    itens: [
+      "Haloperidol na Lewy",
+      "Antipsicótico de rotina no BPSD sem causa física",
+      "Anticolinérgico (biperideno, amitriptilina, oxibutinina) junto da donepezila",
+      "Tratar frontotemporal ou esclerose múltipla com inibidor de colinesterase",
+      "Subir dose na primeira semana porque 'não viu efeito'"
+    ]
+  },
+
+  ddx: {
+    fonte: "MS — PCDT Doença de Alzheimer, Portaria Conjunta SAES/SCTIE nº 27, 2025 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Alzheimer — memória episódica e orientação que degradam em meses a anos",
+      "Lewy — alucinação visual, parkinsonismo, flutuação; antipsicótico é perigo",
+      "Vascular — degraus após AVC; o PCDT só trata se houver Alzheimer junto",
+      "Frontotemporal — desinibição e linguagem; não usar estes fármacos",
+      "Delirium — horas a dias, atenção flutuante, causa clínica",
+      "Depressão do idoso (pseudodemência) — a queixa de memória é maior que o déficit medido",
+      "Hipotireoidismo, B12, sífilis, hematoma subdural crônico"
+    ]
+  },
+
+  farmaco: {
+    fonte: "MS — PCDT Doença de Alzheimer, Portaria Conjunta SAES/SCTIE nº 27, 2025 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Donepezila, rivastigmina e galantamina: Alzheimer leve a moderada (donepezila também na grave). Titular devagar. Número no cartão.",
+      "Memantina: moderada a grave, só ou com inibidor, segundo o PCDT. Ajuste na doença renal.",
+      "BPSD: dor, infecção, obstipação, ambiente e cuidador primeiro. Antipsicótico é exceção, curto, e na Lewy quase não se usa.",
+      "Não somar anticolinérgico. O dem-anticolinergico-ieca e o dem-antipsicotico-bpsd-rotina estão no formulário.",
+      "RENAME 2024: os quatro estão no Componente Especializado — receita sem protocolo não vira caixa."
+    ]
+  },
+
+  formulario: {
+    fonte: "MS — PCDT Doença de Alzheimer, Portaria Conjunta SAES/SCTIE nº 27, 2025 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    farmacos: [
+      { id: "donepezila", papel: "inibidor de colinesterase de primeira linha no Alzheimer do PCDT" },
+      { id: "rivastigmina", papel: "inibidor; adesivo quando a náusea da cápsula derruba a adesão" },
+      { id: "galantamina", papel: "inibidor quando os outros dois não vão; teto menor se rim ou fígado medianos" },
+      { id: "memantina", papel: "NMDA na moderada a grave — só ou com o inibidor" },
+      { id: "haloperidol", outra: true, papel: "não é tratamento de BPSD; na Lewy é o erro grave — ver proibido" },
+      { id: "risperidona", outra: true, papel: "exceção curta de BPSD grave depois de causa física; risco de AVC e morte" },
+      { id: "quetiapina", outra: true, papel: "às vezes tentada na Lewy quando o antipsicótico é inevitável — ainda assim perigosa" }
+    ],
+    proibidos: ["dem-anticolinergico-ieca", "dem-antipsicotico-bpsd-rotina", "haloperidol-parkinson-lewy"]
+  },
+
+  conduta: {
+    fonte: "MS — PCDT Doença de Alzheimer, Portaria Conjunta SAES/SCTIE nº 27, 2025 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Confirmar o tipo de demência antes da caixa — Lewy e frontotemporal mudam tudo",
+      "Causa física da agitação no mesmo dia",
+      "Iniciar inibidor ou memantina pelo PCDT, com pulso e cuidador na sala",
+      "Não sedar a noite com Z-drug ou benzodiazepínico de rotina — queda",
+      "APS segura o vínculo e o cuidador; o CEAF dispensa o Especializado; instabilidade sai para urgência"
+    ]
+  },
+
+  erros: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · MS — PCDT Doença de Alzheimer, Portaria Conjunta SAES/SCTIE nº 27, 2025",
+    itens: [
+      "Haloperidol IM no idoso agitado com alucinação visual",
+      "Amitriptilina para dormir quem já toma donepezila",
+      "Zolpidem todas as noites no dementado que cai",
+      "Subir memantina sem olhar a creatinina",
+      "Chamar de Alzheimer o declínio de duas semanas"
+    ]
+  },
+
+  scores: ["nota-conferencia"]
+});
+
+QUEIXAS.push({
+  id: "insonia",
+  nome: "Insônia crônica do adulto",
+  kw: "insonia sono zolpidem melatonina tcc higiene despertar",
+  tag: "Psiquiatria",
+  atualizado: "2026-09-23",
+
+  redflags: {
+    fonte: "ABS — Diretriz de Insônia em Adultos, 2023 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Apneia (ronco, pausa, sonolência diurna) — hipnótico aqui mata",
+      "Queda, confusão ou sonambulismo após Z-drug — sobretudo no idoso",
+      "Ideação suicida: a insônia grave concentra risco; perguntar agora",
+      "Uso diário de zolpidem ou benzodiazepínico há meses — dependência, não tratamento",
+      "Dor, nictúria, tireoide, corticóide, estimulante — a causa não é 'falta de remédio'"
+    ]
+  },
+
+  perguntas: {
+    fonte: "ABS — Diretriz de Insônia em Adultos, 2023",
+    itens: [
+      "Quanto demora para pegar no sono, quantas vezes acorda, a que horas levanta, quantas horas de fato dorme",
+      "Há quanto tempo, quantas noites por semana, o que faz de dia por causa disso",
+      "Cafeína, álcool, tela, cochilo, horário irregular",
+      "Ronco, pausa, perna inquieta, pesadelo, trabalho em turno",
+      "Humor, dor, nictúria, fármaco que ativa (fluoxetina, corticoide, teofilina)",
+      "O que já tomou para dormir, por quanto tempo, se corta de golpe"
+    ]
+  },
+
+  exame: {
+    fonte: "ABS — Diretriz de Insônia em Adultos, 2023",
+    itens: [
+      "Aspecto de sono, humor, marcha e equilíbrio no idoso",
+      "Pescoço, palato, pressão — pista de apneia",
+      "Tireoide se emagreceu, tremeu ou teve palpitação",
+      "Lesão de queda recente"
+    ]
+  },
+
+  naoperder: {
+    fonte: "ABS — Diretriz de Insônia em Adultos, 2023 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "TCC-I disponível e nem oferecida",
+      "Zolpidem contínuo como se fosse o tratamento da insônia crônica",
+      "Melatonina vendida como se tivesse planejamento terapêutico no adulto saudável — a ABS diz que não há",
+      "Apneia tratada com hipnótico",
+      "Parar Z-drug de golpe no dependente"
+    ]
+  },
+
+  ddx: {
+    fonte: "ABS — Diretriz de Insônia em Adultos, 2023",
+    itens: [
+      "Insônia crônica — dificuldade de início ou manutenção, prejuízo diurno, pelo menos três noites por semana, há pelo menos três meses",
+      "Apneia obstrutiva — ronco, pausa, sonolência; o hipnótico piora",
+      "Síndrome das pernas inquietas — urge mexer, piora ao deitar",
+      "Ritmo circadiano — dorme bem, só no horário errado",
+      "Depressão e ansiedade — a insônia é sintoma; tratar o eixo",
+      "Uso de substância e abstinência de álcool ou benzodiazepínico"
+    ]
+  },
+
+  farmaco: {
+    fonte: "ABS — Diretriz de Insônia em Adultos, 2023 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "TCC-I é a primeira linha da insônia crônica. Higiene do sono sozinha não substitui TCC-I.",
+      "Zolpidem: curto, intermitente, no máximo quatro semanas. Idoso começa na dose baixa. Número no cartão.",
+      "Melatonina: a ABS não recomenda planejamento no adulto saudável. Pode entrar no idoso e na criança com TEA, com evidência limitada. Sem registro ativo no Brasil.",
+      "Trazodona e mirtazapina, se entrarem, são off-label de sono — não confundir com tratamento antidepressivo. Ver os cartões.",
+      "Benzodiazepínico hipnótico tem as mesmas armadilhas, com mais queda e dependência."
+    ]
+  },
+
+  formulario: {
+    fonte: "ABS — Diretriz de Insônia em Adultos, 2023 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    farmacos: [
+      { id: "zolpidem", papel: "Z-drug de curto prazo — não é tratamento da insônia crônica" },
+      { id: "melatonina", papel: "cronobiótico; a ABS não endossa no adulto saudável; sem registro ativo" },
+      { id: "trazodona", papel: "off-label de sono; não confundir dose hipnótica com antidepressiva" },
+      { id: "mirtazapina", papel: "sedação e apetite; trata depressão com insônia, não insônia isolada de primeira linha" },
+      { id: "clonazepam", papel: "não é hipnótico de primeira linha; manutenção vira dependência" }
+    ],
+    proibidos: ["ins-zolpidem-cronico"]
+  },
+
+  conduta: {
+    fonte: "ABS — Diretriz de Insônia em Adultos, 2023",
+    itens: [
+      "Oferecer TCC-I ou equivalente antes da caixa",
+      "Se hipnótico: prazo escrito, dose de idoso se for idoso, sem álcool",
+      "Rastrear apneia antes de sedar",
+      "Redução gradual se já usa há meses",
+      "APS segura o caso sem apneia grave; queda, dependência ou suicídio saem com matriciamento"
+    ]
+  },
+
+  erros: {
+    fonte: "ABS — Diretriz de Insônia em Adultos, 2023",
+    itens: [
+      "Zolpidem todas as noites por seis meses",
+      "Melatonina como se fosse a TCC-I do adulto jovem",
+      "Hipnótico no roncador obeso sonolento",
+      "Cortar zolpidem de uma vez no usuário crônico",
+      "Amitriptilina no idoso 'para dormir' e chamar de seguro"
+    ]
+  },
+
+  scores: ["phq9", "gad7", "nota-conferencia"]
+});
+
+QUEIXAS.push({
+  id: "tdah",
+  nome: "TDAH — criança, adolescente e adulto",
+  kw: "tdah metilfenidato ritalina lisdexanfetamina atomoxetina clonidina atencao hiperatividade",
+  tag: "Psiquiatria",
+  atualizado: "2026-09-23",
+
+  redflags: {
+    fonte: "MS — PCDT TDAH, Portaria Conjunta SAES/SCTIE/MS nº 14, 2022 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Dor no peito, síncope, sopro ou história familiar de morte súbita — não começa estimulante sem isso",
+      "Uso de cocaína, anfetamina ou desvio da receita — o estimulante vira dano",
+      "Virada maníaca ou psicose após metilfenidato",
+      "Criança que não cresce ou não ganha peso — o PCDT e o Maudsley mandam medir",
+      "Ideação suicida na atomoxetina — monitorar no início"
+    ]
+  },
+
+  perguntas: {
+    fonte: "MS — PCDT TDAH, Portaria Conjunta SAES/SCTIE/MS nº 14, 2022 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Desatenção, hiperatividade e impulsividade em mais de um ambiente, desde a infância — um relatório só da escola não fecha",
+      "O que já tentou de orientação a pais, escola e psicoterapia — o PCDT começa por isso",
+      "Quem informa o adulto: alguém que o conheceu criança",
+      "Coração, pressão, crescimento, sono, tique, uso de substância",
+      "O PCDT registra a NÃO incorporação de metilfenidato e lisdexanfetamina no SUS — a família precisa ouvir isso antes da receita particular"
+    ]
+  },
+
+  exame: {
+    fonte: "MS — PCDT TDAH, Portaria Conjunta SAES/SCTIE/MS nº 14, 2022 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Pressão, pulso, peso, altura (criança) — e de novo em cada retorno se estimulante",
+      "Sopro, atraso puberal, tique",
+      "Humor, psicose, uso de substância",
+      "ECG só se houver sinal cardiovascular — o Maudsley não pede de rotina no saudável"
+    ]
+  },
+
+  naoperder: {
+    fonte: "MS — PCDT TDAH, Portaria Conjunta SAES/SCTIE/MS nº 14, 2022 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Receitar estimulante como se o SUS dispensasse — o PCDT não incorporou",
+      "Diagnosticar adulto sem história da infância",
+      "Tratar ansiedade ou TEA como se fosse só TDAH",
+      "Combinar dois estimulantes sem protocolo",
+      "Ignorar desvio e venda da caixa"
+    ]
+  },
+
+  ddx: {
+    fonte: "MS — PCDT TDAH, Portaria Conjunta SAES/SCTIE/MS nº 14, 2022",
+    itens: [
+      "TDAH — sintomas em dois ambientes, início na infância, prejuízo",
+      "Ansiedade — a 'desatenção' é preocupação",
+      "TEA — o prejuízo social veio primeiro e não é só impulsividade",
+      "Transtorno de conduta / oposição — desafio deliberado, não desorganização",
+      "Uso de substância e abstinência",
+      "Má qualidade de sono e apneia",
+      "Deficit intelectual ou de aprendizagem sem o eixo de hiperatividade"
+    ]
+  },
+
+  farmaco: {
+    fonte: "MS — PCDT TDAH, Portaria Conjunta SAES/SCTIE/MS nº 14, 2022 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "O PCDT brasileiro NÃO preconiza metilfenidato nem lisdexanfetamina — Conitec não incorporou. Intervenção não medicamentosa é o que o SUS oferece neste protocolo.",
+      "O Maudsley, no Reino Unido, coloca metilfenidato como primeira linha na criança quando fármaco é indicado; lisdexanfetamina se o metilfenidato falhou; atomoxetina ou guanfacina se estimulante não vai. Adulto: metilfenidato ou lisdexanfetamina primeiro.",
+      "As duas frases ficam juntas. Não escolher em silêncio. Número no cartão, se a receita particular for o caminho combinado.",
+      "Atomoxetina não é estimulante; demora semanas. Clonidina tem lastro em tique e em TDAH, com hipotensão e efeito rebote se cortar.",
+      "Estimulante e uso de substância: o Maudsley cita lisdexanfetamina com algum dado em quem usa anfetamina; ainda assim desvio é red flag."
+    ]
+  },
+
+  formulario: {
+    fonte: "MS — PCDT TDAH, Portaria Conjunta SAES/SCTIE/MS nº 14, 2022 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    farmacos: [
+      { id: "metilfenidato", papel: "primeira linha do Maudsley quando há fármaco; o PCDT brasileiro não incorpora — a farmácia do SUS não tem" },
+      { id: "lisdexanfetamina", papel: "pró-droga de anfetamina; o Maudsley a põe após falha do metilfenidato na criança; o PCDT também não incorpora" },
+      { id: "atomoxetina", papel: "não estimulante quando o estimulante não vai ou não pode" },
+      { id: "clonidina", papel: "alfa-2; tique e TDAH — hipotensão, não cortar de golpe" }
+    ],
+    proibidos: ["tdah-estimulante-cardiopata"]
+  },
+
+  conduta: {
+    fonte: "MS — PCDT TDAH, Portaria Conjunta SAES/SCTIE/MS nº 14, 2022 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Diagnóstico por quem sabe o desenvolvimento. Adulto: informante da infância.",
+      "Dizer com clareza: o SUS, neste PCDT, não dispensa estimulante.",
+      "Se a família compra: pressão, pulso, crescimento, sono, substância, receita A3.",
+      "Não farmacológico não é espera: orientação a pais e escola começam agora.",
+      "APS vincula; diagnóstico e estimulante saem com quem tem treino"
+    ]
+  },
+
+  erros: {
+    fonte: "MS — PCDT TDAH, Portaria Conjunta SAES/SCTIE/MS nº 14, 2022 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Receitar ritalina na primeira consulta sem dois ambientes e sem infância",
+      "Prometer que o SUS vai entregar lisdexanfetamina",
+      "Ignorar dor no peito e começar estimulante",
+      "Usar a caixa da criança no adulto da casa",
+      "Parar clonidina de uma vez"
+    ]
+  },
+
+  scores: ["nota-conferencia"]
+});
+
+QUEIXAS.push({
+  id: "tea",
+  nome: "TEA — irritabilidade e agressividade",
+  kw: "autismo tea agressividade irritabilidade risperidona comportamento",
+  tag: "Psiquiatria",
+  atualizado: "2026-09-23",
+
+  redflags: {
+    fonte: "MS — PCDT Comportamento Agressivo no TEA, Portaria Conjunta SAES/SCTIE/MS nº 7, 2022 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Agressão ou autoagressão que fere agora — segurança da pessoa e de quem cuida",
+      "Causa física: dor, otite, obstipação, dente, epilepsia — o TEA não 'explica' febre",
+      "Ganho rápido de peso, galactorreia ou Parkinsonismo após risperidona",
+      "Sedação que impede escola e comunicação",
+      "Contenção prolongada ou isolamento como se fosse tratamento"
+    ]
+  },
+
+  perguntas: {
+    fonte: "MS — PCDT Comportamento Agressivo no TEA, Portaria Conjunta SAES/SCTIE/MS nº 7, 2022",
+    itens: [
+      "O que dispara a crise (som, troca de rotina, dor, fome) e o que acalma",
+      "Comunicação: como pede, como recusa, o que acontece quando não entendem",
+      "Sono, epilepsia, intestino, dente, ouvido",
+      "O que já foi tentado de ambiente, visual, ocupacional — fármaco não é a primeira linha do comportamento",
+      "Quem prescreveu risperidona, quanto, há quanto, e o peso de então"
+    ]
+  },
+
+  exame: {
+    fonte: "MS — PCDT Comportamento Agressivo no TEA, Portaria Conjunta SAES/SCTIE/MS nº 7, 2022",
+    itens: [
+      "Peso, altura, cintura se já usa risperidona",
+      "Extrapiramidal, prolactina clínica (galactorreia, amenorreia)",
+      "Sinais de dor que a pessoa não nomeia",
+      "Comunicação e estereotipia — o quê é o jeito, o quê é sofrimento novo"
+    ]
+  },
+
+  naoperder: {
+    fonte: "MS — PCDT Comportamento Agressivo no TEA, Portaria Conjunta SAES/SCTIE/MS nº 7, 2022 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Risperidona para 'tratar autismo' — trata irritabilidade, não o diagnóstico",
+      "Pular causa física",
+      "Estimulante no TEA sem TDAH claro — pode piorar irritabilidade",
+      "Subir risperidona de golpe e chamar de extrapiramidal de 'jeito do autismo'"
+    ]
+  },
+
+  ddx: {
+    fonte: "MS — PCDT Comportamento Agressivo no TEA, Portaria Conjunta SAES/SCTIE/MS nº 7, 2022",
+    itens: [
+      "Irritabilidade do TEA — agressão, autoagressão, crise de raiva, labilidade, depois de causa física excluída",
+      "Dor e delirium — a mudança é aguda",
+      "Epilepsia e pós-ictal",
+      "TDAH comórbido — desatenção e impulsividade além do eixo autista",
+      "Psicose — rara; não é o primeiro nome da crise"
+    ]
+  },
+
+  farmaco: {
+    fonte: "MS — PCDT Comportamento Agressivo no TEA, Portaria Conjunta SAES/SCTIE/MS nº 7, 2022 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "O PCDT preconiza risperidona para comportamento agressivo no TEA, depois de medida não farmacológica. Número no cartão da risperidona, com o recorte de peso da criança.",
+      "Aripiprazol aparece em diretriz internacional; neste protocolo brasileiro o fármaco é a risperidona.",
+      "Ambiente, comunicação alternativa e tratamento da dor rendem mais do que subir miligrama.",
+      "Melatonina pode entrar no sono do TEA (Maudsley p. 620); não trata agressão.",
+      "Reduzir a risperidona quando a crise ceder — manutenção plena sem reavaliação é o erro."
+    ]
+  },
+
+  formulario: {
+    fonte: "MS — PCDT Comportamento Agressivo no TEA, Portaria Conjunta SAES/SCTIE/MS nº 7, 2022 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    farmacos: [
+      { id: "risperidona", papel: "único fármaco preconizado neste PCDT para irritabilidade/agressão do TEA — não trata o autismo" },
+      { id: "aripiprazol", outra: true, papel: "citado em diretriz internacional; não é o fármaco deste PCDT brasileiro" },
+      { id: "melatonina", papel: "sono no TEA, depois de higiene; não trata agressão; sem registro ativo" },
+      { id: "clonidina", papel: "à vezes no hiper-arousal; não substitui a risperidona do PCDT" }
+    ],
+    dosemuda: ["dm-risperidona"],
+    proibidos: ["tea-risperidona-autismo"]
+  },
+
+  conduta: {
+    fonte: "MS — PCDT Comportamento Agressivo no TEA, Portaria Conjunta SAES/SCTIE/MS nº 7, 2022",
+    itens: [
+      "Causa física no mesmo dia",
+      "Plano de ambiente e comunicação antes ou junto da caixa",
+      "Se risperidona: começar baixo, pesar, reavaliar, tentar reduzir quando responder",
+      "APS vincula; prescrição de antipsicótico em criança sai com quem conhece o PCDT"
+    ]
+  },
+
+  erros: {
+    fonte: "MS — PCDT Comportamento Agressivo no TEA, Portaria Conjunta SAES/SCTIE/MS nº 7, 2022",
+    itens: [
+      "Risperidona 'para o autismo'",
+      "Ignorar otite e chamar de birra",
+      "Manter a dose máxima anos a fio sem tentar descer",
+      "Contenção como rotina escolar"
+    ]
+  },
+
+  scores: ["nota-conferencia"]
+});
+
+QUEIXAS.push({
+  id: "transtornos-alimentares",
+  nome: "Anorexia, bulimia e compulsão alimentar",
+  kw: "anorexia bulimia compulsao alimentar realimentacao hipofosfatemia purgacao vomito lanugo imc inanicao",
+  tag: "Psiquiatria",
+  atualizado: "2026-09-23",
+
+  redflags: {
+    fonte: "BRASPEN J 2019 · AMB/CFM — Anorexia Nervosa: Diagnóstico e Prognóstico, 2011 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      { t: "Realimentação após jejum ou desnutrição — hipofosfatemia, hipocalemia e hipomagnesemia nas primeiras 72 horas (síndrome de realimentação); arritmia e morte súbita", f: "BRASPEN J 2019" },
+      { t: "Bradicardia, hipotensão, síncope ou QT longo — risco de arritmia, sobretudo na realimentação e com hipocalemia", f: "AMB/CFM — Anorexia Nervosa: Diagnóstico e Prognóstico, 2011" },
+      { t: "Hipocalemia com vômito, laxante ou diurético — potencialmente fatal; não espera sintoma", f: "AMB/CFM — Anorexia Nervosa: Diagnóstico e Prognóstico, 2011" },
+      "Fármaco que alarga QT ou piora eletrólito na anorexia — o Maudsley manda alerta no prontuário e ECG se o fármaco for imprescindível",
+      "Ideação suicida, plano ou automutilação — perguntar agora; o subtipo purgativo concentra impulsividade e suicídio",
+      "Recusa de líquidos, desidratação ou perda ponderal rápida com instabilidade — não é 'só restrição'",
+      "Edema, taquicardia ou taquipneia ao iniciar dieta — realimentação até prova em contrário"
+    ]
+  },
+
+  perguntas: {
+    fonte: "AMB/CFM — Anorexia Nervosa: Diagnóstico e Prognóstico, 2011 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Peso atual, peso mínimo, quanto perdeu e em quanto tempo — o autorrelato costuma mentir; perguntar também à família",
+      "Restringe, compulsiona, vomita, usa laxante, diurético, enemas, emético, estimulante, semaglutida, cafeína ou chá para emagrecer",
+      "Medo mórbido de ganhar peso e distorção da imagem — sem isso, a perda de peso é outra doença até prova em contrário",
+      "Amenorreia, frio, desmaio, palpitação, obstipação, dor abdominal, queda de cabelo",
+      "Exercício escondido da família e quantas horas",
+      "Quando toma o comprimido em relação ao vômito — fármaco vomitado não conta como dose",
+      "Humor, TOC, ansiedade, uso de substância — comorbidade é a regra e muda o fármaco",
+      "Ideação suicida e automutilação — direto",
+      "Diabetes: omite insulina para não ganhar peso",
+      "O que já foi prescrito para 'apetite' ou 'ansiedade da refeição'"
+    ]
+  },
+
+  exame: {
+    fonte: "AMB/CFM — Anorexia Nervosa: Diagnóstico e Prognóstico, 2011 · BRASPEN J 2019",
+    itens: [
+      "Peso, altura e IMC na balança, não no relato — na criança, percentil, não corte de adulto",
+      "Frequência, pressão, temperatura — bradicardia é o achado cardiovascular mais comum",
+      "Sinal de Russell (calo no dorso da mão), parótida, esmalte corroído — pista de vômito",
+      "Lanugo, xerose, acrocianose, hipercarotenemia — desnutrição do transtorno, não de outra inanição",
+      "Edema de realimentação × desnutrição: o edema novo depois de comer é alerta, não 'melhora'",
+      "Abdome: distensão, ruídos, cicatriz de automutilação"
+    ]
+  },
+
+  naoperder: {
+    fonte: "AMB/CFM — Anorexia Nervosa: Diagnóstico e Prognóstico, 2011 · Maudsley Prescribing Guidelines, 15ª ed., 2025 · BRASPEN J 2019",
+    itens: [
+      "Síndrome de realimentação tratada como 'está comendo de novo, ótimo'",
+      "Causa orgânica da perda de peso (celíaca, Crohn, Addison, tumor de SNC, hipertireoidismo) — e a coexistência das duas",
+      "Depressão da inanição tratada com antidepressivo antes de recuperar peso",
+      "Bupropiona na anorexia ou na bulimia",
+      "Entrevista só com o paciente — negação e baixo insight são o quadro",
+      "Subtipo purgativo tratado como o restritivo: mais substância, automutilação e suicídio"
+    ]
+  },
+
+  ddx: {
+    fonte: "AMB/CFM — Anorexia Nervosa: Diagnóstico e Prognóstico, 2011 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Anorexia restritiva — recusa calórica obsessiva, sem vômito nem laxante",
+      "Anorexia purgativa — restrição mais vômito, laxante ou diurético; mais impulsividade",
+      "Bulimia — compulsão e compensação com peso na faixa; não é anorexia 'leve'",
+      "Compulsão alimentar — episódios de ingestão sem compensação regular; o peso costuma subir",
+      "Depressão com hiporexia — não há fobia de peso nem ritual para emagrecer",
+      "Hipertireoidismo — come mais, treme, sua; na anorexia a restrição é o ponto",
+      "Doença celíaca, Crohn, acalasia, Addison, tumor de SNC — emagrecem sem distorção de imagem",
+      "ARFID / seletividade — recusa por sensorial ou medo de engasgo, sem fobia de gordura"
+    ]
+  },
+
+  exames: {
+    fonte: "AMB/CFM — Anorexia Nervosa: Diagnóstico e Prognóstico, 2011 · BRASPEN J 2019 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Laboratório não diagnostica anorexia — avalia complicação da desnutrição e da purgação",
+      "Potássio, fósforo, magnésio, cálcio, sódio, ureia, creatinina e glicemia antes de realimentar",
+      "Na realimentação de risco: eletrólito todo dia nas primeiras 72 horas, com olho no fósforo",
+      "ECG — bradicardia, QT e arritmia; repetir se hipocalemia ou se o fármaco alarga QT",
+      "Hemograma: anemia, leucopenia e plaquetopenia da desnutrição",
+      "TSH: a síndrome do eutireoidismo doente se corrige com peso, não com hormônio tireoidiano",
+      { t: "Critério local de internar por IMC ou frequência cardíaca: protocolo do serviço", v: true }
+    ]
+  },
+
+  farmaco: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · BRASPEN J 2019",
+    itens: [
+      "Na anorexia nenhum fármaco tem registro e a evidência de peso é fraca. O tratamento físico é realimentar; a psicoterapia estruturada e a familiar vêm junto. Medicamento isolado não trata.",
+      "Antidepressivo não devolve peso na anorexia (fluoxetina, sertralina, citalopram, clomipramina, amitriptilina). Depressão da fome só muda com peso. Risco de virada maníaca.",
+      "Na bulimia e na compulsão, fármaco também não é tratamento único. Fluoxetina é o ISRS com licença para bulimia; pode-se tentar, junto da psicoterapia. Resposta cedo prediz resposta. Sertralina reduz compulsão e purgação nas duas; citalopram, só na compulsão.",
+      "Bupropiona é contraindicada na anorexia (emagrece) e não se usa na bulimia (crise convulsiva).",
+      "Olanzapina tem sinal de peso na anorexia em ensaios, com má tolerância e baixa aceitação. Se antipsicótico, poupador de prolactina — risperidona, sulpirida e amisulprida pioram osso.",
+      "Benzodiazepínico e anti-histamínico não se usam para ganhar peso.",
+      "Tiamina e eletrólito (fósforo, potássio, magnésio) antes e durante a realimentação de risco; calorias baixas no começo, subida lenta. Número no cartão da tiamina.",
+      "Lisdexanfetamina aparece no Maudsley como opção na compulsão; não há cartão neste guia e não é tratamento isolado.",
+      "Horário do comprimido: se vomita, a dose não entrou."
+    ]
+  },
+
+  formulario: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · AMB/CFM — Anorexia Nervosa: Diagnóstico e Prognóstico, 2011 · BRASPEN J 2019",
+    farmacos: [
+      { id: "fluoxetina", papel: "única com licença para bulimia — tentativa junto da psicoterapia, nunca isolada; na anorexia não devolve peso" },
+      { id: "sertralina", papel: "reduz compulsão e purgação na bulimia e na compulsão; adjuvante, não único" },
+      { id: "citalopram", papel: "sinal na compulsão; na bulimia o Maudsley cita mais efeito no humor do que a fluoxetina" },
+      { id: "mirtazapina", papel: "não restaura peso na anorexia; na compulsão o ganho de peso pesa contra" },
+      { id: "olanzapina", outra: true, papel: "sinal de peso e de ansiedade pré-refeição na anorexia — tolerância ruim, off-label, não primeira escolha" },
+      { id: "aripiprazol", outra: true, papel: "evidência fraca de peso na anorexia; poupa prolactina se um atípico for tentado" },
+      { id: "bupropiona", papel: "não usar — contraindicada na anorexia; na bulimia o risco é convulsão" },
+      { id: "tiamina", outra: true, papel: "realimentação de risco — repor antes de subir caloria; não trata o transtorno" }
+    ],
+    proibidos: ["ta-farmaco-unico", "ta-bupropiona", "ta-risperidona-prolactina", "bupropiona-limiar-convulsivo"]
+  },
+
+  conduta: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · BRASPEN J 2019 · AMB/CFM — Anorexia Nervosa: Diagnóstico e Prognóstico, 2011",
+    itens: [
+      "Primeiro: risco clínico (eletrólito, ECG, suicídio, realimentação). Depois o diagnóstico do subtipo.",
+      "Anorexia: recuperar peso seguro, terapia familiar e psicoterapia estruturada. Fármaco não é o eixo.",
+      "Bulimia e compulsão: autoajuda ou TCC específica primeiro; fluoxetina ou outro ISRS só junto, nunca sozinho.",
+      "Risco de realimentação (IMC baixo, perda recente, pouco ou nenhum aporte por pelo menos 5 dias, álcool, eletrólito já baixo): tiamina, repor fósforo/potássio/magnésio, pouca caloria no início, eletrólito diário. Se o fósforo cair, reduzir a dieta e subir devagar.",
+      "Família na sala — o paciente sozinho não se trata.",
+      "APS segura o leve e o vínculo; instabilidade, IMC muito baixo, recusa de líquidos ou suicídio saem para serviço especializado. Encaminhar não é sumir.",
+      "Restringir meio letal (laxante em caixa, diurético, estoque de comprimido) quando há ideação"
+    ]
+  },
+
+  erros: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · BRASPEN J 2019 · AMB/CFM — Anorexia Nervosa: Diagnóstico e Prognóstico, 2011",
+    itens: [
+      "Prescrever fluoxetina para a anorexia 'ganhar peso'",
+      "Bupropiona para a depressão da anorexia ou da bulimia",
+      "Benzodiazepínico na hora da refeição para 'abrir o apetite'",
+      "Risperidona na anorexia",
+      "Realimentar agressivo sem fósforo nem tiamina",
+      "Fármaco como único tratamento de anorexia, bulimia ou compulsão",
+      "Acreditar no diário alimentar sem ouvir a família",
+      "Hormônio tireoidiano porque o T3 está baixo — é eutireoidismo doente",
+      "Tratar a tristeza da inanição como depressão primária e adiar a comida"
+    ]
+  },
+
+  scores: ["imc", "nota-conferencia"]
+});
+
+QUEIXAS.push({
+  id: "personalidade-borderline",
+  nome: "Personalidade borderline — crise, autolesão e o que o fármaco não trata",
+  kw: "borderline autolesao impulsividade abandono crise tpb instabilidade",
+  tag: "Psiquiatria",
+  atualizado: "2026-09-23",
+
+  redflags: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · Lei nº 13.819, 2019",
+    itens: [
+      "Ideação suicida com plano ou meio em casa — mais de três em quatro tentam; perguntar agora",
+      "Corte, queimadura ou overdose na última semana — não é 'drama'",
+      "Dissociação com risco (dirigir, atravessar via, não lembrar o que fez)",
+      "Uso de álcool ou benzodiazepínico na crise — desinibição e mais um meio letal",
+      "Psicose persistente, mania ou recusa de líquido — comorbidade, não 'só borderline'"
+    ]
+  },
+
+  perguntas: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Padrão: medo de abandono, relações no tudo-ou-nada, identidade instável, impulsividade, autolesão, vazio, raiva, dissociação ou paranoia breve",
+      "O que dispara a crise de hoje — briga, mensagem não respondida, alta, troca de profissional",
+      "O que já foi prescrito e o que sobrou em casa — polifarmácia é a regra e não trata o transtorno",
+      "Comorbidade: humor, TEPT, uso de substância, transtorno alimentar — tratar ISSO segundo o guia próprio",
+      "Já fez DBT ou outra psicoterapia com evidência — é o tratamento; o fármaco não é",
+      "Quem está com a pessoa depois da consulta"
+    ]
+  },
+
+  exame: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Lesão recente, cicatriz linear, odor de álcool",
+      "Humor do momento versus padrão de anos — a crise não diagnostica bipolar",
+      "Insight, juízo, plano suicida",
+      "Sinais de intoxicação ou abstinência",
+      "Exame físico se overdose ou restrição"
+    ]
+  },
+
+  naoperder: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Tratar o transtorno de personalidade com antipsicótico, antidepressivo ou estabilizador 'porque todo mundo usa'",
+      "Benzodiazepínico de caixa para a raiva",
+      "Ignorar a comorbidade tratável (depressão, TEPT, uso)",
+      "Alta da crise sem plano de 24 horas e sem restringir meio letal",
+      "Confundir instabilidade afetiva com mania"
+    ]
+  },
+
+  ddx: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Borderline — padrão estável de instabilidade desde a adolescência, medo de abandono e autolesão",
+      "Bipolar — episódios de dias a semanas, não oscilação de horas; menos necessidade de sono",
+      "TEPT complexo — o trauma organiza o quadro; pode coexistir",
+      "Depressão — humor rebaixado persistente sem o eixo de abandono",
+      "Uso de substância — a impulsividade some com a abstinência, ou não",
+      "Antissocial — prejuízo no outro, sem o terror do abandono"
+    ]
+  },
+
+  farmaco: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Nenhum fármaco trata o transtorno de personalidade borderline. Nenhum tem registro para isso. O tratamento é psicoterapia (DBT e afins).",
+      "O que se prescreve, quando se prescreve, é a COMORBIDADE: depressão, TEPT, psicose, uso — pelo guia daquela queixa, no papel daquela queixa.",
+      "Antipsicótico, antidepressivo e estabilizador prescritos 'para o borderline' são o hábito que o livro descreve e não endossa.",
+      "Benzodiazepínico de manutenção é proibido aqui: desinibe e vira meio letal.",
+      "Polifarmácia é o erro, não o refinamento."
+    ]
+  },
+
+  formulario: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    farmacos: [
+      { id: "fluoxetina", papel: "não trata o transtorno — só entra se houver depressão ou TOC comórbidos, no papel daquela queixa" },
+      { id: "sertralina", papel: "não trata o transtorno — comorbidade, se houver" },
+      { id: "carbonato-de-litio", outra: true, papel: "não trata o transtorno; só se a comorbidade for bipolar verdadeira" },
+      { id: "quetiapina", outra: true, papel: "não trata o transtorno; sedar a crise não é DBT" },
+      { id: "clonazepam", papel: "não trata o transtorno — manutenção é o erro; ver proibido tpb-bzd-manutencao" }
+    ],
+    proibidos: ["tpb-bzd-manutencao"]
+  },
+
+  conduta: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · Lei nº 13.819, 2019",
+    itens: [
+      "Crise: segurança, meio letal, companhia, plano de 24 horas. Notificar automutilação e suicídio quando a lei mandar",
+      "Tratar a comorbidade pelo guia dela. Não abrir uma terceira caixa 'para personalidade'",
+      "Oferecer psicoterapia com evidência e vínculo estável — troca de profissional dispara crise",
+      "Não prescrever benzodiazepínico de manutenção",
+      "APS segura o vínculo; risco iminente vai para urgência; o CAPS não substitui a psicoterapia estruturada"
+    ]
+  },
+
+  erros: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Antipsicótico de depósito 'para o borderline'",
+      "Diazepam de uso contínuo para a raiva",
+      "Alta da overdose sem restringir o estoque",
+      "Chamar de bipolar a oscilação de horas e ligar estabilizador",
+      "Mandar embora porque 'é personalidade, não doença'"
+    ]
+  },
+
+  scores: ["phq9", "nota-conferencia"]
+});
+
+QUEIXAS.push({
+  id: "perinatal",
+  nome: "Saúde mental na gestação e no puerpério",
+  kw: "puerperio pos-parto gestante amamentacao psicose litio valproato",
+  tag: "Psiquiatria",
+  atualizado: "2026-09-23",
+
+  redflags: {
+    fonte: "MS — Manual de Gestação de Alto Risco, 2022 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Psicose puerperal (delírio, alucinação, recusa do bebê) — emergência; não espera o retorno",
+      "Ideação de matar o bebê ou a si — perguntar agora, sem eufemismo",
+      "Valproato em quem pode engravidar — malformação e atraso de desenvolvimento; não é negociável",
+      "Lítio no trabalho de parto sem litemia e sem volume — toxicidade no recém-nascido",
+      "Parar de golpe o estabilizador porque 'está grávida' — recaída e suicídio perinatal se associam a tratamento ausente"
+    ]
+  },
+
+  perguntas: {
+    fonte: "MS — Manual de Gestação de Alto Risco, 2022 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Está grávida, pode estar, ou amamenta — antes de qualquer caixa",
+      "Humor, insônia que não é só o bebê, ideação suicida, medo de machucar",
+      "Episódio prévio de mania, psicose ou depressão grave — o risco de recaída no puerpério é alto",
+      "Qual psicofármaco, em que dose, quem prescreveu, se já parou sozinha",
+      "Álcool, tabaco, outra substância",
+      "Rede: quem fica com o bebê se ela internar"
+    ]
+  },
+
+  exame: {
+    fonte: "MS — Manual de Gestação de Alto Risco, 2022",
+    itens: [
+      "Vínculo observado com o bebê — recusa, medo, indiferença",
+      "Humor, psicose, juízo",
+      "Sinais de intoxicação por lítio (tremor grosseiro, ataxia) se usa",
+      "Pressão, edema, sinais de pré-eclâmpsia se valproato ou lítio no histórico"
+    ]
+  },
+
+  naoperder: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · MS — Manual de Gestação de Alto Risco, 2022",
+    itens: [
+      "Valproato em mulher em idade fértil sem contracepção à prova de falha",
+      "Cortar lítio no primeiro trimestre sem plano — o livro descreve risco cardíaco e também o risco de recaída",
+      "Escolher fluoxetina versus sertralina em silêncio: o Maudsley relata sinal de defeito cardíaco em alguns estudos de fluoxetina e paroxetina, e outros estudos que não acham; mostrar as duas frases",
+      "Benzodiazepínico crônico perto do parto — hipotonia e síndrome do RN",
+      "Achar que amamentar proíbe todo psicofármaco — a maioria continua; lítio é a grande exceção"
+    ]
+  },
+
+  ddx: {
+    fonte: "MS — Manual de Gestação de Alto Risco, 2022 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Blues puerperal — dias, choro, autolimitado",
+      "Depressão perinatal — semanas, anedonia, prejuízo; um terço começa antes do parto",
+      "Psicose puerperal — dias após o parto, emergência",
+      "Tireoidite pós-parto — imita humor",
+      "Delirium — febre, cesárea, infecção"
+    ]
+  },
+
+  farmaco: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · MS — Manual de Gestação de Alto Risco, 2022",
+    itens: [
+      "Não suspender psicofármaco só porque há gravidez. ACOG e o Maudsley alertam que suicídio perinatal se associa a tratamento ausente.",
+      "ISRS: não são teratógenos maiores. Há sinal de defeito cardíaco em alguns estudos com fluoxetina e paroxetina; outros não acham. Sertralina costuma ser a mais usada no perinatal. Mostrar, não escolher em silêncio. Número no cartão.",
+      "Valproato: malformação e atraso neurodesenvolvimento — contraindicado se pode engravidar, salvo o caso extremo que o livro descreve com termo de risco.",
+      "Lítio: risco de malformação cardíaca superestimado no passado, ainda existe; se for o fármaco que a mantém, pode continuar com rastreio cardíaco fetal. Para na hora do parto. Amamentação: RID alto — em geral não amamenta.",
+      "Benzodiazepínico crônico: hipotonia e síndrome de retirada no RN.",
+      "Scores pode incluir DPP (Näegele) se a idade gestacional importa para o plano."
+    ]
+  },
+
+  formulario: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · MS — Manual de Gestação de Alto Risco, 2022",
+    farmacos: [
+      { id: "sertralina", papel: "ISRS mais usado no perinatal — interação mais limpa; não é isenção de risco" },
+      { id: "fluoxetina", papel: "ISRS; o Maudsley cita sinal de defeito cardíaco em alguns estudos e ausência em outros — mostrar os dois" },
+      { id: "paroxetina", papel: "ISRS com o sinal mais citado de defeito cardíaco; a pior retirada" },
+      { id: "carbonato-de-litio", outra: true, papel: "se é o que a mantém, pode continuar com rastreio; parar no parto; amamentação em geral não" },
+      { id: "acido-valproico-valproato", outra: true, papel: "contraindicado se pode engravidar — malformação e atraso de desenvolvimento" },
+      { id: "lamotrigina", outra: true, papel: "alternativa de humor no perinatal com menos teratógeno que o valproato" },
+      { id: "olanzapina", outra: true, papel: "antipsicótico com lastro de uso; peso e glicemia na gestação" }
+    ],
+    proibidos: ["per-valproato-gestante", "per-litio-amamentacao"]
+  },
+
+  conduta: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · MS — Manual de Gestação de Alto Risco, 2022",
+    itens: [
+      "Psicose puerperal: urgência, não espera, não deixa a mãe só com o bebê",
+      "Não cortar estabilizador sem plano de recaída",
+      "ISRS: informar o que cada fonte diz; sertralina é a escolha usual, não um dogma",
+      "Pré-natal de alto risco se lítio ou anticonvulsivante",
+      "APS vincula; psicose e mania saem no mesmo dia"
+    ]
+  },
+
+  erros: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Parar fluoxetina no positivo da farmácia sem conversa",
+      "Manter valproato 'porque sempre tomou'",
+      "Amamentar em lítio sem saber o RID",
+      "Diazepam todas as noites no terceiro trimestre",
+      "Mandar a puérpera psicótica para casa porque 'é o blues'"
+    ]
+  },
+
+  scores: ["phq9", "dpp", "nota-conferencia"]
+});
+
+QUEIXAS.push({
+  id: "infanto-juvenil",
+  nome: "Depressão, ansiedade e psicose na criança e no adolescente",
+  kw: "adolescente crianca depressao fluoxetina ideacao suicida infanto",
+  tag: "Psiquiatria",
+  atualizado: "2026-09-23",
+
+  redflags: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · MS — CAB nº 34, Saúde Mental, 2013",
+    itens: [
+      "Ideação suicida, plano ou tentativa — o maior preditor é tentativa prévia; perguntar agora",
+      "Recusa de alimento ou líquido, catatonia, psicose — emergência",
+      "Virada maníaca após antidepressivo",
+      "Abuso atual em casa ou na escola — a receita não é o primeiro ato",
+      "Automutilação repetida — notificar quando a lei mandar"
+    ]
+  },
+
+  perguntas: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · MS — CAB nº 34, Saúde Mental, 2013",
+    itens: [
+      "Humor, irritabilidade (mais comum que anedonia no jovem), sono, peso, culpa, morte",
+      "Perguntar suicídio direto, com e sem o responsável na sala",
+      "TDAH, TEA, uso de substância, bullying, tela, sono",
+      "O que a escola e a família veem de diferente",
+      "Já fez psicoterapia? O Maudsley e o NICE põem apoio e terapia antes do fármaco na depressão leve"
+    ]
+  },
+
+  exame: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Peso, altura, Tanner se o fármaco mexer em crescimento",
+      "Humor, psicose, tique, estereotipia",
+      "Lesão de corte, cheiro de cola ou álcool",
+      "Exame físico dirigido se recusa alimentar"
+    ]
+  },
+
+  naoperder: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · MS — CAB nº 34, Saúde Mental, 2013",
+    itens: [
+      "Antidepressivo na depressão leve sem tentativa de apoio/terapia",
+      "Paroxetina de primeira linha no jovem — o lastro de suicídio da classe pesa; fluoxetina é a primeira linha clássica",
+      "Não avisar ativação e ideação nas primeiras semanas",
+      "Tratar TDAH só com estimulante e ignorar o humor",
+      "Adultizar a dose"
+    ]
+  },
+
+  ddx: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Depressão do jovem — irritabilidade, energia, sono e peso pesam mais que no adulto",
+      "Ansiedade de separação e fobia escolar — o 'não vai' não é preguiça",
+      "TEA e TDAH — o humor vem depois do eixo do desenvolvimento",
+      "Bipolar de início precoce — cuidado com antidepressivo isolado",
+      "Uso de substância e trauma"
+    ]
+  },
+
+  farmaco: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · MS — CAB nº 34, Saúde Mental, 2013",
+    itens: [
+      "Depressão leve: apoio ou psicoterapia primeiro; fármaco não.",
+      "Moderada a grave: psicoterapia só ou com antidepressivo. Fluoxetina é a primeira linha clássica no adolescente. Número no cartão.",
+      "Ideação suicida no início do ISRS: reavaliar cedo, não em 30 dias. Avisar a família.",
+      "Psicose de início precoce: antipsicótico em dose de criança (tabela do Maudsley p. 626) — não copiar adulto.",
+      "Valproato em menina adolescente: o mesmo problema do perinatal.",
+      "Dose no cartão do adulto não se cola aqui."
+    ]
+  },
+
+  formulario: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · MS — CAB nº 34, Saúde Mental, 2013",
+    farmacos: [
+      { id: "fluoxetina", papel: "primeira linha clássica de ISRS no adolescente com depressão moderada a grave, junto da terapia; vigiar ideação no início" },
+      { id: "sertralina", papel: "alternativa de ISRS; ansiedade também" },
+      { id: "escitalopram", papel: "alternativa; QT no idoso pesa menos aqui, ainda existe" },
+      { id: "risperidona", outra: true, papel: "psicose ou irritabilidade de TEA — dose de criança, não de adulto" },
+      { id: "aripiprazol", outra: true, papel: "psicose de início precoce em dose menor que a do adulto" }
+    ],
+    proibidos: ["ij-ad-leve-sem-terapia"],
+    dosemuda: ["dm-fluoxetina"]
+  },
+
+  conduta: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · MS — CAB nº 34, Saúde Mental, 2013",
+    itens: [
+      "Risco agora: não deixar só. Restringir meio letal. Notificar quando couber",
+      "Leve: terapia e vínculo. Moderada a grave: fluoxetina + terapia, retorno cedo",
+      "Escola na conversa — o prejuízo mora lá",
+      "APS vincula; psicose, mania e suicídio iminente saem no mesmo dia"
+    ]
+  },
+
+  erros: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Amitriptilina de primeira linha no adolescente deprimido",
+      "Alta da tentativa com o estoque ainda em casa",
+      "Não perguntar suicídio porque o responsável está na sala",
+      "Copiar dose de adulto no de 12 anos",
+      "Valproato na menina 'porque é bipolar'"
+    ]
+  },
+
+  scores: ["phq9", "gad7", "nota-conferencia"]
+});
+
+QUEIXAS.push({
+  id: "emergencia-psicofarmaco",
+  nome: "Emergência por psicofármaco",
+  kw: "serotoninergica neuroleptica maligna intoxicacao snm sns litio catatonia distonia overdose flumazenil dantroleno ciproeptadina bromocriptina anticolinergica qt",
+  tag: "Psiquiatria",
+  atualizado: "2026-09-23",
+
+  redflags: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · SMS-SP — Manual de Toxicologia Clínica, 2017",
+    itens: [
+      "Febre, rigidez e instabilidade autonômica após antipsicótico — SNM até prova em contrário; a ausência de febre não exclui",
+      "Hipertermia, clônus e confusão em quem usa fármaco serotoninérgico — síndrome serotoninérgica grave mata por falência respiratória",
+      "Ataxia, tremor grosseiro, diarreia e confusão em quem usa lítio — toxicidade; desidratação e AINE/IECA/diurético precipitam",
+      "Mutismo, negativismo e instabilidade autonômica — catatonia maligna; desidratação, trombose e pneumonia se não tratar",
+      "Coma com miose e frequência respiratória baixa — opioide até prova em contrário; naloxona não substitui via aérea",
+      "Depressão respiratória após benzodiazepínico parenteral — ter flumazenil à mão, e não usar se o coma for de causa mista",
+      { t: "Temperatura que sobe após tranquilização rápida — SNM e arritmia; dosar CK com urgência", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025" }
+    ]
+  },
+
+  perguntas: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · SMS-SP — Manual de Toxicologia Clínica, 2017",
+    itens: [
+      "Qual psicofármaco, quando foi a última dose, e se houve aumento rápido, polifarmácia ou suspensão abrupta",
+      "ISRS, IMAO, tramadol, triptano, lítio, antipsicótico de depósito e anticolinérgico — listar todos, não só o da receita do CAPS",
+      "Febre, sudorese, diarreia, clônus, rigidez, retenção urinária ou mucosas secas",
+      "Convulsão prévia, epilepsia em uso crônico de benzodiazepínico, ou overdose de tricíclico",
+      "Vômito, diarreia, baixa ingestão de água, dieta hipossódica — precipitam toxicidade do lítio",
+      "Tempo de evolução em horas versus dias — serotoninérgica costuma ser mais rápida que SNM",
+      "Uso de cocaína, crack ou outro estimulante nas últimas horas — o quadro pode ser estado de excitação, não SNM"
+    ]
+  },
+
+  exame: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · SMS-SP — Manual de Toxicologia Clínica, 2017",
+    itens: [
+      "Temperatura, pressão lábil, frequência cardíaca e respiratória — anotar agora e repetir",
+      "Rigidez em cano de chumbo versus clônus e hiperreflexia — é a pista que separa SNM de serotoninérgica",
+      "Pele: diaforese (SNM, serotoninérgica, simpatomimético) versus pele seca (anticolinérgico)",
+      "Pupilas: midríase na serotoninérgica e na anticolinérgica; miose no opioide",
+      "Mucosas secas, retenção urinária e diminuição de ruídos intestinais — toxídrome anticolinérgico",
+      "Nível de consciência flutuante, mutismo, negativismo, flexibilidade cérea — catatonia",
+      "Sinais de distonia: trismo, crise oculógira, opistótono, desvio conjugado do olhar",
+      "ECG antes de antipsicótico parenteral e em intoxicação por lítio, tricíclico ou metadona"
+    ]
+  },
+
+  naoperder: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · SMS-SP — Manual de Toxicologia Clínica, 2017",
+    itens: [
+      "SNM atípica sem febre ou sem rigidez",
+      "Catatonia maligna chamada de SNM, ou o inverso, e atrasar benzodiazepínico ou ECT",
+      "Coma misto tratado com flumazenil — convulsão",
+      "CK elevado assintomático tratado como SNM — o livro diz que CK isolado não diagnostica",
+      "Intoxicação por lítio com litemia ainda \"no alvo\" — neurotoxicidade pode existir com nível plasmático enganoso",
+      "Distonia aguda tratada com mais antipsicótico"
+    ]
+  },
+
+  ddx: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · SMS-SP — Manual de Toxicologia Clínica, 2017",
+    itens: [
+      "Síndrome neuroléptica maligna — rigidez, instabilidade autonômica e CK alto após antagonista dopaminérgico; sem exposição recente, SNM é improvável",
+      "Síndrome serotoninérgica — hiperreflexia, clônus, midríase e diarreia; pode ocorrer com um só fármaco serotoninérgico em dose terapêutica",
+      "Catatonia — mutismo, negativismo e flexibilidade cérea; a forma maligna pode ser indistinguível da SNM no laboratório",
+      "Crise anticolinérgica — pele e mucosas secas, retenção urinária e midríase, sem diaforese",
+      "Intoxicação por lítio — náusea, diarreia, ataxia e tremor grosseiro; convulsão e coma na faixa alta",
+      "Distonia aguda — trismo e crise oculógira horas após neuroléptico, sem febre",
+      "Estado de excitação por estimulante — agitação violenta, hipertermia e luta contra contenção após crack ou cocaína",
+      "Sepse, hipertireoidismo, hipertermia maligna anestésica e abstinência de álcool ou benzodiazepínico"
+    ]
+  },
+
+  exames: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · SMS-SP — Manual de Toxicologia Clínica, 2017",
+    itens: [
+      "CK, leucograma, função hepática e renal, eletrólitos e glicemia",
+      "Litemia se há lítio na lista, mesmo que a última tomada seja incerta",
+      "ECG com QTc; repetir se o fármaco alarga o intervalo",
+      "Mioglobina urinária se houver rigidez, hipertermia ou CK alto",
+      { t: "Painel toxicológico do HELR: o que o laboratório de plantão dosá de fato", v: true }
+    ]
+  },
+
+  farmaco: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · SMS-SP — Manual de Toxicologia Clínica, 2017 · ABP — Diretrizes brasileiras para o manejo da agitação psicomotora, 2021",
+    itens: [
+      "A primeira droga é parar a que causou o quadro. Antipsicótico na SNM, serotoninérgico na síndrome serotoninérgica, lítio na toxicidade.",
+      "SNM na unidade psiquiátrica: suspender o antipsicótico, monitorar temperatura, pulso e pressão, e benzodiazepínico se ainda não estiver prescrito. Dantroleno e bromocriptina são do leito clínico ou da emergência, com hidratação e ventilação se precisar.",
+      "Síndrome serotoninérgica: suspender o agente, resfriar com medida física (antitérmico não trata hipertermia muscular), benzodiazepínico para sedar. Ciproeptadina entra no refratário. Haloperidol não é sedativo deste quadro.",
+      "Catatonia: benzodiazepínico é a primeira linha, em especial lorazepam. Resposta costuma ser rápida quando há resposta. Sem resposta, ECT. Não atrasar cuidado clínico da desidratação e da trombose.",
+      "Distonia aguda: biperideno parenteral. Ter o fármaco à mão antes de haloperidol IM.",
+      "Flumazenil reverte depressão respiratória de benzodiazepínico isolado. É proibido no dependente crônico, no epiléptico em benzodiazepínico de longo prazo e no coma misto com tricíclico: o mecanismo é convulsão e arritmia.",
+      "Após SNM, o antipsicótico quase sempre precisará voltar. Esperar resolução, recomeçar dose muito baixa de fármaco estruturalmente diferente, sem depósito.",
+      "Via oral primeiro na agitação; intravenosa a ABP manda evitar. Olanzapina IM não se combina com benzodiazepínico IM.",
+      { t: "Quais antídotos o carro de emergência do HELR tem de fato: conferir no protocolo do serviço", v: true }
+    ]
+  },
+
+  formulario: {
+    fonte: "SMS-SP — Manual de Toxicologia Clínica, 2017 · Maudsley Prescribing Guidelines, 15ª ed., 2025 · ABP — Diretrizes brasileiras para o manejo da agitação psicomotora, 2021",
+    farmacos: [
+      { id: "dantroleno", papel: "SNM com hipertermia e rabdomiólise — reduz liberação de cálcio no músculo; entra no leito clínico, não substitui suspender o antipsicótico" },
+      { id: "bromocriptina", papel: "agonista dopaminérgico no SNM, em geral junto do dantroleno; cartão clínico existe, registro ativo Anvisa não" },
+      { id: "ciproeptadina", papel: "antagonista 5-HT na síndrome serotoninérgica refratária a benzodiazepínico e resfriamento" },
+      { id: "flumazenil", papel: "só depressão respiratória por benzodiazepínico isolado — nunca no coma de causa desconhecida" },
+      { id: "naloxona", papel: "coma com miose e hipoventilação quando opioide entra no diagnóstico diferencial da overdose mista" },
+      { id: "lorazepam", outra: true, papel: "catatonia e sedação na SNM — não é o tratamento da causa dopaminérgica" },
+      { id: "diazepam", outra: true, papel: "sedação e convulsão na emergência; na catatonia o lastro maior é do lorazepam" },
+      { id: "biperideno", outra: true, papel: "distonia aguda após neuroléptico — ter à mão antes do haloperidol IM" },
+      { id: "carbonato-de-litio", outra: true, papel: "o fármaco da intoxicação — a conduta é suspender e tratar o nível, não titolar agora" },
+      { id: "midazolam", outra: true, papel: "tranquilização rápida quando a via IM ou IV é inevitável; depressão respiratória é dose-relacionada" }
+    ],
+    combos: ["emg-snm-dantroleno-bromocriptina"],
+    proibidos: [
+      "emg-flumazenil-convulsao",
+      "emg-olanzapina-im-bzd",
+      "isrs-triciclico-imao",
+      "isrs-tramadol",
+      "litio-diuretico-ieca-aine",
+      "ziprasidona-qt"
+    ]
+  },
+
+  conduta: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · SMS-SP — Manual de Toxicologia Clínica, 2017 · ABP — Diretrizes brasileiras para o manejo da agitação psicomotora, 2021",
+    itens: [
+      "ABC, oxigênio, acesso, glicemia e temperatura antes de qualquer antídoto",
+      "SNM: suspender o antipsicótico agora; hidratar; transferir para leito clínico se houver hipertermia, rigidez grave ou rebaixamento",
+      "Serotoninérgica grave: resfriamento físico; se a temperatura for extrema, sedação, paralisia e via aérea — antitérmico não resolve",
+      "Catatonia: lorazepam e suporte; ECT se falhar ou se for forma maligna",
+      "Lítio: suspender, hidratar, internar em leito clínico; diurese forçada e diálise são decisão da emergência clínica, não do CAPS",
+      "Após parenteral: temperatura, pulso, pressão e frequência respiratória a cada quinze minutos na primeira hora",
+      "Desescalada verbal primeiro; contenção física é último recurso e agrava hipertermia no estado de excitação",
+      "Encaminhar não é sedar e sumir — o paciente permanece visível até estar deambulando"
+    ]
+  },
+
+  erros: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · SMS-SP — Manual de Toxicologia Clínica, 2017 · ABP — Diretrizes brasileiras para o manejo da agitação psicomotora, 2021",
+    itens: [
+      "Dar flumazenil no coma de causa desconhecida",
+      "Tratar SNM com mais antipsicótico",
+      "Usar haloperidol para sedar síndrome serotoninérgica",
+      "Diagnosticar SNM só pelo CK, sem quadro clínico",
+      "Combinar olanzapina IM com benzodiazepínico IM",
+      "Atrasar ECT na catatonia maligna porque \"ainda não tentou outro neuroléptico\"",
+      "Mandar para casa após naloxona sem observar — o opioide dura mais que o antídoto",
+      "Contenção prolongada em prono no agitado hipertérmico"
+    ]
+  },
+
+  scores: ["nota-conferencia", "dose-peso"]
+});
+
+QUEIXAS.push({
+  id: "outras-substancias",
+  nome: "Crack, cocaína, opioides, maconha e benzodiazepínicos",
+  kw: "crack cocaina opioide maconha benzodiazepinico metadona buprenorfina naloxona heroina abstinencia intoxicacao estimulante excitacao",
+  tag: "Psiquiatria",
+  atualizado: "2026-09-23",
+
+  redflags: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · SMS-SP — Manual de Toxicologia Clínica, 2017 · MS — SAMU 192, Protocolos de Suporte Avançado de Vida, 2016",
+    itens: [
+      "Coma, miose e frequência respiratória baixa — overdose de opioide; naloxona agora e via aérea se não reverter",
+      "Agitação violenta, hipertermia e luta contra contenção após crack ou cocaína — estado de excitação; contenção em prono mata",
+      "Dor torácica, arritmia ou convulsão após cocaína — emergência clínica, não \"quebra de fissura\"",
+      "Intoxicação por benzodiazepínico com outro depressor — flumazenil pode precipitar convulsão",
+      "Alta hospitalar de quem usa opioide — perda de tolerância; os dois dias seguintes concentram morte",
+      "Metadona em quem ainda está intoxicado por álcool ou benzodiazepínico — overdose somada",
+      "Body packer com rebaixamento — ruptura de invólucro; cirurgia, não carvão de rotina"
+    ]
+  },
+
+  perguntas: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · AMB/ABP — Abuso e Dependência dos Opioides e Opiáceos, 2012 · SMS-SP — Manual de Toxicologia Clínica, 2017",
+    itens: [
+      "Qual substância, via, última dose e se misturou álcool, benzodiazepínico ou opioide",
+      "Crack, merla ou cloridrato — a via muda o tempo do pico e o risco cardíaco",
+      "Opioide ilícito, metadona, buprenorfina, fentanil ou nitazeno — naloxona única pode não bastar nos de alta afinidade",
+      "Já fez tratamento com metadona ou buprenorfina, e quando foi a última tomada supervisionada",
+      "Gestação — metadona ou buprenorfina de manutenção não se suspende no pronto-socorro",
+      "Convulsão prévia e uso crônico de benzodiazepínico — define se flumazenil está proibido",
+      "Onde guarda a metadona se houver criança em casa"
+    ]
+  },
+
+  exame: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · SMS-SP — Manual de Toxicologia Clínica, 2017",
+    itens: [
+      "Frequência respiratória, oximetria, pupila e temperatura — os quatro que separam opioide, estimulante e sedativo",
+      "Toxidrome opioide: miose, bradipneia, pele fria e úmida, rebaixamento",
+      "Toxidrome simpatomimético: midríase, hipertensão, taquicardia, diaforese, agitação",
+      "Maconha aguda: taquicardia, olhos vermelhos, hipotensão postural, elação ou paranoia",
+      "Abstinência de opioide: midríase, bocejo, piloereção, diarreia, dor — desconfortável, não mata; overdose mata",
+      "Abstinência de benzodiazepínico: ansiedade, insônia, delirium, convulsão — esta sim pode matar",
+      "Marcas de injeção, perfuração de septo, queimadura de lábio e de mão no cachimbo de crack",
+      "ECG quando houver cocaína, metadona, sintético ou síncope"
+    ]
+  },
+
+  naoperder: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · AMB/ABP — Abuso e Dependência dos Opioides e Opiáceos, 2012",
+    itens: [
+      "Overdose chamada de abstinência, e o contrário",
+      "Buprenorfina iniciada ainda com agonista pleno no receptor — abstinência precipitada",
+      "Naloxona em dependente de opioide sem preparo para a abstinência aguda que ela dispara",
+      "Psicose da maconha de alta potência tratada só com alta, sem risco de suicídio e sem seguimento",
+      "Substituição de cocaína com estimulante — não há evidência e o livro contra-indica de rotina",
+      "Alta sem naloxona de casa para quem usa opioide"
+    ]
+  },
+
+  ddx: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · SMS-SP — Manual de Toxicologia Clínica, 2017",
+    itens: [
+      "Overdose de opioide — miose, bradipneia e coma; reverte com naloxona se o opioide for o único depressor",
+      "Intoxicação por cocaína ou crack — midríase, diaforese, hipertensão e paranoia; pele molhada, não seca",
+      "Estado de excitação induzido por droga — agitação contínua, hipertermia e intolerância à dor após estimulante ou canabinoide sintético",
+      "Intoxicação por maconha — elação, distorção perceptiva e taquicardia; psicose transitória possível, sobretudo na de alta potência",
+      "Abstinência de opioide — midríase e piloereção com consciência preservada; não explica coma",
+      "Abstinência de benzodiazepínico — tremor, insônia e convulsão; não tratar com outro fármaco que gera dependência",
+      "Síndrome serotoninérgica — clônus e hiperreflexia após mistura de cocaína com ISRS ou metadona",
+      "Hipoglicemia, TCE, sepse e abstinência alcoólica — toda agitação de rua precisa de glicemia"
+    ]
+  },
+
+  exames: {
+    fonte: "SMS-SP — Manual de Toxicologia Clínica, 2017 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    itens: [
+      "Glicemia, eletrólitos, função renal e CK se houver agitação ou hipertermia",
+      "ECG na cocaína, na metadona e no sintético",
+      "Triagem urinária não fecha diagnóstico: falso positivo e janela curta; NPS muitas vezes não aparece",
+      { t: "Qual painel o laboratório do HELR identifica de fato, e com que atraso", v: true }
+    ]
+  },
+
+  farmaco: {
+    fonte: "AMB/ABP — Abuso e Dependência dos Opioides e Opiáceos, 2012 · Maudsley Prescribing Guidelines, 15ª ed., 2025 · SMS-SP — Manual de Toxicologia Clínica, 2017 · MS — SAMU 192, Protocolos de Suporte Avançado de Vida, 2016",
+    itens: [
+      "Overdose de opioide: naloxona e suporte ventilatório. Fentanil, nitazeno e buprenorfina exigem bolus repetidos. Observar — a naloxona acaba antes do opioide.",
+      "Abstinência de opioide: metadona é primeira linha na diretriz brasileira. Buprenorfina é alternativa, sublingual, e só entra se já houver abstinência visível — senão precipita.",
+      "Manutenção (OST): metadona ou buprenorfina reduzem morte. Não iniciar OST no intoxicado. Interno não-especialista pede protocolo local ou o serviço de álcool e drogas antes de a primeira dose.",
+      "Naltrexona não é tratamento de abstinência aguda e precipita privação se ainda há opioide no receptor.",
+      "Cocaína e crack: não há fármaco de substituição. Abstinência é autolimitada (humor rebaixado, insônia, fissura). Benzodiazepínico seda a intoxicação aguda; betabloqueador na fase aguda da cocaína é armadilha.",
+      "Estado de excitação: desescalada, benzodiazepínico, transferência urgente à emergência. Antipsicótico com cautela (distonia e SNM). Antitérmico não resfria; água fria, gelo e volume sim.",
+      "Maconha: intoxicação aguda é suporte. Abstinência (irritabilidade, insônia) não tem fármaco específico. Psicose persiste — tratar como psicose, e o uso pesa no risco.",
+      "Benzodiazepínico de uso indevido: redução gradual, em geral convertendo para diazepam. Flumazenil não é tratamento de abstinência nem de overdose mista.",
+      { t: "Quem no município inicia metadona ou buprenorfina, e com qual receita: conferir o fluxo do CAPS AD", v: true }
+    ]
+  },
+
+  formulario: {
+    fonte: "AMB/ABP — Abuso e Dependência dos Opioides e Opiáceos, 2012 · MS — SAMU 192, Protocolos de Suporte Avançado de Vida, 2016 · SMS-SP — Manual de Toxicologia Clínica, 2017 · Maudsley Prescribing Guidelines, 15ª ed., 2025",
+    farmacos: [
+      { id: "naloxona", papel: "antídoto da overdose de opioide — reverte hipoventilação; não trata abstinência e não previne edema pulmonar" },
+      { id: "metadona", papel: "primeira linha da abstinência e da manutenção por opioide na diretriz brasileira; agonista pleno, titulação lenta" },
+      { id: "buprenorfina", papel: "agonista parcial para abstinência e manutenção; bloqueia o pleno, precipita se o receptor ainda está ocupado" },
+      { id: "naltrexona", papel: "prevenção de recaída depois de limpeza do opioide — não usar na abstinência aguda" },
+      { id: "diazepam", outra: true, papel: "intoxicação por estimulante e conversão na retirada de benzodiazepínico; não substitui OST" },
+      { id: "clonazepam", outra: true, papel: "não é tratamento da dependência de benzodiazepínico — se entrar, é ponte curta, não manutenção" },
+      { id: "midazolam", outra: true, papel: "sedação da agitação aguda no pré-hospitalar; depressão respiratória se somar opioide" },
+      { id: "clonidina", outra: true, papel: "alternativa sintomática na abstinência de opioide quando metadona não está disponível — pouco faz em fissura e insônia" },
+      { id: "flumazenil", papel: "só hipoventilação por benzodiazepínico isolado no não dependente — proibido no misto e no crônico" },
+      { id: "cetamina-racemica", outra: true, papel: "sedativo preferido da emergência no estado de excitação refratário, depois da transferência — não é conduta de CAPS" }
+    ],
+    combos: ["sub-naloxona-buprenorfina-alta"],
+    proibidos: [
+      "sub-buprenorfina-agonista-pleno",
+      "sub-metadona-intoxicado",
+      "sub-naltrexona-opioide",
+      "sub-metadona-bzd",
+      "emg-flumazenil-convulsao",
+      "bzd-alcool-depressor"
+    ]
+  },
+
+  conduta: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · AMB/ABP — Abuso e Dependência dos Opioides e Opiáceos, 2012 · SMS-SP — Manual de Toxicologia Clínica, 2017 · MS — SAMU 192, Protocolos de Suporte Avançado de Vida, 2016",
+    itens: [
+      "Overdose de opioide: chamar ajuda, via aérea, naloxona, repetir até ventilar; se não reverter com dose alta, há outro depressor ou lesão cerebral",
+      "Não dar alta nos minutos após a naloxona — ressedação é regra com metadona e com opioide de longa ação",
+      "Abstinência de opioide: conforto e metadona segundo protocolo; a privação não justifica alta a pedido sem plano",
+      "Cocaína/crack agitado: benzodiazepínico, resfriamento, emergência clínica; não betabloqueador na fase aguda",
+      "Estado de excitação: não imobilizar em prono; segundos, não minutos, se a contenção for inevitável",
+      "Maconha com psicose: ambiente, risco de suicídio, antipsicótico se a psicose permanece; o uso não \"explica tudo\" e encerra a consulta",
+      "Retirada de benzodiazepínico: combinada com o paciente, gradual; se a redução falhar, não escalar a dose",
+      "Quem usa opioide e recebe alta: avisar perda de tolerância, treinar quem mora junto e, se o serviço tiver, naloxona de casa"
+    ]
+  },
+
+  erros: {
+    fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025 · AMB/ABP — Abuso e Dependência dos Opioides e Opiáceos, 2012 · SMS-SP — Manual de Toxicologia Clínica, 2017",
+    itens: [
+      "Dar metadona em quem ainda está intoxicado",
+      "Iniciar buprenorfina com heroína ou metadona ainda no receptor",
+      "Usar flumazenil no dependente de benzodiazepínico ou na overdose mista",
+      "Tratar fissura de crack com antipsicótico de depósito na primeira consulta",
+      "Prescrever estimulante como \"substituição\" da cocaína",
+      "Mandar embora após naloxona porque \"já abriu o olho\"",
+      "Contenção prolongada no crack hipertérmico",
+      "Suspender metadona de gestante no pronto-socorro para \"não viciar o feto\""
+    ]
+  },
+
+  scores: ["nota-conferencia", "dose-peso"]
+});

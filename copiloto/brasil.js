@@ -13,8 +13,8 @@
  * (A1–A3, B1–B2, C1–C5), por "sem controle especial" ou por "não se aplica".
  * `f` separa fontes por " · ", cada parte com ano. Há teste para tudo isso.
  *
- * Bloco 2 (2026-09-23): os 45 cartões que existem agora. Os 18 da onda 2 que
- * ainda não têm cartão entram quando o Bloco 3 integrar.
+ * Bloco 2 (2026-09-23): os 45 cartões que existiam então.
+ * Bloco 3 (2026-09-23): +18 cartões da onda 2 (total 63).
  */
 var BRASIL = {
   "haloperidol": {
@@ -284,6 +284,114 @@ var BRASIL = {
   "cetamina-racemica": {
     receita: "B1 — Notificação de Receita B",
     sus: "não consta da RENAME 2024",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "donepezila": {
+    receita: "C1 — Receita de Controle Especial, em 2 vias",
+    sus: "RENAME 2024 — Componente Especializado (comprimido 5 mg e 10 mg)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "rivastigmina": {
+    receita: "C1 — Receita de Controle Especial, em 2 vias",
+    sus: "RENAME 2024 — Componente Especializado (cápsula; adesivo no PCDT Alzheimer)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "galantamina": {
+    receita: "C1 — Receita de Controle Especial, em 2 vias",
+    sus: "RENAME 2024 — Componente Especializado (cápsula de liberação prolongada 8 mg, 16 mg e 24 mg)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "memantina": {
+    receita: "C1 — Receita de Controle Especial, em 2 vias",
+    sus: "RENAME 2024 — Componente Especializado (comprimido 10 mg)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "zolpidem": {
+    receita: "B1 — Notificação de Receita B",
+    sus: "não consta da RENAME 2024",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "melatonina": {
+    receita: "não se aplica — sem registro no Brasil",
+    sus: "não consta da RENAME 2024",
+    registro: "sem registro ativo na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "metilfenidato": {
+    receita: "A3 — Notificação de Receita A",
+    sus: "não consta da RENAME 2024 — PCDT TDAH (Portaria Conjunta nº 14/2022) não incorporou",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "lisdexanfetamina": {
+    receita: "A3 — Notificação de Receita A",
+    sus: "não consta da RENAME 2024 — PCDT TDAH (Portaria Conjunta nº 14/2022) não incorporou",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "atomoxetina": {
+    receita: "C1 — Receita de Controle Especial, em 2 vias",
+    sus: "não consta da RENAME 2024",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "clonidina": {
+    receita: "sem controle especial",
+    sus: "não consta da RENAME 2024",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "prazosina": {
+    receita: "não se aplica — sem registro no Brasil",
+    sus: "não consta da RENAME 2024",
+    registro: "sem registro ativo na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "naloxona": {
+    receita: "C1 — Receita de Controle Especial, em 2 vias",
+    sus: "RENAME 2024 — Componente Básico (solução injetável 0,4 mg/mL)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "metadona": {
+    receita: "A1 — Notificação de Receita A",
+    sus: "RENAME 2024 — Componente Especializado (comprimido 10 mg)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "buprenorfina": {
+    receita: "A1 — Notificação de Receita A",
+    sus: "não consta da RENAME 2024",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "dantroleno": {
+    receita: "sem controle especial",
+    sus: "não consta da RENAME 2024",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "bromocriptina": {
+    receita: "não se aplica — sem registro no Brasil",
+    sus: "RENAME 2024 — Componente Especializado (comprimido 2,5 mg; PCDT Hiperprolactinemia, não SNM)",
+    registro: "sem registro ativo na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "ciproeptadina": {
+    receita: "sem controle especial",
+    sus: "não consta da RENAME 2024",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "flumazenil": {
+    receita: "C1 — Receita de Controle Especial, em 2 vias",
+    sus: "RENAME 2024 — Componente Básico (solução injetável 0,1 mg/mL)",
     registro: "registrado na Anvisa",
     f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
   }
