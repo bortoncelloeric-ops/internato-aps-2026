@@ -581,6 +581,10 @@ await evalJS(`(()=>{
     fonte:'MS — CAB nº 34, Saúde Mental, 2013'};
   PSICOFARMACOS.classes.push({rot:'Cartão de teste', kw:'', farmacos:[fx]});
   BRASIL['cartao-de-teste'] = {receita:'C1 — teste', sus:'teste', registro:'teste', f:'Portaria SVS/MS nº 344/1998'};
+  PSICOFARMACOS.classes.push({rot:'Cartão de teste 2', kw:'', farmacos:[{nome:'Cartão de teste 2', id:'cartao-de-teste-2', kw:'', apres:'teste',
+    dose:[{rot:'Dose mínima efetiva', val:'20 mg/dia', p:342}],
+    porque:'teste', escolher:'teste', evitar:'teste', contraind:'teste', adversos:'teste', monitor:'teste',
+    fonte:'Maudsley Prescribing Guidelines, 15ª ed., 2025'}]});
 })()`);
 
 ok('Psicofármacos abre pelo header', await evalJS(`(()=>{document.getElementById('farmacos').click();
@@ -601,6 +605,9 @@ ok('onda 2 · No Brasil vem logo abaixo da dose',
 ok('onda 2 · Fontes divergem aparece quando o cartão diverge',
    await evalJS(`(()=>{const c=${CARTAO_TESTE};
      return [...c.querySelectorAll('.fx-lin b')].some(b=>b.textContent==='Fontes divergem')})()`), true);
+ok('auditoria · linha só com página cita a fonte do cartão, não "p. N" solto',
+   await evalJS(`(()=>{const c=[...document.querySelectorAll('#vfar .fx')].find(x=>x.querySelector('.fx-nome').textContent.indexOf('Cartão de teste 2')>-1);
+     const s=c && c.querySelector('.fx-dose .fx-cite'); return !!s && s.textContent.indexOf('Maudsley')>-1 && s.textContent.indexOf('p. 342')>-1})()`), true);
 ok('onda 2 · no painel há linha do Maudsley com página, fora do cartão de teste',
    await evalJS(`[...document.querySelectorAll('#vfar .fx-dose .fx-cite')].some(s=>
      new RegExp('p[.] [0-9]+').test(s.textContent) && s.textContent.indexOf('Maudsley')>-1 &&
@@ -652,6 +659,21 @@ ok('a busca do formulário acha combinação perigosa pelo nome do par',
 ok('sem rolagem lateral com o formulário aberto',
    await evalJS(`(()=>{document.querySelectorAll('#vfar details.sec').forEach(d=>d.open=true);
      return document.documentElement.scrollWidth > document.documentElement.clientWidth})()`), false);
+
+/* Auditoria 23/09/2026: no celular, rótulo de dose longo (caixa alta, sem quebra)
+   alargava o cartão aberto dentro da queixa. O details.fx-op tem overflow:hidden,
+   então o texto sumia à direita SEM rolagem lateral — o teste de documento não via. */
+await send('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 2, mobile: true });
+ok('celular 390 · nenhum cartão aberto dentro da queixa corta texto à direita',
+   await evalJS(`(()=>{ if (innerWidth !== 390) return 'largura ' + innerWidth; const res=[];
+     for (const q of QUEIXAS.filter(x=>x.tag==='Psiquiatria')){
+       document.querySelector('.qcard[data-id="'+q.id+'"]') || document.getElementById('voltar').click();
+       const b=document.querySelector('.qcard[data-id="'+q.id+'"]'); if(!b) continue; b.click();
+       document.querySelectorAll('#detalhe details.fx-op').forEach(d=>{ d.open=true;
+         if (d.scrollWidth > d.clientWidth + 1) res.push(q.id+'/'+((d.querySelector('.fx-nome')||{}).textContent||'?')); });
+       document.getElementById('voltar').click(); }
+     return res.join(', ') })()`), '');
+await send('Emulation.clearDeviceMetricsOverride');
 
 /* Decisão de layout de 16/09/2026: sete botões no header empurram a busca para
    fora da tela do celular, então referência só aparece na lista. */

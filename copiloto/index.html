@@ -275,7 +275,7 @@ li.v{background:var(--amb-w); margin-left:-.5rem; padding:.3rem .5rem; border-ra
 .fx-quando{font-size:var(--fs-md); margin:0 0 .7rem}
 .fx-quando b{color:var(--acc-d)}
 @media(max-width:479px){ .fx-dose{grid-template-columns:1fr; gap:.1rem .5rem}
-                         .fx-drot{padding-top:.35em} }
+                         .fx-drot{padding-top:.35em; white-space:normal} }
 
 /* Opção de fármaco DENTRO da queixa. Linha compacta que abre o card inteiro no
    mesmo lugar: com paciente na frente, trocar de tela para ver contraindicação é
@@ -1062,9 +1062,11 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
   /* Uma linha de dose. Com o Maudsley (23/09/2026) o mesmo cartão passou a ter
      mais de uma fonte: a linha que tem fonte ou página própria mostra isso
      embaixo do número. A que não tem herda a do cartão, que sai no rodapé. */
-  function doseLinhaHTML(d){
-    var cite = (d.f || d.p)
-      ? '<span class="fx-cite">' + (d.f ? esc(d.f) + (d.p ? ' · ' : '') : '') + (d.p ? 'p. ' + d.p : '') + '</span>'
+  function doseLinhaHTML(d, fonteCartao){
+    /* Linha só com página herda a fonte do cartão: "p. 600" solto não diz de onde veio. */
+    var fonte = d.f || (d.p ? fonteCartao : '');
+    var cite = (fonte || d.p)
+      ? '<span class="fx-cite">' + (fonte ? esc(fonte) + (d.p ? ' · ' : '') : '') + (d.p ? 'p. ' + esc(String(d.p)) : '') + '</span>'
       : '';
     return '<span class="fx-drot">' + esc(d.rot) + '</span><span>' + esc(d.val) + cite + '</span>';
   }
@@ -1088,7 +1090,7 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
     var h = '<div class="fx"><div class="fx-nome">' +
             (f.v ? '<span class="vf">VERIFICAR</span>' : '') + esc(f.nome) + '</div>';
     if (f.apres) h += '<div class="fx-apres">' + esc(f.apres) + '</div>';
-    if (f.dose && f.dose.length) h += '<div class="fx-dose">' + f.dose.map(doseLinhaHTML).join('') + '</div>';
+    if (f.dose && f.dose.length) h += '<div class="fx-dose">' + f.dose.map(function(d){ return doseLinhaHTML(d, f.fonte); }).join('') + '</div>';
     h += brasilHTML(f.id);
     /* Divergência não é dívida: sem cor nova (DESIGN.md — âmbar é só VERIFICAR). */
     if (f.diverge) h += '<div class="fx-lin"><b>Fontes divergem</b><span>' + esc(f.diverge) + '</span></div>';
