@@ -28,7 +28,7 @@
  */
 
 var PSICOFARMACOS = {
-  atualizado: "2026-09-16",
+  atualizado: "2026-09-23",
 
   regra: {
     titulo: "Como ler este formulário",
@@ -404,29 +404,39 @@ var PSICOFARMACOS = {
         {
           nome: "Aripiprazol",
           id: "aripiprazol",
-          kw: "abilify acatisia agonista parcial potencializacao depressao",
-          apres: "comprimido",
+          kw: "abilify agonista parcial acatisia potencializacao",
+          apres: "comprimido; linhas abaixo referem-se ao uso oral",
           dose: [
-            { rot: "Dose em psiquiatria", val: "sem fonte brasileira datada conferida — confirmar no protocolo do serviço antes de prescrever" }
+            {
+              rot: "Dose mínima efetiva",
+              val: "Esquizofrenia: 10 mg/dia, tanto em primeiro episódio como em múltiplos episódios; resposta individual varia",
+              p: 8
+            },
+            {
+              rot: "Mania",
+              val: "15 mg/dia; aumentar se necessário até 30 mg/dia",
+              p: 311
+            },
+            {
+              rot: "Potencialização na depressão",
+              val: "2–10 mg/dia podem ser eficazes como adjuvante; não extrapolar a dose antipsicótica",
+              p: 348
+            },
+            {
+              rot: "Idoso",
+              val: "Iniciar 5 mg pela manhã; manutenção 5–15 mg/dia; máximo 20 mg/dia, sob reavaliação",
+              p: 702
+            }
           ],
-          porque: "Agonista PARCIAL de D2, não bloqueador: onde há dopamina demais ele reduz, " +
-                  "onde há de menos ele sustenta. É por isso que quase não sobe prolactina e " +
-                  "tem o melhor perfil metabólico — e também por que dá tanta acatisia.",
-          escolher: "Quando o ganho de peso ou a hiperprolactinemia inviabilizaram outro " +
-                    "atípico. E como POTENCIALIZADOR de antidepressivo na depressão resistente, " +
-                    "onde o CANMAT 2023 o coloca em primeira linha adjuvante junto com a " +
-                    "brexpiprazol — nesse papel a dose é menor que a antipsicótica.",
-          evitar: "É o antipsicótico com MAIOR incidência de acatisia — e acatisia confundida " +
-                  "com piora do quadro leva a aumentar a dose, que piora a acatisia num ciclo " +
-                  "vicioso. Procurar ativamente nos primeiros dias.",
-          contraind: "Não consta dos PCDT de Esquizofrenia nem de TAB tipo I — não é dispensado " +
-                     "por esses protocolos no SUS.",
-          adversos: "Acatisia em destaque, insônia, náusea. Pouco ganho de peso, pouca prolactina.",
-          monitor: "Procurar acatisia ativamente após iniciar e após cada aumento.",
-          fonte: "VERIFICAR — papel na potencialização conferido no CANMAT 2023 (Can J Psychiatry, 2024); posologia sem fonte datada conferida",
-          v: true
+          porque: "Agonista parcial dopaminérgico. O perfil de prolactina e metabólico pode favorecer a escolha, mas não elimina efeitos adversos.",
+          escolher: "Esquizofrenia ou mania quando o perfil de efeitos favorece a escolha; potencialização especializada na depressão resistente.",
+          evitar: "Acatisia ou insônia importantes; confundir inquietação induzida com piora psicótica leva a escalada inadequada.",
+          contraind: "Hipersensibilidade ao fármaco. Uso para comportamento na demência exige avaliação de risco e não é indicação automática.",
+          adversos: "Acatisia, inquietação, insônia, náusea e possível ganho de peso.",
+          monitor: "Acatisia após início e ajustes, sono, peso, parâmetros metabólicos e resposta da indicação tratada.",
+          fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025"
         }
-      ]
+]
     }
   ]
 };
@@ -789,28 +799,144 @@ PSICOFARMACOS.classes.push({
       fonte: "MS — PCDT Tabagismo, Portaria Conjunta SCTIE/SAES/MS nº 10, 2020"
     },
     {
-      nome: "Venlafaxina, mirtazapina, trazodona, duloxetina",
-      id: "venlafaxina-mirtazapina-trazodona-duloxetina",
-      kw: "dual irsn venlafaxina mirtazapina trazodona duloxetina insonia",
-      apres: "não constam dos PCDT psiquiátricos nem do quadro de psicofármacos do CAB nº 34",
+      nome: "Venlafaxina",
+      id: "venlafaxina",
+      kw: "efexor irsn dual retirada pressao",
+      apres: "cápsula de liberação prolongada",
       dose: [
-        { rot: "Dose", val: "sem fonte brasileira datada conferida — não prescrever a partir deste guia" }
+        {
+          rot: "Dose mínima efetiva",
+          val: "75 mg/dia VO para depressão",
+          p: 342
+        },
+        {
+          rot: "Idoso",
+          val: "Iniciar 37,5 mg pela manhã; aumentar para 75 mg de liberação prolongada após 1 semana. Manutenção: 75–150 mg/dia; ocasionalmente 225 mg/dia, sob reavaliação",
+          p: 702
+        }
       ],
-      porque: "Cobrem nichos que o ISRS não cobre: venlafaxina e duloxetina são duais " +
-              "(serotonina e noradrenalina), a duloxetina com indicação em dor neuropática; " +
-              "mirtazapina é sedativa e abre apetite; trazodona é adjuvante de sono.",
-      escolher: "Os princípios valem: trazodona é adjuvante na insônia, nunca inicial; " +
-                "mirtazapina quando sedação e ganho de peso são desejados (idoso emagrecido " +
-                "e insone); duloxetina quando há dor neuropática junto.",
-      evitar: "Venlafaxina eleva pressão arterial em dose alta. Nenhum deles consta da RENAME " +
-              "como antidepressivo de uso geral.",
-      contraind: "Uso de IMAO, para todos.",
-      adversos: "Variáveis por fármaco — ver protocolo do serviço.",
-      monitor: "—",
-      fonte: "VERIFICAR — confirmar posologia no protocolo do CAPS ou em referência datada antes de usar",
-      v: true
+      porque: "Inibe recaptação de serotonina e noradrenalina. A retirada abrupta é especialmente problemática.",
+      escolher: "Depressão com indicação de troca de antidepressivo; ponderar resposta anterior e tolerabilidade.",
+      evitar: "Hipertensão não controlada, polifarmácia serotoninérgica e interrupção abrupta. A faixa geriátrica não é um esquema universal para adultos.",
+      contraind: "Associação com IMAO; respeitar a transição específica entre os fármacos.",
+      adversos: "Náusea, disfunção sexual, elevação pressórica e sintomas de retirada.",
+      monitor: "Pressão arterial, adesão, resposta do humor, ativação e ideação suicida após início ou mudança de dose.",
+      fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025"
+    },
+    {
+      nome: "Mirtazapina",
+      id: "mirtazapina",
+      kw: "remeron apetite peso insonia sedacao",
+      apres: "comprimido",
+      dose: [
+        {
+          rot: "Dose mínima efetiva",
+          val: "30 mg/dia VO para depressão; o livro registra incerteza sobre 15 mg/dia como mínimo efetivo",
+          p: 342
+        },
+        {
+          rot: "Titulação",
+          val: "Exemplo de introdução durante troca: 15 mg/dia, depois 30 mg/dia e, se necessário, 45 mg/dia; ajustar à tolerabilidade, não aplicar automaticamente",
+          p: 366
+        },
+        {
+          rot: "Idoso",
+          val: "Iniciar 7,5 mg ou usualmente 15 mg à noite; manutenção 15–30 mg à noite; máximo 45 mg à noite",
+          p: 701
+        }
+      ],
+      porque: "O perfil sedativo e o aumento de apetite podem ajudar quando insônia e perda de peso acompanham a depressão.",
+      escolher: "Depressão com insônia e baixo apetite, quando o ganho de peso não é um problema.",
+      evitar: "Obesidade, risco metabólico e sonolência com prejuízo funcional. Sedar não comprova resposta antidepressiva.",
+      contraind: "Associação com IMAO; planejar intervalo de troca.",
+      adversos: "Sonolência, aumento de apetite e de peso; risco metabólico com manutenção.",
+      monitor: "Peso, apetite, sedação diurna, quedas e resposta depressiva, além de ativação e risco suicida.",
+      fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025"
+    },
+    {
+      nome: "Trazodona",
+      id: "trazodona",
+      kw: "donaren insonia sedacao antidepressivo",
+      apres: "comprimido; conferir a formulação antes de usar",
+      dose: [
+        {
+          rot: "Insônia — uso fora de bula",
+          val: "25–150 mg VO próximo de deitar; individualizar, sem substituir TCC-I",
+          f: "ABS — Diretriz de Insônia em Adultos, 2023"
+        },
+        {
+          rot: "Dose mínima efetiva",
+          val: "150 mg/dia VO para depressão; não confundir dose hipnótica com tratamento antidepressivo",
+          p: 342,
+          f: "Maudsley Prescribing Guidelines, 15ª ed., 2025"
+        },
+        {
+          rot: "Idoso",
+          val: "Depressão: iniciar 100 mg/dia, divididos ou à noite; manutenção 100–200 mg/dia; máximo 300 mg/dia. Reavaliar sedação e hipotensão",
+          p: 701,
+          f: "Maudsley Prescribing Guidelines, 15ª ed., 2025"
+        }
+      ],
+      porque: "O efeito sedativo aparece em doses usadas para sono; tratar depressão exige avaliar a faixa antidepressiva.",
+      escolher: "Insônia com comorbidade depressiva, após avaliação e medidas não farmacológicas; não é primeira resposta a toda queixa de sono.",
+      evitar: "Quedas, hipotensão e associação a outros sedativos. Não usar em crianças, adolescentes, gestantes ou lactantes para insônia segundo a ABS.",
+      contraind: "Associação com IMAO; doença cardíaca exige revisão do risco antes da escolha.",
+      adversos: "Sonolência, hipotensão postural, arritmia e priapismo.",
+      monitor: "Sedação diurna, pressão em ortostatismo, interações e sintomas cardíacos; orientar urgência se ereção prolongada.",
+      fonte: "ABS — Diretriz de Insônia em Adultos, 2023"
+    },
+    {
+      nome: "Duloxetina",
+      id: "duloxetina",
+      kw: "cymbalta irsn dual dor neuropatica",
+      apres: "cápsula",
+      dose: [
+        {
+          rot: "Dose mínima efetiva",
+          val: "60 mg/dia VO para depressão",
+          p: 342
+        },
+        {
+          rot: "Idoso",
+          val: "Iniciar 30 mg/dia; manutenção 60 mg/dia; máximo 120 mg/dia, com cautela pela escassez de dados geriátricos nessa dose",
+          p: 701
+        }
+      ],
+      porque: "Dual serotoninérgico e noradrenérgico; pode ser útil quando depressão e dor coexistem.",
+      escolher: "Depressão com dor, considerando função hepática e renal antes da prescrição.",
+      evitar: "Hepatopatia, uso importante de álcool e combinações serotoninérgicas; não extrapolar a faixa para insuficiência orgânica.",
+      contraind: "Associação com IMAO. Disfunção hepática ou renal importante exige checagem da bula e alternativa antes de iniciar.",
+      adversos: "Náusea, disfunção sexual, sintomas de retirada e possível lesão hepática.",
+      monitor: "Humor, risco suicida, tolerância, pressão, função hepática conforme risco e revisão da função renal.",
+      fonte: "Maudsley Prescribing Guidelines, 15ª ed., 2025"
+    },
+    {
+      nome: "Fluvoxamina",
+      id: "fluvoxamina",
+      kw: "luvox isrs toc obsessao compulsao cyp",
+      apres: "comprimido",
+      dose: [
+        {
+          rot: "TOC — faixa",
+          val: "100–300 mg/dia VO; alcançar progressivamente conforme tolerância",
+          f: "AMB/ABP — Transtorno Obsessivo-Compulsivo: Tratamento, 2011"
+        },
+        {
+          rot: "Dose mínima efetiva",
+          val: "50 mg/dia VO para depressão; não é a faixa-alvo do TOC",
+          p: 342,
+          f: "Maudsley Prescribing Guidelines, 15ª ed., 2025"
+        }
+      ],
+      porque: "ISRS com uso no TOC; as interações por inibição enzimática pesam na escolha.",
+      escolher: "TOC com indicação farmacológica, associado à terapia com exposição e prevenção de resposta.",
+      evitar: "Polifarmácia, especialmente clozapina e clomipramina: pode aumentar exposição e toxicidade. Não combinar por conta própria.",
+      contraind: "Associação com IMAO; evitar agomelatina concomitante conforme a referência de interações.",
+      adversos: "Náusea, sonolência ou insônia, astenia, nervosismo e disfunção sexual.",
+      monitor: "Lista completa de medicamentos, adesão, obsessões e compulsões, ativação e risco suicida; uso infantojuvenil requer acompanhamento especializado.",
+      fonte: "AMB/ABP — Transtorno Obsessivo-Compulsivo: Tratamento, 2011"
     }
-  ]
+]
 });
 
 PSICOFARMACOS.classes.push({
@@ -833,7 +959,8 @@ PSICOFARMACOS.classes.push({
         { rot: "Meia-vida", val: "30 a 100 horas" },
         { rot: "Faixa terapêutica", val: "2,5 a 30 mg/dia" },
         { rot: "Dose usual", val: "10 mg" },
-        { rot: "Perfil", val: "ansiolítico e para insônia terminal" }
+        { rot: "Perfil", val: "ansiolítico e para insônia terminal" },
+        { rot: "Abstinência alcoólica", val: "10–20 mg VO de hora em hora até sintomas leves no manejo inicial; manter observação, monitorar consciência e respiração e encaminhar casos graves", f: "MS — Linha de Cuidado: Transtornos por uso de álcool no adulto, manejo inicial/conduta, consulta em 2026-09-23" }
       ],
       porque: "Meia-vida muito longa com metabólitos ativos: o nível cai sozinho, devagar. " +
               "É exatamente o que se quer numa abstinência alcoólica — a própria " +
@@ -968,7 +1095,8 @@ PSICOFARMACOS.classes.push({
         { rot: "Meia-vida", val: "30 a 100 horas" },
         { rot: "Faixa terapêutica", val: "5 a 75 mg/dia" },
         { rot: "Dose usual", val: "25 mg" },
-        { rot: "Perfil", val: "ansiolítico e para insônia terminal" }
+        { rot: "Perfil", val: "ansiolítico e para insônia terminal" },
+        { rot: "Abstinência alcoólica", val: "20–30 mg VO conforme sintomas, até de hora em hora; apenas em ambiente especializado com avaliação repetida de consciência, respiração e sinais vitais", p: 486, f: "Maudsley Prescribing Guidelines, 15ª ed., 2025" }
       ],
       porque: "Mesmo racional do diazepam: meia-vida longa que faz o próprio desmame.",
       escolher: "Abstinência alcoólica.",
@@ -1073,56 +1201,123 @@ PSICOFARMACOS.classes.push({
       fonte: "MS — PCDT Tabagismo, Portaria Conjunta SCTIE/SAES/MS nº 10, 2020"
     },
     {
-      nome: "Naltrexona, acamprosato, dissulfiram",
-      id: "naltrexona-acamprosato-dissulfiram",
-      kw: "alcool manutencao abstinencia aversivo fissura",
-      apres: "—",
+      nome: "Naltrexona",
+      id: "naltrexona",
+      kw: "revia alcool fissura opioide recaida",
+      apres: "comprimido",
       dose: [
-        { rot: "Dose", val: "sem fonte brasileira datada conferida — confirmar no protocolo do serviço" }
+        {
+          rot: "Dose inicial",
+          val: "25 mg VO/dia na primeira semana",
+          f: "ABP/RBP — Tratamento farmacológico da dependência do álcool, 2004"
+        },
+        {
+          rot: "Dose usual",
+          val: "50 mg VO/dia após a primeira semana, conforme tolerância",
+          f: "ABP/RBP — Tratamento farmacológico da dependência do álcool, 2004"
+        },
+        {
+          rot: "Titulação — referência complementar",
+          val: "25 mg/dia por 2 dias como teste de tolerância; depois 50 mg/dia",
+          p: 490,
+          f: "Maudsley Prescribing Guidelines, 15ª ed., 2025"
+        }
       ],
-      porque: "Atacam alvos diferentes: naltrexona é antagonista opioide e reduz a fissura e o " +
-              "prazer de beber; acamprosato modula glutamato e ajuda a manter abstinência já " +
-              "conquistada; dissulfiram não trata nada — cria uma reação aversiva ao álcool, " +
-              "e só funciona se alguém supervisiona a tomada.",
-      escolher: "Naltrexona e acamprosato são primeira linha para MANTER a abstinência, " +
-                "associados a psicoterapia ou grupo. Dissulfiram é 2ª ou 3ª linha.",
-      evitar: "Benzodiazepínico NÃO é tratamento de manutenção no alcoolismo — trata a " +
-              "abstinência aguda. Iniciá-lo fora dessa janela cria dependência nova. " +
-              "Naltrexona em quem usa opioide precipita abstinência.",
-      contraind: "Naltrexona: uso de opioide, hepatopatia grave. Dissulfiram: cardiopatia, " +
-                 "baixa adesão, ausência de supervisão.",
-      adversos: "Variáveis por fármaco.",
-      monitor: "—",
-      fonte: "VERIFICAR — princípios de escolha conferidos na wiki; posologia não localizada em protocolo brasileiro datado",
-      v: true
+      porque: "Antagoniza receptores opioides e reduz o reforço do álcool e recaídas no consumo pesado.",
+      escolher: "Manutenção e prevenção de recaída junto de abordagem psicossocial; não trata abstinência aguda.",
+      evitar: "Quem precisa de analgesia opioide. Investigar uso recente, pois pode precipitar abstinência.",
+      contraind: "Uso de opioides ou dependência deles, hepatite aguda e doença hepática grave.",
+      adversos: "Náusea e outros sintomas gastrointestinais; atenção à lesão hepática.",
+      monitor: "Função hepática basal e no seguimento, adesão, consumo de álcool e necessidade de analgesia.",
+      fonte: "ABP/RBP — Tratamento farmacológico da dependência do álcool, 2004",
+      diverge: "ABP/RBP, 2004, usa introdução reduzida na primeira semana; Maudsley, 2025, p. 490, usa teste mais curto. A dose de manutenção coincide. São alternativas, não esquemas cumulativos."
     },
     {
-      nome: "Abstinência alcoólica aguda e tiamina",
-      id: "abstinencia-alcoolica-aguda-e-tiamina",
-      kw: "delirium tremens ciwa tiamina wernicke korsakoff convulsao glicose",
-      apres: "—",
+      nome: "Acamprosato",
+      id: "acamprosato",
+      kw: "campral alcool abstinencia glutamato renal",
+      apres: "comprimido de 333 mg",
       dose: [
-        { rot: "Dose", val: "sem fonte brasileira datada conferida — seguir o protocolo do HELR" }
+        {
+          rot: "Manutenção — acima de 60 kg",
+          val: "2 comprimidos de 333 mg VO em cada uma das três tomadas diárias, antes das refeições",
+          f: "ABP/RBP — Tratamento farmacológico da dependência do álcool, 2004"
+        },
+        {
+          rot: "Manutenção — abaixo de 60 kg (fonte BR)",
+          val: "1 comprimido de 333 mg VO em cada uma das três tomadas diárias; ver divergência antes de prescrever",
+          f: "ABP/RBP — Tratamento farmacológico da dependência do álcool, 2004"
+        },
+        {
+          rot: "Manutenção — referência complementar",
+          val: "Acima de 60 kg: 666 mg VO três vezes ao dia (1998 mg/dia). Abaixo de 60 kg: 1332 mg/dia",
+          p: 489,
+          f: "Maudsley Prescribing Guidelines, 15ª ed., 2025"
+        }
       ],
-      porque: "O álcool crônico regula o GABA para baixo e o glutamato para cima; retirado o " +
-              "álcool, sobra excitação — daí tremor, convulsão e delirium tremens. O " +
-              "benzodiazepínico repõe o tônus GABAérgico. A tiamina é outra história: o " +
-              "alcoolista é carente dela, e a glicose CONSOME tiamina para ser metabolizada.",
-      escolher: "O princípio é firme mesmo sem número: benzodiazepínico de meia-vida longa " +
-                "titulado por sintomas, e TIAMINA ANTES de qualquer soro glicosado.",
-      evitar: "Tratar abstinência com antipsicótico isolado — baixa o limiar convulsivo e não " +
-              "previne convulsão de abstinência.",
-      contraind: "Não há contraindicação à tiamina. Para o benzodiazepínico, a cautela é com " +
-                 "insuficiência respiratória e com o paciente que ainda está intoxicado por " +
-                 "álcool — aí a soma de depressores é o risco, e a titulação é por sintoma, " +
-                 "não por horário fixo.",
-      adversos: "Do benzodiazepínico: sedação excessiva e depressão respiratória se a " +
-                "titulação ignorar o nível de consciência.",
-      monitor: "Escala de sintomas de abstinência conforme o protocolo do serviço.",
-      fonte: "VERIFICAR — confirmar esquema e doses no protocolo do HELR",
-      v: true
+      porque: "Modula a hiperexcitabilidade glutamatérgica associada à dependência e ajuda a sustentar a abstinência.",
+      escolher: "Pessoa que conquistou abstinência, junto de cuidado psicossocial. Conferir peso, função renal e apresentação disponível.",
+      evitar: "Usar para tratar abstinência aguda ou prescrever sem função renal. Peso no limite entre faixas requer confirmar o esquema na bula vigente.",
+      contraind: "Insuficiência renal grave; evitar na gestação e lactação. Hepatopatia grave exige avaliação especializada.",
+      adversos: "Diarreia, náusea, dor abdominal e prurido.",
+      monitor: "Função renal antes de iniciar, tolerância gastrointestinal, adesão às tomadas e consumo de álcool.",
+      fonte: "ABP/RBP — Tratamento farmacológico da dependência do álcool, 2004",
+      diverge: "ABP/RBP, 2004, e Maudsley, 2025, p. 489, divergem na dose abaixo do limite de peso; as duas linhas ficam explícitas. Não escolher silenciosamente: confirmar bula vigente e prescrição especializada. Ambos concordam no regime para peso acima do limite."
+    },
+    {
+      nome: "Dissulfiram",
+      id: "dissulfiram",
+      kw: "antabuse antietanol alcool aversivo supervisao",
+      apres: "comprimido",
+      dose: [
+        {
+          rot: "Dose usual",
+          val: "250 mg VO/dia em tomada única; iniciar após pelo menos 12 horas de abstinência, com consentimento e supervisão",
+          f: "ABP/RBP — Tratamento farmacológico da dependência do álcool, 2004"
+        }
+      ],
+      porque: "Inibe o metabolismo do acetaldeído e provoca reação tóxica quando há consumo de álcool; não é medicamento anticraving.",
+      escolher: "Pessoa com meta de abstinência, compreensão dos riscos e tomada supervisionada, após discutir alternativas.",
+      evitar: "Prescrição escondida, ausência de consentimento, incapacidade de compreender riscos e exposição a álcool em produtos.",
+      contraind: "Gestação, cardiopatia importante, psicose e hepatopatia grave; cirrose com hipertensão portal e epilepsia exigem evitar a escolha.",
+      adversos: "Hepatite, halitose e reação álcool-dissulfiram potencialmente grave.",
+      monitor: "Função hepática basal e seriada, sinais de hepatite e adesão supervisionada. Suspender e avaliar diante de icterícia.",
+      fonte: "ABP/RBP — Tratamento farmacológico da dependência do álcool, 2004",
+      diverge: "ABP/RBP, 2004, orienta dose diária habitual sem carga; Maudsley, 2025, p. 491, descreve carga e manutenção diferentes. Mantida a orientação brasileira; não importar o esquema britânico automaticamente."
+    },
+    {
+      nome: "Tiamina",
+      id: "tiamina",
+      kw: "vitamina b1 wernicke korsakoff alcool glicose",
+      apres: "oral ou parenteral; conferir concentração e disponibilidade local",
+      dose: [
+        {
+          rot: "Profilaxia — manejo inicial",
+          val: "100 mg IM/EV em desnutrição, má absorção ou antecedente de abstinência grave, antes do encaminhamento",
+          f: "MS — Linha de Cuidado: Transtornos por uso de álcool no adulto, manejo inicial/conduta, consulta em 2026-09-23"
+        },
+        {
+          rot: "Profilaxia — alternativa oral",
+          val: "300 mg VO quando não há apresentação parenteral; via oral menos eficaz",
+          f: "MS — Linha de Cuidado: Transtornos por uso de álcool no adulto, manejo inicial/conduta, consulta em 2026-09-23"
+        },
+        {
+          rot: "Profilaxia hospitalar — referência complementar",
+          val: "200–300 mg IM/EV uma vez ao dia por 3–5 dias, com reavaliação diária",
+          p: 488,
+          f: "Maudsley Prescribing Guidelines, 15ª ed., 2025"
+        }
+      ],
+      porque: "Repõe vitamina necessária ao metabolismo energético; deficiência no uso crônico de álcool pode causar Wernicke.",
+      escolher: "Prevenção na pessoa em risco. Suspeita de Wernicke é emergência hospitalar e requer tratamento parenteral, não o esquema oral profilático.",
+      evitar: "Esperar a tríade completa. Dar glicose sem indicação ou atrasar a correção de hipoglicemia para esperar tiamina.",
+      contraind: "Hipersensibilidade à preparação; administração parenteral em local com suporte para reação alérgica.",
+      adversos: "Reações locais e hipersensibilidade, particularmente pela via parenteral.",
+      monitor: "Glicemia, estado nutricional, consciência, marcha, motricidade ocular e resposta clínica. Preferir tiamina antes da glicose quando possível, sem retardar resgate da hipoglicemia.",
+      fonte: "MS — Linha de Cuidado: Transtornos por uso de álcool no adulto, manejo inicial/conduta, consulta em 2026-09-23",
+      diverge: "MS — Linha de Cuidado, consulta 2026, descreve profilaxia inicial antes do encaminhamento; Maudsley, 2025, p. 488, detalha profilaxia hospitalar com dose e duração diferentes. Nenhum desses esquemas deve ser apresentado como tratamento completo de Wernicke estabelecida."
     }
-  ]
+]
 });
 
 PSICOFARMACOS.classes.push({
@@ -1410,10 +1605,11 @@ PSICOFARMACOS.proibidos = {
     { id: "glicose-antes-tiamina",
       t: "Soro glicosado antes de tiamina no alcoolista",
       d: "MECANISMO: a metabolização da glicose CONSOME tiamina, e o alcoolista já está " +
-         "carente. DESFECHO: pode precipitar encefalopatia de Wernicke — confusão, ataxia e " +
-         "oftalmoplegia — que é tratável e se torna irreversível (Korsakoff) se não tratada. " +
-         "A ordem é tiamina primeiro, sempre.",
-      f: "Dalgalarrondo, Psicopatologia e Semiologia dos Transtornos Mentais, 3ª ed., Artmed, 2019" }
+         "carente. DESFECHO: glicose de rotina sem tiamina pode precipitar encefalopatia de " +
+         "Wernicke — confusão, ataxia e oftalmoplegia — tratável, e irreversível (Korsakoff) " +
+         "se não tratada. EXCEÇÃO: hipoglicemia se corrige imediatamente; dar tiamina " +
+         "prontamente, sem atrasar a glicose para esperá-la.",
+      f: "MS — Linha de Cuidado: Transtornos por uso de álcool no adulto, manejo inicial/conduta, consulta em 2026-09-23" }
   ]
 };
 

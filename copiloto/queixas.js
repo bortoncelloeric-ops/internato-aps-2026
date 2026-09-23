@@ -145,8 +145,10 @@ QUEIXAS.push({
       { id: "amitriptilina", papel: "2ª linha — só depois de ISRS em dose plena; contraindicação relativa forte se há risco de suicídio" },
       { id: "imipramina",   papel: "2ª linha — tricíclico menos sedativo que a amitriptilina" },
       { id: "bupropiona",   papel: "alternativa quando disfunção sexual ou ganho de peso derrubaram o ISRS; resolve duas coisas no fumante deprimido" },
-      { id: "venlafaxina-mirtazapina-trazodona-duloxetina",
-        papel: "nichos que o ISRS não cobre (dual, sedativo, dor neuropática) — sem fonte brasileira de dose" },
+      { id: "venlafaxina", papel: "dual; ponderar pressão arterial e retirada" },
+      { id: "mirtazapina", papel: "quando insônia e perda de apetite pesam na escolha" },
+      { id: "trazodona", papel: "distinguir adjuvante de sono de tratamento antidepressivo" },
+      { id: "duloxetina", papel: "depressão com dor; avaliar função hepática e renal" },
 
       /* Outras classes: o fármaco cuja classe primária não é esta, mas que tem papel
          estabelecido aqui. É a pergunta que o formulário por classe não responde. */
@@ -160,7 +162,8 @@ QUEIXAS.push({
         papel: "resistente com ideação suicida — IV, dose sub-anestésica, off-label no Brasil" }
     ],
     combos: ["dep-resistente-antipsicotico", "dep-resistente-litio-t3", "dep-resistente-cetamina"],
-    proibidos: ["ad-monoterapia-tab", "isrs-triciclico-imao", "isrs-tramadol", "bupropiona-limiar-convulsivo"]
+    proibidos: ["ad-monoterapia-tab", "isrs-triciclico-imao", "isrs-tramadol", "bupropiona-limiar-convulsivo"],
+    dosemuda: ["dm-amitriptilina"]
   },
 
   conduta: {
@@ -322,7 +325,8 @@ QUEIXAS.push({
         papel: "o único ISRS do Protocolo no TAB, e SEMPRE sobre um estabilizador — nunca isolada" }
     ],
     combos: ["dep-bipolar-litio-mono", "dep-bipolar-refrataria-fluox"],
-    proibidos: ["ad-monoterapia-tab", "litio-diuretico-ieca-aine", "lamotrigina-valproico", "carbamazepina-inducao"]
+    proibidos: ["ad-monoterapia-tab", "litio-diuretico-ieca-aine", "lamotrigina-valproico", "carbamazepina-inducao"],
+    dosemuda: ["dm-quetiapina"]
   },
 
   conduta: {
@@ -488,7 +492,8 @@ QUEIXAS.push({
         papel: "acatisia induzida por antipsicótico — trocar um pelo outro é erro comum" }
     ],
     combos: ["esq-manejo-motor", "esq-decanoato-oral", "atipico-sulpirida"],
-    proibidos: ["clozapina-sem-hemograma", "ziprasidona-qt", "biperideno-acatisia-dt", "haloperidol-parkinson-lewy", "carbamazepina-inducao"]
+    proibidos: ["clozapina-sem-hemograma", "ziprasidona-qt", "biperideno-acatisia-dt", "haloperidol-parkinson-lewy", "carbamazepina-inducao"],
+    dosemuda: ["dm-clorpromazina"]
   },
 
   conduta: {
@@ -816,7 +821,7 @@ QUEIXAS.push({
       "Delirium tremens: confusão flutuante, alucinação visual e tátil, tremor intenso, febre, taquicardia e hipertensão. Emergência com mortalidade real",
       "Convulsão de abstinência — costuma ocorrer nas primeiras 48 horas da última dose",
       "Tríade de Wernicke: confusão, ataxia e oftalmoplegia. Incompleta na maioria — não esperar as três",
-      "GLICOSE ANTES DE TIAMINA pode precipitar Wernicke. Tiamina primeiro, sempre",
+      { t: "Hipoglicemia exige correção imediata; administrar tiamina prontamente em quem tem risco de deficiência, sem atrasar glicose para aguardá-la.", f: "MS — Linha de Cuidado: Transtornos por uso de álcool no adulto, manejo inicial/conduta, consulta em 2026-09-23" },
       "Antecedente de convulsão ou de delirium tremens em abstinência prévia: alto risco de repetir",
       "Hepatopatia descompensada, sangramento digestivo, pancreatite",
       "Risco de suicídio: o álcool desinibe e converte ideação em ato"
@@ -893,33 +898,32 @@ QUEIXAS.push({
   farmaco: {
     fonte: "MS — CAB nº 34, Saúde Mental, 2013 · medicina-wiki/wiki/saude-mental-fatos.md (2026-08-03)",
     itens: [
-      "TIAMINA antes de qualquer glicose. Essa ordem não é detalhe — inverter pode precipitar Wernicke.",
+      { t: "Preferir tiamina antes da glicose quando disponível; corrigir hipoglicemia sem demora e repor tiamina prontamente.", f: "MS — Linha de Cuidado: Transtornos por uso de álcool no adulto, manejo inicial/conduta, consulta em 2026-09-23" },
       "Abstinência aguda é do BENZODIAZEPÍNICO, titulado por sintoma. De meia-vida longa, para não haver rebote entre as doses.",
-      "Diazepam — meia-vida 30 a 100 h, faixa 2,5 a 30 mg/dia, dose usual 10 mg. É o preferido pela meia-vida longa.",
-      "Clordiazepóxido — meia-vida 30 a 100 h, faixa 5 a 75 mg/dia, dose usual 25 mg. Mesmo racional.",
-      "Hepatopata: lorazepam (meia-vida 6 a 20 h, faixa 0,5 a 6 mg/dia, usual 2 mg) por ser eliminado por via renal.",
+      "Diazepam: meia-vida longa, útil na abstinência aguda; doses e contexto de monitorização no cartão.",
+      "Clordiazepóxido: alternativa de longa duração; titulação por sintomas em ambiente monitorizado, conforme cartão.",
+      { t: "Na hepatopatia, preferir benzodiazepínico sem metabólitos ativos, como lorazepam; a escolha não elimina risco de sedação e depressão respiratória.", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025" },
       "Antipsicótico NÃO é o tratamento da abstinência: baixa o limiar convulsivo e não previne convulsão de abstinência. Entra só como adjuvante em alucinação ou agitação intensa, sobre a base do benzodiazepínico.",
       "Passada a janela da abstinência aguda, o benzodiazepínico deve SAIR. Mantê-lo cria uma dependência nova — e é o erro mais repetido.",
       "Manutenção da abstinência: naltrexona e acamprosato são primeira linha, associados a psicoterapia ou grupo. Dissulfiram é 2ª ou 3ª linha, com reação aversiva grave e necessidade de supervisão.",
       "Depressão que persiste após semanas de abstinência é depressão a tratar, não efeito residual do álcool.",
-      { t: "Esquema, doses e escala de titulação da abstinência: seguir o protocolo do HELR", v: true },
-      { t: "Doses de naltrexona, acamprosato, dissulfiram e de tiamina: sem fonte brasileira datada conferida — confirmar antes de prescrever", v: true }
+      { t: "Escala e fluxo operacional do HELR ainda precisam de confirmação local; os cartões trazem referências publicadas, não autorização para titulação sem monitorização.", v: true },
+      { t: "Posologias agora nos cartões individuais; ler indicação, via e divergências antes de prescrever.", f: "ABP/RBP — Tratamento farmacológico da dependência do álcool, 2004" }
     ]
   },
 
   formulario: {
     fonte: "MS — CAB nº 34, Saúde Mental, 2013 · Dalgalarrondo, Psicopatologia e Semiologia dos Transtornos Mentais, 3ª ed., Artmed, 2019",
     farmacos: [
-      { id: "abstinencia-alcoolica-aguda-e-tiamina",
-        papel: "tiamina ANTES de qualquer glicose — a ordem é o tratamento" },
+      { id: "tiamina", papel: "prevenir deficiência e Wernicke; não atrasar glicose em hipoglicemia" },
       { id: "diazepam",
         papel: "o preferido na abstinência aguda, pela meia-vida longa: não há rebote entre as doses" },
       { id: "clordiazepoxido",
         papel: "mesmo racional do diazepam na abstinência" },
-      { id: "lorazepam",
-        papel: "hepatopata — é o eliminado por via renal" },
-      { id: "naltrexona-acamprosato-dissulfiram",
-        papel: "manutenção da abstinência: os dois primeiros são 1ª linha; o dissulfiram é 2ª ou 3ª" },
+      { id: "lorazepam", papel: "preferível em hepatopatia pela glucuronidação, sem metabólitos ativos; não dispensa cautela com sedação" },
+      { id: "naltrexona", papel: "reduzir reforço e recaída; excluir uso de opioides" },
+      { id: "acamprosato", papel: "sustentar abstinência; conferir função renal e divergência de peso" },
+      { id: "dissulfiram", papel: "aversivo apenas com consentimento e supervisão" },
       { id: "haloperidol", outra: true,
         papel: "adjuvante só em alucinação ou agitação intensa, SOBRE a base do benzodiazepínico — nunca como tratamento da abstinência" }
     ],
@@ -941,7 +945,7 @@ QUEIXAS.push({
   erros: {
     fonte: "medicina-wiki/wiki/saude-mental-fatos.md (2026-08-03)",
     itens: [
-      "Soro glicosado antes de tiamina",
+      { t: "Atrasar glicose em hipoglicemia para esperar tiamina, ou dar glicose de rotina sem avaliar indicação e carência nutricional.", f: "MS — Linha de Cuidado: Transtornos por uso de álcool no adulto, manejo inicial/conduta, consulta em 2026-09-23" },
       "Iniciar benzodiazepínico fora da janela de abstinência aguda — cria dependência nova",
       "Manter o benzodiazepínico depois que a abstinência passou",
       "Tratar abstinência com antipsicótico isolado",
