@@ -18,7 +18,7 @@
   --shadow:0 2px 10px rgba(0,0,0,.14);
   --ring:0 0 0 3px rgba(13,122,95,.35);
 }
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%; scroll-padding-top:7rem; scroll-padding-bottom:calc(5rem + env(safe-area-inset-bottom))}
 body{margin:0; background:var(--bg); color:var(--ink);
   font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   padding-bottom:calc(5rem + env(safe-area-inset-bottom))}
@@ -50,7 +50,7 @@ header{position:sticky; top:0; z-index:20; background:var(--acc); color:#fff; bo
 .hide{display:none !important}
 
 .sec{background:var(--card); border:1px solid var(--line); border-radius:var(--r);
-  padding:.8rem 1rem 1rem; margin-bottom:1rem; scroll-margin-top:7rem}
+  padding:.8rem 1rem 1rem; margin-bottom:1rem}
 .sec h2{font-size:var(--fs-lg); margin:0 0 .5rem; color:var(--acc-d)}
 .nota{font-size:var(--fs-sm); color:var(--mut); margin:-.3rem 0 .6rem}
 .rotulo{font-size:var(--fs-sm); font-weight:700; color:var(--mut); text-transform:uppercase;
@@ -60,10 +60,11 @@ header{position:sticky; top:0; z-index:20; background:var(--acc); color:#fff; bo
 .linha{display:flex; align-items:center; gap:.6rem; padding:.3rem 0; border-top:1px solid #f0f2f4; flex-wrap:wrap}
 .bloco:first-of-type .linha, .rotulo + .bloco .linha{border-top:0}
 .lrot{flex:1 1 13rem; font-size:var(--fs-md); min-width:0}
+.lt .lrot{flex-basis:0}
 .sub{margin-left:1.4rem; border-left:2px solid var(--line); padding-left:.7rem}
 .det{margin:.1rem 0 .4rem 1.4rem}
 
-.tri{display:inline-flex; gap:.3rem}
+.tri{display:inline-flex; gap:.3rem; flex:0 0 auto; margin-left:auto}
 .tri button{width:44px; height:44px; border-radius:var(--rs); border:1px solid var(--line);
   background:#fff; font-weight:700; font-size:var(--fs-lg); color:var(--mut)}
 .tri button[data-v="nao"][aria-pressed="true"]{background:#444c55; border-color:#444c55; color:#fff}
@@ -97,10 +98,12 @@ textarea{min-height:5.5rem; resize:vertical; line-height:1.45}
 .presc{border-top:1px solid var(--line); padding-top:.4rem; margin-top:.4rem}
 .papel{font-size:var(--fs-sm); color:var(--mut); margin:.3rem 0}
 .chips{display:flex; flex-wrap:wrap; gap:.35rem; margin:.3rem 0 .5rem}
-.chip{border:1px solid var(--blu); background:var(--blu-w); color:var(--ink); border-radius:var(--rm);
+.chip, .opc{border:1px solid var(--blu); background:var(--blu-w); color:var(--ink); border-radius:var(--rm);
   padding:.25rem .55rem; text-align:left; font-size:var(--fs-sm); max-width:100%; overflow-wrap:anywhere}
-.chip b{color:var(--blu)}
-.chip small{display:block; color:var(--mut); font-size:var(--fs-xs)}
+.chip b, .opc b{color:var(--blu)}
+.chip small{display:block; color:var(--mut); font-size:var(--fs-sm)}
+.chip[aria-pressed="true"], .opc[aria-pressed="true"]{background:var(--acc); border-color:var(--acc); color:#fff}
+.chip[aria-pressed="true"] b, .chip[aria-pressed="true"] small, .opc[aria-pressed="true"] b{color:#fff}
 .vf{background:var(--amb-w); color:var(--amb); font-size:var(--fs-xs); font-weight:700;
   padding:.1rem .4rem; border-radius:var(--rs)}
 
@@ -116,7 +119,7 @@ details.proib{border:1px solid var(--line); border-radius:var(--rm); padding:0 .
 details.proib summary{font-weight:600; font-size:var(--fs-md); min-height:44px; display:flex; align-items:center; cursor:pointer}
 details.proib small{display:block; color:var(--mut); font-size:var(--fs-sm)}
 
-.saida{align-self:start; scroll-margin-top:7rem}
+.saida{align-self:start}
 .saida .sec{margin:0}
 .saida pre{white-space:pre-wrap; word-wrap:break-word; overflow-wrap:anywhere;
   font:var(--fs-md)/1.5 ui-monospace,SFMono-Regular,Menlo,monospace; margin:0}
@@ -139,7 +142,7 @@ details.proib small{display:block; color:var(--mut); font-size:var(--fs-sm)}
   .saida{position:sticky; top:4.6rem}
   .saida pre{max-height:calc(100vh - 11rem); overflow:auto}
   .pulo, .barra, .so-m{display:none}
-  .sec{scroll-margin-top:5rem}
+  html{scroll-padding-top:5rem; scroll-padding-bottom:0}
 }
 </style>
 </head>
@@ -252,30 +255,32 @@ var FICHA = [
     { tipo:'tri', id:'epprevio', rot:'Episódio depressivo prévio', sim:'episódio depressivo prévio', nao:'sem episódio depressivo prévio' },
     { tipo:'tri', id:'internacao', rot:'Internação psiquiátrica prévia', sim:'internação psiquiátrica prévia[ ({d})]',
       nao:'sem internação psiquiátrica prévia', det:{tipo:'texto', ph:'quando, quantas'} },
-    { tipo:'tri', id:'tratprevio', rot:'Tratamento psiquiátrico prévio', sim:'tratamento prévio: {d}',
+    { tipo:'tri', id:'tratprevio', rot:'Tratamento psiquiátrico prévio', sim:'tratamento prévio[: {d}]',
       nao:'sem tratamento psiquiátrico prévio', det:{tipo:'farmacos', modo:'previo'} }
   ]},
 
   { id:'subst', titulo:'SUBSTÂNCIAS', rot:'Substâncias', grupos:{ nega:{pre:'Nega ', conj:' e '} }, itens:[
     { tipo:'tri', id:'alcool', rot:'Álcool', sim:'uso de álcool[ ({d})]', nao:{g:'nega', t:'álcool'},
-      det:{tipo:'texto', ph:'quanto / último uso'} },
+      det:{tipo:'texto', ph:'quanto, último uso — há quantas horas', na:'quantidade e último uso de álcool'} },
     { tipo:'tri', id:'tabaco', rot:'Tabaco', sim:'tabagismo[ ({d})]', nao:{g:'nega', t:'tabaco'}, det:{tipo:'texto', ph:'quanto'} },
     { tipo:'tri', id:'maconha', rot:'Maconha', sim:'uso de maconha[ ({d})]', nao:{g:'nega', t:'maconha'}, det:{tipo:'texto', ph:'quanto / último uso'} },
-    { tipo:'tri', id:'cocaina', rot:'Cocaína / crack', sim:'uso de cocaína/crack[ ({d})]', nao:{g:'nega', t:'cocaína/crack'}, det:{tipo:'texto', ph:'quanto / último uso'} }
+    { tipo:'tri', id:'cocaina', rot:'Cocaína / crack', sim:'uso de cocaína/crack[ ({d})]', nao:{g:'nega', t:'cocaína/crack'}, det:{tipo:'texto', ph:'forma/via (crack fumado, aspirada, injetada), quanto, último uso', na:'forma/via, quantidade e último uso de cocaína/crack'} }
   ]},
 
   { id:'clinica', titulo:'CLÍNICA', rot:'Clínica', itens:[
     { tipo:'tri', id:'comorb', rot:'Comorbidades clínicas', sim:'comorbidades[: {d}]', nao:'nega comorbidades clínicas',
       det:{tipo:'texto', ph:'quais'} },
     { tipo:'tri', id:'alergia', rot:'Alergias', sim:'alergia[: {d}]', nao:'nega alergias', det:{tipo:'texto', ph:'a quê'} },
-    { tipo:'tri', id:'meduso', rot:'Medicação em uso', na:'medicação em uso', sim:'em uso: {d}', nao:'nega medicação em uso',
-      det:{tipo:'farmacos', modo:'uso'} }
+    { tipo:'tri', id:'meduso', rot:'Medicação em uso', na:'medicação em uso', sim:'medicação em uso[: {d}]', nao:'nega medicação em uso',
+      det:{tipo:'farmacos', modo:'uso'} },
+    { tipo:'tri', id:'gestacao', rot:'Gestação, puerpério ou possibilidade de gravidez', na:'gestação / puerpério', lacuna:false,
+      sim:'gestação ou puerpério[: {d}]', nao:'nega gestação ou puerpério', det:{tipo:'texto', ph:'IG ou dias pós-parto; amamenta?'} }
   ]},
 
   { id:'ef', titulo:'EXAME FÍSICO', rot:'Exame físico',
     nota:'Nada vem preenchido como normal: "exame físico normal" só sai do que você marcou.',
     grupos:{ sinais:{pre:'Sem sinais de ', conj:' ou '} },
-    atalho:{rot:'Sem alterações nos achados', ids:['autolesao','trauma','intox','abst','rigidez','marcha']},
+    atalho:{rot:'Sem alterações nos achados'},
     itens:[
     { tipo:'vitais', id:'sv', rot:'Sinais vitais', campos:[
       ['pa','PA','mmHg','text'], ['fc','FC','bpm','numeric'], ['fr','FR','irpm','numeric'], ['tax','Tax','°C','decimal'],
@@ -309,15 +314,18 @@ var FICHA = [
     { tipo:'escolha', id:'atitude', rot:'Atitude', na:'atitude', junto:true, tpl:'atitude {d}', opts:[
       op('cooperativa','cooperativa'), op('desconfiada','desconfiada'), op('hostil','hostil'), op('desinibida','desinibida')] },
     { tipo:'escolha', id:'consciencia', rot:'Consciência', na:'consciência', opts:[
-      op('lucido','lúcido(a)','lúcid{a}'), op('obnubilado','obnubilado(a)','obnubilad{a}'), op('torporoso','torporoso(a)','torpor')] },
+      op('lucido','lúcido(a)','lúcid{a}'), op('sonolento','sonolento(a)','sonolent{a}'), op('obnubilado','obnubilado(a)','obnubilad{a}'), op('torporoso','torporoso(a)','torpor')] },
     { tipo:'escolha', id:'orientacao', rot:'Orientação', na:'orientação', junto:true, multi:true, opts:[
       op('orientado','orientado(a)','orientad{a}', true), op('dtempo','desorient. tempo','desorientad{a} no tempo'),
       op('despaco','desorient. espaço','desorientad{a} no espaço')] },
     { tipo:'escolha', id:'atencao', rot:'Atenção', na:'atenção', opts:[
-      op('preservada','preservada','atenção preservada'), op('hipoprosexia','hipoprosexia'), op('distraivel','distraível','distraibilidade')] },
+      op('preservada','preservada na conversa','atenção preservada na conversa'), op('hipoprosexia','hipoprosexia'), op('distraivel','distraível','distraibilidade')] },
     { tipo:'escolha', id:'memoria', rot:'Memória', na:'memória', junto:true, opts:[
       op('preservada','preservada','memória preservada'), op('recente','prejuízo recente','prejuízo de memória recente'),
       op('remota','prejuízo remoto','prejuízo de memória remota')] },
+    { tipo:'escolha', id:'fala', rot:'Fala', na:'fala', multi:true, tpl:'fala {d}', opts:[
+      op('normal','sem alteração',undefined,true), op('pressao','pressão de discurso','com pressão de discurso'),
+      op('lenta','lentificada'), op('mutismo','mutismo','ausente (mutismo)')] },
     { tipo:'escolha', id:'psicomotor', rot:'Psicomotricidade', na:'psicomotricidade', tpl:'psicomotricidade {d}', opts:[
       op('normal','sem alteração'), op('lentificada','lentificada'), op('agitada','agitada')] },
     { tipo:'escolha', id:'humorEEM', rot:'Humor', na:'humor', multi:true, tpl:'humor {d}', opts:[
@@ -325,13 +333,15 @@ var FICHA = [
     { tipo:'escolha', id:'afeto', rot:'Afeto', na:'afeto', multi:true, junto:true, tpl:'afeto {d}', opts:[
       op('congruente','congruente'), op('hipomodulado','hipomodulado'), op('embotado','embotado'), op('labil','lábil'), op('incongruente','incongruente')] },
     { tipo:'escolha', id:'pensamento', rot:'Pensamento (curso e forma)', na:'curso e forma do pensamento', multi:true, tpl:'pensamento {d}', opts:[
-      op('normal','sem alteração', undefined, true), op('lentificado','lentificado'), op('acelerado','acelerado'), op('desagregado','desagregado')] },
-    { tipo:'escolha', id:'delirio', rot:'Delírio', na:'conteúdo delirante', junto:true, opts:[
-      op('ausente','ausente','sem delírio'), op('persecutorio','persecutório','delírio persecutório'),
-      op('grandeza','de grandeza','delírio de grandeza'), op('ruina','ruína / culpa','delírio de ruína ou culpa')] },
+      op('normal','sem alteração', undefined, true), op('lentificado','lentificado'), op('acelerado','acelerado'), op('fuga','fuga de ideias','com fuga de ideias'), op('desagregado','desagregado')] },
+    { tipo:'escolha', id:'delirio', rot:'Delírio', na:'conteúdo delirante', junto:true, multi:true, opts:[
+      op('ausente','ausente','sem delírio',true), op('persecutorio','persecutório','delírio persecutório'),
+      op('grandeza','de grandeza','delírio de grandeza'), op('ruina','ruína / culpa','delírio de ruína ou culpa'),
+      op('influencia','de influência','delírio de influência'), op('referencia','de referência','delírio de referência')] },
     { tipo:'escolha', id:'senso', rot:'Sensopercepção', na:'sensopercepção', multi:true, opts:[
       op('sem','sem alterações','sem alterações de sensopercepção', true), op('auditiva','alucinação auditiva','alucinação auditiva'),
-      op('comando','de comando','alucinação de comando'), op('visual','alucinação visual','alucinação visual')] },
+      op('comando','de comando','alucinação de comando'), op('visual','alucinação visual','alucinação visual'),
+      op('tatil','alucinação tátil','alucinação tátil')] },
     { tipo:'escolha', id:'critica', rot:'Juízo crítico', na:'juízo crítico', tpl:'crítica {d}', opts:[
       op('preservada','preservada'), op('parcial','parcial'), op('ausente','ausente')] },
     { tipo:'escolha', id:'prospeccao', rot:'Prospecção', na:'prospecção', tpl:'prospecção {d}', opts:[
@@ -339,9 +349,10 @@ var FICHA = [
   ]},
 
   { id:'risco', titulo:'RISCO DE SUICÍDIO', rot:'Risco de suicídio', itens:[
-    { tipo:'tri', id:'ideacao', rot:'Ideação suicida', sim:'ideação suicida presente', nao:'nega ideação suicida', sub:[
+    { tipo:'tri', id:'ideacao', rot:'Ideação suicida', sim:'ideação suicida presente[ ({d})]', nao:'nega ideação suicida',
+      det:{tipo:'escolha', opts:[op('passiva','passiva','passiva, sem pensar em como'), op('ativa','ativa')]}, sub:[
       { id:'plano', rot:'Plano', sim:'com plano', nao:'sem plano' },
-      { id:'meio', rot:'Acesso ao meio', na:'acesso ao meio', sim:'com acesso ao meio', nao:'sem acesso ao meio' },
+      { id:'meio', rot:'Acesso ao meio do plano', na:'acesso ao meio planejado', sim:'com acesso ao meio planejado', nao:'sem acesso ao meio planejado' },
       { id:'intencao', rot:'Intenção de executar', na:'intenção de executar', sim:'com intenção de executar', nao:'nega intenção de executar' }] },
     { tipo:'tri', id:'tentativa', rot:'Tentativa prévia', sim:'tentativa prévia[ ({d})]', nao:'nega tentativa prévia',
       det:{tipo:'texto', ph:'quando, método'} },
@@ -356,7 +367,7 @@ var FICHA = [
       nao:'nega ideação heteroagressiva', det:{tipo:'texto', ph:'alvo'} },
     { tipo:'tri', id:'agressao', rot:'Agressão recente', sim:'agressão recente[ ({d})]', nao:'nega agressão recente',
       det:{tipo:'texto', ph:'contra quem, quando'} },
-    { tipo:'tri', id:'arma', rot:'Acesso a arma', sim:'acesso a arma', nao:'nega acesso a arma' }
+    { tipo:'tri', id:'arma', rot:'Arma de fogo em casa ou acesso a arma', na:'arma de fogo', sim:'arma de fogo em casa ou acesso a arma', nao:'nega arma de fogo em casa ou acesso a arma' }
   ]},
 
   /* alternativas: as opções são os diferenciais dos quadros marcados (getter abaixo) */
@@ -447,7 +458,9 @@ function min1(s){ return s && s.length > 1 && s.charAt(1) === s.charAt(1).toLowe
 function tira(s){ return String(s).trim().replace(/[.;,]+$/, ''); }
 /* "insônia[ {d}]" → colchete some se não houver detalhe */
 function molde(t, d){
-  return t.replace(/\[([^\]]*)\]/g, function(_, dentro){ return d ? dentro.replace('{d}', d) : ''; }).replace('{d}', d || '');
+  /* substituto sempre em função: "$&", "$$" digitados pelo médico saem literais */
+  return t.replace(/\[([^\]]*)\]/g, function(_, dentro){ return d ? dentro.replace('{d}', function(){ return d; }) : ''; })
+          .replace('{d}', function(){ return d || ''; });
 }
 function genero(txt){
   var sx = (S.sexo || [])[0];
@@ -458,8 +471,9 @@ function genero(txt){
 /* ---------- fármacos ---------- */
 var RESPOSTA = {boa:'resposta boa', parcial:'resposta parcial', sem:'sem resposta', adverso:'efeito adverso'};
 function linhaFarmaco(r, modo){
-  if (!tira(r.nome || '')) return '';
-  var t = min1(tira(r.nome));
+  var algo = ['nome', 'quando', 'dose', 'motivo'].some(function(c){ return tira(r[c] || ''); }) || r.resposta || r.adesao;
+  if (!algo) return '';
+  var t = tira(r.nome || '') ? min1(tira(r.nome)) : 'fármaco não informado';
   if (modo === 'previo' && tira(r.quando || '')) t += ' (' + tira(r.quando) + ')';
   if (tira(r.dose || '')) t += ' ' + tira(r.dose);
   if (modo === 'previo') {
@@ -469,21 +483,37 @@ function linhaFarmaco(r, modo){
   return t;
 }
 function formDe(q){ var qx = qxDe(q); return (qx && qx.formulario) || null; }
-/* papel = do primeiro quadro marcado cujo formulário lista o fármaco; "Outros" não têm */
-function papelDe(fid){
-  var qs = quadrosSel();
-  for (var i = 0; i < qs.length; i++) {
-    var fm = formDe(qs[i]);
+/* papéis do fármaco em cada quadro marcado cujo formulário o lista ("Outros" não têm) */
+function papeisDe(fid){
+  var out = [];
+  quadrosSel().forEach(function(q){
+    var fm = formDe(q);
     var r = fm && (fm.farmacos || []).filter(function(x){ return x.id === fid; })[0];
-    if (r) return r.papel || '';
-  }
-  return '';
+    if (r && r.papel) out.push({q: q, papel: r.papel});
+  });
+  return out;
+}
+/* o app só escreve o racional quando UM quadro marcado lista o fármaco; com mais de um,
+   o médico escolhe (botões) ou escreve */
+function papelDe(fid){ var ps = papeisDe(fid); return ps.length === 1 ? ps[0].papel : ''; }
+/* racional escrito pelo app (r.racAuto) acompanha os quadros; o do médico nunca é tocado.
+   Um racional do app que ainda é papel do fármaco num quadro marcado fica como está. */
+function sincronizaRacional(){
+  (S.presc || []).forEach(function(r){
+    if (!r.farmaco || (r.racional && r.racional !== r.racAuto)) return;
+    var vale = papeisDe(r.farmaco).some(function(p){ return p.papel === r.racional; });
+    if (!r.racional || !vale) { r.racional = papelDe(r.farmaco); r.racAuto = r.racional; }
+  });
 }
 /* só vira botão a linha que é dose de verdade: número com mg/mcg ("Como colher" do lítio não) */
 function linhasDose(f){
   return (f.dose || []).filter(function(d){ return /[0-9]/.test(d.val) && /\b(mg|mcg)\b/i.test(d.val); });
 }
+/* o chip preenche só a posologia: corta a fonte (" — …") e a explicação (", para …", ", porque …", ", pois …") */
+function doseDoChip(val){ return String(val).split(' — ')[0].replace(/,\s+(para|porque|pois)\s[\s\S]*$/i, ''); }
 function fonteDose(f, d){ return d.f ? d.f + (d.p ? ', p. ' + d.p : '') : f.fonte; }
+/* unidade que o médico digitou junto: sai uma vez só */
+var UNID = {pa: /\s*mm\s*hg$/i, fc: /\s*bpm$/i, fr: /\s*irpm$/i, tax: /\s*[°º]?\s*c$/i, sat: /\s*%$/, hgt: /\s*mg\s*\/\s*dl$/i};
 var ACAO = {iniciar:'início de', ajustar:'ajuste de', manter:'manutenção de', suspender:'suspensão de'};
 function prescLinha(r){
   var f = FX[r.farmaco]; if (!f) return '';
@@ -569,6 +599,7 @@ function secTexto(e){
     }
     if (it.tipo === 'tri') {
       var fr = fraseTri(it, v);
+      if (v === 'sim' && it.det && it.det.na && !detalheDe(it)) lac.push(it.det.na);
       if (v === 'sim' && it.sub) {
         var partes = [];
         it.sub.forEach(function(sb){
@@ -581,17 +612,23 @@ function secTexto(e){
     } else if (it.tipo === 'escolha') {
       var ops = it.opts.filter(function(o){ return v.indexOf(o.v) > -1; }).map(function(o){ return o.frase; });
       var tpl = (ops.length > 1 && it.tplN) || it.tpl || '{d}';
-      poe({t: tpl.replace('{d}', juntar(ops, ' e ')), junto: it.junto}, x);
+      poe({t: tpl.replace('{d}', function(){ return juntar(ops, ' e '); }), junto: it.junto}, x);
     } else if (it.tipo === 'texto') {
       var tx = v.trim();
       if (it.aspas) tx = '"' + tx.replace(/^["“”]+|["“”]+$/g, '') + '"';
       else if (!it.linha) tx = tira(tx);
       if (it.baixa) tx = min1(tx);
-      poe({t: it.fmt ? it.fmt.replace('{v}', tx) : tx, linha: it.linha || it.aspas, junto: it.junto}, x);
+      /* o molde já diz "há" ou a unidade: não repetir o que o médico digitou ("há há", "34 anos anos") */
+      if (it.fmt) {
+        if (/há \{v\}/.test(it.fmt)) tx = tx.replace(/^há\s+/i, '');
+        var suf = (it.fmt.match(/\{v\} (\S+)$/) || [])[1];
+        if (suf) tx = tx.replace(new RegExp('\\s*' + suf.replace(/s$/, '') + 's?$', 'i'), '');
+      }
+      poe({t: it.fmt ? it.fmt.replace('{v}', function(){ return tx; }) : tx, linha: it.linha || it.aspas, junto: it.junto}, x);
     } else if (it.tipo === 'vitais') {
       var tem = [], falta = [];
       it.campos.forEach(function(c){
-        var y = (S['sv.' + c[0]] || '').trim();
+        var y = (S['sv.' + c[0]] || '').trim().replace(UNID[c[0]], '');
         if (y) tem.push(c[1] + ' ' + y + (c[2] === '%' ? '%' : ' ' + c[2])); else falta.push(c[1]);
       });
       poe({t: tem.join(', ') + '.' + (falta.length ? ' Não aferido: ' + falta.join(', ') + '.' : ''), linha: true}, x);
@@ -629,6 +666,7 @@ function gerarTexto(){
 }
 
 /* ---------- tela ---------- */
+var SEMCORR = ' autocorrect="off" autocapitalize="off" spellcheck="false"';
 function pressed(b){ return ' aria-pressed="' + (b ? 'true' : 'false') + '"'; }
 function triBtns(id, rot){
   var v = S[id];
@@ -652,7 +690,8 @@ function rowsHTML(it){
   var h = rows.map(function(r, i){
     var k = it.id + '|' + i + '|';
     var inp = function(c, ph, w){ return '<input type="text" list="' + (c === 'nome' ? 'dl-farmacos' : '') + '" data-row="' + k + c +
-      '" value="' + esc(r[c] || '') + '" placeholder="' + ph + '"' + (w ? ' style="flex:0 1 ' + w + '"' : '') + '>'; };
+      '" value="' + esc(r[c] || '') + '" placeholder="' + ph + '"' + (c === 'nome' || c === 'dose' ? SEMCORR : '') +
+      (w ? ' style="flex:0 1 ' + w + '"' : '') + '>'; };
     var h2 = '<div class="row">' + inp('nome', 'fármaco') + (modo === 'previo' ? inp('quando', 'quando', '5.5rem') : '') + inp('dose', 'dose', '7rem');
     if (modo === 'previo') {
       h2 += '<select data-row="' + k + 'resposta"><option value="">resposta…</option>' +
@@ -696,18 +735,26 @@ function prescRowHTML(r, i, real){
     }).join('') + '</span></div>' +
     '<div class="linha"><span class="lrot">Fármaco</span>' + farmacoSelectHTML(r, i) + '</div>';
   if (f) {
-    var papel = papelDe(f.id);
-    if (papel) h += '<p class="papel">Papel neste quadro: ' + esc(papel) + '</p>';
+    var ps = papeisDe(f.id);
+    if (ps.length === 1) h += '<p class="papel">Papel neste quadro: ' + esc(ps[0].papel) + '</p>';
+    else if (ps.length > 1) {
+      h += '<p class="papel">Listado em ' + ps.length + ' quadros marcados — toque no papel que motiva a prescrição ou escreva o racional:</p>' +
+        '<div class="chips">' + ps.map(function(p, k){
+          return '<button type="button" class="opc" data-papel="' + k + '" data-i="' + i + '"' + pressed(r.racional === p.papel) + '><b>' +
+                 esc(p.q.nome) + '</b> ' + esc(p.papel) + '</button>';
+        }).join('') + '</div>';
+    }
+    /* o campo fica ACIMA das referências: no celular, o que o toque preenche fica à vista */
+    h += '<label class="campo"><span>Dose (digite ou toque numa referência abaixo)</span>' +
+         '<input type="text" class="largo" data-presc="dose" data-i="' + i + '" value="' + esc(r.dose || '') + '"' + SEMCORR + '></label>';
     if (f.v) h += '<p class="papel"><span class="vf">VERIFICAR</span> sem fonte conferida — dose não exibida.</p>';
     else {
       h += '<div class="chips">' + linhasDose(f).map(function(d, k){
-        return '<button type="button" class="chip" data-chip="' + k + '" data-i="' + i + '"><b>' + esc(d.rot) + '</b> ' + esc(d.val) +
-               '<small>' + esc(fonteDose(f, d)) + '</small></button>';
+        return '<button type="button" class="chip" data-chip="' + k + '" data-i="' + i + '"' + pressed(!!r.dose && r.dose === doseDoChip(d.val)) +
+               '><b>' + esc(d.rot) + '</b> ' + esc(d.val) + '<small>' + esc(fonteDose(f, d)) + '</small></button>';
       }).join('') + '</div>';
     }
-    h += '<label class="campo"><span>Dose (toque numa referência acima ou digite)</span>' +
-         '<input type="text" class="largo" data-presc="dose" data-i="' + i + '" value="' + esc(r.dose || '') + '"></label>' +
-         '<label class="campo"><span>Racional</span><input type="text" class="largo" data-presc="racional" data-i="' + i + '" value="' +
+    h += '<label class="campo"><span>Racional</span><input type="text" class="largo" data-presc="racional" data-i="' + i + '" value="' +
          esc(r.racional || '') + '"></label>';
   }
   if (real) h += '<button type="button" class="btn-mini" data-presc-del="' + i + '">remover</button>';
@@ -756,7 +803,7 @@ function itemHTML(it){
   }
   if (it.tipo === 'presc') return prescHTML();
   if (it.tipo === 'tri') {
-    var h = '<div class="linha"><span class="lrot">' + esc(it.rot) + '</span>' + triBtns(it.id, it.rot) + '</div>';
+    var h = '<div class="linha lt"><span class="lrot">' + esc(it.rot) + '</span>' + triBtns(it.id, it.rot) + '</div>';
     if (S[it.id] === 'sim') {
       if (it.det) {
         h += '<div class="det">' +
@@ -765,7 +812,7 @@ function itemHTML(it){
            : rowsHTML(it)) + '</div>';
       }
       if (it.sub) h += '<div class="sub">' + it.sub.map(function(sb){
-        return '<div class="linha"><span class="lrot">' + esc(sb.rot) + '</span>' + triBtns(sb.id, sb.rot) + '</div>';
+        return '<div class="linha lt"><span class="lrot">' + esc(sb.rot) + '</span>' + triBtns(sb.id, sb.rot) + '</div>';
       }).join('') + '</div>';
     }
     return h;
@@ -794,7 +841,7 @@ function quadrosHTML(){
   quadrosSel().forEach(function(q){
     var qx = qxDe(q), rf = qx && qx.redflags;
     if (!rf || !(rf.itens || []).length) return;
-    h += '<details class="rf" open><summary>Não perder — ' + esc(q.nome) + '</summary><ul>' +
+    h += '<details class="rf" data-rf="' + q.id + '"' + (rfAberto[q.id] === false ? '' : ' open') + '><summary>Não perder — ' + esc(q.nome) + '</summary><ul>' +
       rf.itens.map(function(i){ return '<li>' + esc(itemT(i)) + '</li>'; }).join('') + '</ul>' +
       (rf.fonte ? '<p class="fonte">Fonte: ' + esc(rf.fonte) + '</p>' : '') + '</details>';
   });
@@ -802,8 +849,14 @@ function quadrosHTML(){
 }
 
 var elFicha = document.getElementById('ficha'), elSaida = document.getElementById('saida');
+/* aberto/fechado de cada "Não perder": só em memória, para o render não reabrir o que foi recolhido */
+var rfAberto = {};
+document.addEventListener('toggle', function(e){
+  var d = e.target; if (d.dataset && d.dataset.rf) rfAberto[d.dataset.rf] = d.open;
+}, true);
 function render(){
   indexa();
+  sincronizaRacional();
   elFicha.innerHTML = '<div class="didatico' + (didatico ? '' : ' hide') + '">Caso de exemplo carregado — MODELO DIDÁTICO, não é paciente.</div>' +
     quadrosHTML() + efetiva().map(secHTML).join('') +
     '<datalist id="dl-farmacos">' + Object.keys(FX).map(function(k){ return '<option value="' + esc(FX[k].nome) + '">'; }).join('') + '</datalist>' +
@@ -829,7 +882,35 @@ function linhaPresc(i){
   return S.presc[i];
 }
 function limpar(){
-  if (vazioS() || confirm('Apagar tudo o que foi preenchido?')) { S = {}; didatico = false; render(); window.scrollTo(0, 0); }
+  if (vazioS() || confirm('Apagar tudo o que foi preenchido?')) { S = {}; didatico = false; rfAberto = {}; render(); window.scrollTo(0, 0); }
+}
+/* respostas que somem do texto se o quadro q for desmarcado (itens que só ele mostra) */
+function respostasSo(qid){
+  var outros = {};
+  quadrosSel().forEach(function(q){
+    if (q.id === qid) return;
+    Object.keys(q.blocos || {}).forEach(function(sid){ (q.blocos[sid].itens || []).forEach(function(it){ outros[it.id] = 1; }); });
+  });
+  var n = 0;
+  efetiva().forEach(function(e){ e.blocos.forEach(function(bl){
+    if (bl.q.id !== qid) return;
+    bl.itens.forEach(function(it){
+      if (outros[it.id]) return;
+      if (tocado(it)) n++;
+      if (S[it.id] === 'sim') (it.sub || []).forEach(function(sb){ if (S[sb.id]) n++; });
+    });
+  }); });
+  return n;
+}
+/* D1: ✗ em todo tri VISÍVEL e não respondido do exame físico (base + quadros); nunca vitais nem pílulas */
+function atalhoIds(sid){
+  var ids = [];
+  efetiva().forEach(function(e){
+    if (e.sec.id !== sid) return;
+    e.sec.itens.concat.apply(e.sec.itens, e.blocos.map(function(bl){ return bl.itens; }))
+      .forEach(function(it){ if (it.tipo === 'tri' && !S[it.id]) ids.push(it.id); });
+  });
+  return ids;
 }
 
 /* ---------- eventos ---------- */
@@ -842,6 +923,11 @@ document.addEventListener('click', function(e){
     if (it && it.det && it.det.tipo === 'farmacos' && S[d.tri] === 'sim' && !(S[d.tri + '.rows'] || []).length) S[d.tri + '.rows'] = [{}];
     reBloco(b); atualiza();
   } else if (d.esc) {
+    if (d.esc === 'quadros' && (S.quadros || []).indexOf(d.v) > -1) {
+      var nq = respostasSo(d.v), qn = lista().filter(function(q){ return q.id === d.v; })[0];
+      if (nq && !confirm('Desmarcar ' + (qn ? qn.nome : d.v) + ' tira do texto ' + nq + (nq === 1 ? ' resposta' : ' respostas') +
+          ' deste quadro. Desmarcar?')) return;
+    }
     if (d.esc === 'presc.acao') {
       var r = linhaPresc(+d.i);
       r.acao = r.acao === d.v ? '' : d.v;
@@ -869,12 +955,23 @@ document.addEventListener('click', function(e){
     S.presc.splice(+d.prescDel, 1); if (!S.presc.length) delete S.presc;
     reBloco(pb); atualiza();
   } else if (d.chip !== undefined) {
-    var rc = linhaPresc(+d.i);
-    rc.dose = linhasDose(FX[rc.farmaco])[+d.chip].val.split(' — ')[0];
+    var rc = linhaPresc(+d.i), pb2 = b.closest('[data-bloco]');
+    rc.dose = doseDoChip(linhasDose(FX[rc.farmaco])[+d.chip].val);
+    reBloco(pb2); atualiza();
+    var dz = pb2.querySelector('input[data-presc="dose"][data-i="' + d.i + '"]');
+    if (dz) dz.scrollIntoView({block: 'nearest'});
+  } else if (d.papel !== undefined) {
+    var rp = linhaPresc(+d.i), pp = papeisDe(rp.farmaco)[+d.papel];
+    if (pp) { rp.racional = pp.papel; rp.racAuto = pp.papel; }
     reBloco(b); atualiza();
   } else if (d.atalho) {
-    SEC[d.atalho].atalho.ids.forEach(function(id){ if (!S[id]) S[id] = 'nao'; });
-    render();
+    /* só os itens afetados são redesenhados: a página não pula */
+    atalhoIds(d.atalho).forEach(function(id){
+      S[id] = 'nao';
+      var bl = elFicha.querySelector('[data-bloco="' + id + '"]');
+      if (bl) bl.innerHTML = itemHTML(ITEM[id]);
+    });
+    atualiza();
   } else if (b.id === 'bt-exemplo' || b.id === 'bt-exemplo-m') { carregaExemplo(); }
   else if (b.id === 'bt-limpar' || b.id === 'bt-limpar-m') { limpar(); }
   else if (b.id === 'bt-ver') { document.getElementById('s-texto').scrollIntoView({block: 'start'}); }
@@ -893,10 +990,10 @@ document.addEventListener('change', function(e){
   if (el.dataset.row) { var p = el.dataset.row.split('|'); S[p[0] + '.rows'][+p[1]][p[2]] = el.value; atualiza(); }
   else if (el.hasAttribute('data-presc-f')) {
     var r = linhaPresc(+el.dataset.i);
-    var antes = r.farmaco;
     r.farmaco = el.value;
-    /* o racional segue o papel do fármaco, a menos que você já tenha escrito outro */
-    if (!r.racional || r.racional === papelDe(antes)) r.racional = papelDe(el.value);
+    /* o racional segue o papel do fármaco, a menos que você já tenha escrito outro
+       (racAuto = o último texto que o APP escreveu; comparar com papelDe(antes) falha quando os quadros mudam) */
+    if (!r.racional || r.racional === r.racAuto) { r.racional = papelDe(el.value); r.racAuto = r.racional; }
     r.dose = '';
     reBloco(el); atualiza();
   }
@@ -906,11 +1003,21 @@ window.addEventListener('beforeunload', function(e){ if (!vazioS()) { e.preventD
 
 /* copiado do copiloto (copiloto/index.html, copiar()): clipboard pode falhar em file:// */
 function copiar(txt, btn){
-  var rot = btn.textContent;
+  /* rótulo original guardado uma vez só; cada toque cancela o timer anterior */
+  if (!btn.dataset.rot) btn.dataset.rot = btn.textContent;
   var avisa = function(ok){
+    clearTimeout(btn._t);
     btn.textContent = ok ? 'Copiado' : 'Não consegui copiar';
     btn.classList.toggle('copiou', ok);
-    setTimeout(function(){ btn.textContent = rot; btn.classList.remove('copiou'); }, 2200);
+    btn._t = setTimeout(function(){ btn.textContent = btn.dataset.rot; btn.classList.remove('copiou'); }, 2200);
+    if (!ok) {
+      /* falhou: deixa o texto selecionado e à vista, para copiar com toque longo */
+      try {
+        var rg = document.createRange(); rg.selectNodeContents(elSaida);
+        var sl = window.getSelection(); sl.removeAllRanges(); sl.addRange(rg);
+        elSaida.scrollIntoView({block: 'start'});
+      } catch (err) {}
+    }
   };
   var naMao = function(){
     try {
@@ -959,7 +1066,7 @@ function carregaExemplo(){
     presc:[{acao:'iniciar', farmaco:'fluoxetina', dose:''}],
     explicado:'sim', concorda:'sim'
   };
-  S.presc[0].racional = papelDe('fluoxetina');
+  S.presc[0].racional = S.presc[0].racAuto = papelDe('fluoxetina');
   render(); window.scrollTo(0, 0);
 }
 

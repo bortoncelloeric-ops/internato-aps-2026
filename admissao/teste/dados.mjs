@@ -21,6 +21,11 @@ const { QUADROS, QUEIXAS } = ctx;
 const html = fs.readFileSync(path.join(RAIZ, 'index.html'), 'utf8');
 const ficha = (html.match(/var FICHA = \[([\s\S]*?)\n\];/) || [, ''])[1];
 const BASE = new Set([...ficha.matchAll(/\bid\s*:\s*'([^']+)'/g)].map(m => m[1]));
+// rótulos das opções de pílula da base: op('v','rot', …)
+const BASE_OPS = [...ficha.matchAll(/\bop\('[^']*',\s*'([^']+)'/g)].map(m => m[1]);
+// detalhe (placeholder) de cada item base: id → ph
+const BASE_PH = Object.fromEntries([...ficha.matchAll(/\bid\s*:\s*'([^']+)'[^\n]*?(?:\n[^\n]*?)??ph\s*:\s*'([^']+)'/g)].map(m => [m[1], m[2]]));
+const norm = t => String(t).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s*\([^)]*\)/g, '').trim();
 
 // mesma regra do app (index.html, function molde)
 function molde(t, d) {
@@ -48,7 +53,7 @@ function textos(it) {
   const add = (campo, v) => { if (typeof v === 'string') out.push([campo, v]); else if (v && typeof v === 'object' && 't' in v) out.push([campo + '.t', v.t]); };
   for (const k of ['rot', 'na', 'sim', 'nao', 'tpl', 'tplN', 'fmt', 'ph']) add(k, it[k]);
   for (const o of (it.opts || [])) { add('opts.rot', o.rot); if (o.frase !== undefined) add('opts.frase', o.frase); }
-  if (it.det) { add('det.ph', it.det.ph); for (const o of (it.det.opts || [])) { add('det.rot', o.rot); if (o.frase !== undefined) add('det.frase', o.frase); } }
+  if (it.det) { add('det.ph', it.det.ph); add('det.na', it.det.na); for (const o of (it.det.opts || [])) { add('det.rot', o.rot); if (o.frase !== undefined) add('det.frase', o.frase); } }
   return out;
 }
 // campos que viram frase da nota (devem começar minúsculos)
@@ -77,8 +82,9 @@ check('9 quadros, ids únicos, nome e fonte preenchidos', qs => {
 check('toda queixa existe em QUEIXAS', qs => qs.filter(q => !QUEIXAS.some(x => x.id === q.queixa)).map(q => q.id + ' → ' + q.queixa));
 check('chaves de blocos dentro das seções permitidas', qs => qs.flatMap(q => Object.keys(q.blocos || {}).filter(k => !SECOES.includes(k)).map(k => q.id + '.' + k)));
 check('todo bloco tem rot e pelo menos 1 item', qs => qs.flatMap(q => Object.entries(q.blocos || {}).filter(([, b]) => !b.rot || !(b.itens || []).length).map(([k]) => q.id + '.' + k)));
-check('hda com 6 a 12 itens; demais blocos com 1 a 6', qs => qs.flatMap(q => Object.entries(q.blocos || {})
-  .filter(([k, b]) => k === 'hda' ? b.itens.length < 6 || b.itens.length > 12 : b.itens.length > 6).map(([k, b]) => q.id + '.' + k + ': ' + b.itens.length)));
+// hda: mínimo 4 desde 30/09 (D3): forma/via e última dose de cocaína e álcool passaram ao detalhe da base
+check('hda com 4 a 12 itens; demais blocos com 1 a 6', qs => qs.flatMap(q => Object.entries(q.blocos || {})
+  .filter(([k, b]) => k === 'hda' ? b.itens.length < 4 || b.itens.length > 12 : b.itens.length > 6).map(([k, b]) => q.id + '.' + k + ': ' + b.itens.length)));
 check('todo item tem tipo válido, id e rot', qs => {
   const e = [];
   for (const { q, sec, it, pai } of itens(qs)) {
@@ -120,9 +126,50 @@ check('objeto reusado fica sempre na mesma seção', qs => {
   }
   return e;
 });
-check('sem colisão com ids da ficha base (quadros novos; ' + BASE.size + ' ids base lidos)', qs => {
+check('sem colisão com ids da ficha base (todos os quadros; ' + BASE.size + ' ids base lidos)', qs => {
   if (BASE.size < 20) return ['extração dos ids base falhou (' + BASE.size + ')'];
-  return [...itens(qs.filter(q => q.id !== 'depressao'))].filter(({ it }) => BASE.has(it.id)).map(({ q, it }) => q.id + ': ' + it.id);
+  return [...itens(qs)].filter(({ it }) => BASE.has(it.id)).map(({ q, it }) => q.id + ': ' + it.id);
+});
+// D3/F3/F5 (30/09): uma pergunta mora num lugar só. A ficha base já pergunta arma (HETEROAGRESSIVIDADE),
+// forma/via e último uso (detalhe de SUBSTÂNCIAS), sonolência (Consciência) e fuga de ideias (Pensamento).
+const REPETE = [
+  [/\barma\b(?!: ver)/i, 'arma — item base "arma" (HETEROAGRESSIVIDADE)'],
+  [/forma e via|\bvia\b/i, 'forma/via — detalhe base de cocaína'],
+  [/^(ultima dose|ultimo uso)/i, 'última dose — detalhe base "quanto, último uso"'],
+  [/sonolent/i, 'sonolência — opção base de Consciência']
+];
+check('nenhuma pergunta de quadro repete a ficha base (arma, forma/via, última dose, sonolência, opção base)', qs => {
+  const e = [], ops = new Set(BASE_OPS.map(norm));
+  if (BASE_OPS.length < 40) return ['extração das opções base falhou (' + BASE_OPS.length + ')'];
+  for (const { q, it } of itens(qs)) {
+    const rots = [it.rot, it.sim && (it.sim.t || it.sim), ...(it.opts || []).map(o => o.rot), ...((it.det && it.det.opts) || []).map(o => o.rot)].filter(x => typeof x === 'string');
+    for (const r of rots) for (const [re, qual] of REPETE) if (re.test(norm(r))) e.push(q.id + ': ' + it.id + ' "' + r + '" → ' + qual);
+    if (ops.has(norm(it.rot))) e.push(q.id + ': ' + it.id + ' "' + it.rot + '" já é opção da base');
+  }
+  for (const [id, re] of [['alcool', /ultimo uso/], ['cocaina', /forma\/via/], ['cocaina', /ultimo uso/]])
+    if (!re.test(norm(BASE_PH[id] || ''))) e.push('detalhe base de ' + id + ' não pergunta ' + re + ' (ph: ' + BASE_PH[id] + ')');
+  return [...new Set(e)];
+});
+// F4 (30/09): déficit focal é achado de exame (del-focal no ef), não item de história
+check('nenhum item de hda pergunta sinal focal (vai no ef)', qs => [...itens(qs)].filter(({ sec, it }) => sec === 'hda' && /focal/i.test(it.rot)).map(({ q, it }) => q.id + ': ' + it.id));
+// F1/F11 (30/09): frase de achado não afirma que o paciente usa o fármaco ("em uso de" só condicional)
+check('nenhuma frase afirma uso de fármaco ("em uso de" só como "se em uso de")', qs => {
+  const e = [];
+  for (const { it } of itens(qs)) for (const [c, t] of frasesDoItem(it)) if (/(^|[^e] |^)em uso de/.test(t.replace(/se em uso de/g, ''))) e.push(it.id + '.' + c + ': ' + t);
+  return e;
+});
+// F12 (30/09): sem `na`, a lacuna usa o rot — rot com "/", "?" ou "(" é texto de formulário
+check('rot com "/", "?" ou "(" tem na curto', qs => [...itens(qs)].filter(({ it }) => !it.na && /[/?(]/.test(it.rot)).map(({ q, it }) => q.id + ': ' + it.id + ' "' + it.rot + '"'));
+// F7 (30/09): det.na é lacuna do detalhe vazio com o pai ✓ — só em tri, texto curto de nota
+check('det.na só em tri, minúsculo, sem ponto', qs => [...itens(qs)].filter(({ it, pai }) => it.det && it.det.na !== undefined
+  && (pai || it.tipo !== 'tri' || typeof it.det.na !== 'string' || !/^[a-zà-ÿ]/.test(it.det.na) || /\.$/.test(it.det.na))).map(({ it }) => it.id));
+// F6 (30/09): convulsão e confusão NO EPISÓDIO ATUAL têm onde entrar; os antecedentes dizem ANTERIOR
+check('álcool: abstinência atual registra convulsão e confusão; antecedentes dizem "anterior"', qs => {
+  const a = qs.find(q => q.id === 'alcool'), its = a ? a.blocos.hda.itens : [], by = id => its.find(i => i.id === id) || {};
+  const e = [], vs = ((by('alc-sintomas').det || {}).opts || []).map(o => o.v);
+  for (const v of ['convulsao', 'confusao']) if (!vs.includes(v)) e.push('alc-sintomas sem ' + v);
+  for (const id of ['alc-convulsao', 'alc-dt']) if (!/anterior/i.test(by(id).rot || '')) e.push(id + ' rot sem ANTERIOR');
+  return e;
 });
 check('ids dos quadros novos com prefixo do quadro', qs => {
   const PRE = /^(psi|man|sui|agi|alc|sub|ans|del)-[a-z0-9-]+$/;

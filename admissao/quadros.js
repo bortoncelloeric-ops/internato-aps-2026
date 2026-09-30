@@ -25,10 +25,12 @@ const DEL_CLINICO = { tipo: 'tri', id: 'del-clinico', rot: 'Febre, infecção, q
   det: {tipo: 'texto', ph: 'qual'} };
 
 /* ef — psicose, agitação, delirium */
-const PSI_SNM = { tipo: 'tri', id: 'psi-snm', rot: 'Febre com rigidez e confusão em uso de antipsicótico (SNM)', na: 'sinais de SNM',
-  sim: 'febre, rigidez e confusão em uso de antipsicótico, suspeita de síndrome neuroléptica maligna',
-  nao: 'sem febre com rigidez em uso de antipsicótico' };
-/* ef — agitação, delirium */
+/* O uso ou não de antipsicótico fica em "Medicação em uso" e em psi-adesao: a frase não o afirma. */
+const PSI_SNM = { tipo: 'tri', id: 'psi-snm', rot: 'Febre com rigidez muscular e confusão (SNM se em uso de antipsicótico)', na: 'febre com rigidez',
+  sim: 'febre com rigidez muscular e confusão[: {d}]',
+  nao: 'sem febre com rigidez muscular (sem sinais de síndrome neuroléptica maligna)',
+  det: {tipo: 'texto', ph: 'antipsicótico em uso, Tax'} };
+/* ef — psicose, agitação, delirium */
 const DEL_FOCAL = { tipo: 'tri', id: 'del-focal', rot: 'Sinal neurológico focal', na: 'sinal focal',
   sim: 'sinal neurológico focal[: {d}]', nao: 'sem sinal neurológico focal', det: {tipo: 'texto', ph: 'qual'} };
 /* ef — agitação, ansiedade */
@@ -59,7 +61,7 @@ var QUADROS = [
             {v: 'primeiro', rot: 'primeiro episódio', frase: 'primeiro episódio psicótico'},
             {v: 'recaida', rot: 'recaída', frase: 'recaída de quadro psicótico prévio'}] },
           { tipo: 'texto', id: 'psi-duracao', rot: 'Há quanto tempo (e o que veio primeiro: isolamento ou vozes)', na: 'duração', fmt: 'sintomas psicóticos há {v}' },
-          { tipo: 'tri', id: 'psi-vozes', rot: 'Ouve vozes / chamarem o nome sem ter ninguém', sim: {g: 'rev', t: 'alucinações auditivas'}, nao: {g: 'revneg', t: 'alucinações auditivas'} },
+          { tipo: 'tri', id: 'psi-vozes', rot: 'Ouve vozes / chamarem o nome sem ter ninguém', na: 'alucinações auditivas', sim: {g: 'rev', t: 'alucinações auditivas'}, nao: {g: 'revneg', t: 'alucinações auditivas'} },
           { tipo: 'tri', id: 'psi-persec', rot: 'Sente-se seguido, vigiado, falado, comida mexida', na: 'ideias persecutórias',
             sim: {g: 'rev', t: 'ideias de perseguição ou vigilância'}, nao: {g: 'revneg', t: 'ideias de perseguição ou vigilância'} },
           { tipo: 'tri', id: 'psi-influencia', rot: 'Pensamento colocado, tirado ou conhecido pelos outros', na: 'vivência de influência',
@@ -76,12 +78,13 @@ var QUADROS = [
             {v: 'irregular', rot: 'uso irregular', frase: 'uso irregular do antipsicótico'},
             {v: 'suspenso', rot: 'suspenso', frase: 'antipsicótico suspenso'}] },
           PSI_SUBST,
-          { tipo: 'tri', id: 'psi-organico', rot: 'Alarme de causa secundária (alucinação visual predominante, déficit focal, primeiro episódio após os 40 anos)',
-            na: 'alarme de causa secundária', sim: 'sinal de alarme para causa secundária[: {d}]', nao: 'sem sinal de alarme para causa secundária',
-            det: {tipo: 'texto', ph: 'qual'} }
+          { tipo: 'tri', id: 'psi-visual', rot: 'Alucinação visual predominante (alarme de causa orgânica)', na: 'alucinação visual predominante',
+            sim: 'alucinação visual predominante, alarme para causa orgânica', nao: 'sem predomínio de alucinação visual' },
+          { tipo: 'tri', id: 'psi-40', rot: 'Primeiro episódio após os 40 anos (alarme de causa orgânica)', na: 'idade no primeiro episódio',
+            sim: 'primeiro episódio após os 40 anos, alarme para causa orgânica', nao: 'primeiro episódio antes dos 40 anos' }
         ]
       },
-      ef: { rot: 'Achados dirigidos — psicose', itens: [ PSI_SNM ] },
+      ef: { rot: 'Achados dirigidos — psicose', itens: [ DEL_FOCAL, PSI_SNM ] },
       eem: { rot: 'Achados dirigidos — psicose', itens: [
         { tipo: 'tri', id: 'psi-catatonia', rot: 'Catatonia', sim: 'sinais de catatonia[: {d}]', nao: 'sem sinais de catatonia',
           det: {tipo: 'escolha', multi: true, opts: [{v: 'imobilidade', rot: 'imobilidade'}, {v: 'mutismo', rot: 'mutismo'},
@@ -131,11 +134,9 @@ var QUADROS = [
         ]
       },
       ef: { rot: 'Achados dirigidos — mania', itens: [
-        { tipo: 'tri', id: 'man-litio', rot: 'Tremor grosseiro, ataxia ou disartria em uso de lítio', na: 'sinais de intoxicação por lítio',
-          sim: 'tremor grosseiro, ataxia ou disartria em uso de lítio, suspeita de intoxicação', nao: 'sem sinais de intoxicação por lítio' }
-      ]},
-      eem: { rot: 'Achados dirigidos — mania', itens: [
-        { tipo: 'tri', id: 'man-fuga', rot: 'Fuga de ideias', sim: 'fuga de ideias', nao: 'sem fuga de ideias' }
+        { tipo: 'tri', id: 'man-litio', rot: 'Sinais de intoxicação por lítio (tremor grosseiro, ataxia, disartria)', na: 'sinais de intoxicação por lítio',
+          sim: 'sinais de intoxicação por lítio[: {d}]', nao: 'sem sinais de intoxicação por lítio',
+          det: {tipo: 'escolha', multi: true, opts: [{v: 'tremor', rot: 'tremor grosseiro'}, {v: 'ataxia', rot: 'ataxia'}, {v: 'disartria', rot: 'disartria'}]} }
       ]}
     }
   },
@@ -156,13 +157,13 @@ var QUADROS = [
             det: {tipo: 'escolha', multi: true, opts: [{v: 'inicial', rot: 'inicial'}, {v: 'manutencao', rot: 'de manutenção'}, {v: 'precoce', rot: 'com despertar precoce'}]} },
           { tipo: 'tri', id: 'apetite', rot: 'Alteração de apetite', sim: {g: 'rev', t: 'alteração de apetite'}, nao: {g: 'revneg', t: 'alteração de apetite'},
             det: {tipo: 'escolha', substitui: true, opts: [{v: 'reduzido', rot: 'reduzido', frase: 'apetite reduzido'}, {v: 'aumentado', rot: 'aumentado', frase: 'apetite aumentado'}]} },
-          { tipo: 'tri', id: 'fadiga', rot: 'Fadiga / perda de energia', sim: {g: 'rev', t: 'fadiga'}, nao: {g: 'revneg', t: 'fadiga'} },
-          { tipo: 'tri', id: 'culpa', rot: 'Culpa excessiva / sensação de ser um peso', sim: {g: 'rev', t: 'culpa excessiva'}, nao: {g: 'revneg', t: 'culpa excessiva'} },
+          { tipo: 'tri', id: 'fadiga', rot: 'Fadiga / perda de energia', na: 'fadiga', sim: {g: 'rev', t: 'fadiga'}, nao: {g: 'revneg', t: 'fadiga'} },
+          { tipo: 'tri', id: 'culpa', rot: 'Culpa excessiva / sensação de ser um peso', na: 'culpa excessiva', sim: {g: 'rev', t: 'culpa excessiva'}, nao: {g: 'revneg', t: 'culpa excessiva'} },
           { tipo: 'tri', id: 'bipolar', rot: 'Período prévio de humor elevado ou pouca necessidade de sono (rastreio de bipolar)',
             na: 'rastreio de bipolaridade',
             sim: 'relata período prévio de humor elevado ou pouca necessidade de sono[: {d}]',
             nao: 'nega período prévio de humor elevado ou pouca necessidade de sono', det: {tipo: 'texto', ph: 'quando, quanto tempo'} },
-          { tipo: 'tri', id: 'psicose', rot: 'Sintomas psicóticos', sim: 'refere sintomas psicóticos[: {d}]', nao: 'nega sintomas psicóticos',
+          { tipo: 'tri', id: 'psicose', rot: 'Sintomas psicóticos', na: 'sintomas psicóticos', sim: 'refere sintomas psicóticos[: {d}]', nao: 'nega sintomas psicóticos',
             det: {tipo: 'texto', ph: 'quais'} }
         ]
       }
@@ -180,10 +181,10 @@ var QUADROS = [
         itens: [
           { tipo: 'tri', id: 'sui-atual', rot: 'Tentativa de suicídio atual (motivo desta vinda)', na: 'tentativa atual',
             sim: 'tentativa de suicídio atual[: {d}]', nao: 'nega tentativa de suicídio atual',
-            det: {tipo: 'texto', ph: 'método, horário; se ingestão: o quê e quanto'}, sub: [
+            det: {tipo: 'texto', ph: 'método, horário; se ingestão: o quê e quanto', na: 'método e horário da tentativa'}, sub: [
               { id: 'sui-planejada', rot: 'Planejada', na: 'planejamento', sim: 'tentativa planejada', nao: 'tentativa sem planejamento' },
               { id: 'sui-intencao', rot: 'Intenção de morrer no ato', na: 'intenção de morrer no ato', sim: 'com intenção de morrer no ato', nao: 'nega intenção de morrer no ato' },
-              { id: 'sui-dano', rot: 'Dano clínico', na: 'dano clínico', sim: 'com dano clínico', nao: 'sem dano clínico' },
+              { id: 'sui-dano', rot: 'Repercussão clínica (até o momento)', na: 'repercussão clínica', sim: 'com repercussão clínica', nao: 'sem repercussão clínica até o momento' },
               { id: 'sui-intox', rot: 'Sob efeito de álcool ou substância', na: 'álcool ou substância no ato',
                 sim: 'sob efeito de álcool ou substância no ato', nao: 'nega uso de álcool ou substância no ato' },
               { id: 'sui-arrepende', rot: 'Arrependimento por ter tentado', na: 'arrependimento', sim: 'refere arrependimento da tentativa', nao: 'sem arrependimento da tentativa' }] },
@@ -199,9 +200,9 @@ var QUADROS = [
         ]
       },
       risco: { rot: 'Risco dirigido — suicídio / tentativa', itens: [
-        { tipo: 'tri', id: 'sui-meiocasa', rot: 'Meio letal acessível em casa', na: 'meio letal em casa',
-          sim: 'meio letal acessível em casa[: {d}]', nao: 'nega meio letal acessível em casa',
-          det: {tipo: 'escolha', multi: true, opts: [{v: 'arma', rot: 'arma de fogo'}, {v: 'medicacao', rot: 'medicação estocada'},
+        { tipo: 'tri', id: 'sui-meiocasa', rot: 'Outro meio letal acessível em casa (arma: ver Heteroagressividade)', na: 'outro meio letal em casa',
+          sim: 'meio letal acessível em casa[: {d}]', nao: 'nega medicação estocada, agrotóxico ou outro meio letal em casa',
+          det: {tipo: 'escolha', multi: true, opts: [{v: 'medicacao', rot: 'medicação estocada'},
             {v: 'agrotoxico', rot: 'agrotóxico'}, {v: 'outro', rot: 'outro meio'}]} },
         { tipo: 'tri', id: 'sui-familia', rot: 'Suicídio em familiar biológico', na: 'suicídio na família',
           sim: 'suicídio em familiar biológico[: {d}]', nao: 'nega suicídio na família', det: {tipo: 'texto', ph: 'quem'} },
@@ -265,14 +266,14 @@ var QUADROS = [
         rot: 'Revisão de sintomas — álcool',
         grupos: { ant: {pre: 'Antecedente de ', conj: ' e '}, antneg: {pre: 'Nega antecedente de ', conj: ' e '} },
         itens: [
-          { tipo: 'texto', id: 'alc-ultdose', rot: 'Última dose (há quanto tempo)', na: 'horário da última dose', curto: true, fmt: 'última dose de álcool há {v}' },
           { tipo: 'tri', id: 'alc-sintomas', rot: 'Sintomas de abstinência desde a última dose', na: 'sintomas de abstinência',
             sim: 'sintomas de abstinência desde a última dose[: {d}]', nao: 'nega sintomas de abstinência desde a última dose',
             det: {tipo: 'escolha', multi: true, opts: [{v: 'tremor', rot: 'tremor'}, {v: 'sudorese', rot: 'sudorese'},
-              {v: 'nausea', rot: 'náusea'}, {v: 'alucinacao', rot: 'alucinação visual ou tátil'}]} },
-          { tipo: 'tri', id: 'alc-convulsao', rot: 'Convulsão em abstinência prévia', na: 'convulsão em abstinência',
+              {v: 'nausea', rot: 'náusea'}, {v: 'alucinacao', rot: 'alucinação visual ou tátil'},
+              {v: 'convulsao', rot: 'convulsão'}, {v: 'confusao', rot: 'confusão / desorientação', frase: 'confusão ou desorientação'}]} },
+          { tipo: 'tri', id: 'alc-convulsao', rot: 'Convulsão em abstinência ANTERIOR', na: 'convulsão em abstinência anterior',
             sim: {g: 'ant', t: 'convulsão em abstinência'}, nao: {g: 'antneg', t: 'convulsão em abstinência'} },
-          { tipo: 'tri', id: 'alc-dt', rot: 'Delirium tremens prévio', na: 'delirium tremens prévio',
+          { tipo: 'tri', id: 'alc-dt', rot: 'Delirium tremens em abstinência ANTERIOR', na: 'delirium tremens anterior',
             sim: {g: 'ant', t: 'delirium tremens'}, nao: {g: 'antneg', t: 'delirium tremens'} },
           { tipo: 'tri', id: 'alc-manha', rot: 'Bebe pela manhã para aliviar', na: 'beber pela manhã',
             sim: 'bebe pela manhã para aliviar sintomas', nao: 'nega beber pela manhã para aliviar sintomas' },
@@ -285,7 +286,8 @@ var QUADROS = [
             det: {tipo: 'escolha', multi: true, opts: [{v: 'trabalho', rot: 'trabalho'}, {v: 'familia', rot: 'família'},
               {v: 'transito', rot: 'trânsito'}, {v: 'saude', rot: 'saúde'}, {v: 'justica', rot: 'justiça'}]} },
           { tipo: 'tri', id: 'alc-nutricao', rot: 'Alimentação precária ou perda de peso', na: 'alimentação e peso',
-            sim: 'alimentação precária ou perda de peso', nao: 'nega alimentação precária ou perda de peso' },
+            sim: 'alimentação precária ou perda de peso', nao: 'nega alimentação precária ou perda de peso',
+            det: {tipo: 'escolha', multi: true, substitui: true, opts: [{v: 'alimentacao', rot: 'alimentação precária'}, {v: 'peso', rot: 'perda de peso'}]} },
           { tipo: 'escolha', id: 'alc-meta', rot: 'O que a pessoa quer agora', na: 'objetivo do paciente', tpl: 'objetivo do paciente: {d}', opts: [
             {v: 'abstinencia', rot: 'abstinência', frase: 'abstinência'},
             {v: 'reducao', rot: 'redução', frase: 'redução do uso'},
@@ -315,17 +317,12 @@ var QUADROS = [
       hda: {
         rot: 'Revisão de sintomas — crack / outras drogas',
         itens: [
-          { tipo: 'texto', id: 'sub-ultdose', rot: 'Última dose (há quanto tempo)', na: 'horário da última dose', curto: true, fmt: 'última dose da substância há {v}' },
-          { tipo: 'escolha', id: 'sub-via', rot: 'Cocaína — forma e via', na: 'forma e via da cocaína', multi: true, tpl: 'cocaína: {d}', opts: [
-            {v: 'crack', rot: 'crack fumado', frase: 'crack fumado'},
-            {v: 'merla', rot: 'merla', frase: 'merla'},
-            {v: 'aspirada', rot: 'cloridrato aspirado', frase: 'cloridrato aspirado'},
-            {v: 'injetada', rot: 'injetada', frase: 'injetada'}] },
           { tipo: 'tri', id: 'sub-mistura', rot: 'Misturou álcool, benzodiazepínico ou opioide', na: 'uso combinado',
             sim: 'uso combinado com álcool, benzodiazepínico ou opioide[: {d}]', nao: 'nega uso combinado com álcool, benzodiazepínico ou opioide',
             det: {tipo: 'texto', ph: 'qual'} },
           { tipo: 'tri', id: 'sub-torax', rot: 'Dor torácica, palpitação ou síncope após o uso', na: 'dor torácica após o uso',
-            sim: 'dor torácica, palpitação ou síncope após o uso', nao: 'nega dor torácica, palpitação ou síncope após o uso' },
+            sim: 'sintoma cardiovascular após o uso[: {d}]', nao: 'nega dor torácica, palpitação ou síncope após o uso',
+            det: {tipo: 'escolha', multi: true, na: 'qual sintoma cardiovascular', opts: [{v: 'dor', rot: 'dor torácica'}, {v: 'palpitacao', rot: 'palpitação'}, {v: 'sincope', rot: 'síncope'}]} },
           { tipo: 'tri', id: 'sub-convulsao', rot: 'Convulsão após o uso', na: 'convulsão após o uso',
             sim: 'convulsão após o uso', nao: 'nega convulsão após o uso' },
           { tipo: 'tri', id: 'sub-metadona', rot: 'Tratamento com metadona ou buprenorfina', na: 'metadona ou buprenorfina',
@@ -440,8 +437,8 @@ var QUADROS = [
       eem: { rot: 'Achados dirigidos — delirium', itens: [
         { tipo: 'tri', id: 'del-desatencao', rot: 'Desatenção em tarefa (meses do ano de trás para frente, MUNDO ao contrário)', na: 'atenção em tarefa',
           sim: 'desatenção em tarefa[: {d}]', nao: 'sem desatenção em tarefa', det: {tipo: 'texto', ph: 'qual tarefa, resultado'} },
-        { tipo: 'tri', id: 'del-hipoativo', rot: 'Apresentação hipoativa (sonolento, quieto, retraído)', na: 'apresentação hipoativa',
-          sim: 'apresentação hipoativa, sonolent{a} e retraíd{a}', nao: 'sem apresentação hipoativa' }
+        { tipo: 'tri', id: 'del-hipoativo', rot: 'Apresentação hipoativa (quieto, retraído; sonolência vai em Consciência)', na: 'apresentação hipoativa',
+          sim: 'apresentação hipoativa, quiet{a} e retraíd{a}', nao: 'sem apresentação hipoativa' }
       ]}
     }
   }

@@ -21,9 +21,10 @@ Formato da nota: handoff do Hermes
 | `quadros.js` | **conteúdo clínico dos quadros. Só dados.** É o arquivo que se edita para acrescentar quadro |
 | `../copiloto/psicofarmacos.js` | LIDO, não copiado: dose, rótulo e fonte de cada fármaco |
 | `../copiloto/queixas.js` | LIDO, não copiado: red flags, diferenciais e formulário de cada quadro (campo `queixa`) |
-| `teste/teste.mjs` | e2e via Chrome DevTools Protocol (porta 9335) |
+| `teste/teste.mjs` | e2e via Chrome DevTools Protocol (porta em `CDP_PORT`, padrão 9335) |
 | `teste/dados.mjs` | validação dos dados do `quadros.js` em node puro |
 | `teste/esperado.txt` | texto do caso de exemplo, palavra por palavra |
+| `teste/saidas.mjs` | gera `teste/saidas/` (nota por quadro: tudo ✓ / tudo ✗ / intocado, combo, telas) para revisão |
 
 Ordem das tags `<script>`: `psicofarmacos.js`, `queixas.js`, `quadros.js`, depois o script do app.
 
@@ -43,12 +44,23 @@ Ordem das tags `<script>`: `psicofarmacos.js`, `queixas.js`, `quadros.js`, depoi
 7. **Dose só vem do `psicofarmacos.js`.** Só vira botão (chip) a linha de `dose` com número em
    mg/mcg, sempre com o RÓTULO (Dose usual · Idoso · Criança…) e a FONTE no botão. Fármaco com
    `v: true` não mostra dose. O caso de exemplo deixa a dose `___` (o handoff proíbe dose
-   apresentada como conduta em exemplo).
+   apresentada como conduta em exemplo). O chip MOSTRA a linha inteira, mas PREENCHE só a
+   posologia: corta em ` — ` e na explicação que começa com `, para ` / `, porque ` / `, pois `
+   (`doseDoChip`); o corte nunca leva número. O campo Dose fica ACIMA dos chips e o chip escolhido
+   fica pressionado.
 8. **`quadros.js` nunca escreve dose**: nenhum número seguido de mg, mcg, g, mL, UI ou mEq.
-9. Racional da prescrição = `papel` do formulário da queixa para aquele fármaco, a menos que o
-   médico já tenha escrito outro.
-10. "Exame normal" só sai do que foi marcado. O atalho "Sem alterações nos achados" marca ✗ só no
-    que ainda não foi avaliado e nunca sobrescreve um ✓.
+9. Racional da prescrição = `papel` do formulário da queixa para aquele fármaco, **só quando UM
+   quadro marcado lista o fármaco**. Com dois ou mais, o campo fica vazio e a tela mostra um botão
+   por quadro (nome + papel) para o médico escolher, ou ele escreve. O texto que o APP escreveu
+   fica em `racAuto`: racional igual a `racAuto` é do app (troca junto com o fármaco e some se o
+   quadro que o justificava for desmarcado); diferente é do médico e nunca é tocado. Marcar outro
+   quadro não troca um racional do app que ainda é papel válido.
+10. "Exame normal" só sai do que foi marcado. O atalho "Sem alterações nos achados" marca ✗ em todo
+    item ✗/✓ VISÍVEL e não respondido do EXAME FÍSICO — base e blocos `ef` dos quadros marcados —
+    e nunca sobrescreve um ✓, nunca toca sinais vitais nem pílulas (estado geral, pupilas,
+    toxidrome). Redesenha só os itens afetados (a página não pula).
+11. Desmarcar um quadro que tem resposta pede confirmação com o número de respostas que saem do
+    texto (elas continuam na memória e voltam se remarcar).
 
 ## Esquema do `quadros.js` (contrato entre dados e app)
 
@@ -82,8 +94,9 @@ no MESMO `Não avaliado:` da seção. Chaves de `grupos` são locais ao bloco (o
 - `{tipo:'tri', id, rot, sim, nao, na?, det?, sub?}` — ✗ / ✓ / nada. `sim`/`nao` são frase
   própria (string: vira frase com maiúscula e ponto) **ou** `{g, t}` para entrar num grupo.
   `det` abre com ✓: `{tipo:'texto', ph}` (o detalhe entra no `{d}`; trecho entre `[ ]` some sem
-  detalhe) ou `{tipo:'escolha', multi?, substitui?, opts}`. `sub`: `[{id, rot, sim, nao, na?}]`,
-  só perguntado com o pai ✓.
+  detalhe) ou `{tipo:'escolha', multi?, substitui?, opts}`. `det.na?`: com o pai ✓ e o detalhe
+  vazio, entra no `Não avaliado:` da seção (ex.: método e horário da tentativa); com o pai ✗ ou
+  intocado, nunca (invariante 4). `sub`: `[{id, rot, sim, nao, na?}]`, só perguntado com o pai ✓.
 - `{tipo:'escolha', id, rot, opts:[{v, rot, frase?, so?}], multi?, tpl?, tplN?, na?, junto?}` —
   pílulas. `frase` padrão = `rot`. `so: true` = opção exclusiva ("sem alterações"): marcá-la
   desmarca as outras e vice-versa.
@@ -93,7 +106,11 @@ no MESMO `Não avaliado:` da seção. Chaves de `grupos` são locais ao bloco (o
 sem `*`, `_`, `~`; sem dose; `{a}` → a/o e `{ao}` → à/ao pelo campo Sexo. `na` curto quando o
 `rot` é longo ou tem pergunta. **Ids únicos** na ficha inteira, com prefixo do quadro
 (`man-sono`). A mesma pergunta em dois quadros usa o MESMO id e o mesmo objeto: o app mostra uma
-vez só, no primeiro quadro marcado. Não repetir item que já existe na ficha base.
+vez só, no primeiro quadro marcado. **Uma pergunta mora num lugar só:** não repetir item, opção ou
+detalhe que já existe na ficha base — arma é o item base `arma`; forma/via e último uso de álcool e
+cocaína são o detalhe base de SUBSTÂNCIAS; sonolência é opção de Consciência; fuga de ideias é
+opção de Pensamento (o `dados.mjs` barra, lista `REPETE`). Frase de achado não afirma que o
+paciente usa um fármaco (`em uso de …`): isso é de "Medicação em uso"; só `se em uso de …`.
 
 **Nada entra vazio.** Quadro sem conteúdo real não entra; seção de bloco sem item não existe.
 
@@ -101,7 +118,11 @@ vez só, no primeiro quadro marcado. Não repetir item que já existe na ficha b
 
 - Até 979 px: uma coluna, alvos de toque ≥ 44 px, campos com fonte de 16 px (abaixo disso o iOS
   dá zoom ao focar), barra fixa embaixo com Nova admissão · Ver texto · Copiar. Sem rolagem
-  horizontal da página em 360 px.
+  horizontal da página em 360 px. Linha ✗/✓ (`.linha.lt`) nunca quebra em 360–375: o rótulo
+  quebra e os botões ficam à direita. `html{scroll-padding}` mantém campo focado fora do
+  cabeçalho e da barra (não usar `scroll-margin` nas seções: somaria). Campo de nome e dose de
+  fármaco sem corretor (`autocorrect/autocapitalize/spellcheck` off). "Não perder" recolhido
+  continua recolhido (estado só em memória, `rfAberto`).
 - A partir de 980 px: ficha à esquerda, texto gerado fixo à direita.
 - Sistema visual: `../DESIGN.md` (vinculante). Vermelho só em red flag, âmbar só em VERIFICAR.
 
@@ -112,8 +133,13 @@ node teste/dados.mjs
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new \
   --remote-debugging-port=9335 --user-data-dir=/tmp/adm-e2e \
   --allow-file-access-from-files about:blank &
-node teste/teste.mjs
+node teste/teste.mjs            # CDP_PORT=… para outra porta
+node teste/saidas.mjs           # regenera teste/saidas/ para revisão
 ```
+
+Correção de achado entra com checagem que FALHA sem ela (dados.mjs ou teste.mjs). O e2e aceita
+sozinho o `confirm()` real (desmarcar quadro com resposta) e registra; onde o teste precisa do
+"cancelar", troca `window.confirm` na página.
 
 ## Armadilhas já pagas (valem aqui)
 
