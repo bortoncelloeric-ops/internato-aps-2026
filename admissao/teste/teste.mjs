@@ -216,7 +216,9 @@ ok('so: sensopercepção "sem alterações" é exclusiva', await pres('senso') =
 
 /* ================= quadros: genérico sobre QUADROS ================= */
 await vai();
-const quadros = await ev(`QUADROS.map(q=>({id:q.id, secs:Object.keys(q.blocos||{}).map(s=>({s, rot:q.blocos[s].rot, ids:(q.blocos[s].itens||[]).map(i=>i.id).filter(Boolean)})), tris:[].concat(...Object.values(q.blocos||{}).map(b=>(b.itens||[]).filter(i=>i.tipo==='tri'))).map(i=>({id:i.id, sub:(i.sub||[]).map(s=>s.id)}))}))`);
+// fonte das red flags de cada quadro: a queixa do copiloto ou, sem a chave queixa, o próprio quadro
+const RF_DE = `(q=>{const x='queixa' in q ? QUEIXAS.find(z=>z.id===q.queixa) : q; return (x&&x.redflags&&x.redflags.itens)||[];})`;
+const quadros = await ev(`QUADROS.map(q=>({id:q.id, rf:${RF_DE}(q).length, secs:Object.keys(q.blocos||{}).map(s=>({s, rot:q.blocos[s].rot, ids:(q.blocos[s].itens||[]).map(i=>i.id).filter(Boolean)})), tris:[].concat(...Object.values(q.blocos||{}).map(b=>(b.itens||[]).filter(i=>i.tipo==='tri'))).map(i=>({id:i.id, sub:(i.sub||[]).map(s=>s.id)}))}))`);
 const ruim = s => ['undefined', '{', '}', '[', ']', '..', '  '].filter(x => s.includes(x))
   .concat(new RegExp('Revisão[^\\n.]*: *(\\.|\\n|$)').test(s) ? ['grupo Revisão vazio'] : []);
 for (const q of quadros) {
@@ -224,6 +226,8 @@ for (const q of quadros) {
   await clica(`button[data-esc="quadros"][data-v="${q.id}"]`);
   const faltam = await ev(`(${JSON.stringify(q.secs)}).flatMap(b=>{const s=document.getElementById('s-'+b.s); if(!s) return ['seção '+b.s]; return (s.textContent.includes(b.rot)?[]:['rot '+b.rot]).concat(b.ids.filter(id=>!s.querySelector('[data-bloco="'+id+'"]')));})`);
   ok(`[${q.id}] blocos aparecem nas seções declaradas (${q.secs.map(b => b.s).join(', ')})`, faltam.length === 0, faltam.join(', '));
+  const nli = await ev(`(()=>{const d=document.querySelector('#s-quadros details.rf[data-rf="${q.id}"]'); return d ? d.querySelectorAll('li').length : 0;})()`);
+  ok(`[${q.id}] "Não perder" com as ${q.rf} red flags do quadro`, q.rf > 0 && nli === q.rf, nli + ' de ' + q.rf);
   const marca = v => ev(`(()=>{const t=${JSON.stringify(q.tris)}; t.forEach(i=>{const b=document.querySelector('button[data-tri="'+i.id+'"][data-v="${v}"]'); if(b && b.getAttribute('aria-pressed')!=='true') b.click();}); if('${v}'==='sim') t.forEach(i=>i.sub.forEach(s=>{const b=document.querySelector('button[data-tri="'+s+'"][data-v="sim"]'); if(b && b.getAttribute('aria-pressed')!=='true') b.click();}));})()`);
   await marca('sim');
   let tq = await txt();
@@ -245,10 +249,10 @@ await vai();
 await ev(`QUADROS.forEach(q=>{const b=document.querySelector('button[data-esc="quadros"][data-v="'+q.id+'"]'); if(b.getAttribute('aria-pressed')!=='true') b.click();})`);
 const blocos = await ev(`[...document.querySelectorAll('[data-bloco]')].map(b=>b.dataset.bloco)`);
 ok('todos os quadros marcados: nenhum item aparece duas vezes', new Set(blocos).size === blocos.length, blocos.filter((b, i) => blocos.indexOf(b) !== i).join(', '));
-const rfEsperado = await ev(`QUADROS.filter(q=>{const x=QUEIXAS.find(z=>z.id===q.queixa); return x && x.redflags && (x.redflags.itens||[]).length;}).length`);
+const rfEsperado = await ev(`QUADROS.filter(q=>${RF_DE}(q).length).length`);
 ok('um "Não perder" aberto por quadro marcado', await ev(`document.querySelectorAll('#s-quadros details.rf[open]').length`) === rfEsperado && rfEsperado > 0, 'esperado ' + rfEsperado);
 ok('"Não perder" lista os itens da queixa', await ev(`(()=>{const q=QUADROS[0], x=QUEIXAS.find(z=>z.id===q.queixa); const d=document.querySelector('#s-quadros details.rf'); return d.querySelectorAll('li').length===x.redflags.itens.length && d.textContent.includes('Não perder — '+q.nome);})()`));
-const prEsperado = await ev(`(()=>{const ids=new Set(); QUADROS.forEach(q=>{const x=QUEIXAS.find(z=>z.id===q.queixa); ((x&&x.formulario&&x.formulario.proibidos)||[]).forEach(i=>{ if(PSICOFARMACOS.proibidos.itens.some(p=>p.id===i)) ids.add(i); });}); return ids.size;})()`);
+const prEsperado = await ev(`(()=>{const ids=new Set(); QUADROS.forEach(q=>{const x='queixa' in q && QUEIXAS.find(z=>z.id===q.queixa); ((x&&x.formulario&&x.formulario.proibidos)||[]).forEach(i=>{ if(PSICOFARMACOS.proibidos.itens.some(p=>p.id===i)) ids.add(i); });}); return ids.size;})()`);
 ok('"Não combinar" lista os proibidos dos quadros (sem repetir)', prEsperado > 0 && await ev(`document.querySelectorAll('details.proib li').length`) === prEsperado
   && await ev(`document.querySelector('details.proib summary').textContent`) === `Não combinar nestes quadros (${prEsperado})`, 'esperado ' + prEsperado);
 ok('"Não perder" e "Não combinar" não entram no texto', !/Não perder|Não combinar/.test(await txt()));
@@ -268,6 +272,113 @@ ok('grupos de quadros diferentes não se misturam; cada bloco em linha nova', hd
 ok('lacunas dos blocos num "Não avaliado" só, no fim da seção', hda.filter(l => l.startsWith('Não avaliado:')).length === 1 && hda[hda.length - 1].startsWith('Não avaliado:'), hda.join(' | '));
 await clica('button[data-esc="quadros"][data-v="depressao"]');
 ok('desmarcar o 1º quadro passa o id compartilhado para o seguinte', await ev(`!!document.querySelector('[data-bloco="${dupId}"]') && document.getElementById('s-hda').textContent.includes('Bloco de teste')`));
+
+/* ================= quadro SEM queixa (fixture injetada) ================= */
+// 01/10: quadro cujo conteúdo não existe no copiloto (déficit intelectual) traz red flags e ddx próprios,
+// com fonte, e não tem formulário. Item: string, {t, f} ou {t, v: true} (VERIFICAR).
+await vai(); await ev('window.confirm=()=>true');
+const err0 = erros.length;
+await ev(`QUADROS.push({id:'teste-semq', nome:'Sem queixa', fonte:'fonte dos itens de teste',
+  blocos:{hda:{rot:'Bloco sem queixa', itens:[{tipo:'tri', id:'tsq-achado', rot:'Achado de teste', sim:'achado de teste presente', nao:'nega achado de teste'}]}},
+  redflags:{fonte:'fonte das red flags de teste', itens:['Red flag simples', {t:'Red flag com fonte', f:'fonte só do item'}, {t:'Red flag sem fonte', v:true},
+    {t:'Red flag <b>x</b> & "y"', f:'fonte <b>z</b> & "w"'}]},
+  ddx:{fonte:'fonte do ddx de teste', itens:['Diferencial Alfa', {t:'Diferencial Beta', v:true}]}}); 0`);
+await marcaQ('depressao'); await marcaQ('depressao');   // redesenha: a pílula do quadro injetado aparece
+await marcaQ('teste-semq');
+ok('sem queixa: marcar o quadro não gera console.error', erros.length === err0 && await ev(`!!document.querySelector('[data-bloco="tsq-achado"]')`), JSON.stringify(erros.slice(err0)));
+const rfS = await ev(`(()=>{const d=document.querySelector('#s-quadros details.rf[data-rf="teste-semq"]'); if(!d) return null; const li=[...d.querySelectorAll('li')];
+  return {sum:d.querySelector('summary').textContent, n:li.length, fonte:(d.querySelector('p.fonte')||{}).textContent, open:d.open,
+    vf:li.map(l=>l.querySelector('.vf') ? l.querySelector('.vf').textContent : ''), sm:li.map(l=>l.querySelector('small') ? l.querySelector('small').textContent : ''),
+    t0:li[0].textContent, t3:li[3] && li[3].textContent, b3:li[3] && li[3].querySelectorAll('b').length,
+    cor:li[2].querySelector('.vf') ? getComputedStyle(li[2].querySelector('.vf')).color : ''};})()`);
+ok('sem queixa: "Não perder" vem do próprio quadro, com a fonte do quadro', !!rfS && rfS.sum === 'Não perder — Sem queixa' && rfS.n === 4 && rfS.open && rfS.fonte === 'Fonte: fonte das red flags de teste' && rfS.t0 === 'Red flag simples', JSON.stringify(rfS));
+ok('sem queixa: item v:true leva VERIFICAR âmbar, só ele', !!rfS && rfS.vf.join('|') === '||VERIFICAR|' && rfS.cor === 'rgb(154, 103, 0)', JSON.stringify(rfS && [rfS.vf, rfS.cor]));
+ok('sem queixa: fonte do item em letra pequena depois do item', !!rfS && rfS.sm.join('|') === '|(fonte só do item)||(fonte <b>z</b> & "w")', JSON.stringify(rfS && rfS.sm));
+// F5-M1: texto e fonte da red flag passam por esc(): "<b>" sai literal, nunca vira tag
+ok('sem queixa: red flag com < > & " no texto e na fonte sai literal (escapada)', !!rfS && rfS.t3 === 'Red flag <b>x</b> & "y" (fonte <b>z</b> & "w")' && rfS.b3 === 0, JSON.stringify(rfS && [rfS.t3, rfS.b3]));
+const altS = () => ev(`[...document.querySelectorAll('button[data-esc="alternativas"]')].map(b=>b.dataset.v).join('|')`);
+ok('sem queixa: ddx do quadro oferecido em Impressão, com o nome do quadro', await altS() === 'Diferencial Alfa|Diferencial Beta' && await ev(`document.querySelector('[data-bloco="alternativas"] .grp').textContent`) === 'Sem queixa', await altS());
+const vfDdx = await ev(`[...document.querySelectorAll('button[data-esc="alternativas"]')].map(b=>b.dataset.v+':'+[...b.querySelectorAll('.vf')].map(x=>x.textContent+'/'+getComputedStyle(x).color).join()).join('|')`);
+ok('F2: ddx {t, v:true} leva VERIFICAR âmbar na pílula; o ddx sem v não', vfDdx === 'Diferencial Alfa:|Diferencial Beta:VERIFICAR/rgb(154, 103, 0)', vfDdx);
+ok('sem queixa: ddx não marcado não entra no texto', !/iferencial/.test(await txt()) && /^Não definida nesta consulta\.$/.test(secao(await txt(), 'IMPRESSÃO')), secao(await txt(), 'IMPRESSÃO'));
+await clica('button[data-esc="alternativas"][data-v="Diferencial Beta"]');
+ok('sem queixa: ddx marcado entra no texto, só ele', secao(await txt(), 'IMPRESSÃO') === 'Alternativa: diferencial Beta.', secao(await txt(), 'IMPRESSÃO'));
+const grupos = () => ev(`[...document.querySelector('select[data-presc-f]').querySelectorAll('optgroup')].map(o=>o.label).join('|')`);
+ok('sem queixa: só ele marcado → select só com "Outros fármacos"', await grupos() === 'Outros fármacos', await grupos());
+await escolhe('fluoxetina');
+ok('sem queixa: só ele marcado → racional vazio e sem papel', await racional() === '' && await ev(`!document.querySelector('[data-bloco="presc"] .papel') && !document.querySelector('button.opc')`), await racional());
+await marcaQ('depressao');
+ok('sem queixa + Depressão: racional do app vem da Depressão', await racional() === await papel('depressao', 'fluoxetina'), await racional());
+ok('sem queixa + Depressão: optgroups só da Depressão e "Outros"', await grupos() === 'Depressão|Depressão — outras classes|Outros fármacos', await grupos());
+await marcaQ('depressao');
+ok('sem queixa: desmarcar a Depressão tira o racional do app', await racional() === '', await racional());
+ok('sem queixa: nenhum console.error no caminho todo', erros.length === err0, JSON.stringify(erros.slice(err0)));
+// queixa com id que não existe continua avisando (guarda contra erro de digitação)
+await ev(`QUADROS.push({id:'teste-typo', nome:'Typo', queixa:'queixa-que-nao-existe', fonte:'x', blocos:{}}); 0`);
+await marcaQ('depressao'); await marcaQ('depressao');
+await marcaQ('teste-typo');
+const typo = erros.slice(err0).filter(e => e.includes('teste-typo') && e.includes('queixa-que-nao-existe'));
+ok('queixa inexistente → console.error com o id do quadro e da queixa', typo.length >= 1, JSON.stringify(erros.slice(err0)));
+erros.splice(err0);   // esperados: não contam no "console sem outro erro"
+
+/* ================= déficit intelectual: leitura de prontuário (01/10) ================= */
+await vai(); await marcaQ('deficiencia-intelectual');
+// a nota precisa dizer que o paciente TEM deficiência intelectual (antes, nenhuma frase a nomeava)
+await clica('button[data-tri="di-diagnostico"][data-v="sim"]');
+ok('DI: ✓ diagnosticada → nomeia a deficiência intelectual na PREGRESSA', secao(await txt(), 'PREGRESSA PSIQUIÁTRICA').startsWith('Deficiência intelectual diagnosticada.'), secao(await txt(), 'PREGRESSA PSIQUIÁTRICA'));
+await clica('button[data-tri="di-diagnostico"][data-v="nao"]');
+ok('DI: ✗ diagnosticada → "suspeita, sem diagnóstico formal" (nunca "sem deficiência")', secao(await txt(), 'PREGRESSA PSIQUIÁTRICA').startsWith('Deficiência intelectual suspeita, sem diagnóstico formal.'), secao(await txt(), 'PREGRESSA PSIQUIÁTRICA'));
+// comunicação: palavras + gestos é o comum; "sem resposta" exclui as outras e não repete "comunicação"
+await clica('button[data-esc="di-comunica"][data-v="palavras"]'); await clica('button[data-esc="di-comunica"][data-v="gestos"]');
+ok('DI: comunicação aceita mais de uma forma', secao(await txt(), 'EEM').startsWith('Comunicação na entrevista por palavras soltas e por gestos ou sinais.'), secao(await txt(), 'EEM'));
+// DI-02: ausência de fala é "mutismo" em Fala; a comunicação do quadro não tem "sem resposta" (não pode contradizer Fala)
+await clica('button[data-esc="fala"][data-v="normal"]');
+ok('DI-02: comunicação sem a opção "sem resposta"; Fala sem alteração não convive com "sem resposta"', await ev(`!document.querySelector('[data-esc="di-comunica"][data-v="nenhuma"]') && [...document.querySelectorAll('[data-esc="di-comunica"]')].length === 3`)
+  && !/sem resposta/.test(secao(await txt(), 'EEM')), secao(await txt(), 'EEM'));
+// DI-01: capacidade de decidir; ✓ (comprometida) sem "com quem" vira lacuna; com detalhe, entra
+await clica('button[data-tri="di-capacidade"][data-v="sim"]');
+let eemDI = secao(await txt(), 'EEM');
+ok('DI-01: capacidade comprometida entra no EEM e "quem decidiu junto" vira lacuna', /Capacidade de decidir sobre o tratamento proposto comprometida\./.test(eemDI) && /Não avaliado:[^\n]*quem decidiu junto sobre o tratamento/.test(eemDI), eemDI);
+await ev(`(()=>{const i=document.querySelector('input[data-txt="di-capacidade.d"]'); if(!i) return; i.value='não compreende a internação; decidido com a mãe'; i.dispatchEvent(new Event('input',{bubbles:true}));})()`);
+eemDI = secao(await txt(), 'EEM');
+ok('DI-01: detalhe registra com quem se decidiu', eemDI.includes('Capacidade de decidir sobre o tratamento proposto comprometida: não compreende a internação; decidido com a mãe.') && !/quem decidiu junto/.test(eemDI), eemDI);
+await clica('button[data-tri="di-capacidade"][data-v="nao"]');
+ok('DI-01: ✗ → capacidade preservada', /Capacidade de decidir sobre o tratamento proposto preservada\./.test(secao(await txt(), 'EEM')), secao(await txt(), 'EEM'));
+// DI-03: psicofármaco prévio mora em "Tratamento psiquiátrico prévio"; nada no quadro o contradiz
+await clica('button[data-tri="tratprevio"][data-v="nao"]');
+ok('DI-03: sem item próprio de psicofármaco prévio; ✗ em tratamento prévio não convive com "psicofármaco já usado"', await ev(`!document.querySelector('[data-bloco="di-psicofarmaco"]')`)
+  && !/sicofármaco/.test(secao(await txt(), 'PREGRESSA PSIQUIÁTRICA')), secao(await txt(), 'PREGRESSA PSIQUIÁTRICA'));
+// DI-04: acatisia por sinal observável (quem não fala não relata inquietação subjetiva)
+await clica('button[data-tri="agi-acatisia"][data-v="sim"]');
+ok('DI-04: acatisia ✓ sai como inquietação motora, nunca "subjetiva"', /Inquietação motora sugestiva de acatisia\./.test(secao(await txt(), 'EXAME FÍSICO')) && !/subjetiva/.test(await txt())
+  && await ev(`document.querySelector('[data-bloco="agi-acatisia"] .lrot').textContent.includes('observada')`), secao(await txt(), 'EXAME FÍSICO'));
+// DI-07: suspeita de abuso pergunta a notificação (só com o pai ✓, invariante 4)
+await clica('button[data-tri="di-abuso"][data-v="nao"]');
+ok('DI-07: abuso ✗ → notificação não é perguntada nem vira lacuna', await ev(`!document.querySelector('button[data-tri="di-notifica"]')`) && !/notificação/.test(secao(await txt(), 'HDA')), secao(await txt(), 'HDA'));
+await clica('button[data-tri="di-abuso"][data-v="sim"]');
+ok('DI-07: abuso ✓ e notificação vazia → "notificação de violência" no Não avaliado', /Não avaliado:[^\n]*notificação de violência/.test(secao(await txt(), 'HDA')), secao(await txt(), 'HDA'));
+await clica('button[data-tri="di-notifica"][data-v="nao"]');
+ok('DI-07: notificação ✗ → "notificação compulsória de violência pendente"', /Suspeita de maus-tratos, abuso ou exploração, notificação compulsória de violência pendente\./.test(secao(await txt(), 'HDA')), secao(await txt(), 'HDA'));
+// DI-08: cuidador / instituição como quem trouxe e como informante
+await clica('button[data-esc="trazido"][data-v="cuidador"]'); await clica('button[data-esc="informantes"][data-v="cuidador"]');
+ok('DI-08: "trazido por cuidador ou instituição" e "informante: cuidador / profissional da instituição"', secao(await txt(), 'IDENTIFICAÇÃO').includes('Trazido(a) por cuidador ou instituição. Informante: cuidador / profissional da instituição.'), secao(await txt(), 'IDENTIFICAÇÃO'));
+// hipótese: o quadro sem queixa no copiloto também é sugerido
+ok('DI: "Deficiência intelectual" entre as sugestões de Hipótese principal', await ev(`[...document.querySelectorAll('#dl-hipoteses option')].map(o=>o.value).filter(v=>v==='Deficiência intelectual').length`) === 1);
+// F5-M2: sugestões = nomes das queixas do copiloto + quadros SEM queixa, e mais nada (nenhum quadro com queixa entra pelo nome)
+const dlEsp = await ev(`QUEIXAS.map(q=>String(q.nome).split(' — ')[0]).concat(QUADROS.filter(q=>!('queixa' in q)).map(q=>q.nome)).join('|')`);
+ok('F5: sugestões de Hipótese = queixas do copiloto + quadros sem queixa, exatamente', await ev(`[...document.querySelectorAll('#dl-hipoteses option')].map(o=>o.value).join('|')`) === dlEsp, dlEsp);
+// F4: desmarcar o quadro conta a Alternativa que só o ddx dele oferece (invariante 11)
+await vai();
+await marcaQ('deficiencia-intelectual'); await marcaQ('agitacao');
+const ddxN = qid => ev(`(()=>{const q=QUADROS.find(x=>x.id==='${qid}'), x='queixa' in q ? QUEIXAS.find(z=>z.id===q.queixa) : q; return ((x.ddx||{}).itens||[]).map(i=>String(typeof i==='string'?i:i.t).split(' — ')[0]);})()`);
+const dDI = await ddxN('deficiencia-intelectual'), dAg = await ddxN('agitacao');
+const soDI = dDI.find(t => !dAg.includes(t)), ambos = dDI.find(t => dAg.includes(t));
+await clica(`button[data-esc="alternativas"][data-v="${soDI}"]`);
+if (ambos) await clica(`button[data-esc="alternativas"][data-v="${ambos}"]`);
+await ev(`window.__conf=[]; window.confirm=m=>{window.__conf.push(m); return false;}`);
+await marcaQ('deficiencia-intelectual');
+ok('F4: desmarcar DI com 1 alternativa só dele pede confirmação com "1 resposta" (a compartilhada não conta)', !!soDI && await ev(`window.__conf.length===1 && window.__conf[0].includes(' 1 resposta ')`), soDI + ' / ' + ambos + ' / ' + await ev('JSON.stringify(window.__conf)'));
+ok('F4: cancelar mantém a alternativa no texto', secao(await txt(), 'IMPRESSÃO').includes(soDI.charAt(0).toLowerCase() + soDI.slice(1)), secao(await txt(), 'IMPRESSÃO'));
 
 /* ================= achados clínicos e gerador (30/09) ================= */
 // M6: desmarcar quadro com respostas pede confirmação; cancelar mantém tudo
@@ -418,6 +529,9 @@ await ev(`document.querySelectorAll('#s-quadros details.rf').forEach(d=>d.open=f
 const pulo = await ev(`(()=>{const b=document.querySelector('button[data-atalho="ef"]'); scrollBy(0, b.getBoundingClientRect().top-311); const t0=b.getBoundingClientRect().top; b.click();
   const b2=document.querySelector('button[data-atalho="ef"]'); return [t0, b2.getBoundingClientRect().top];})()`);
 ok('M2: atalho do EF não move a página', Math.abs(pulo[0] - pulo[1]) < 2, JSON.stringify(pulo));
+// F5-M3: o recolhido é só desta admissão — "Nova admissão" zera e o próximo quadro marcado abre o "Não perder"
+await ev('window.confirm=()=>true'); await clica('#bt-limpar-m'); await marcaQ('depressao');
+ok('F5: depois de "Nova admissão", o "Não perder" do quadro marcado vem aberto', await ev(`document.querySelector('#s-quadros details.rf[data-rf="depressao"]').open`) === true);
 ok('celular: inputmode numérico/decimal nos sinais vitais e idade, PA texto', await ev(`['fc','fr','sat','hgt'].every(k=>document.querySelector('[data-txt="sv.'+k+'"]').inputMode==='numeric') && document.querySelector('[data-txt="sv.tax"]').inputMode==='decimal' && document.querySelector('[data-txt="sv.pa"]').inputMode!=='numeric' && document.querySelector('[data-txt="idade"]').inputMode==='numeric'`));
 ok('tri com aria-label "<rot>: ausente/presente"', await ev(`document.querySelector('button[data-tri="alcool"][data-v="nao"]').getAttribute('aria-label')==='Álcool: ausente' && document.querySelector('button[data-tri="alcool"][data-v="sim"]').getAttribute('aria-label')==='Álcool: presente'`));
 

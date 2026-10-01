@@ -1,7 +1,9 @@
 /* Quadros da admissão — SÓ DADOS.
    Contrato do esquema em CLAUDE.md desta pasta. Cada quadro marcado no topo da ficha
    acrescenta os blocos dele nas seções da nota; diferenciais, opções de prescrição e
-   red flags são LIDOS da queixa do copiloto (campo `queixa`), nunca copiados para cá. */
+   red flags são LIDOS da queixa do copiloto (campo `queixa`), nunca copiados para cá.
+   Exceção: quadro sem a chave `queixa` (o copiloto não tem a queixa) traz redflags e ddx
+   próprios, com fonte, e não tem formulário. */
 
 /* Perguntas que valem para mais de um quadro: definidas UMA vez e reusadas pela
    referência (mesmo id, mesmo objeto). O app mostra uma vez só, no primeiro quadro
@@ -23,6 +25,13 @@ const DEL_MEDMUDOU = { tipo: 'tri', id: 'del-medmudou', rot: 'Medicação inicia
 const DEL_CLINICO = { tipo: 'tri', id: 'del-clinico', rot: 'Febre, infecção, queda / trauma craniano ou dor recentes', na: 'intercorrência clínica recente',
   sim: 'febre, infecção, trauma ou dor recentes[: {d}]', nao: 'nega febre, infecção, trauma ou dor recentes',
   det: {tipo: 'texto', ph: 'qual'} };
+/* hda — delirium, deficiência intelectual */
+const DEL_ELIMINACAO = { tipo: 'tri', id: 'del-eliminacao', rot: 'Alteração urinária ou intestinal (retenção, constipação)', na: 'eliminações',
+  sim: 'alteração urinária ou intestinal[: {d}]', nao: 'nega alteração urinária ou intestinal', det: {tipo: 'texto', ph: 'qual'} };
+
+/* ef — delirium, deficiência intelectual */
+const DEL_GLOBO = { tipo: 'tri', id: 'del-globo', rot: 'Globo vesical ou fecaloma', na: 'globo vesical ou fecaloma',
+  sim: 'globo vesical ou fecaloma[: {d}]', nao: 'sem globo vesical ou fecaloma', det: {tipo: 'texto', ph: 'qual'} };
 
 /* ef — psicose, agitação, delirium */
 /* O uso ou não de antipsicótico fica em "Medicação em uso" e em psi-adesao: a frase não o afirma. */
@@ -33,9 +42,11 @@ const PSI_SNM = { tipo: 'tri', id: 'psi-snm', rot: 'Febre com rigidez muscular e
 /* ef — psicose, agitação, delirium */
 const DEL_FOCAL = { tipo: 'tri', id: 'del-focal', rot: 'Sinal neurológico focal', na: 'sinal focal',
   sim: 'sinal neurológico focal[: {d}]', nao: 'sem sinal neurológico focal', det: {tipo: 'texto', ph: 'qual'} };
-/* ef — agitação, ansiedade */
-const AGI_ACATISIA = { tipo: 'tri', id: 'agi-acatisia', rot: 'Inquietação subjetiva com alívio ao se movimentar, após antipsicótico recente (acatisia)', na: 'acatisia',
-  sim: 'inquietação subjetiva com alívio ao se movimentar, sugestiva de acatisia', nao: 'sem inquietação sugestiva de acatisia' };
+/* ef — agitação, ansiedade, deficiência intelectual. Sinais OBSERVÁVEIS (Maudsley 15ª ed., p. 127,
+   tabela de efeitos extrapiramidais): quem não fala não relata inquietação subjetiva. */
+const AGI_ACATISIA = { tipo: 'tri', id: 'agi-acatisia', rot: 'Inquietação após antipsicótico recente — relatada ou observada (bate os pés sentado, cruza e descruza as pernas, balança de um pé ao outro, anda sem parar)', na: 'acatisia',
+  sim: 'inquietação motora sugestiva de acatisia[: {d}]', nao: 'sem inquietação sugestiva de acatisia',
+  det: {tipo: 'texto', ph: 'relatada ou observada; o quê'} };
 
 /* risco — psicose, suicídio */
 const PSI_COMANDO = { tipo: 'tri', id: 'psi-comando', rot: 'Alucinação de comando para ferir a si ou a outros', na: 'comando para ferir',
@@ -215,7 +226,7 @@ var QUADROS = [
     id: 'agitacao',
     nome: 'Agitação',
     queixa: 'agitacao-psicomotora',
-    fonte: 'Dalgalarrondo, Psicopatologia e Semiologia dos Transtornos Mentais, 3ª ed., Artmed, 2019',
+    fonte: 'Dalgalarrondo, Psicopatologia e Semiologia dos Transtornos Mentais, 3ª ed., Artmed, 2019 · Maudsley Prescribing Guidelines, 15ª ed., 2025',
     blocos: {
       hda: {
         rot: 'Revisão de sintomas — agitação',
@@ -354,7 +365,7 @@ var QUADROS = [
     id: 'ansiedade',
     nome: 'Ansiedade / pânico',
     queixa: 'ansiedade-panico',
-    fonte: 'Dalgalarrondo, Psicopatologia e Semiologia dos Transtornos Mentais, 3ª ed., Artmed, 2019 · medicina-wiki/wiki/saude-mental-fatos.md (2026-08-03)',
+    fonte: 'Dalgalarrondo, Psicopatologia e Semiologia dos Transtornos Mentais, 3ª ed., Artmed, 2019 · medicina-wiki/wiki/saude-mental-fatos.md (2026-08-03) · Maudsley Prescribing Guidelines, 15ª ed., 2025',
     blocos: {
       hda: {
         rot: 'Revisão de sintomas — ansiedade / pânico',
@@ -414,8 +425,7 @@ var QUADROS = [
           DEL_FLUTUACAO,
           DEL_MEDMUDOU,
           DEL_CLINICO,
-          { tipo: 'tri', id: 'del-eliminacao', rot: 'Alteração urinária ou intestinal (retenção, constipação)', na: 'eliminações',
-            sim: 'alteração urinária ou intestinal[: {d}]', nao: 'nega alteração urinária ou intestinal', det: {tipo: 'texto', ph: 'qual'} },
+          DEL_ELIMINACAO,
           { tipo: 'tri', id: 'del-sono', rot: 'Privação de sono', sim: 'privação de sono', nao: 'nega privação de sono' },
           { tipo: 'tri', id: 'del-demencia', rot: 'Demência prévia', sim: 'demência prévia', nao: 'sem demência prévia' },
           { tipo: 'escolha', id: 'del-causa', rot: 'Causa orgânica suspeita', na: 'causa orgânica suspeita', multi: true,
@@ -430,8 +440,7 @@ var QUADROS = [
       ef: { rot: 'Achados dirigidos — delirium', itens: [
         DEL_FOCAL,
         { tipo: 'tri', id: 'del-nuca', rot: 'Rigidez de nuca', sim: 'rigidez de nuca', nao: 'sem rigidez de nuca' },
-        { tipo: 'tri', id: 'del-globo', rot: 'Globo vesical ou fecaloma', na: 'globo vesical ou fecaloma',
-          sim: 'globo vesical ou fecaloma[: {d}]', nao: 'sem globo vesical ou fecaloma', det: {tipo: 'texto', ph: 'qual'} },
+        DEL_GLOBO,
         PSI_SNM
       ]},
       eem: { rot: 'Achados dirigidos — delirium', itens: [
@@ -439,6 +448,117 @@ var QUADROS = [
           sim: 'desatenção em tarefa[: {d}]', nao: 'sem desatenção em tarefa', det: {tipo: 'texto', ph: 'qual tarefa, resultado'} },
         { tipo: 'tri', id: 'del-hipoativo', rot: 'Apresentação hipoativa (quieto, retraído; sonolência vai em Consciência)', na: 'apresentação hipoativa',
           sim: 'apresentação hipoativa, quiet{a} e retraíd{a}', nao: 'sem apresentação hipoativa' }
+      ]}
+    }
+  },
+
+
+  /* Sem queixa no copiloto: red flags e ddx moram aqui, com fonte (Maudsley 15ª ed. pp. 127, 471,
+     605, 623, 824-827; PCDT TEA agressivo seções 5.2, 5.3 e 6.1; Dalgalarrondo 3ª ed.; Portaria
+     GM/MS nº 5.201/2024). Item cuja única fonte fala de TEA diz isso no texto ("dado de TEA"); a
+     cautela da fonte ("opinião difundida", "há preocupação") fica no texto. Sem formulário: a
+     prescrição oferece só "Outros fármacos" e o racional fica vazio. */
+  {
+    id: 'deficiencia-intelectual',
+    nome: 'Deficiência intelectual',
+    fonte: 'Maudsley Prescribing Guidelines, 15ª ed., 2025 · MS — PCDT Comportamento Agressivo no TEA, Portaria Conjunta SAES/SCTIE/MS nº 7, 2022 · MS — Portaria GM/MS nº 5.201, 2024 (Lista Nacional de Notificação Compulsória) · APA — Practice Guidelines for the Psychiatric Evaluation of Adults, Am J Psychiatry, 2015',
+    redflags: {
+      fonte: 'Maudsley Prescribing Guidelines, 15ª ed., 2025 · MS — PCDT Comportamento Agressivo no TEA, Portaria Conjunta SAES/SCTIE/MS nº 7, 2022',
+      itens: [
+        'Ofuscamento diagnóstico: atribuir à deficiência intelectual um sintoma emocional ou comportamental que é outro transtorno ou doença clínica',
+        { t: 'Comportamento novo ou mais intenso pode ser o jeito de mostrar dor, desconforto ou doença que a pessoa não consegue dizer — buscar a causa física antes de tratar o comportamento com psicotrópico (dado de TEA; vale para quem também tem TEA)', f: 'MS — PCDT Comportamento Agressivo no TEA, Portaria Conjunta SAES/SCTIE/MS nº 7, 2022 · Maudsley Prescribing Guidelines, 15ª ed., 2025' },
+        { t: 'Epilepsia é mais frequente na deficiência intelectual (cerca de um terço até o início da vida adulta, mais quanto mais grave a deficiência); fármaco que baixa o limiar convulsivo ou interage com anticonvulsivante pede cuidado', f: 'Maudsley Prescribing Guidelines, 15ª ed., 2025' },
+        { t: 'Possível maior sensibilidade a efeito adverso de psicotrópico (opinião difundida; um só estudo de coorte a sustenta, com extrapiramidal cerca de 30% maior): começar com dose menor e subir mais devagar. Vigiar extrapiramidal (inclusive com risperidona em dose habitual, sobretudo se já há dificuldade de mobilidade), sedação, piora das crises, disfagia com antipsicótico e piora cognitiva com anticolinérgico', f: 'Maudsley Prescribing Guidelines, 15ª ed., 2025' },
+        { t: 'Benzodiazepínico pode causar reação paradoxal, com agitação e agressão, e a deficiência intelectual é fator de risco para ela', f: 'Maudsley Prescribing Guidelines, 15ª ed., 2025' },
+        { t: 'Transtorno mental pode vir disfarçado: depressão como autolesão, ideia persecutória como queixa de que implicam com a pessoa. E falar sozinho pode ser habitual, não psicose', f: 'Maudsley Prescribing Guidelines, 15ª ed., 2025' },
+        { t: 'Exploração ou abuso podem estar por trás da mudança de comportamento (dado de TEA; vale para quem também tem TEA)', f: 'MS — PCDT Comportamento Agressivo no TEA, Portaria Conjunta SAES/SCTIE/MS nº 7, 2022' },
+        { t: 'Há preocupação de que a tranquilização rápida seja usada em excesso em pessoas neurodivergentes, nas quais outras estratégias podem ser mais adequadas (dado do capítulo de crianças e adolescentes)', f: 'Maudsley Prescribing Guidelines, 15ª ed., 2025' }
+      ]
+    },
+    ddx: {
+      fonte: 'Maudsley Prescribing Guidelines, 15ª ed., 2025 · MS — PCDT Comportamento Agressivo no TEA, Portaria Conjunta SAES/SCTIE/MS nº 7, 2022 · Dalgalarrondo, Psicopatologia e Semiologia dos Transtornos Mentais, 3ª ed., Artmed, 2019',
+      itens: [
+        { t: 'Dor ou doença física não relatada — mudança de comportamento sem outra explicação; exame físico dirigido (dado de TEA; vale para quem também tem TEA)', f: 'MS — PCDT Comportamento Agressivo no TEA, Portaria Conjunta SAES/SCTIE/MS nº 7, 2022 · Maudsley Prescribing Guidelines, 15ª ed., 2025' },
+        { t: 'Efeito adverso de fármaco — acatisia ou extrapiramidal com antipsicótico, desinibição com benzodiazepínico', f: 'Maudsley Prescribing Guidelines, 15ª ed., 2025' },
+        'Epilepsia — frequente nessa população; perguntar crises e mudança no padrão delas',
+        { t: 'Depressão — pode se apresentar como autolesão', f: 'Maudsley Prescribing Guidelines, 15ª ed., 2025' },
+        { t: 'Psicose — ideia persecutória pode surgir como queixa de que implicam com a pessoa; falar sozinho pode ser habitual', f: 'Maudsley Prescribing Guidelines, 15ª ed., 2025' },
+        { t: 'Transtorno bipolar de ciclagem muito rápida — alguns autores o descrevem por trás do comportamento desafiador na deficiência grave e profunda; passa despercebido com facilidade', f: 'Maudsley Prescribing Guidelines, 15ª ed., 2025' },
+        { t: 'Demência — risco maior na deficiência intelectual, sobretudo na síndrome de Down', f: 'Maudsley Prescribing Guidelines, 15ª ed., 2025' },
+        { t: 'TEA comórbido — comunicação e interação social muito abaixo do esperado para as habilidades não verbais; no TEA o perfil cognitivo é desigual, na deficiência intelectual o rebaixamento é global', f: 'MS — PCDT Comportamento Agressivo no TEA, Portaria Conjunta SAES/SCTIE/MS nº 7, 2022 · medicina-wiki/wiki/saude-mental-fatos.md (2026-08-03)' },
+        { t: 'Problema no ambiente de cuidado — o comportamento pode refletir falhas do cuidado; o relato varia entre cuidadores', f: 'Maudsley Prescribing Guidelines, 15ª ed., 2025' },
+        { t: 'Reação a excesso de estímulo ou quebra de rotina (se também há TEA) — dado de TEA', f: 'MS — PCDT Comportamento Agressivo no TEA, Portaria Conjunta SAES/SCTIE/MS nº 7, 2022' },
+        { t: 'Delirium — início agudo, flutuação e desatenção', f: 'Dalgalarrondo, Psicopatologia e Semiologia dos Transtornos Mentais, 3ª ed., Artmed, 2019' }
+      ]
+    },
+    blocos: {
+      hda: {
+        rot: 'Revisão de sintomas — deficiência intelectual',
+        itens: [
+          { tipo: 'texto', id: 'di-basal', rot: 'Como é no habitual: fala, compreensão, autocuidado (segundo quem convive)', na: 'funcionamento habitual',
+            ph: 'quem informa; frases, palavras ou gestos; o que faz sem ajuda', fmt: 'funcionamento habitual, segundo quem convive: {v}' },
+          { tipo: 'texto', id: 'di-mudanca', rot: 'O que mudou em relação ao habitual e desde quando', na: 'mudança em relação ao habitual',
+            ph: 'o que é novo ou mais intenso; há quantos dias', fmt: 'mudança em relação ao habitual: {v}' },
+          { tipo: 'escolha', id: 'di-comport', rot: 'Comportamento atual (agressão a pessoas: ver Heteroagressividade)', na: 'comportamento atual', multi: true,
+            tpl: 'comportamento atual: {d}', opts: [
+            {v: 'autolesao', rot: 'autolesão'}, {v: 'agitacao', rot: 'agitação'}, {v: 'irritabilidade', rot: 'irritabilidade'},
+            {v: 'destruicao', rot: 'destruição de objetos'}, {v: 'sono', rot: 'mudança de sono', frase: 'mudança no sono'},
+            {v: 'alimentacao', rot: 'mudança alimentar', frase: 'mudança na alimentação'}] },
+          { tipo: 'tri', id: 'di-ambiente', rot: 'Mudança de rotina, cuidador ou casa antes da crise', na: 'mudança de rotina ou cuidador',
+            sim: 'mudança de rotina, cuidador ou moradia antes da crise[: {d}]', nao: 'sem mudança de rotina, cuidador ou moradia antes da crise',
+            det: {tipo: 'texto', ph: 'o quê, quando'} },
+          /* violência doméstica e outras violências: notificação compulsória (Portaria GM/MS nº 5.201/2024, item 64) */
+          { tipo: 'tri', id: 'di-abuso', rot: 'Suspeita de maus-tratos, abuso ou exploração', na: 'suspeita de abuso',
+            sim: 'suspeita de maus-tratos, abuso ou exploração[: {d}]', nao: 'sem suspeita de maus-tratos, abuso ou exploração',
+            det: {tipo: 'texto', ph: 'o que levanta a suspeita'}, sub: [
+              { id: 'di-notifica', rot: 'Notificação de violência (SINAN) feita', na: 'notificação de violência',
+                sim: 'notificação compulsória de violência feita', nao: 'notificação compulsória de violência pendente' }] },
+          DEL_CLINICO,
+          DEL_ELIMINACAO,
+          DEL_MEDMUDOU
+        ]
+      },
+      /* psicofármaco já usado (nome, resposta, por que parou) é o item base "Tratamento psiquiátrico prévio" */
+      pregressa: { rot: 'Pregressa — deficiência intelectual', itens: [
+        { tipo: 'tri', id: 'di-diagnostico', rot: 'Deficiência intelectual já diagnosticada', na: 'diagnóstico de deficiência intelectual',
+          sim: 'deficiência intelectual diagnosticada[: {d}]', nao: 'deficiência intelectual suspeita, sem diagnóstico formal',
+          det: {tipo: 'texto', ph: 'grau, quem diagnosticou, causa se conhecida'} },
+        { tipo: 'tri', id: 'di-tea', rot: 'Autismo (TEA) diagnosticado', na: 'TEA comórbido',
+          sim: 'transtorno do espectro autista diagnosticado[: {d}]', nao: 'sem diagnóstico de transtorno do espectro autista',
+          det: {tipo: 'texto', ph: 'quem diagnosticou, quando'} }
+      ]},
+      subst: { rot: 'Outras substâncias — deficiência intelectual', itens: [ SUB_BZD ] },
+      clinica: { rot: 'Clínica — deficiência intelectual', itens: [
+        { tipo: 'tri', id: 'di-sindrome', rot: 'Síndrome genética conhecida (Down, 22q11.2)', na: 'síndrome genética',
+          sim: 'síndrome genética conhecida[: {d}]', nao: 'sem síndrome genética conhecida', det: {tipo: 'texto', ph: 'qual'} },
+        { tipo: 'tri', id: 'di-epilepsia', rot: 'Epilepsia ou crise convulsiva', na: 'epilepsia',
+          sim: 'epilepsia ou crise convulsiva[: {d}]', nao: 'nega epilepsia ou crise convulsiva',
+          det: {tipo: 'texto', ph: 'desde quando, última crise'}, sub: [
+            { id: 'di-crise-recente', rot: 'Crise nos últimos dias ou mudança no padrão', na: 'crise recente',
+              sim: 'crise nos últimos dias ou mudança no padrão das crises', nao: 'sem crise nos últimos dias nem mudança no padrão das crises' }] },
+        { tipo: 'tri', id: 'di-sensorial', rot: 'Deficiência visual ou auditiva', na: 'visão e audição',
+          sim: 'deficiência visual ou auditiva[: {d}]', nao: 'sem deficiência visual ou auditiva conhecida', det: {tipo: 'texto', ph: 'qual; usa óculos ou aparelho'} }
+      ]},
+      ef: { rot: 'Achados dirigidos — deficiência intelectual', itens: [
+        { tipo: 'tri', id: 'di-dor', rot: 'Sinal de dor ou desconforto ao exame', na: 'sinal de dor ao exame',
+          sim: 'sinal de dor ou desconforto ao exame[: {d}]', nao: 'sem sinal de dor ou desconforto ao exame', det: {tipo: 'texto', ph: 'onde, como reage'} },
+        DEL_GLOBO,
+        AGI_ACATISIA
+      ]},
+      /* a ausência de fala é a opção "mutismo" do item base Fala: aqui só a forma de comunicação */
+      eem: { rot: 'Achados dirigidos — deficiência intelectual', itens: [
+        { tipo: 'escolha', id: 'di-comunica', rot: 'Como se comunicou na entrevista (sem fala nenhuma: item Fala)', na: 'comunicação na entrevista', multi: true, tpl: 'comunicação na entrevista {d}', opts: [
+          {v: 'frases', rot: 'frases', frase: 'por frases'}, {v: 'palavras', rot: 'palavras soltas', frase: 'por palavras soltas'},
+          {v: 'gestos', rot: 'gestos ou sinais', frase: 'por gestos ou sinais'}] },
+        { tipo: 'tri', id: 'di-igual', rot: 'Está diferente do habitual na avaliação (pergunte a quem convive)', na: 'comparação com o habitual',
+          sim: 'apresentação diferente da habitual, segundo quem convive[: {d}]', nao: 'apresentação semelhante à habitual, segundo quem convive',
+          det: {tipo: 'texto', ph: 'o que está diferente'} },
+        /* Maudsley 15ª ed., p. 824-825 (capacity and consent): decisão plenamente informada é incomum
+           nos serviços de DI e o cuidador costuma decidir junto. Sem isto, "paciente concorda com a
+           conduta" (PLANO) vira consentimento de quem talvez não possa consentir. ✓ abre "com quem". */
+        { tipo: 'tri', id: 'di-capacidade', rot: 'Capacidade de decidir sobre o tratamento comprometida', na: 'capacidade de decidir sobre o tratamento',
+          sim: 'capacidade de decidir sobre o tratamento proposto comprometida[: {d}]', nao: 'capacidade de decidir sobre o tratamento proposto preservada',
+          det: {tipo: 'texto', ph: 'como avaliou; quem decidiu junto (cuidador, responsável)', na: 'quem decidiu junto sobre o tratamento'} }
       ]}
     }
   }

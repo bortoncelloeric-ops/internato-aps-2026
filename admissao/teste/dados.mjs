@@ -70,16 +70,56 @@ function frasesDoItem(it) {
 const checks = [];
 const check = (nome, fn) => checks.push({ nome, fn });
 
-check('9 quadros, ids únicos, nome e fonte preenchidos', qs => {
+check('10 quadros, ids únicos, nome e fonte preenchidos', qs => {
   const e = [];
-  if (qs.length !== 9) e.push('são ' + qs.length);
-  const ordem = ['psicose', 'mania', 'depressao', 'suicidio', 'agitacao', 'alcool', 'substancias', 'ansiedade', 'delirium'];
+  if (qs.length !== 10) e.push('são ' + qs.length);
+  const ordem = ['psicose', 'mania', 'depressao', 'suicidio', 'agitacao', 'alcool', 'substancias', 'ansiedade', 'delirium', 'deficiencia-intelectual'];
   if (qs.map(q => q.id).join() !== ordem.join()) e.push('ordem/ids: ' + qs.map(q => q.id).join());
   if (new Set(qs.map(q => q.id)).size !== qs.length) e.push('id repetido');
   for (const q of qs) { if (!q.nome) e.push(q.id + ' sem nome'); if (!q.fonte) e.push(q.id + ' sem fonte'); }
   return e;
 });
-check('toda queixa existe em QUEIXAS', qs => qs.filter(q => !QUEIXAS.some(x => x.id === q.queixa)).map(q => q.id + ' → ' + q.queixa));
+check('toda queixa existe em QUEIXAS (quadro sem a chave queixa traz red flags próprias)', qs => qs.filter(q => 'queixa' in q && !QUEIXAS.some(x => x.id === q.queixa)).map(q => q.id + ' → ' + q.queixa));
+// Quadro sem `queixa` (01/10, déficit intelectual): o copiloto não tem a queixa, então red flags e ddx
+// moram no próprio quadro, com fonte. Mesmo formato das seções do copiloto: item = string, {t, f} ou {t, v: true}.
+// São texto de tela escrito como frase (não vale a regra da minúscula); dose e * _ ~ continuam proibidos.
+const SEMQ = qs => qs.filter(q => !('queixa' in q));
+function* itensProprios(qs) {
+  for (const q of SEMQ(qs)) for (const s of ['redflags', 'ddx']) if (q[s]) for (const i of (q[s].itens || [])) yield { q, s, i, t: typeof i === 'string' ? i : i && i.t };
+}
+const formaPropria = qs => {
+  const e = [];
+  for (const q of qs) {
+    const tem = ['redflags', 'ddx'].filter(s => s in q);
+    if ('queixa' in q) { if (tem.length) e.push(q.id + ': tem queixa e ' + tem.join('/') + ' próprios'); continue; }
+    if (!q.redflags) e.push(q.id + ': sem queixa e sem redflags');
+    for (const k of ['formulario', 'proibidos']) if (k in q) e.push(q.id + ': quadro sem queixa não tem ' + k);
+    for (const s of tem) {
+      const sec = q[s];
+      if (!sec || typeof sec !== 'object') { e.push(q.id + '.' + s + ' não é objeto'); continue; }
+      if (typeof sec.fonte !== 'string' || !sec.fonte.trim()) e.push(q.id + '.' + s + ' sem fonte');
+      if (!Array.isArray(sec.itens) || !sec.itens.length) e.push(q.id + '.' + s + ' sem itens');
+    }
+  }
+  for (const { q, s, i, t } of itensProprios(qs)) {
+    const onde = q.id + '.' + s + ': ' + JSON.stringify(i).slice(0, 60);
+    if (typeof t !== 'string' || !t.trim()) { e.push(onde + ' sem texto'); continue; }
+    if (typeof i === 'object') {
+      const extra = Object.keys(i).filter(k => !['t', 'f', 'v'].includes(k));
+      if (extra.length) e.push(onde + ' chave ' + extra.join());
+      if ('f' in i && (typeof i.f !== 'string' || !i.f.trim())) e.push(onde + ' f vazio');
+      if ('v' in i && i.v !== true) e.push(onde + ' v diferente de true');
+      if (i.v && 'f' in i) e.push(onde + ' v:true com f (ou tem fonte, ou é VERIFICAR)');
+      if (!('f' in i) && !i.v) e.push(onde + ' objeto sem f nem v (use string)');
+    }
+    if (/[*_~]/.test(t) || /undefined/.test(t)) e.push(onde + ' com * _ ~ ou undefined');
+    if (DOSE.test(t)) e.push(onde + ' com dose');
+    // o ddx escolhido entra na nota como "alternativa: x." (corte em " — "): ponto final viraria ".."
+    if (s === 'ddx' && /\.\s*$/.test(t.split(' — ')[0])) e.push(onde + ' ddx termina em ponto');
+  }
+  return e;
+};
+check('quadro sem queixa: redflags (e ddx) próprios com fonte e itens válidos; nunca queixa + próprios', formaPropria);
 check('chaves de blocos dentro das seções permitidas', qs => qs.flatMap(q => Object.keys(q.blocos || {}).filter(k => !SECOES.includes(k)).map(k => q.id + '.' + k)));
 check('todo bloco tem rot e pelo menos 1 item', qs => qs.flatMap(q => Object.entries(q.blocos || {}).filter(([, b]) => !b.rot || !(b.itens || []).length).map(([k]) => q.id + '.' + k)));
 // hda: mínimo 4 desde 30/09 (D3): forma/via e última dose de cocaína e álcool passaram ao detalhe da base
@@ -136,7 +176,11 @@ const REPETE = [
   [/\barma\b(?!: ver)/i, 'arma — item base "arma" (HETEROAGRESSIVIDADE)'],
   [/forma e via|\bvia\b/i, 'forma/via — detalhe base de cocaína'],
   [/^(ultima dose|ultimo uso)/i, 'última dose — detalhe base "quanto, último uso"'],
-  [/sonolent/i, 'sonolência — opção base de Consciência']
+  [/sonolent/i, 'sonolência — opção base de Consciência'],
+  // DI-02/DI-03 (01/10): ausência de fala é a opção "mutismo" de Fala; psicofármaco prévio (nome, resposta,
+  // por que parou) é o item base "Tratamento psiquiátrico prévio"
+  [/sem resposta|nenhuma fala|ausencia de fala/i, 'ausência de fala — opção base "mutismo" de Fala'],
+  [/psicofarmaco (ja usado|previo)/i, 'psicofármaco prévio — item base "Tratamento psiquiátrico prévio"']
 ];
 check('nenhuma pergunta de quadro repete a ficha base (arma, forma/via, última dose, sonolência, opção base)', qs => {
   const e = [], ops = new Set(BASE_OPS.map(norm));
@@ -153,6 +197,27 @@ check('nenhuma pergunta de quadro repete a ficha base (arma, forma/via, última 
 // F4 (30/09): déficit focal é achado de exame (del-focal no ef), não item de história
 check('nenhum item de hda pergunta sinal focal (vai no ef)', qs => [...itens(qs)].filter(({ sec, it }) => sec === 'hda' && /focal/i.test(it.rot)).map(({ q, it }) => q.id + ': ' + it.id));
 // F1/F11 (30/09): frase de achado não afirma que o paciente usa o fármaco ("em uso de" só condicional)
+// DI-04 (01/10): exame físico registra o que se VÊ; inquietação "subjetiva" é relato, impossível em quem não fala
+check('nenhum item do exame físico depende de relato subjetivo', qs => [...itens(qs)].filter(({ sec, it }) => sec === 'ef'
+  && textos(it).some(([, t]) => /subjetiv/i.test(t))).map(({ q, it }) => q.id + ': ' + it.id));
+// DI-05/06/09/10 (01/10): o texto de tela do quadro sem queixa guarda a cautela e a população da fonte
+check('déficit intelectual: red flags e ddx com a cautela e a população da fonte', qs => {
+  const q = qs.find(x => x.id === 'deficiencia-intelectual'); if (!q) return ['quadro ausente'];
+  const tx = s => ((q[s] || {}).itens || []).map(i => typeof i === 'string' ? i : i.t), rf = tx('redflags'), dd = tx('ddx'), e = [];
+  for (const t of [...rf, ...dd]) {
+    if (/muito mais comum|tende a ser usada|costumam ser mais adequadas/i.test(t)) e.push('afirma mais que a fonte: ' + t.slice(0, 60));
+    if (/causa física|exploração ou abuso|excesso de estímulo|dor ou doença física/i.test(t) && !/dado de TEA/.test(t)) e.push('dado de TEA sem aviso: ' + t.slice(0, 60));
+  }
+  const sens = rf.find(t => /sensibilidade a efeito adverso/i.test(t)) || '';
+  if (!/opinião difundida/.test(sens) || !/um só estudo/.test(sens) || !/dose menor/.test(sens)) e.push('sensibilidade sem a cautela do Maudsley p. 825: ' + sens.slice(0, 60));
+  if (!rf.some(t => /^Há preocupação de que a tranquilização rápida/.test(t))) e.push('tranquilização rápida sem "há preocupação"');
+  if (dd.some(t => /ambiente de cuidado/i.test(t) && /estímulo/i.test(t))) e.push('ddx de ambiente mistura Maudsley (cuidado) e TEA (estímulo)');
+  const del = ((q.ddx || {}).itens || []).find(i => /^Delirium/.test(typeof i === 'string' ? i : i.t));
+  if (!del || !del.f) e.push('ddx Delirium sem fonte');
+  for (const { it } of itens([q])) if (/dente|ouvido/i.test(it.rot)) e.push(it.id + ': exemplo sem fonte no rot');
+  if (!/5\.201/.test(q.fonte)) e.push('fonte do quadro sem a Portaria 5.201 (notificação)');
+  return e;
+});
 check('nenhuma frase afirma uso de fármaco ("em uso de" só como "se em uso de")', qs => {
   const e = [];
   for (const { it } of itens(qs)) for (const [c, t] of frasesDoItem(it)) if (/(^|[^e] |^)em uso de/.test(t.replace(/se em uso de/g, ''))) e.push(it.id + '.' + c + ': ' + t);
@@ -172,7 +237,7 @@ check('álcool: abstinência atual registra convulsão e confusão; antecedentes
   return e;
 });
 check('ids dos quadros novos com prefixo do quadro', qs => {
-  const PRE = /^(psi|man|sui|agi|alc|sub|ans|del)-[a-z0-9-]+$/;
+  const PRE = /^(psi|man|sui|agi|alc|sub|ans|del|di)-[a-z0-9-]+$/;
   return [...itens(qs.filter(q => q.id !== 'depressao'))].filter(({ it }) => !PRE.test(it.id)).map(({ it }) => it.id);
 });
 check('nenhum texto com * _ ~, "undefined" ou ponto final', qs => {
@@ -187,6 +252,7 @@ const semDose = qs => {
   for (const { q, b } of itens(qs)) if (DOSE.test(b.rot)) e.push(q.id + ' bloco ' + b.rot);
   for (const { it } of itens(qs)) for (const [c, t] of textos(it)) if (DOSE.test(t)) e.push(it.id + '.' + c + ': ' + t);
   for (const q of qs) for (const b of Object.values(q.blocos || {})) for (const g of Object.values(b.grupos || {})) if (DOSE.test(g.pre)) e.push(q.id + ' grupo ' + g.pre);
+  for (const { q, s, t } of itensProprios(qs)) if (DOSE.test(t)) e.push(q.id + '.' + s + ': ' + t);
   return [...new Set(e)];
 };
 check('nenhuma dose (número + mg/mcg/µg/g/mL/UI/mEq)', semDose);
@@ -234,10 +300,45 @@ for (const { nome, fn } of checks) {
   const copia = JSON.parse(JSON.stringify(QUADROS));
   copia[0].blocos.hda.itens.find(i => i.tipo === 'tri' && typeof i.sim === 'string').sim = 'em uso de haloperidol 5 mg';
   copia[5].blocos.ef.itens[0].nao = 'reposição de 0,5 mEq';
+  copia.push({ id: 'x-semq', nome: 'X', fonte: 'f', blocos: {}, redflags: { fonte: 'f', itens: [{ t: 'Usar 2 mg agora', v: true }] } });
   const pegou = semDose(copia);
-  const ok = pegou.length === 2;
-  console.log((ok ? 'PASS ' : 'FAIL ') + 'checagem de dose FALHA com dose injetada (' + pegou.length + ' de 2 pegas)');
+  const ok = pegou.length === 3;
+  console.log((ok ? 'PASS ' : 'FAIL ') + 'checagem de dose FALHA com dose injetada (' + pegou.length + ' de 3 pegas, uma na red flag própria)');
   if (!ok) falhou++;
+}
+// prova de que a checagem do quadro sem queixa morde: cada quebra numa cópia em memória tem de ser pega
+{
+  const bom = () => ({ id: 'x-semq', nome: 'X', fonte: 'f', blocos: {},
+    redflags: { fonte: 'fonte X', itens: ['Frase com Maiúscula, permitida aqui', { t: 'Com fonte', f: 'fonte Y' }, { t: 'Sem fonte', v: true }] },
+    ddx: { fonte: 'fonte X', itens: ['Diferencial A', { t: 'Diferencial B', v: true }] } });
+  const quebras = [
+    ['válido não acusa nada', q => q, 0],
+    ['sem redflags', q => { delete q.redflags; }],
+    ['redflags sem fonte', q => { q.redflags.fonte = ' '; }],
+    ['redflags sem itens', q => { q.redflags.itens = []; }],
+    ['ddx sem fonte', q => { delete q.ddx.fonte; }],
+    ['ddx sem itens', q => { q.ddx.itens = []; }],
+    ['item com *', q => { q.redflags.itens[0] = 'Não *perder*'; }],
+    ['item com _', q => { q.ddx.itens[0] = 'Diferencial_A'; }],
+    ['item com ~', q => { q.redflags.itens[1].t = '~riscado~'; }],
+    ['item com dose', q => { q.ddx.itens[1].t = 'Usar 0,5 mg'; }],
+    ['item vazio', q => { q.redflags.itens.push(''); }],
+    ['f vazio', q => { q.redflags.itens[1].f = ''; }],
+    ['v: false', q => { q.redflags.itens[2].v = false; }],
+    ['v com f', q => { q.redflags.itens[2].f = 'fonte'; }],
+    ['chave estranha', q => { q.redflags.itens[1].fonte = 'x'; }],
+    ['ddx com ponto final', q => { q.ddx.itens[0] = 'Diferencial A.'; }],
+    ['queixa e redflags juntos', q => { q.queixa = 'depressao'; }],
+    ['formulario', q => { q.formulario = { farmacos: [] }; }]
+  ];
+  const ruins = [];
+  for (const [nome, estraga, esperado = 1] of quebras) {
+    const q = bom(); estraga(q);
+    const n = formaPropria([q]).length;
+    if (esperado ? n === 0 : n !== 0) ruins.push(nome + ' (' + n + ')');
+  }
+  console.log((ruins.length ? 'FAIL ' : 'PASS ') + 'checagem do quadro sem queixa FALHA em ' + (quebras.length - 1) + ' cópias quebradas e passa na válida' + (ruins.length ? '\n     ' + ruins.join('\n     ') : ''));
+  if (ruins.length) falhou++;
 }
 
 // ---------- simula o gerador → frases.txt ----------
@@ -245,7 +346,11 @@ const L = [];
 const frase = t => cap(genero(t)) + '.';
 const d1 = det => det && det.tipo === 'escolha' ? (det.opts[0].frase || det.opts[0].rot) : 'X';
 for (const q of QUADROS) {
-  L.push('', '='.repeat(72), q.nome.toUpperCase() + '  [' + q.id + ' → ' + q.queixa + ']', 'fonte: ' + q.fonte);
+  L.push('', '='.repeat(72), q.nome.toUpperCase() + '  [' + q.id + ('queixa' in q ? ' → ' + q.queixa : ' · sem queixa: red flags e ddx próprios') + ']', 'fonte: ' + q.fonte);
+  for (const s of ['redflags', 'ddx']) if (!('queixa' in q) && q[s]) {
+    L.push('', '-- ' + s.toUpperCase() + ' (tela) · fonte: ' + q[s].fonte);
+    for (const i of q[s].itens) L.push('  ' + (i.v ? '[VERIFICAR] ' : '') + (typeof i === 'string' ? i : i.t) + (i.f ? '  (' + i.f + ')' : ''));
+  }
   for (const [sec, b] of Object.entries(q.blocos)) {
     L.push('', '-- ' + sec.toUpperCase() + ' · ' + b.rot);
     const grupos = {};

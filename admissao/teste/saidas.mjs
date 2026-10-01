@@ -73,6 +73,18 @@ for (const i of [0, 1]) {
 }
 fs.writeFileSync(OUT + 'combo.txt', await txt() + '\n');
 
+/* combo-di: deficiência intelectual + agitação, tudo presente, uma prescrição (1º fármaco, iniciar, 1º chip) */
+const comboDI = async () => {
+  await vai();
+  for (const q of ['deficiencia-intelectual', 'agitacao']) await marcaQuadro(q);
+  for (const q of ['deficiencia-intelectual', 'agitacao']) await preenche(q, 'sim');
+  await escolhe(0);
+  await clica(`button.pill[data-esc="presc.acao"][data-i="0"][data-v="iniciar"]`);
+  await clica(`button[data-chip="0"][data-i="0"]`);
+};
+await comboDI();
+fs.writeFileSync(OUT + 'combo-di.txt', await txt() + '\n');
+
 /* telas inteiras (altura do documento todo) */
 const telaInteira = async (arquivo, w, mobile) => {
   await ev('window.scrollTo(0,0)');
@@ -86,6 +98,9 @@ await tela(390, 844, true, 1);
 await vai('#exemplo');
 for (const q of ['psicose', 'alcool']) await marcaQuadro(q);
 const h390 = await telaInteira('tela-390-full.png', 390, true);
+await tela(390, 844, true, 1);
+await comboDI();
+const h390di = await telaInteira('tela-390-di.png', 390, true);
 await tela(1280, 900, false, 1);
 await vai('#exemplo');
 for (const q of ['psicose', 'alcool']) await marcaQuadro(q);
@@ -93,6 +108,6 @@ const h1280 = await telaInteira('tela-1280-full.png', 1280, false);
 await send('Emulation.clearDeviceMetricsOverride');
 
 const soErros = erros.filter(e => !/beforeunload/.test(e));
-console.log(`${quadros.length * 3 + 1} notas + 2 telas (390: ${h390}px, 1280: ${h1280}px) em teste/saidas/`);
+console.log(`${quadros.length * 3 + 2} notas + 3 telas (390: ${h390}px, 390-di: ${h390di}px, 1280: ${h1280}px) em teste/saidas/`);
 if (soErros.length) console.log('erros no console:', JSON.stringify(soErros));
 ws.close(); process.exit(soErros.length ? 1 : 0);

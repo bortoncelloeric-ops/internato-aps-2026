@@ -114,6 +114,8 @@ details.rf summary{color:var(--red); font-weight:700; font-size:var(--fs-md); mi
   display:flex; align-items:center; cursor:pointer}
 details.rf ul, details.proib ul{margin:.2rem 0 .3rem; padding-left:1.1rem; font-size:var(--fs-md)}
 details.rf li, details.proib li{margin:.2rem 0}
+details.rf li{overflow-wrap:anywhere}
+details.rf li small{color:var(--mut); font-size:var(--fs-sm)}
 p.fonte{font-size:var(--fs-sm); color:var(--mut); margin:.2rem 0 0}
 details.proib{border:1px solid var(--line); border-radius:var(--rm); padding:0 .8rem .4rem; margin-top:.6rem}
 details.proib summary{font-weight:600; font-size:var(--fs-md); min-height:44px; display:flex; align-items:center; cursor:pointer}
@@ -208,7 +210,11 @@ function quadrosSel(){
   return lista().filter(function(q){ return sel.indexOf(q.id) > -1; });   // ordem de QUADROS, não do clique
 }
 var QX = {};
+/* de onde vêm red flags, ddx e formulário do quadro: da queixa do copiloto ou, quando o quadro
+   não tem a chave `queixa` (conteúdo sem fonte no copiloto), do próprio quadro — que traz
+   redflags e ddx com fonte própria e não tem formulário */
 function qxDe(q){
+  if (!('queixa' in q)) return q;
   if (!(q.id in QX)) {
     QX[q.id] = QUEIXAS.filter(function(x){ return x.id === q.queixa; })[0] || null;
     if (!QX[q.id]) console.error('quadros.js: quadro "' + q.id + '" aponta para a queixa "' + q.queixa + '", que não existe em queixas.js');
@@ -236,10 +242,12 @@ var FICHA = [
     { tipo:'texto', id:'idade', rot:'Idade (anos)', curto:true, na:'idade', fmt:'{v} anos', junto:true, im:'numeric' },
     { tipo:'escolha', id:'trazido', rot:'Trazido(a) por', na:'quem trouxe', opts:[
       op('sozinho','sozinho(a)','veio sozinh{a}'), op('familia','família','trazid{a} pela família'),
-      op('samu','SAMU','trazid{a} pelo SAMU'), op('policia','polícia','trazid{a} pela polícia')] },
+      op('samu','SAMU','trazid{a} pelo SAMU'), op('policia','polícia','trazid{a} pela polícia'),
+      op('cuidador','cuidador / instituição','trazid{a} por cuidador ou instituição')] },
     { tipo:'escolha', id:'informantes', rot:'Informantes', na:'informante', multi:true,
       tpl:'informante: {d}', tplN:'informantes: {d}', opts:[
-      op('paciente','paciente'), op('familiar','familiar'), op('prontuario','prontuário anterior')] }
+      op('paciente','paciente'), op('familiar','familiar'), op('cuidador','cuidador / profissional da instituição'),
+      op('prontuario','prontuário anterior')] }
   ]},
 
   { id:'qp', titulo:'QP', rot:'Queixa principal', itens:[
@@ -373,7 +381,7 @@ var FICHA = [
   /* alternativas: as opções são os diferenciais dos quadros marcados (getter abaixo) */
   { id:'impressao', titulo:'IMPRESSÃO', rot:'Impressão', vazio:'Não definida nesta consulta.', itens:[
     { tipo:'texto', id:'hipotese', rot:'Hipótese principal', lista:'dl-hipoteses', largo:true, baixa:true, fmt:'hipótese: {v}' },
-    { tipo:'escolha', id:'alternativas', rot:'Alternativas (diferenciais dos quadros no copiloto)', multi:true, lacuna:false, ddx:true,
+    { tipo:'escolha', id:'alternativas', rot:'Alternativas (diferenciais dos quadros marcados)', multi:true, lacuna:false, ddx:true,
       tpl:'alternativa: {d}', tplN:'alternativas: {d}' }
   ]},
 
@@ -392,12 +400,13 @@ var FICHA = [
 var SEC = {};
 FICHA.forEach(function(sec){ SEC[sec.id] = sec; });
 
-/* diferenciais: união dos ddx das queixas dos quadros marcados, sem repetir */
+/* diferenciais: união dos ddx dos quadros marcados (da queixa ou do próprio quadro), sem repetir.
+   Item {t, v: true} (sem fonte) leva a tag VERIFICAR na pílula; a nota nunca leva a tag. */
+function ddxItens(q){ var qx = qxDe(q); return (qx && qx.ddx && qx.ddx.itens) || []; }
 function ddxGrupos(){
   var visto = {};
   return quadrosSel().map(function(q){
-    var qx = qxDe(q); if (!qx || !qx.ddx) return null;
-    var opts = (qx.ddx.itens || []).map(function(i){ var t = corte(itemT(i)); return op(t, t, min1(t)); })
+    var opts = ddxItens(q).map(function(i){ var t = corte(itemT(i)), o = op(t, t, min1(t)); if (i.v) o.vf = true; return o; })
       .filter(function(o){ if (visto[o.v]) return false; visto[o.v] = 1; return true; });
     return opts.length ? {q: q, opts: opts} : null;
   }).filter(Boolean);
@@ -678,7 +687,8 @@ function pillsHTML(key, opts, multi, selFixo){
   var sel = selFixo || S[key] || [];
   return '<span class="pills">' + opts.map(function(o){
     return '<button type="button" class="pill" data-esc="' + key + '" data-v="' + esc(o.v) + '"' +
-           (multi ? ' data-multi="1"' : '') + pressed(sel.indexOf(o.v) > -1) + '>' + esc(o.rot) + '</button>';
+           (multi ? ' data-multi="1"' : '') + pressed(sel.indexOf(o.v) > -1) + '>' +
+           (o.vf ? '<span class="vf">VERIFICAR</span> ' : '') + esc(o.rot) + '</button>';
   }).join('') + '</span>';
 }
 function inputTxt(key, ph, cls){
@@ -842,7 +852,11 @@ function quadrosHTML(){
     var qx = qxDe(q), rf = qx && qx.redflags;
     if (!rf || !(rf.itens || []).length) return;
     h += '<details class="rf" data-rf="' + q.id + '"' + (rfAberto[q.id] === false ? '' : ' open') + '><summary>Não perder — ' + esc(q.nome) + '</summary><ul>' +
-      rf.itens.map(function(i){ return '<li>' + esc(itemT(i)) + '</li>'; }).join('') + '</ul>' +
+      rf.itens.map(function(i){
+        /* item = string, {t, f} (fonte só deste item) ou {t, v: true} (sem fonte: VERIFICAR) */
+        return '<li>' + (i.v ? '<span class="vf">VERIFICAR</span> ' : '') + esc(itemT(i)) +
+               (i.f ? ' <small>(' + esc(i.f) + ')</small>' : '') + '</li>';
+      }).join('') + '</ul>' +
       (rf.fonte ? '<p class="fonte">Fonte: ' + esc(rf.fonte) + '</p>' : '') + '</details>';
   });
   return h + '</section>';
@@ -860,7 +874,9 @@ function render(){
   elFicha.innerHTML = '<div class="didatico' + (didatico ? '' : ' hide') + '">Caso de exemplo carregado — MODELO DIDÁTICO, não é paciente.</div>' +
     quadrosHTML() + efetiva().map(secHTML).join('') +
     '<datalist id="dl-farmacos">' + Object.keys(FX).map(function(k){ return '<option value="' + esc(FX[k].nome) + '">'; }).join('') + '</datalist>' +
-    '<datalist id="dl-hipoteses">' + QUEIXAS.map(function(q){ return '<option value="' + esc(corte(q.nome)) + '">'; }).join('') + '</datalist>';
+    '<datalist id="dl-hipoteses">' + QUEIXAS.map(function(q){ return corte(q.nome); })
+      .concat(lista().filter(function(q){ return !('queixa' in q); }).map(function(q){ return q.nome; }))   // quadro sem queixa no copiloto
+      .map(function(n){ return '<option value="' + esc(n) + '">'; }).join('') + '</datalist>';
   atualiza();
 }
 function reBloco(el){
@@ -884,14 +900,16 @@ function linhaPresc(i){
 function limpar(){
   if (vazioS() || confirm('Apagar tudo o que foi preenchido?')) { S = {}; didatico = false; rfAberto = {}; render(); window.scrollTo(0, 0); }
 }
-/* respostas que somem do texto se o quadro q for desmarcado (itens que só ele mostra) */
+/* respostas que somem do texto se o quadro q for desmarcado (itens e alternativas que só ele mostra) */
 function respostasSo(qid){
-  var outros = {};
+  var outros = {}, outrosDdx = {}, meusDdx = {};
   quadrosSel().forEach(function(q){
-    if (q.id === qid) return;
+    var nomes = ddxItens(q).map(function(i){ return corte(itemT(i)); });
+    if (q.id === qid) { nomes.forEach(function(t){ meusDdx[t] = 1; }); return; }
+    nomes.forEach(function(t){ outrosDdx[t] = 1; });
     Object.keys(q.blocos || {}).forEach(function(sid){ (q.blocos[sid].itens || []).forEach(function(it){ outros[it.id] = 1; }); });
   });
-  var n = 0;
+  var n = (S.alternativas || []).filter(function(v){ return meusDdx[v] && !outrosDdx[v]; }).length;
   efetiva().forEach(function(e){ e.blocos.forEach(function(bl){
     if (bl.q.id !== qid) return;
     bl.itens.forEach(function(it){

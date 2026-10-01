@@ -20,7 +20,7 @@ Formato da nota: handoff do Hermes
 | `index.html` | o app inteiro: CSS, ficha base, gerador do texto, tela, eventos |
 | `quadros.js` | **conteúdo clínico dos quadros. Só dados.** É o arquivo que se edita para acrescentar quadro |
 | `../copiloto/psicofarmacos.js` | LIDO, não copiado: dose, rótulo e fonte de cada fármaco |
-| `../copiloto/queixas.js` | LIDO, não copiado: red flags, diferenciais e formulário de cada quadro (campo `queixa`) |
+| `../copiloto/queixas.js` | LIDO, não copiado: red flags, diferenciais e formulário de cada quadro (campo `queixa`); quadro sem `queixa` traz os seus no `quadros.js` |
 | `teste/teste.mjs` | e2e via Chrome DevTools Protocol (porta em `CDP_PORT`, padrão 9335) |
 | `teste/dados.mjs` | validação dos dados do `quadros.js` em node puro |
 | `teste/esperado.txt` | texto do caso de exemplo, palavra por palavra |
@@ -60,7 +60,8 @@ Ordem das tags `<script>`: `psicofarmacos.js`, `queixas.js`, `quadros.js`, depoi
     e nunca sobrescreve um ✓, nunca toca sinais vitais nem pílulas (estado geral, pupilas,
     toxidrome). Redesenha só os itens afetados (a página não pula).
 11. Desmarcar um quadro que tem resposta pede confirmação com o número de respostas que saem do
-    texto (elas continuam na memória e voltam se remarcar).
+    texto (elas continuam na memória e voltam se remarcar). Conta também a Alternativa escolhida
+    que só o ddx desse quadro oferece (`respostasSo`).
 
 ## Esquema do `quadros.js` (contrato entre dados e app)
 
@@ -69,7 +70,7 @@ var QUADROS = [
   {
     id: 'mania',                    // kebab-case, único
     nome: 'Mania',                  // rótulo do botão (curto: cabe no celular)
-    queixa: 'transtorno-bipolar',   // id em QUEIXAS do copiloto — red flags, ddx e formulário vêm de lá
+    queixa: 'transtorno-bipolar',   // id em QUEIXAS do copiloto — red flags, ddx e formulário vêm de lá (sem ela: ver abaixo)
     fonte: '…',                     // fonte dos ITENS deste quadro (string exata usada no copiloto)
     blocos: {                       // chave = id de seção da ficha base
       hda: {
@@ -83,6 +84,40 @@ var QUADROS = [
   }
 ];
 ```
+
+**Quadro sem `queixa`** (desde 01/10/2026, déficit intelectual). Quando o copiloto NÃO tem a
+queixa, o quadro não leva a chave `queixa` e traz o próprio conteúdo clínico, com fonte própria —
+nunca copiado de uma queixa (o que existe no copiloto é LIDO de lá, não duplicado):
+
+```js
+  {
+    id: 'deficiencia-intelectual', nome: 'Deficiência intelectual', fonte: '…', blocos: { … },
+    // sem a chave queixa
+    redflags: { fonte: '…', itens: [ /* ≥ 1 item */ ] },   // obrigatório
+    ddx:      { fonte: '…', itens: [ … ] }                 // opcional
+  }
+```
+
+- Item = mesmo formato das seções do copiloto: string; `{t, f}` (fonte só deste item); ou
+  `{t, v: true}` quando não há fonte (a tela mostra a tag âmbar VERIFICAR — único uso do âmbar —
+  na red flag e na pílula do ddx; a nota nunca leva a tag). `v: true` e `f` juntos não existem.
+  O `f` só aparece na tela nas red flags (letra pequena depois do item); o ddx mostra só o nome
+  (o texto antes de ` — `), e o `f` dele fica como registro de onde veio.
+- Afirmação cuja única fonte é sobre outra população diz isso no texto (`dado de TEA; vale para quem
+  também tem TEA`, `dado do capítulo de crianças e adolescentes`), e a cautela da fonte ("opinião
+  difundida", "há preocupação") não some na tradução. O `dados.mjs` confere isso no déficit intelectual.
+- Red flags e ddx são texto de TELA escrito como frase (maiúscula permitida, não é frase de
+  prontuário). Continuam proibidos dose e `*` `_` `~`; o ddx não termina em ponto (o escolhido entra
+  na nota como `Alternativa: x.`).
+- Sem formulário: a prescrição só oferece "Outros fármacos" e o racional desse quadro fica vazio
+  (invariante 9: o racional vem só de quadro cujo formulário lista o fármaco). Sem `proibidos`.
+- Nunca `queixa` e `redflags`/`ddx` próprios no mesmo quadro. Chave `queixa` ausente é legítima;
+  `queixa` com id que não existe em `QUEIXAS` continua dando `console.error` (erro de digitação).
+- O `nome` do quadro sem queixa entra nas sugestões de "Hipótese principal" (as outras vêm das
+  queixas do copiloto). Quadro de condição prévia (déficit intelectual) tem um item que a NOMEIA na
+  nota (`di-diagnostico`), senão o texto nunca diz que o paciente a tem.
+- Quem lê: `qxDe(q)` no `index.html` devolve a queixa ou, sem a chave, o próprio quadro. O
+  `dados.mjs` valida o formato; o e2e injeta um quadro sem queixa de teste (`teste-semq`).
 
 Seções que um bloco pode estender: `hda`, `pregressa`, `subst`, `clinica`, `ef`, `eem`, `risco`,
 `hetero`. O app insere os itens do bloco **no fim da seção**, na ordem de `QUADROS`, com o `rot`
