@@ -50,7 +50,21 @@ const ok = (nome, real, esperado) => {
 // 1. lista inicial
 /* contra QUEIXAS.length, não contra um número fixo: a asserção é "mostra todas",
    e travar no total do dia quebraria o e2e a cada queixa nova */
-ok('lista mostra todas as queixas', await evalJS(`document.querySelectorAll('.qcard').length === QUEIXAS.length`), true);
+ok('toda queixa pertence a um módulo do seletor',
+   await evalJS(`QUEIXAS.every(q => q.mod === 'aps' || q.mod === 'psiq')`), true);
+/* Seletor de módulo (26/10/2026). Contra os dados, nunca contra número fixo. Com a
+   APS comentada só sobra um módulo: o seletor some e a lista volta a ser tudo. */
+if (TEM_APS) {
+  ok('lista abre no módulo APS e mostra só as de APS',
+     await evalJS(`(()=>{const n=document.querySelectorAll('.qcard').length;
+       return n>0 && n===QUEIXAS.filter(q=>q.mod==='aps').length})()`), true);
+  ok('seletor de módulo aparece na lista com APS pressionado',
+     await evalJS(`document.querySelector('.modsel [data-mod="aps"]').getAttribute('aria-pressed')`), 'true');
+} else {
+  ok('sem APS carregada, o seletor não aparece', await evalJS(`!document.querySelector('.modsel')`), true);
+  ok('sem APS carregada, a lista mostra todas as queixas',
+     await evalJS(`document.querySelectorAll('.qcard').length === QUEIXAS.length`), true);
+}
 ok('detalhe começa escondido', await evalJS(`document.getElementById('detalhe').classList.contains('hide')`), true);
 ok('botão Novo paciente começa desabilitado', await evalJS(`document.getElementById('novo').disabled`), true);
 
@@ -69,6 +83,52 @@ await evalJS(`(()=>{const q=document.getElementById('q');q.value='xilofone';q.di
 ok('busca sem resultado mostra estado vazio', await evalJS(`!!document.querySelector('.vazio')`), true);
 ok('estado vazio ensina: lista as queixas existentes', await evalJS(`document.querySelectorAll('.vazio .qcard').length === QUEIXAS.length`), true);
 await evalJS(`(()=>{const q=document.getElementById('q');q.value='';q.dispatchEvent(new Event('input'));})()`);
+
+// 2b. módulos APS | Psiquiatria (26/10/2026)
+if (TEM_APS) {
+  await evalJS(`(()=>{const q=document.getElementById('q');q.value='insonia';q.dispatchEvent(new Event('input'));})()`);
+  ok('módulos · a busca atravessa os dois: em APS, "insonia" acha a de psiquiatria e a de APS',
+     await evalJS(`(()=>{const ids=[...document.querySelectorAll('.qcard')].map(c=>c.dataset.id);
+       return ids.includes('insonia') && ids.includes('saude-mental-aps')})()`), true);
+  ok('módulos · na busca o seletor some, porque não filtra o resultado',
+     await evalJS(`!document.querySelector('.modsel')`), true);
+  ok('módulos · na busca a queixa de APS diz o módulo',
+     await evalJS(`[...document.querySelectorAll('.qcard[data-id="saude-mental-aps"] .tag')].some(t=>t.textContent==='APS')`), true);
+  ok('módulos · na busca a de psiquiatria não repete o rótulo',
+     await evalJS(`[...document.querySelectorAll('.qcard[data-id="insonia"] .tag')].filter(t=>t.textContent==='Psiquiatria').length`), 1);
+  await evalJS(`(()=>{const q=document.getElementById('q');q.value='';q.dispatchEvent(new Event('input'));})()`);
+  ok('módulos · em APS só aparece o painel Como anotar',
+     await evalJS(`!document.getElementById('anotar').classList.contains('hide') &&
+       ['eem','farmacos'].every(i=>document.getElementById(i).classList.contains('hide'))`), true);
+
+  /* A consulta atravessa os módulos: abre a de APS, troca, abre a de psiquiatria. */
+  await evalJS(`document.querySelector('.qcard[data-id="saude-mental-aps"]').click()`); await espera(150);
+  await evalJS(`document.getElementById('voltar').click()`); await espera(100);
+  ok('módulos · voltar da queixa devolve ao módulo em que se estava',
+     await evalJS(`document.querySelector('.modsel [data-mod="aps"]').getAttribute('aria-pressed')`), 'true');
+  await evalJS(`document.querySelector('.modsel [data-mod="psiq"]').click()`); await espera(100);
+  ok('módulos · trocar para Psiquiatria mostra só as de psiquiatria',
+     await evalJS(`(()=>{const n=document.querySelectorAll('.qcard').length;
+       return n>0 && n===QUEIXAS.filter(q=>q.mod==='psiq').length})()`), true);
+  ok('módulos · o foco fica no módulo escolhido',
+     await evalJS(`document.activeElement.dataset.mod`), 'psiq');
+  ok('módulos · em Psiquiatria aparecem EEM e Fármacos, não Como anotar',
+     await evalJS(`document.getElementById('anotar').classList.contains('hide') &&
+       ['eem','farmacos'].every(i=>!document.getElementById(i).classList.contains('hide'))`), true);
+  ok('módulos · o endereço guarda #psiq para favorito', await evalJS(`location.hash`), '#psiq');
+  await evalJS(`document.querySelector('.qcard[data-id="depressao-maior"]').click()`); await espera(150);
+  await evalJS(`document.getElementById('revisar').click()`); await espera(150);
+  ok('módulos · HAS-e-depressão continua uma consulta só: a revisão traz as duas',
+     await evalJS(`(()=>{const t=document.getElementById('revisao').textContent;
+       return t.indexOf(QUEIXAS.find(q=>q.id==='saude-mental-aps').nome)>-1 &&
+              t.indexOf(QUEIXAS.find(q=>q.id==='depressao-maior').nome)>-1})()`), true);
+  await evalJS(`document.getElementById('novo').click()`); await espera(150);
+  ok('módulos · trocar de módulo não grava nada',
+     await evalJS(`Object.keys(localStorage).filter(k=>k!=='copiloto.apikey').length + sessionStorage.length`), 0);
+} else {
+  ['módulos · a busca atravessa os dois', 'módulos · seletor e painéis por módulo',
+   'módulos · a consulta atravessa os módulos'].forEach(pular);
+}
 
 // 3. navegação
 await evalJS(`document.querySelector('[data-id="depressao-maior"]').click()`);
@@ -295,6 +355,7 @@ ok('não cobra o que a nota já trouxe',
    guarda e volta sozinha quando as tags do index.html forem descomentadas. */
 if (TEM_APS) {
   await evalJS(`document.getElementById('voltar').click()`); await espera(150);
+  await evalJS(`document.querySelector('.modsel [data-mod="aps"]').click()`); await espera(100);
   await evalJS(`document.querySelector('[data-id="crianca-aidpi"]').click()`); await espera(250);
 
   /* mesmas medidas do ex2. O ChatGPT disse "próximo ou acima do P97"; o número é +3,05 */
@@ -349,6 +410,8 @@ if (TEM_APS) {
 }
 
 await evalJS(`document.getElementById('voltar').click()`); await espera(150);
+/* volta ao módulo de psiquiatria, onde o resto do e2e roda (no-op sem APS) */
+await evalJS(`(()=>{const b=document.querySelector('.modsel [data-mod="psiq"]'); if(b) b.click();})()`); await espera(100);
 await evalJS(`document.querySelector('[data-id="transtorno-bipolar"]').click()`); await espera(200);
 
 // 8. teclado e gestão de foco
@@ -678,9 +741,13 @@ await send('Emulation.clearDeviceMetricsOverride');
 /* Decisão de layout de 16/09/2026: sete botões no header empurram a busca para
    fora da tela do celular, então referência só aparece na lista. */
 await evalJS(`document.getElementById('voltar').click()`);
-ok('os três botões de referência aparecem na lista',
-   await evalJS(`['anotar','eem','farmacos'].every(i=>!document.getElementById(i).classList.contains('hide'))`), true);
-ok('os três somem dentro de uma queixa',
+/* Desde 26/10/2026 a lista mostra só os painéis do módulo escolhido. Aqui o e2e está
+   em Psiquiatria: EEM e Fármacos aparecem; Como anotar é da APS e só aparece
+   sozinho quando a APS está comentada (um módulo só, todos os painéis). */
+ok('os botões de referência do módulo aparecem na lista',
+   await evalJS(`['eem','farmacos'].every(i=>!document.getElementById(i).classList.contains('hide')) &&
+     document.getElementById('anotar').classList.contains('hide') === ${TEM_APS}`), true);
+ok('todos somem dentro de uma queixa',
    await evalJS(`(()=>{document.querySelector('[data-id="depressao-maior"]').click();
      return ['anotar','eem','farmacos'].every(i=>document.getElementById(i).classList.contains('hide'))})()`), true);
 ok('a queixa de psiquiatria renderiza o tratamento farmacológico',

@@ -23,6 +23,7 @@ QUEIXAS.push({
   nome: "Depressão, ansiedade e insônia",
   kw: "humor tristeza anedonia suicidio risco ideacao ansiedade insonia sono isrs fluoxetina caps benzodiazepinico acatisia alcool naltrexona trazodona phq gad matriciamento",
   tag: "Crônico",
+  mod: "aps",
   atualizado: "2026-08-05",
 
   redflags: {
@@ -119,6 +120,7 @@ QUEIXAS.push({
   nome: "HAS e DM2 — consulta de crônico",
   kw: "hipertensao pressao arterial has mapa mrpa diabetes dm2 glicemia hba1c metformina risco cardiovascular estatina pe diabetico albuminuria tfg cronico",
   tag: "Crônico",
+  mod: "aps",
   atualizado: "2026-08-05",
 
   redflags: {
@@ -234,6 +236,7 @@ QUEIXAS.push({
   nome: "Criança de 2 meses a 5 anos (AIDPI)",
   kw: "crianca pediatria lactente bebe febre tosse gripe ivas resfriado diarreia sinais de perigo aidpi peso crescimento antropometria puericultura dose",
   tag: "Agudo",
+  mod: "aps",
   atualizado: "2026-08-05",
 
   redflags: {

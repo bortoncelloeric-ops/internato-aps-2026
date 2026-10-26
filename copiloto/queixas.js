@@ -35,6 +35,7 @@ QUEIXAS.push({
   nome: "Episódio depressivo maior",
   kw: "depressao humor tristeza anedonia isrs fluoxetina sertralina antidepressivo melancolia psicotica refrataria latencia virada maniaca phq",
   tag: "Psiquiatria",
+  mod: "psiq",
   atualizado: "2026-09-16",
 
   redflags: {
@@ -201,6 +202,7 @@ QUEIXAS.push({
   nome: "Transtorno bipolar — mania, depressão bipolar e manutenção",
   kw: "bipolar mania hipomania litio litemia valproato carbamazepina lamotrigina quetiapina ciclagem episodio misto virada estabilizador",
   tag: "Psiquiatria",
+  mod: "psiq",
   atualizado: "2026-09-16",
 
   redflags: {
@@ -362,6 +364,7 @@ QUEIXAS.push({
   nome: "Psicose aguda e esquizofrenia",
   kw: "psicose esquizofrenia surto delirio alucinacao antipsicotico haloperidol risperidona clozapina refratariedade primeiro episodio duracao nao tratada negativos",
   tag: "Psiquiatria",
+  mod: "psiq",
   atualizado: "2026-09-16",
 
   redflags: {
@@ -531,6 +534,7 @@ QUEIXAS.push({
   nome: "Agitação psicomotora — emergência",
   kw: "agitacao agressividade contencao tranquilizacao rapida haloperidol midazolam prometazina emergencia violencia manejo verbal",
   tag: "Psiquiatria",
+  mod: "psiq",
   atualizado: "2026-09-16",
 
   redflags: {
@@ -675,6 +679,7 @@ QUEIXAS.push({
   nome: "Risco de suicídio e tentativa",
   kw: "suicidio ideacao tentativa autoextermino risco meio letal restricao plano internacao involuntaria notificacao posvencao",
   tag: "Psiquiatria",
+  mod: "psiq",
   atualizado: "2026-09-16",
 
   redflags: {
@@ -813,6 +818,7 @@ QUEIXAS.push({
   nome: "Álcool — intoxicação, abstinência e manutenção",
   kw: "alcool alcoolismo abstinencia delirium tremens tiamina wernicke korsakoff naltrexona acamprosato dissulfiram audit craving reducao de danos",
   tag: "Psiquiatria",
+  mod: "psiq",
   atualizado: "2026-09-16",
 
   redflags: {
@@ -964,6 +970,7 @@ QUEIXAS.push({
   nome: "Ansiedade, pânico e fobia social",
   kw: "ansiedade tag transtorno ansiedade generalizada panico agorafobia fobia social isrs benzodiazepinico tcc exposicao gad hiperventilacao",
   tag: "Psiquiatria",
+  mod: "psiq",
   atualizado: "2026-09-16",
 
   redflags: {
@@ -1116,6 +1123,7 @@ QUEIXAS.push({
   nome: "Delirium",
   kw: "delirium confusao aguda flutuante desatencao idoso cam organico sindrome confusional demencia hipoativo",
   tag: "Psiquiatria",
+  mod: "psiq",
   atualizado: "2026-09-16",
 
   redflags: {
@@ -1259,6 +1267,7 @@ QUEIXAS.push({
   nome: "Clozapina — início, monitorização e efeitos graves",
   kw: "clozapina clozaril leponex sialorreia hemograma neutropenia agranulocitose miocardite constipacao ileo convulsao tabagismo refrataria pneumonia",
   tag: "Psiquiatria",
+  mod: "psiq",
   atualizado: "2026-09-23",
 
   redflags: {
@@ -1415,6 +1424,7 @@ QUEIXAS.push({
   nome: "Troca e retirada de psicofármaco",
   kw: "troca retirada descontinuacao washout imao cross-taper recaida sindrome paroxetina venlafaxina clozapina litio",
   tag: "Psiquiatria",
+  mod: "psiq",
   atualizado: "2026-09-23",
 
   redflags: {
@@ -1557,6 +1567,7 @@ QUEIXAS.push({
   nome: "Transtorno obsessivo-compulsivo",
   kw: "toc obsessivo compulsivo ritual lavagem verificacao clomipramina fluvoxamina",
   tag: "Psiquiatria",
+  mod: "psiq",
   atualizado: "2026-09-23",
 
   redflags: {
@@ -1678,6 +1689,7 @@ QUEIXAS.push({
   nome: "Transtorno de estresse pós-traumático",
   kw: "tept trauma estresse pesadelo flashback hipervigilancia prazosina",
   tag: "Psiquiatria",
+  mod: "psiq",
   atualizado: "2026-09-23",
 
   redflags: {
@@ -1797,6 +1809,7 @@ QUEIXAS.push({
   nome: "Demência e BPSD — Alzheimer, Lewy e o que não se seda",
   kw: "demencia alzheimer donepezila rivastigmina memantina bpsd lewy agitacao",
   tag: "Psiquiatria",
+  mod: "psiq",
   atualizado: "2026-09-23",
 
   redflags: {
@@ -1913,6 +1926,7 @@ QUEIXAS.push({
   nome: "Insônia crônica do adulto",
   kw: "insonia sono zolpidem melatonina tcc higiene despertar",
   tag: "Psiquiatria",
+  mod: "psiq",
   atualizado: "2026-09-23",
 
   redflags: {
@@ -2024,6 +2038,7 @@ QUEIXAS.push({
   nome: "TDAH — criança, adolescente e adulto",
   kw: "tdah metilfenidato ritalina lisdexanfetamina atomoxetina clonidina atencao hiperatividade",
   tag: "Psiquiatria",
+  mod: "psiq",
   atualizado: "2026-09-23",
 
   redflags: {
@@ -2134,6 +2149,7 @@ QUEIXAS.push({
   nome: "TEA — irritabilidade e agressividade",
   kw: "autismo tea agressividade irritabilidade risperidona comportamento",
   tag: "Psiquiatria",
+  mod: "psiq",
   atualizado: "2026-09-23",
 
   redflags: {
@@ -2239,6 +2255,7 @@ QUEIXAS.push({
   nome: "Anorexia, bulimia e compulsão alimentar",
   kw: "anorexia bulimia compulsao alimentar realimentacao hipofosfatemia purgacao vomito lanugo imc inanicao",
   tag: "Psiquiatria",
+  mod: "psiq",
   atualizado: "2026-09-23",
 
   redflags: {
@@ -2387,6 +2404,7 @@ QUEIXAS.push({
   nome: "Personalidade borderline — crise, autolesão e o que o fármaco não trata",
   kw: "borderline autolesao impulsividade abandono crise tpb instabilidade",
   tag: "Psiquiatria",
+  mod: "psiq",
   atualizado: "2026-09-23",
 
   redflags: {
@@ -2499,6 +2517,7 @@ QUEIXAS.push({
   nome: "Saúde mental na gestação e no puerpério",
   kw: "puerperio pos-parto gestante amamentacao psicose litio valproato",
   tag: "Psiquiatria",
+  mod: "psiq",
   atualizado: "2026-09-23",
 
   redflags: {
@@ -2614,6 +2633,7 @@ QUEIXAS.push({
   nome: "Depressão, ansiedade e psicose na criança e no adolescente",
   kw: "adolescente crianca depressao fluoxetina ideacao suicida infanto",
   tag: "Psiquiatria",
+  mod: "psiq",
   atualizado: "2026-09-23",
 
   redflags: {
@@ -2723,6 +2743,7 @@ QUEIXAS.push({
   nome: "Emergência por psicofármaco",
   kw: "serotoninergica neuroleptica maligna intoxicacao snm sns litio catatonia distonia overdose flumazenil dantroleno ciproeptadina bromocriptina anticolinergica qt",
   tag: "Psiquiatria",
+  mod: "psiq",
   atualizado: "2026-09-23",
 
   redflags: {
@@ -2878,6 +2899,7 @@ QUEIXAS.push({
   nome: "Crack, cocaína, opioides, maconha e benzodiazepínicos",
   kw: "crack cocaina opioide maconha benzodiazepinico metadona buprenorfina naloxona heroina abstinencia intoxicacao estimulante excitacao",
   tag: "Psiquiatria",
+  mod: "psiq",
   atualizado: "2026-09-23",
 
   redflags: {

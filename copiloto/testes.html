@@ -485,6 +485,13 @@ code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
   });
   ver('nenhuma dose reescrita no papel da queixa', doseNoPapel.join(', '), '');
 
+  /* Seletor de módulo (26/10/2026). Queixa sem módulo some da lista sem aviso —
+     só a busca a acharia. A tag "Psiquiatria" e o módulo psiq andam juntos. */
+  ver('módulos · toda queixa tem mod aps ou psiq',
+      QUEIXAS.filter(function(q){ return q.mod !== 'aps' && q.mod !== 'psiq'; }).map(function(q){ return q.id; }).join(', '), '');
+  ver('módulos · tag Psiquiatria se e somente se mod psiq',
+      QUEIXAS.filter(function(q){ return (q.tag === 'Psiquiatria') !== (q.mod === 'psiq'); }).map(function(q){ return q.id; }).join(', '), '');
+
   ver('queixa com formulário também tem a seção farmaco',
       comForm.filter(function(q){ return !q.farmaco || !q.farmaco.itens.length; }).length, '0');
   /* Parte a parte, separada por " · ", que é como gerar-fontes.py raspa. Campo

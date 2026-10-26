@@ -1,7 +1,10 @@
 # Copiloto Clínico APS — instruções
 
-Apoio à decisão durante o atendimento, para uso próprio do Eric no rodízio de APS II
-(USF Tiquaruçu). Roda em `file://`, offline, sem servidor e sem build.
+Apoio à decisão durante o atendimento, para uso próprio do Eric. Rodízio atual:
+**APS I na USF Viveiros II** (Feira de Santana), preceptora Silvya Araujo de Jesus,
+**26/10 a 13/12/2026**. Nasceu no APS II (USF Tiquaruçu) e ganhou o módulo de
+psiquiatria no rodízio de Saúde Mental (CAPS III, HELR, SMS — terminou em 23/10).
+Roda em `file://`, offline, sem servidor e sem build; o celular abre pelo GitHub Pages.
 
 ## Arquivos
 
@@ -9,7 +12,7 @@ Apoio à decisão durante o atendimento, para uso próprio do Eric no rodízio d
 |---|---|
 | `index.html` | o app inteiro: CSS, renderer, busca, motor de calculadora |
 | `queixas.js` | **conteúdo clínico. Só dados.** É o arquivo que se edita |
-| `queixas-aps.js` | as 3 queixas de APS, **estacionadas do app em 16/09/2026**. Continuam sob lint e no allowlist |
+| `queixas-aps.js` | as queixas de APS (`mod: "aps"`). Estacionadas em 16/09/2026, **reativadas em 26/10/2026** para o APS I. Andam em par com `oms-lms.js` |
 | `anotacao.js` | **conteúdo do painel "Como anotar". Só dados.** Manual de como anotar a consulta |
 | `eem.js` | **conteúdo do painel "EEM". Só dados.** Os 12 domínios do exame do estado mental |
 | `psicofarmacos.js` | **conteúdo do painel "Psicofármacos". Só dados.** Formulário por classe e fármaco, mais as três seções de combinação |
@@ -85,7 +88,8 @@ QUEIXAS.push({
   id: "dor-lombar",                       // kebab-case, único
   nome: "Dor lombar",                     // aparece no card
   kw: "lombalgia coluna ciatica hernia",  // sinônimos p/ busca, sem acento, minúsculo
-  tag: "Agudo",                           // Agudo | Crônico | Programa | Registro
+  tag: "Agudo",                           // Agudo | Crônico | Programa | Registro (psiquiatria: "Psiquiatria")
+  mod: "aps",                             // módulo do seletor: "aps" | "psiq" — obrigatório, há teste
   atualizado: "2026-08-05",               // data de hoje, formato ISO
 
   redflags: {
@@ -366,13 +370,60 @@ que parecem detalhe e não são:
 O sistema visual está em `../DESIGN.md` e é vinculante: cinco tamanhos de fonte,
 três raios, acento verde só para ação e estado. Tamanho literal fora da escala é drift.
 
-## APS estacionada, não apagada (16/09/2026)
+## Módulos APS | Psiquiatria (26/10/2026)
+
+Decidido com o Eric no início do APS I: a psiquiatria **continua no app**, porque saúde
+mental cai na APS. O que mudou foi a lista.
+
+- **Toda queixa tem `mod`** (`"aps"` ou `"psiq"`). `testes.html` reprova queixa sem módulo
+  e reprova tag "Psiquiatria" fora do `mod: "psiq"` (e o contrário).
+- **O seletor filtra só a lista**, e mora na lista — não no header —, pela mesma razão
+  dos botões de referência. Abre em APS; `#psiq` no endereço abre direto em Psiquiatria
+  (é favorito, não dado de paciente: nada vai para `localStorage`, há e2e).
+- **A busca atravessa os módulos.** "insônia" digitado na USF tem de achar a queixa de
+  psiquiatria. Na busca o seletor some (um controle que parece filtrar e não filtra
+  mente) e a queixa de APS ganha a tag "APS"; a de psiquiatria já diz pela tag.
+- **A consulta atravessa os módulos.** HAS e depressão abertas no mesmo atendimento são
+  uma consulta só: o "Revisar consulta" traz as duas, o "Novo paciente" zera as duas.
+- **Painéis por módulo** (`PAINEIS` no `index.html`): APS → Como anotar; Psiquiatria →
+  EEM e Fármacos (o painel de psicofármacos). A APS ganha o próprio "Fármacos" quando o
+  `farmacos-aps.js` existir com conteúdo — nada entra vazio.
+- **Módulo sem queixa não é oferecido.** Com a APS comentada só sobra um módulo: o seletor
+  some, a lista mostra tudo e os três painéis voltam. O e2e cobre os dois casos.
+- **No e2e**, depois do bloco de módulos (2b) o resto roda em Psiquiatria; o bloco da
+  antropometria troca para APS e volta. Teste novo que abra queixa pela lista precisa
+  estar no módulo certo — ou usar a busca, que atravessa.
+
+### Decidido em 26/10/2026 e ainda não construído (F0 do APS I)
+
+- **`farmacos-aps.js` (`FARMACOS_APS`)**, arquivo irmão do `psicofarmacos.js` com o MESMO
+  esquema (classes, combos, proibidos, dosemuda, `f`/`p` por linha, `v`, `id`). Um
+  resolvedor único procura o `id` nos dois; ids únicos entre os dois (teste). O
+  `psicofarmacos.js` não muda — a admissão lê `PSICOFARMACOS` direto. Fármaco de saúde
+  mental usado na APS (fluoxetina, amitriptilina) é referenciado de lá, não copiado.
+  `conferir-doses` passa a ler os dois registros e as duas pastas `raw/`; o `brasil.js`
+  ganha as linhas dos fármacos de APS.
+- **Toda queixa de APS fica sob "guia novo não escreve dose".** A única dose em texto hoje
+  é a de `saude-mental-aps` (conduta, "fluoxetina 20 mg"), anterior à regra: migra para
+  `formulario` apontando para o cartão da fluoxetina.
+- **`../consulta-aps/`**, página irmã da `../admissao/`, que escreve a nota da consulta
+  na USF (S/O/A/P, CIAP-2 e CID-10 para buscar no PEC) a partir do que foi marcado. Mesmas
+  invariantes da admissão. O formato exato espera a conferência na Viveiros II (PEC ou
+  CDS, campos separados, caixa alta).
+- **Conteúdo do APS I** entra em fragmentos fora do repo
+  (`../../internato-aps1-2026-2/copiloto-onda-aps1/fragmentos/`), organizado pela
+  taxonomia `APS1::T0-Base-SUS-APS … T7-Vulneraveis, TC-Clinica-Prevalente`, e é integrado
+  pelo mesmo fluxo da onda 2.
+
+## APS estacionada em 16/09, reativada em 26/10/2026
 
 Durante o rodízio de Saúde Mental o Eric pediu para focar em psiquiatria "por
-agora". As três queixas de APS saíram da **tela**, não do projeto:
+agora". As três queixas de APS saíram da **tela**, não do projeto, e voltaram
+íntegras em 26/10/2026, com o APS I. O que valia na suspensão continua valendo para
+quem precisar comentar o par de novo:
 
 - moram em `queixas-aps.js`, íntegras, 130 itens;
-- `index.html` tem as duas tags `<script>` comentadas **juntas** —
+- as duas tags `<script>` do `index.html` andam **juntas** —
   `queixas-aps.js` e `oms-lms.js`. Andam em par porque `crianca-aidpi` é a única
   porta da calculadora `antropo-infantil`, que lê `OMS_LMS`. Descomentar só uma
   quebra a antropometria em tempo de execução, e o erro aparece com paciente na
@@ -384,8 +435,10 @@ agora". As três queixas de APS saíram da **tela**, não do projeto:
 - as 10 verificações de e2e que dependem da antropometria e da dose por peso
   ficam atrás de `if (TEM_APS)`, e o resumo do e2e informa quantas pulou.
 
-Suspensa dá **112/112 · 10 puladas**; descomentada, **122/122 · 0 puladas**. O
-ciclo foi rodado nos dois sentidos antes do commit.
+Em 16/09: suspensa **112/112 · 10 puladas**; descomentada, **122/122 · 0 puladas**.
+**Reativada em 26/10/2026**, já com o seletor: descomentada **174/174 · 0 puladas**;
+comentada **152/152 · 13 puladas** (as 10 da antropometria e 3 do bloco de módulos).
+O ciclo foi rodado nos dois sentidos antes do commit — repetir sempre que mexer no par.
 
 **Cuidado ao trocar ids em massa:** a substituição global de `crianca-aidpi`
 pegou a própria definição de `TEM_APS` e a guarda passou a apontar para uma
