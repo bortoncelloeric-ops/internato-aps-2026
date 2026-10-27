@@ -1,0 +1,1038 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Consulta · USF</title>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+/* Tokens do sistema clínico claro (../DESIGN.md). Mesma pele da admissao/. */
+:root{
+  --bg:#f6f7f8; --card:#fff; --ink:#16191d; --mut:#5d666f; --line:#e2e6ea;
+  --acc:#0d7a5f; --acc-w:#e8f4f0; --acc-d:#0a5f4a;
+  --red:#c0392b; --red-w:#fdecea;
+  --amb:#9a6700; --amb-w:#fff6e0;
+  --blu:#1f5f9e; --blu-w:#eaf2fb;
+  --r:12px; --rs:5px; --rm:10px;
+  --fs-xs:.625rem; --fs-sm:.75rem; --fs-md:.875rem; --fs-lg:1rem; --fs-xl:1.125rem;
+  --shadow:0 2px 10px rgba(0,0,0,.14);
+  --ring:0 0 0 3px rgba(13,122,95,.35);
+}
+html{-webkit-text-size-adjust:100%; scroll-padding-top:7rem; scroll-padding-bottom:calc(5rem + env(safe-area-inset-bottom))}
+body{margin:0; background:var(--bg); color:var(--ink);
+  font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  padding-bottom:calc(5rem + env(safe-area-inset-bottom))}
+button,input,select,textarea{font:inherit; color:inherit}
+button{cursor:pointer; min-height:44px}
+:focus-visible{outline:none; box-shadow:var(--ring)}
+
+.faixa{background:var(--blu-w); color:var(--blu); font-size:var(--fs-sm); font-weight:600;
+  text-align:center; padding:.35rem 1rem; border-bottom:1px solid var(--line)}
+header{position:sticky; top:0; z-index:20; background:var(--acc); color:#fff; box-shadow:var(--shadow);
+  padding-top:env(safe-area-inset-top)}
+.hin{max-width:1240px; margin:0 auto; padding:.5rem 1rem; display:flex; gap:.5rem; align-items:center; flex-wrap:wrap}
+.hin h1{font-size:var(--fs-xl); margin:0; flex:1 1 auto; line-height:1.3}
+.hbt{background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.35); color:#fff;
+  border-radius:var(--rm); padding:.35rem .75rem; font-size:var(--fs-md)}
+.hbt:hover{background:rgba(255,255,255,.24)}
+.hbt.forte{background:#fff; color:var(--acc-d); border-color:#fff; font-weight:600}
+.hbt.copiou{background:var(--acc-w)}
+.pulo{display:flex; overflow-x:auto; padding:0 .5rem; scrollbar-width:none}
+.pulo::-webkit-scrollbar{display:none}
+.pulo a{flex:0 0 auto; display:inline-flex; align-items:center; min-height:44px; padding:0 .6rem;
+  color:#fff; text-decoration:none; font-size:var(--fs-md); white-space:nowrap}
+
+.grade{max-width:1240px; margin:0 auto; padding:1rem; display:grid; gap:1rem;
+  grid-template-columns:minmax(0,1fr)}
+
+.didatico{background:var(--blu-w); color:var(--blu); border-radius:var(--rm); padding:.5rem .8rem;
+  font-size:var(--fs-md); font-weight:600; margin-bottom:1rem}
+.hide{display:none !important}
+
+.sec{background:var(--card); border:1px solid var(--line); border-radius:var(--r);
+  padding:.8rem 1rem 1rem; margin-bottom:1rem}
+.sec h2{font-size:var(--fs-lg); margin:0 0 .5rem; color:var(--acc)}
+.nota{font-size:var(--fs-sm); color:var(--mut); margin:-.3rem 0 .6rem}
+.rotulo{font-size:var(--fs-sm); font-weight:700; color:var(--mut); text-transform:uppercase;
+  letter-spacing:.04em; margin:.9rem 0 .2rem}
+.rotulo .fonte{display:block; text-transform:none; letter-spacing:normal; font-weight:400}
+
+.linha{display:flex; align-items:center; gap:.6rem; padding:.3rem 0; border-top:1px solid #f0f2f4; flex-wrap:wrap}
+.bloco:first-of-type .linha, .rotulo + .bloco .linha{border-top:0}
+.lrot{flex:1 1 13rem; font-size:var(--fs-md); min-width:0}
+.lt .lrot{flex-basis:0}
+.sub{margin-left:1.4rem; border-left:2px solid var(--line); padding-left:.7rem}
+.det{margin:.1rem 0 .4rem 1.4rem}
+
+.tri{display:inline-flex; gap:.3rem; flex:0 0 auto; margin-left:auto}
+.tri button{width:44px; height:44px; border-radius:var(--rs); border:1px solid var(--line);
+  background:#fff; font-weight:700; font-size:var(--fs-lg); color:var(--mut)}
+.tri button[data-v="nao"][aria-pressed="true"]{background:var(--mut); border-color:var(--mut); color:#fff}
+.tri button[data-v="sim"][aria-pressed="true"]{background:var(--blu); border-color:var(--blu); color:#fff}
+
+.pills{display:inline-flex; flex-wrap:wrap; gap:.3rem; max-width:100%}
+.pill{border:1px solid var(--line); background:#fff; border-radius:var(--rm); padding:.3rem .8rem;
+  font-size:var(--fs-md); text-align:left; max-width:100%; overflow-wrap:anywhere}
+.pill[aria-pressed="true"]{background:var(--acc); border-color:var(--acc); color:#fff}
+.grp{font-size:var(--fs-sm); color:var(--mut); margin:.5rem 0 .2rem}
+
+input[type=text], input[type=date], textarea, select{border:1px solid var(--line); border-radius:var(--rs);
+  padding:.35rem .5rem; background:#fff; font-size:var(--fs-md); max-width:100%; min-width:0}
+input.curto{width:5.5rem}
+input.largo, textarea, select.largo{width:100%}
+textarea{min-height:5.5rem; resize:vertical; line-height:1.45}
+.campo{display:block; width:100%; margin:.2rem 0 .4rem}
+.campo > span{display:block; font-size:var(--fs-sm); color:var(--mut)}
+
+.sv{display:flex; flex-wrap:wrap; gap:.5rem}
+.sv label{font-size:var(--fs-sm); color:var(--mut)}
+.sv input{display:block; width:5.2rem}
+.medida{font-size:var(--fs-md); margin:.3rem 0 0}
+
+.row{display:flex; flex-wrap:wrap; gap:.35rem; align-items:center; margin:.25rem 0}
+.row input{flex:1 1 7rem; min-width:6rem}
+.btn-mini{border:1px solid var(--line); background:#fff; border-radius:var(--rs);
+  padding:.2rem .6rem; font-size:var(--fs-sm)}
+.btn-atalho{margin-top:.6rem; border:1px dashed var(--mut); background:#fff; border-radius:var(--rm);
+  padding:.35rem .8rem; font-size:var(--fs-md)}
+
+.presc{border-top:1px solid var(--line); padding-top:.4rem; margin-top:.4rem}
+.papel{font-size:var(--fs-sm); color:var(--mut); margin:.3rem 0}
+.chips{display:flex; flex-wrap:wrap; gap:.35rem; margin:.3rem 0 .5rem}
+.chips .papel{flex-basis:100%; margin:0}
+.chip{border:1px solid var(--blu); background:var(--blu-w); color:var(--ink); border-radius:var(--rm);
+  padding:.25rem .55rem; text-align:left; font-size:var(--fs-sm); max-width:100%; overflow-wrap:anywhere}
+.chip b{color:var(--blu)}
+.chip small{display:block; color:var(--mut); font-size:var(--fs-sm)}
+.chip[aria-pressed="true"]{background:var(--acc); border-color:var(--acc); color:#fff}
+.chip[aria-pressed="true"] b, .chip[aria-pressed="true"] small{color:#fff}
+.vf{background:var(--amb-w); color:var(--amb); font-size:var(--fs-xs); font-weight:700;
+  padding:.1rem .4rem; border-radius:var(--rs)}
+
+/* red flag: única superfície vermelha da página */
+details.rf{background:var(--red-w); border-left:3px solid var(--red); border-radius:0 var(--rm) var(--rm) 0;
+  padding:0 .8rem .5rem; margin:.7rem 0 0}
+details.rf summary{color:var(--red); font-weight:700; font-size:var(--fs-md); min-height:44px;
+  display:flex; align-items:center; cursor:pointer}
+details.rf ul, details.proib ul{margin:.2rem 0 .3rem; padding-left:1.1rem; font-size:var(--fs-md)}
+details.rf li, details.proib li{margin:.2rem 0}
+details.rf li{overflow-wrap:anywhere}
+details.rf li small{color:var(--mut); font-size:var(--fs-sm)}
+p.fonte{font-size:var(--fs-sm); color:var(--mut); margin:.2rem 0 0}
+details.proib{border:1px solid var(--line); border-radius:var(--rm); padding:0 .8rem .4rem; margin-top:.6rem}
+details.proib summary{font-weight:600; font-size:var(--fs-md); min-height:44px; display:flex; align-items:center; cursor:pointer}
+details.proib small{display:block; color:var(--mut); font-size:var(--fs-sm)}
+
+/* O texto sai em blocos, um por campo do sistema da USF, cada um com o próprio Copiar. */
+.saida{align-self:start}
+.saida .sec{margin:0}
+.campo-saida{border-top:1px solid var(--line); padding-top:.6rem; margin-top:.6rem}
+.campo-saida:first-of-type{border-top:0; margin-top:0; padding-top:0}
+.campo-cab{display:flex; align-items:center; gap:.5rem; margin-bottom:.3rem}
+.campo-cab b{flex:1 1 auto; font-size:var(--fs-sm); color:var(--mut); letter-spacing:.04em}
+.campo-cab .btn-copia{border:1px solid var(--acc); background:#fff; color:var(--acc-d); border-radius:var(--rm);
+  font-size:var(--fs-sm); font-weight:600; padding:.2rem .7rem}
+.campo-cab .btn-copia.copiou{background:var(--acc-w)}
+.saida pre{white-space:pre-wrap; word-wrap:break-word; overflow-wrap:anywhere;
+  font:var(--fs-md)/1.5 ui-monospace,SFMono-Regular,Menlo,monospace; margin:0}
+.saida .vazio{color:var(--mut)}
+.saida .hbt{margin-bottom:.6rem; background:var(--acc); color:#fff; border-color:var(--acc)}
+
+.barra{position:fixed; left:0; right:0; bottom:0; z-index:30; display:flex; gap:.5rem;
+  padding:.5rem 1rem calc(.5rem + env(safe-area-inset-bottom)); background:var(--card); border-top:1px solid var(--line)}
+.barra button{flex:1 1 0; min-width:0; border:1px solid var(--line); background:#fff; border-radius:var(--rm);
+  font-size:var(--fs-md); font-weight:600; padding:.3rem .4rem}
+.barra .forte{background:var(--acc); border-color:var(--acc); color:#fff}
+.barra .copiou{background:var(--acc-w); color:var(--acc-d)}
+
+@media (max-width:979px){
+  .hin .hbt{display:none}
+  input[type=text], input[type=date], textarea, select{font-size:var(--fs-lg); min-height:44px}
+}
+@media (min-width:980px){
+  body{padding-bottom:0}
+  .grade{grid-template-columns:minmax(0,1fr) minmax(0,440px)}
+  .saida{position:sticky; top:4.6rem; max-height:calc(100vh - 5.6rem); overflow:auto}
+  .pulo, .barra, .so-m{display:none}
+  html{scroll-padding-top:5rem; scroll-padding-bottom:0}
+}
+</style>
+</head>
+<body>
+
+<div class="faixa">Nada é gravado nem enviado. Não digite nome, nº de prontuário, CNS nem data de nascimento.</div>
+<header>
+  <div class="hin">
+    <h1>Consulta na USF</h1>
+    <button class="hbt" id="bt-exemplo" type="button">Carregar caso de exemplo</button>
+    <button class="hbt" id="bt-limpar" type="button">Nova consulta</button>
+    <button class="hbt forte" id="bt-copiar" type="button">Copiar tudo</button>
+  </div>
+  <nav class="pulo" aria-label="Seções">
+    <a href="#s-quadros">Quadros</a><a href="#s-qp">Queixa</a><a href="#s-anamnese">Anamnese</a>
+    <a href="#s-ef">Exame físico</a><a href="#s-conduta">Conduta</a><a href="#s-codigos">CID/CIAP</a><a href="#s-texto">Texto</a>
+  </nav>
+</header>
+
+<div class="grade">
+  <main>
+    <div id="ficha"></div>
+    <button class="btn-atalho so-m" id="bt-exemplo-m" type="button">Carregar caso de exemplo</button>
+  </main>
+  <aside class="saida" id="s-texto"><div class="sec">
+    <h2>Texto para o sistema</h2>
+    <button class="hbt" id="bt-copiar2" type="button">Copiar tudo</button>
+    <div id="saida"></div>
+  </div></aside>
+</div>
+
+<nav class="barra" aria-label="Ações">
+  <button type="button" id="bt-limpar-m">Nova consulta</button>
+  <button type="button" id="bt-ver">Ver texto</button>
+  <button type="button" class="forte" id="bt-copiar-m">Copiar tudo</button>
+</nav>
+
+<!-- Dados lidos direto do copiloto, sem cópia: a dose continua morando num lugar só, com a
+     fonte junto. queixas-aps.js depende de queixas.js; calculadoras.js depende de oms-lms.js.
+     Os quadros (quadros.js) e a tabela de códigos (codigos.js) são só dados. -->
+<script src="../copiloto/queixas.js"></script>
+<script src="../copiloto/queixas-aps.js"></script>
+<script src="../copiloto/psicofarmacos.js"></script>
+<script src="../copiloto/farmacos-aps.js"></script>
+<script src="../copiloto/oms-lms.js"></script>
+<script src="../copiloto/calculadoras.js"></script>
+<script src="codigos.js"></script>
+<script src="quadros.js"></script>
+<script>
+(function(){
+'use strict';
+
+/* ---------- dados do copiloto: os DOIS registros de fármacos ---------- */
+var FX = {}, PROIB = {};
+[typeof PSICOFARMACOS !== 'undefined' ? PSICOFARMACOS : null,
+ typeof FARMACOS_APS !== 'undefined' ? FARMACOS_APS : null].forEach(function(R){
+  if (!R) return;
+  (R.classes || []).forEach(function(c){ (c.farmacos || []).forEach(function(f){ FX[f.id] = f; }); });
+  ((R.proibidos || {}).itens || []).forEach(function(p){ PROIB[p.id] = p; });
+});
+var itemT = function(i){ return typeof i === 'string' ? i : i.t; };
+var CALC = {};
+(typeof CALCS !== 'undefined' ? CALCS : []).forEach(function(c){ CALC[c.id] = c; });
+var COD = typeof CODIGOS !== 'undefined' ? CODIGOS : {ciap: {}, cid: {}};
+
+/* ---------- quadros (quadros.js): lidos a cada uso ---------- */
+function lista(){ return typeof QUADROS !== 'undefined' && Array.isArray(QUADROS) ? QUADROS : []; }
+function quadrosSel(){
+  var sel = S.quadros || [];
+  return lista().filter(function(q){ return sel.indexOf(q.id) > -1; });   // ordem de QUADROS, não do clique
+}
+var QX = {};
+/* red flags e formulário do quadro vêm da queixa do copiloto (chave `queixa`) */
+function qxDe(q){
+  if (!q.queixa) return null;
+  if (!(q.id in QX)) {
+    QX[q.id] = QUEIXAS.filter(function(x){ return x.id === q.queixa; })[0] || null;
+    if (!QX[q.id]) console.error('quadros.js: quadro "' + q.id + '" aponta para a queixa "' + q.queixa + '", que não existe no copiloto');
+  }
+  return QX[q.id];
+}
+
+/* ---------- a ficha: só dados ----------
+   Os CINCO campos do sistema da USF Viveiros II (fotos de 26/10/2026): Queixas Principais,
+   Anamnese, Exame Físico, Conduta e CID/CIAP. Cada um vira um bloco de texto com o próprio
+   Copiar, porque no sistema são campos separados.
+   tri     ✗ / ✓ / nada (= não avaliado). sim/nao = frase; det = detalhe que abre com ✓;
+           simSemDet = frase do ✓ quando o detalhe fica vazio; sub = só perguntado com o pai ✓.
+   escolha pílulas; tpl monta a frase ({d} = opções escolhidas); so: opção exclusiva.
+   texto   campo livre.
+   linha   começa linha nova no texto, com prefixo (HV:, HF:) — some se a linha ficar vazia.
+   junto   a frase emenda na anterior com vírgula, como a preceptora escreve.
+   Item da ficha BASE não tocado não entra no texto (nem como "nega", nem como "não avaliado");
+   "Não avaliado:" só lista item de QUADRO marcado que ficou sem resposta.
+   Tokens de gênero: {a} → a/o, {ao} → à/ao, {af} → a/nada (portador{af}: o masculino não ganha "o"),
+   pelo campo Sexo. */
+function op(v, rot, frase, so){
+  var o = {v: v, rot: rot, frase: frase === undefined ? rot : frase};
+  if (so) o.so = true;
+  return o;
+}
+
+var FICHA = [
+  { id:'qp', titulo:'QUEIXAS PRINCIPAIS', rot:'Queixas principais', itens:[
+    { tipo:'escolha', id:'atend', rot:'Atendimento', opts:[
+      op('programada','consulta programada'), op('demanda','demanda espontânea'), op('retorno','retorno com exames'),
+      op('receita','renovação de receita'), op('vd','visita domiciliar')] },
+    { tipo:'texto', id:'qp', rot:'Queixa principal (nas palavras do paciente)', aspas:true, largo:true }
+  ]},
+
+  { id:'anamnese', titulo:'ANAMNESE', rot:'Anamnese', itens:[
+    { tipo:'escolha', id:'sexo', rot:'Sexo', semTexto:true, opts:[op('F','F'), op('M','M')] },
+    { tipo:'texto', id:'idade', rot:'Idade', curto:true, ph:'50 ou 8 meses', idade:true },
+    { tipo:'tri', id:'comorb', rot:'Comorbidades', junto:true, sim:'portador{af} de {d}', simSemDet:'refere comorbidades',
+      nao:'nega comorbidades', det:{tipo:'texto', ph:'HAS, DM2…'} },
+    { tipo:'tri', id:'alergia', rot:'Alergia medicamentosa', junto:true, sim:'alergia a {d}', simSemDet:'refere alergia medicamentosa',
+      nao:'nega alergia medicamentosa', det:{tipo:'texto', ph:'a quê'} },
+    { tipo:'tri', id:'cirurgia', rot:'Cirurgias prévias', junto:true, sim:'cirurgias prévias: {d}', simSemDet:'refere cirurgias prévias',
+      nao:'nega cirurgias prévias', det:{tipo:'texto', ph:'quais'} },
+    { tipo:'texto', id:'hda', rot:'O que traz hoje, evolução', area:true, linha:true },
+    { tipo:'linha', pre:'HV: ', rot:'Hábitos de vida (HV)' },
+    { tipo:'tri', id:'etilismo', rot:'Etilismo', junto:true, sim:'etilismo[ {d}]', nao:'nega etilismo',
+      det:{tipo:'texto', ph:'social, quanto, quando'} },
+    { tipo:'tri', id:'tabagismo', rot:'Tabagismo', junto:true, sim:'tabagista[ ({d})]', nao:'nega tabagismo',
+      det:{tipo:'texto', ph:'maços-ano, ex-tabagista'} },
+    { tipo:'escolha', id:'atfis', rot:'Atividade física', junto:true, opts:[
+      op('sed','sedentário(a)','sedentári{a}'), op('ativo','pratica atividade física')] },
+    { tipo:'linha', pre:'HF: ', rot:'História familiar (HF)' },
+    { tipo:'texto', id:'hf', rot:'Antecedentes familiares', largo:true, ph:'irmã com HAS; nega AVC ou infarto na família' },
+    { tipo:'linha', pre:'' },
+    { tipo:'tri', id:'meduso', rot:'Medicação em uso', sim:'em uso: {d}', simSemDet:'em uso de medicação contínua',
+      nao:'nega medicação de uso contínuo', det:{tipo:'farmacos'} },
+    { tipo:'texto', id:'exames', rot:'Exames trazidos (resultados)', area:true, linha:true, fmt:'Aos exames: {v}' }
+  ]},
+
+  { id:'ef', titulo:'EXAME FÍSICO', rot:'Exame físico',
+    nota:'Nada vem preenchido como normal: o que não for marcado não entra no texto.',
+    atalho:{rot:'Sem alterações nos achados dos quadros'},
+    itens:[
+    { tipo:'vitais', id:'sv', rot:'Sinais vitais', campos:[
+      ['pa','PA','mmHg','text'], ['fc','FC','bpm','numeric'], ['fr','FR','irpm','numeric'], ['tax','Tax','°C','decimal'],
+      ['sat','SatO2','%','numeric'], ['hgt','HGT','mg/dL','numeric']] },
+    { tipo:'medidas', id:'med', rot:'Medidas' },
+    { tipo:'escolha', id:'eg', rot:'Estado geral', opts:[op('beg','BEG'), op('reg','REG'), op('meg','MEG')] }
+  ]},
+
+  /* blocosPrimeiro: a avaliação do quadro (PA na meta, mantenho, solicito) vem antes da prescrição e do
+     fechamento (orientações gerais, retorno), como a preceptora escreve */
+  { id:'conduta', titulo:'CONDUTA', rot:'Conduta', blocosPrimeiro:true, itens:[
+    { tipo:'texto', id:'oriento', rot:'Oriento sobre', largo:true, fmt:'Oriento sobre {v}', linha:true },
+    { tipo:'texto', id:'solicito', rot:'Solicito (exames)', largo:true, fmt:'Solicito {v}', linha:true },
+    { tipo:'presc', id:'presc', rot:'Prescrição' },
+    { tipo:'texto', id:'encaminho', rot:'Encaminho para', largo:true, fmt:'Encaminho para {v}', linha:true },
+    { tipo:'texto', id:'outras', rot:'Outras condutas (uma por linha)', area:true, linha:true, ph:'Aguardo colonoscopia' },
+    { tipo:'escolha', id:'orientgerais', rot:'Fechamento', opts:[op('og','orientações gerais')], linha:true },
+    { tipo:'texto', id:'retorno', rot:'Retorno', largo:true, fmt:'Retorno {v}', linha:true, ph:'em 30 dias com exames' }
+  ]},
+
+  { id:'codigos', titulo:'CID/CIAP', rot:'CID-10 e CIAP-2', itens:[
+    { tipo:'codigos', id:'cod' }
+  ]}
+];
+var SEC = {};
+FICHA.forEach(function(sec){ SEC[sec.id] = sec; });
+
+var ITEM = {};
+FICHA.forEach(function(sec){ sec.itens.forEach(function(it){ if (it.id) ITEM[it.id] = it; it.sec = sec; }); });
+/* índice de todos os itens dos quadros (chamado de novo a cada render: quadros.js é só dados) */
+function indexa(){
+  lista().forEach(function(q){
+    Object.keys(q.blocos || {}).forEach(function(sid){
+      if (!SEC[sid]) return;
+      (q.blocos[sid].itens || []).forEach(function(it){
+        [it.opts, it.det && it.det.opts].forEach(function(os){
+          (os || []).forEach(function(o){ if (o.frase === undefined) o.frase = o.rot; });
+        });
+        if (it.id && !ITEM[it.id]) ITEM[it.id] = it;
+        if (!it.sec) it.sec = SEC[sid];
+      });
+    });
+  });
+}
+
+/* ficha efetiva: seção base + um bloco por quadro marcado (ordem de QUADROS).
+   Id que já apareceu (base ou quadro anterior) não se repete. */
+function efetiva(){
+  var visto = {};
+  FICHA.forEach(function(sec){ sec.itens.forEach(function(it){ if (it.id) visto[it.id] = 1; }); });
+  var sel = quadrosSel();
+  return FICHA.map(function(sec){
+    var blocos = [];
+    sel.forEach(function(q){
+      var b = q.blocos && q.blocos[sec.id]; if (!b) return;
+      var itens = (b.itens || []).filter(function(it){
+        if (it.id && visto[it.id]) return false;
+        if (it.id) visto[it.id] = 1;
+        return true;
+      });
+      if (itens.length) blocos.push({q: q, b: b, itens: itens});
+    });
+    return {sec: sec, blocos: blocos};
+  });
+}
+
+/* ---------- estado: só memória ---------- */
+var S = {}, didatico = false;
+var vazioS = function(){ return !Object.keys(S).length; };
+
+/* ---------- utilidades ---------- */
+function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function juntar(a, conj){ return a.length <= 1 ? (a[0] || '') : a.slice(0, -1).join(', ') + conj + a[a.length - 1]; }
+function cap(s){ return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
+function min1(s){ return s && s.length > 1 && s.charAt(1) === s.charAt(1).toLowerCase() ? s.charAt(0).toLowerCase() + s.slice(1) : s; }
+function tira(s){ return String(s).trim().replace(/[.;,]+$/, ''); }
+/* "insônia[ {d}]" → colchete some se não houver detalhe */
+function molde(t, d){
+  return t.replace(/\[([^\]]*)\]/g, function(_, dentro){ return d ? dentro.replace('{d}', function(){ return d; }) : ''; })
+          .replace('{d}', function(){ return d || ''; });
+}
+function genero(txt){
+  var sx = (S.sexo || [])[0];
+  return txt.replace(/\{af\}/g, sx === 'F' ? 'a' : sx === 'M' ? '' : '(a)')
+            .replace(/\{a\}/g, sx === 'F' ? 'a' : sx === 'M' ? 'o' : 'o(a)')
+            .replace(/\{ao\}/g, sx === 'F' ? 'à' : sx === 'M' ? 'ao' : 'ao(à)');
+}
+/* número digitado com vírgula ou ponto */
+function num(s){ var n = parseFloat(String(s || '').replace(',', '.')); return isFinite(n) ? n : null; }
+function br(n, casas){ return n.toFixed(casas).replace('.', ','); }
+
+/* ---------- medidas: IMC, escore-z da OMS, IG e DPP ----------
+   São MEDIDA e classificação de aritmética pura sobre fórmula publicada (as mesmas
+   calculadoras do copiloto, lidas de lá). Nenhum escore de tratamento é calculado. */
+function mesesDe(){
+  var m = num(S.meses);
+  if (m != null) return m;
+  var id = String(S.idade || '').trim();
+  var mm = id.match(/^(\d+(?:[.,]\d+)?)\s*m/i);
+  return mm ? num(mm[1]) : null;
+}
+function medidasTexto(){
+  var peso = num(S['med.peso']), alt = num(S['med.alt']), ca = num(S['med.ca']), pc = num(S['med.pc']);
+  var sx = ({F:'f', M:'m'})[(S.sexo || [])[0]], meses = mesesDe();
+  var cm = alt != null ? (alt < 3 ? alt * 100 : alt) : null;      // aceita 1,65 m ou 165 cm
+  var z = function(ind, v){
+    if (!sx || meses == null || typeof omsZ !== 'function') return '';
+    var r = omsZ(ind, sx, meses, v); return r ? ' (z ' + fmtZ(r.z) + ')' : '';
+  };
+  var p = [];
+  if (peso != null) p.push('peso ' + br(peso, peso < 20 ? 2 : 1).replace(/,?0+$/, '') + ' kg' + z('peso', peso));
+  /* sai na unidade em que foi digitada: 1,65 m continua 1,65 m */
+  if (cm != null) p.push((meses != null && meses < 24 ? 'comprimento ' : 'altura ') +
+    (alt < 3 ? br(alt, 2) + ' m' : br(cm, 1).replace(/,0$/, '') + ' cm') + z('estatura', cm));
+  if (peso != null && cm != null && CALC.imc) {
+    var imc = CALC.imc.calc({peso: peso, alt: cm / 100});
+    p.push('IMC ' + br(imc, 1) + ' kg/m²' + (meses != null ? z('imc', imc) : ''));
+  }
+  if (ca != null) p.push('CA ' + br(ca, 1).replace(/,0$/, '') + ' cm');
+  if (pc != null) p.push('PC ' + br(pc, 1).replace(/,0$/, '') + ' cm' + z('pc', pc));
+  return p.join(', ');
+}
+function dumTexto(v){
+  if (!v || !CALC.dpp) return '';
+  var r = CALC.dpp.calc({dum: v});                 // "DPP dd/mm/aaaa · IG hoje: X semanas e Y dias"
+  var dum = v.split('-').reverse().join('/');
+  var ig = (r.match(/IG hoje: (.+)$/) || [])[1], dpp = (r.match(/DPP (\S+)/) || [])[1];
+  if (/futuro/.test(r)) return 'DUM ' + dum + ' (no futuro: conferir a data)';
+  return 'DUM ' + dum + ', IG ' + ig + ', DPP ' + dpp;
+}
+
+/* ---------- fármacos ---------- */
+function formDe(q){ var qx = qxDe(q); return (qx && qx.formulario) || null; }
+/* só vira botão a linha que é dose de verdade: número com unidade de dose */
+function linhasDose(f){
+  return (f.dose || []).filter(function(d){ return /[0-9]/.test(d.val) && /\b(mg|mcg|UI|mL|g)\b/i.test(d.val); });
+}
+/* o chip preenche só a posologia: corta a explicação (" — …", ", para …", ", porque …", ", pois …") */
+function doseDoChip(val){ return String(val).split(' — ')[0].replace(/,\s+(para|porque|pois)\s[\s\S]*$/i, ''); }
+function fonteDose(f, d){ return (d.f || f.fonte) + (d.p ? ', p. ' + d.p : ''); }
+var UNID = {pa: /\s*mm\s*hg$/i, fc: /\s*bpm$/i, fr: /\s*irpm$/i, tax: /\s*[°º]?\s*c$/i, sat: /\s*%$/, hgt: /\s*mg\s*\/\s*dl$/i};
+function nomeDe(r){ return r.farmaco && FX[r.farmaco] ? FX[r.farmaco].nome : tira(r.nome || ''); }
+function prescLinha(r){
+  var n = nomeDe(r); if (!n) return '';
+  return n + ' ' + (tira(r.dose || '') || '___');
+}
+function proibidosSel(){
+  var visto = {}, out = [];
+  quadrosSel().forEach(function(q){
+    var fm = formDe(q);
+    ((fm && fm.proibidos) || []).forEach(function(id){
+      if (visto[id] || !PROIB[id]) return;
+      visto[id] = 1; out.push(PROIB[id]);
+    });
+  });
+  return out;
+}
+/* medicação em uso: "losartana 50 mg (1-0-0) / hidroclorotiazida 25 mg (1-0-0)" */
+function linhaUso(r){
+  var t = tira(r.nome || ''); if (!t && !tira(r.dose || '')) return '';
+  return (t ? min1(t) : 'fármaco não informado') + (tira(r.dose || '') ? ' ' + tira(r.dose) : '');
+}
+
+/* ---------- códigos: só da tabela (codigos.js), com fonte por código ---------- */
+function codigoTexto(tipo, c){
+  var t = COD[tipo][c], nome = tipo === 'ciap' ? 'CIAP-2' : 'CID-10';
+  return nome + ': ' + c + (t ? ' — ' + t.d : ' (VERIFICAR: código fora da tabela)');
+}
+function codigosSugeridos(tipo){
+  var visto = {}, out = [];
+  quadrosSel().forEach(function(q){ (q[tipo] || []).forEach(function(c){ if (!visto[c]) { visto[c] = 1; out.push(c); } }); });
+  return out;
+}
+
+/* ---------- gerador do texto ---------- */
+function tocado(it){
+  var v = S[it.id];
+  if (it.tipo === 'tri') return !!v;
+  if (it.tipo === 'escolha') return !!(v && it.opts.some(function(o){ return v.indexOf(o.v) > -1; }));
+  if (it.tipo === 'texto' || it.tipo === 'data') return !!(v && String(v).trim());
+  if (it.tipo === 'vitais') return it.campos.some(function(c){ return (S['sv.' + c[0]] || '').trim(); });
+  if (it.tipo === 'medidas') return !!medidasTexto();
+  if (it.tipo === 'presc') return (S.presc || []).some(function(r){ return !!nomeDe(r); });
+  if (it.tipo === 'codigos') return !!((S['cod.ciap'] || []).length || (S['cod.cid'] || []).length);
+  return false;
+}
+function naDe(it){ return it.na || it.rot.toLowerCase(); }
+
+function detalheDe(it){
+  var d = it.det; if (!d) return '';
+  if (d.tipo === 'texto') return tira(S[it.id + '.d'] || '');
+  if (d.tipo === 'escolha') {
+    var sel = S[it.id + '.d'] || [];
+    return juntar(d.opts.filter(function(o){ return sel.indexOf(o.v) > -1; }).map(function(o){ return o.frase; }), ' e ');
+  }
+  if (d.tipo === 'farmacos') return (S[it.id + '.rows'] || []).map(linhaUso).filter(Boolean).join(' / ');
+  return '';
+}
+function fraseTri(it, lado){
+  var f = it[lado], obj = typeof f === 'object';
+  var t = obj ? f.t : f, d = lado === 'sim' ? detalheDe(it) : '';
+  if (lado === 'sim' && !d && it.simSemDet) t = it.simSemDet;
+  else t = molde(t, d);
+  return {t: t, g: obj ? f.g : null};
+}
+
+/* e = {sec, blocos:[{q, b, itens}]}. Cada bloco de quadro começa em linha nova; grupos do
+   bloco levam o id do quadro na chave; lacunas SÓ de itens de quadro, num "Não avaliado" só. */
+function secTexto(e){
+  var sec = e.sec;
+  var base = sec.itens.map(function(it){ return {it: it, ns: null, gr: sec.grupos}; }), dosQuadros = [];
+  e.blocos.forEach(function(bl){
+    dosQuadros.push({quebra: true});
+    bl.itens.forEach(function(it){ dosQuadros.push({it: it, ns: bl.q.id, gr: bl.b.grupos}); });
+  });
+  var entradas = sec.blocosPrimeiro ? dosQuadros.concat([{quebra: true}], base) : base.concat(dosQuadros);
+  var pecas = [], grupos = {}, defs = {}, lac = [];
+  function poe(p, x){
+    if (p.g) {
+      var k = x.ns ? x.ns + ':' + p.g : p.g;
+      if (!grupos[k]) {
+        grupos[k] = []; pecas.push({g: k, junto: p.junto});
+        defs[k] = (x.gr || {})[p.g];
+        if (!defs[k]) { console.error('grupo "' + p.g + '" sem definição em ' + (x.ns || sec.id)); defs[k] = {pre: '', conj: ' e '}; }
+      }
+      grupos[k].push(p.t);
+    } else pecas.push(p);
+  }
+  entradas.forEach(function(x){
+    if (x.quebra) { pecas.push({quebra: true}); return; }
+    var it = x.it, v = S[it.id];
+    if (it.tipo === 'rotulo') return;
+    if (it.tipo === 'linha') { pecas.push({quebra: true, pre: it.pre}); return; }
+    if (!tocado(it)) {
+      /* base não tocada: fora do texto. Quadro marcado: "não avaliado", nunca "nega". */
+      if (x.ns && it.lacuna !== false && (it.tipo === 'tri' || it.tipo === 'escolha' || it.na)) lac.push(naDe(it));
+      return;
+    }
+    if (it.tipo === 'tri') {
+      var fr = fraseTri(it, v);
+      if (v === 'sim' && it.det && it.det.na && !detalheDe(it)) lac.push(it.det.na);
+      if (v === 'sim' && it.sub) {
+        var partes = [];
+        it.sub.forEach(function(sb){
+          var sv = S[sb.id];
+          if (sv) partes.push(sb[sv]); else if (x.ns) lac.push(sb.na || sb.rot.toLowerCase());
+        });
+        if (partes.length) fr.t += ', ' + partes.join(', ');
+      }
+      fr.junto = it.junto; fr.linha = it.linha; poe(fr, x);
+    } else if (it.tipo === 'escolha') {
+      if (it.semTexto) return;
+      var ops = it.opts.filter(function(o){ return v.indexOf(o.v) > -1; }).map(function(o){ return o.frase; });
+      var tpl = (ops.length > 1 && it.tplN) || it.tpl || '{d}';
+      poe({t: tpl.replace('{d}', function(){ return juntar(ops, ' e '); }), junto: it.junto, linha: it.linha}, x);
+    } else if (it.tipo === 'texto') {
+      var tx = v.trim();
+      if (it.aspas) tx = '"' + tx.replace(/^["“”]+|["“”]+$/g, '') + '"';
+      else if (!it.area) tx = tira(tx);
+      if (it.idade) { tx = /^\d+$/.test(tx) ? tx + ' anos' : tx; tx = 'paciente de ' + tx; }
+      if (it.area && it.linha) {
+        /* campo de várias linhas: cada linha digitada vira uma linha do texto */
+        tx.split(/\n+/).map(tira).filter(Boolean).forEach(function(l, i){
+          poe({t: i === 0 && it.fmt ? it.fmt.replace('{v}', function(){ return l; }) : l, linha: true}, x);
+        });
+        return;
+      }
+      poe({t: it.fmt ? it.fmt.replace('{v}', function(){ return tx; }) : tx, linha: it.linha || it.aspas, junto: it.junto}, x);
+    } else if (it.tipo === 'data') {
+      poe({t: it.calc === 'dpp' ? dumTexto(v) : (it.fmt || '{v}').replace('{v}', v.split('-').reverse().join('/')), junto: it.junto, linha: it.linha}, x);
+    } else if (it.tipo === 'vitais') {
+      var tem = [];
+      it.campos.forEach(function(c){
+        var y = (S['sv.' + c[0]] || '').trim().replace(UNID[c[0]], '');
+        if (y) tem.push(c[1] + ' ' + y + (c[2] === '%' ? '%' : ' ' + c[2]));
+      });
+      poe({t: tem.join(', '), linha: true}, x);
+    } else if (it.tipo === 'medidas') {
+      poe({t: medidasTexto(), linha: true}, x);
+    } else if (it.tipo === 'presc') {
+      var ls = (S.presc || []).map(prescLinha).filter(Boolean);
+      if (ls.length) { poe({t: 'Prescrevo:', linha: true, cru: true}, x); ls.forEach(function(l){ poe({t: l, linha: true, cru: true}, x); }); }
+    } else if (it.tipo === 'codigos') {
+      (S['cod.ciap'] || []).forEach(function(c){ poe({t: codigoTexto('ciap', c), linha: true, cru: true}, x); });
+      (S['cod.cid'] || []).forEach(function(c){ poe({t: codigoTexto('cid', c), linha: true, cru: true}, x); });
+    }
+  });
+
+  var linhas = [], linha = [], frase = null, pre = '';
+  function fechaFrase(){ if (frase !== null) { linha.push(cap(frase) + '.'); frase = null; } }
+  function fechaLinha(){ fechaFrase(); if (linha.length) { linhas.push(pre + linha.join(' ')); linha = []; } pre = ''; }
+  pecas.forEach(function(p){
+    if (p.quebra) { fechaLinha(); pre = p.pre || ''; return; }
+    var t = p.g ? defs[p.g].pre + juntar(grupos[p.g], defs[p.g].conj) : p.t;
+    if (p.linha) {
+      var prefixo = pre; fechaLinha();
+      /* linha "crua" (prescrição, código) sai como está; linha de frase ganha maiúscula e ponto */
+      linhas.push(prefixo + (p.cru ? t : cap(t).replace(/([^.!?:"])$/, '$1.'))); return;
+    }
+    if (p.junto && frase !== null) frase += ', ' + t;
+    else { fechaFrase(); frase = t; }
+  });
+  fechaLinha();
+  if (lac.length) linhas.push('Não avaliado: ' + lac.join(', ') + '.');
+  return linhas;
+}
+
+/* Texto final: CAIXA ALTA (é como a preceptora escreve no sistema), sem * _ ~ de formatação
+   do WhatsApp. Devolve um bloco por campo; "Copiar tudo" junta com o título de cada um. */
+function caixaAlta(s){ return genero(s).toLocaleUpperCase('pt-BR'); }
+function blocos(){
+  return efetiva().map(function(e){ return {id: e.sec.id, titulo: e.sec.titulo, linhas: secTexto(e).map(caixaAlta)}; });
+}
+function gerarTexto(){
+  var L = [];
+  if (didatico) L.push('MODELO DIDÁTICO — NÃO É PACIENTE', '');
+  blocos().forEach(function(b){
+    if (!b.linhas.length) return;
+    L.push(b.titulo + ':'); b.linhas.forEach(function(l){ L.push(l); }); L.push('');
+  });
+  return L.join('\n').trim();
+}
+
+/* ---------- tela ---------- */
+var SEMCORR = ' autocorrect="off" autocapitalize="off" spellcheck="false"';
+function pressed(b){ return ' aria-pressed="' + (b ? 'true' : 'false') + '"'; }
+function triBtns(id, rot){
+  var v = S[id];
+  return '<span class="tri">' +
+    '<button type="button" data-tri="' + id + '" data-v="nao"' + pressed(v === 'nao') + ' title="Ausente / nega" aria-label="' + esc(rot) + ': ausente">✗</button>' +
+    '<button type="button" data-tri="' + id + '" data-v="sim"' + pressed(v === 'sim') + ' title="Presente" aria-label="' + esc(rot) + ': presente">✓</button></span>';
+}
+function pillsHTML(key, opts, multi){
+  var sel = S[key] || [];
+  return '<span class="pills">' + opts.map(function(o){
+    return '<button type="button" class="pill" data-esc="' + key + '" data-v="' + esc(o.v) + '"' +
+           (multi ? ' data-multi="1"' : '') + pressed(sel.indexOf(o.v) > -1) + '>' +
+           (o.vf ? '<span class="vf">VERIFICAR</span> ' : '') + esc(o.rot) + '</button>';
+  }).join('') + '</span>';
+}
+function inputTxt(key, ph, cls){
+  return '<input type="text" class="' + (cls || 'largo') + '" data-txt="' + key + '" value="' + esc(S[key] || '') +
+         '" placeholder="' + esc(ph || '') + '">';
+}
+function rowsHTML(it){
+  var rows = S[it.id + '.rows'] || [];
+  var h = rows.map(function(r, i){
+    var k = it.id + '|' + i + '|';
+    return '<div class="row"><input type="text" list="dl-farmacos" data-row="' + k + 'nome" value="' + esc(r.nome || '') + '" placeholder="fármaco"' + SEMCORR + '>' +
+      '<input type="text" data-row="' + k + 'dose" value="' + esc(r.dose || '') + '" placeholder="dose e horário: 50 mg (1-0-0)"' + SEMCORR + ' style="flex:1 1 11rem">' +
+      '<button type="button" class="btn-mini" data-del="' + it.id + '|' + i + '">remover</button></div>';
+  }).join('');
+  return h + '<button type="button" class="btn-mini" data-add="' + it.id + '">+ fármaco</button>';
+}
+
+/* select de fármaco: grupos dos quadros marcados; depois os registros inteiros; e "outro" digitado */
+function farmacoSelectHTML(r, i){
+  var listado = {}, grupos = [];
+  quadrosSel().forEach(function(q){
+    var fs = ((formDe(q) || {}).farmacos || []).filter(function(x){ return FX[x.id]; });
+    var ids = fs.map(function(x){ return x.id; }).filter(function(id){ return !listado[id]; });
+    ids.forEach(function(id){ listado[id] = 1; });
+    if (ids.length) grupos.push([q.nome, ids]);
+  });
+  var outros = Object.keys(FX).filter(function(id){ return !listado[id]; })
+    .sort(function(a, b){ return FX[a].nome.localeCompare(FX[b].nome, 'pt-BR'); });
+  grupos.push(['Outros fármacos dos formulários', outros]);
+  return '<select class="largo" data-presc-f data-i="' + i + '" style="flex:1 1 14rem"><option value="">escolher…</option>' +
+    '<option value="__outro"' + (r.farmaco === '__outro' ? ' selected' : '') + '>outro (digitar o nome)</option>' +
+    grupos.map(function(g){
+      return '<optgroup label="' + esc(g[0]) + '">' + g[1].map(function(id){
+        return '<option value="' + id + '"' + (r.farmaco === id ? ' selected' : '') + '>' + esc(FX[id].nome) + '</option>';
+      }).join('') + '</optgroup>';
+    }).join('') + '</select>';
+}
+function papelDe(fid){
+  var out = [];
+  quadrosSel().forEach(function(q){
+    var r = ((formDe(q) || {}).farmacos || []).filter(function(x){ return x.id === fid; })[0];
+    if (r && r.papel) out.push(q.nome + ': ' + r.papel);
+  });
+  return out;
+}
+function prescRowHTML(r, i, real){
+  var f = FX[r.farmaco];
+  var h = '<div class="presc"><div class="linha"><span class="lrot">Fármaco</span>' + farmacoSelectHTML(r, i) + '</div>';
+  if (r.farmaco === '__outro') h += '<label class="campo"><span>Nome do fármaco</span><input type="text" class="largo" data-presc="nome" data-i="' + i +
+    '" value="' + esc(r.nome || '') + '"' + SEMCORR + '></label>';
+  if (f) papelDe(f.id).forEach(function(p){ h += '<p class="papel">' + esc(p) + '</p>'; });
+  if (f || r.farmaco === '__outro') {
+    /* o campo fica ACIMA das referências: no celular, o que o toque preenche fica à vista */
+    h += '<label class="campo"><span>' + (f ? 'Dose e posologia (digite ou toque numa referência abaixo)' : 'Dose e posologia') + '</span>' +
+         '<input type="text" class="largo" data-presc="dose" data-i="' + i + '" value="' + esc(r.dose || '') + '"' + SEMCORR +
+         ' placeholder="500 mg, 1 comp, VO, 8/8 h por 7 dias"></label>';
+  }
+  if (f) {
+    if (f.v) h += '<p class="papel"><span class="vf">VERIFICAR</span> sem fonte conferida — dose não exibida.</p>';
+    else h += '<div class="chips">' + linhasDose(f).map(function(d, k){
+      return '<button type="button" class="chip" data-chip="' + k + '" data-i="' + i + '"' + pressed(!!r.dose && r.dose === doseDoChip(d.val)) +
+             '><b>' + esc(d.rot) + '</b> ' + esc(d.val) + '<small>' + esc(fonteDose(f, d)) + '</small></button>';
+    }).join('') + '</div>';
+  }
+  if (real) h += '<button type="button" class="btn-mini" data-presc-del="' + i + '">remover</button>';
+  return h + '</div>';
+}
+function prescHTML(){
+  var rows = S.presc && S.presc.length ? S.presc : null;
+  var h = '<div class="rotulo">Prescrição</div>' +
+    (rows || [{}]).map(function(r, i){ return prescRowHTML(r, i, !!rows); }).join('') +
+    '<button type="button" class="btn-mini" data-presc-add="1">+ prescrição</button>';
+  var pr = proibidosSel();
+  if (pr.length) {
+    h += '<details class="proib"><summary>Não combinar nestes quadros (' + pr.length + ')</summary><ul>' +
+      pr.map(function(p){ return '<li><b>' + esc(p.t) + '</b> ' + esc(p.d || '') + (p.f ? '<small>' + esc(p.f) + '</small>' : '') + '</li>'; }).join('') +
+      '</ul></details>';
+  }
+  return h;
+}
+function codigosHTML(){
+  var h = '';
+  [['ciap', 'CIAP-2'], ['cid', 'CID-10']].forEach(function(t){
+    var sug = codigosSugeridos(t[0]), sel = S['cod.' + t[0]] || [];
+    var opts = sug.concat(sel.filter(function(c){ return sug.indexOf(c) < 0; })).map(function(c){
+      var o = op(c, c + (COD[t[0]][c] ? ' — ' + COD[t[0]][c].d : ''));
+      if (!COD[t[0]][c]) o.vf = true;
+      return o;
+    });
+    h += '<div class="rotulo">' + t[1] + '</div>' +
+      (opts.length ? pillsHTML('cod.' + t[0], opts, true) : '<p class="nota">Marque um quadro no topo para ver as sugestões, ou busque abaixo.</p>') +
+      '<div class="row"><input type="text" list="dl-' + t[0] + '" data-cod="' + t[0] + '" placeholder="buscar ' + t[1] + ' por código ou nome"' + SEMCORR + '>' +
+      '<button type="button" class="btn-mini" data-cod-add="' + t[0] + '">+ código</button></div>';
+  });
+  return h + '<p class="nota">Só a tabela tem descrição oficial (' + esc(COD.fonte || 'codigos.js') + '). Código fora dela sai VERIFICAR.</p>';
+}
+function medidasHTML(){
+  var c = [['peso','Peso','kg'], ['alt','Altura','m ou cm'], ['ca','CA','cm'], ['pc','PC','cm']];
+  var t = medidasTexto();
+  return '<div class="sv">' + c.map(function(x){
+    return '<label>' + x[1] + ' <small>' + x[2] + '</small><input type="text" inputmode="decimal" data-txt="med.' + x[0] + '" value="' + esc(S['med.' + x[0]] || '') + '"></label>';
+  }).join('') + '</div>' + (t ? '<p class="medida">' + esc(t) + '</p>' : '');
+}
+
+function itemHTML(it){
+  if (it.tipo === 'rotulo') return '<div class="rotulo">' + esc(it.rot) + '</div>';
+  if (it.tipo === 'linha') return it.rot ? '<div class="rotulo">' + esc(it.rot) + '</div>' : '';
+  if (it.tipo === 'texto') {
+    var campo = it.area
+      ? '<textarea data-txt="' + it.id + '" placeholder="' + esc(it.ph || it.rot) + '">' + esc(S[it.id] || '') + '</textarea>'
+      : '<input type="text" ' + (it.im ? 'inputmode="' + it.im + '" ' : '') +
+        'class="' + (it.curto ? 'curto' : 'largo') + '" data-txt="' + it.id + '" value="' + esc(S[it.id] || '') + '"' +
+        (it.ph ? ' placeholder="' + esc(it.ph) + '"' : '') + '>';
+    return it.curto ? '<div class="linha"><span class="lrot">' + esc(it.rot) + '</span>' + campo + '</div>'
+                    : '<label class="campo"><span>' + esc(it.rot) + '</span>' + campo + '</label>';
+  }
+  if (it.tipo === 'data') {
+    var extra = it.calc === 'dpp' && S[it.id] ? '<p class="medida">' + esc(dumTexto(S[it.id])) + '</p>' : '';
+    return '<label class="campo"><span>' + esc(it.rot) + '</span><input type="date" data-txt="' + it.id + '" value="' + esc(S[it.id] || '') + '"></label>' + extra;
+  }
+  if (it.tipo === 'escolha') return '<div class="linha"><span class="lrot">' + esc(it.rot) + '</span>' + pillsHTML(it.id, it.opts, it.multi) + '</div>';
+  if (it.tipo === 'vitais') {
+    return '<div class="sv">' + it.campos.map(function(c){
+      return '<label>' + c[1] + ' <small>' + c[2] + '</small><input type="text" inputmode="' + c[3] + '" data-txt="sv.' + c[0] +
+        '" value="' + esc(S['sv.' + c[0]] || '') + '"></label>';
+    }).join('') + '</div>';
+  }
+  if (it.tipo === 'medidas') return medidasHTML();
+  if (it.tipo === 'presc') return prescHTML();
+  if (it.tipo === 'codigos') return codigosHTML();
+  if (it.tipo === 'tri') {
+    var h = '<div class="linha lt"><span class="lrot">' + esc(it.rot) + '</span>' + triBtns(it.id, it.rot) + '</div>';
+    if (S[it.id] === 'sim') {
+      if (it.det) {
+        h += '<div class="det">' +
+          (it.det.tipo === 'texto' ? inputTxt(it.id + '.d', it.det.ph)
+           : it.det.tipo === 'escolha' ? pillsHTML(it.id + '.d', it.det.opts, it.det.multi)
+           : rowsHTML(it)) + '</div>';
+      }
+      if (it.sub) h += '<div class="sub">' + it.sub.map(function(sb){
+        return '<div class="linha lt"><span class="lrot">' + esc(sb.rot) + '</span>' + triBtns(sb.id, sb.rot) + '</div>';
+      }).join('') + '</div>';
+    }
+    return h;
+  }
+  return '';
+}
+function blocoHTML(it, chave){ return '<div class="bloco" data-bloco="' + (it.id || chave) + '">' + itemHTML(it) + '</div>'; }
+function secHTML(e){
+  var sec = e.sec;
+  var h = '<section class="sec" id="s-' + sec.id + '"><h2>' + esc(sec.rot) + '</h2>' +
+    (sec.nota ? '<p class="nota">' + esc(sec.nota) + '</p>' : '');
+  var baseH = sec.itens.map(function(it, i){ return blocoHTML(it, sec.id + '-' + i); }).join(''), blocosH = '';
+  e.blocos.forEach(function(bl){
+    blocosH += '<div class="rotulo">' + esc(bl.b.rot || bl.q.nome) + (bl.q.fonte ? '<span class="fonte">' + esc(bl.q.fonte) + '</span>' : '') + '</div>' +
+      bl.itens.map(function(it, i){ return blocoHTML(it, sec.id + '-' + bl.q.id + '-' + i); }).join('');
+  });
+  /* a tela segue a mesma ordem do texto */
+  h += sec.blocosPrimeiro && blocosH ? blocosH + '<div class="rotulo">Prescrição e fechamento</div>' + baseH : baseH + blocosH;
+  if (sec.atalho && e.blocos.length) h += '<button type="button" class="btn-atalho" data-atalho="' + sec.id + '">' + esc(sec.atalho.rot) + '</button>';
+  return h + '</section>';
+}
+/* cartão do topo: escolhe os quadros e mostra o "não perder" de cada um. Não entra no texto. */
+function quadrosHTML(){
+  var qs = lista();
+  var grupo = function(rot, cod, l){
+    return l.length ? '<div role="group" aria-label="' + rot + '" data-qgrupo="' + cod + '"><div class="grp">' + rot + '</div>' +
+      pillsHTML('quadros', l.map(function(q){ return op(q.id, q.nome); }), true) + '</div>' : '';
+  };
+  var h = '<section class="sec" id="s-quadros"><h2>Quadros desta consulta</h2>' +
+    '<p class="nota">Cada quadro marcado acrescenta as perguntas dele à ficha e sugere CID/CIAP. Este cartão não entra no texto.</p>' +
+    (qs.length ? grupo('Programas da USF', 'programas', qs.filter(function(q){ return !q.grupo; })) +
+                 grupo('Outros quadros', 'outros', qs.filter(function(q){ return !!q.grupo; }))
+               : '<p class="nota">quadros.js não carregou.</p>');
+  quadrosSel().forEach(function(q){
+    var qx = qxDe(q), rf = qx && qx.redflags;
+    if (!rf || !(rf.itens || []).length) return;
+    h += '<details class="rf" data-rf="' + q.id + '"' + (rfAberto[q.id] === false ? '' : ' open') + '><summary>Não perder — ' + esc(q.nome) + '</summary><ul>' +
+      rf.itens.map(function(i){
+        return '<li>' + (i.v ? '<span class="vf">VERIFICAR</span> ' : '') + esc(itemT(i)) +
+               (i.f ? ' <small>(' + esc(i.f) + ')</small>' : '') + '</li>';
+      }).join('') + '</ul>' +
+      (rf.fonte ? '<p class="fonte">Fonte: ' + esc(rf.fonte) + '</p>' : '') + '</details>';
+  });
+  return h + '</section>';
+}
+
+var elFicha = document.getElementById('ficha'), elSaida = document.getElementById('saida');
+var rfAberto = {};
+document.addEventListener('toggle', function(e){
+  var d = e.target; if (d.dataset && d.dataset.rf) rfAberto[d.dataset.rf] = d.open;
+}, true);
+function render(){
+  indexa();
+  elFicha.innerHTML = '<div class="didatico' + (didatico ? '' : ' hide') + '">Caso de exemplo carregado — MODELO DIDÁTICO, não é paciente.</div>' +
+    quadrosHTML() + efetiva().map(secHTML).join('') +
+    '<datalist id="dl-farmacos">' + Object.keys(FX).map(function(k){ return '<option value="' + esc(FX[k].nome) + '">'; }).join('') + '</datalist>' +
+    ['ciap', 'cid'].map(function(t){
+      return '<datalist id="dl-' + t + '">' + Object.keys(COD[t] || {}).map(function(c){ return '<option value="' + esc(c + ' — ' + COD[t][c].d) + '">'; }).join('') + '</datalist>';
+    }).join('');
+  atualiza();
+}
+function reBloco(el){
+  var b = el.closest('[data-bloco]');
+  if (b && ITEM[b.dataset.bloco]) b.innerHTML = itemHTML(ITEM[b.dataset.bloco]);
+}
+function atualiza(){
+  var bs = blocos();
+  elSaida.innerHTML = (didatico ? '<p class="nota">MODELO DIDÁTICO — NÃO É PACIENTE</p>' : '') + bs.map(function(b){
+    return '<div class="campo-saida" data-campo="' + b.id + '"><div class="campo-cab"><b>' + esc(b.titulo) + '</b>' +
+      (b.linhas.length ? '<button type="button" class="btn-copia" data-copia="' + b.id + '">Copiar</button>' : '') + '</div>' +
+      (b.linhas.length ? '<pre>' + esc(b.linhas.join('\n')) + '</pre>' : '<pre class="vazio">(vazio)</pre>') + '</div>';
+  }).join('');
+  /* a medida calculada acompanha a digitação, sem redesenhar o campo em uso */
+  var m = elFicha.querySelector('[data-bloco="med"] .medida'), t = medidasTexto();
+  if (m && t) m.textContent = t;
+  else if (!m && t) { var bl = elFicha.querySelector('[data-bloco="med"]'); if (bl) bl.insertAdjacentHTML('beforeend', '<p class="medida">' + esc(t) + '</p>'); }
+  else if (m && !t) m.remove();
+}
+function textoCampo(id){
+  var b = blocos().filter(function(x){ return x.id === id; })[0];
+  return b ? b.linhas.join('\n') : '';
+}
+
+function optsDe(key){
+  if (ITEM[key]) return ITEM[key].opts || [];
+  var it = ITEM[key.replace(/\.d$/, '')];
+  return (it && it.det && it.det.opts) || [];
+}
+function linhaPresc(i){
+  S.presc = S.presc || [];
+  while (S.presc.length <= i) S.presc.push({});
+  return S.presc[i];
+}
+function limpar(){
+  if (vazioS() || confirm('Apagar tudo o que foi preenchido?')) { S = {}; didatico = false; rfAberto = {}; render(); window.scrollTo(0, 0); }
+}
+/* respostas que somem do texto se o quadro q for desmarcado (itens que só ele mostra) */
+function respostasSo(qid){
+  var outros = {}, n = 0;
+  quadrosSel().forEach(function(q){
+    if (q.id === qid) return;
+    Object.keys(q.blocos || {}).forEach(function(sid){ (q.blocos[sid].itens || []).forEach(function(it){ outros[it.id] = 1; }); });
+  });
+  efetiva().forEach(function(e){ e.blocos.forEach(function(bl){
+    if (bl.q.id !== qid) return;
+    bl.itens.forEach(function(it){
+      if (outros[it.id]) return;
+      if (tocado(it)) n++;
+      if (S[it.id] === 'sim') (it.sub || []).forEach(function(sb){ if (S[sb.id]) n++; });
+    });
+  }); });
+  return n;
+}
+/* ✗ em todo tri VISÍVEL e não respondido dos QUADROS no exame físico; nunca vitais nem pílulas */
+function atalhoIds(sid){
+  var ids = [], pula = {};
+  efetiva().forEach(function(e){
+    if (e.sec.id !== sid) return;
+    var todos = [].concat.apply([], e.blocos.map(function(bl){ return bl.itens; }));
+    todos.forEach(function(it){ if (it.tipo === 'tri' && S[it.id] === 'sim') (it.contradiz || []).forEach(function(id){ pula[id] = 1; }); });
+    todos.forEach(function(it){ if (it.tipo === 'tri' && !S[it.id] && !pula[it.id]) ids.push(it.id); });
+  });
+  return ids;
+}
+/* código digitado: "K86 — Hipertensão…" ou só "k86" */
+function codigoDigitado(tipo, v){
+  var c = String(v || '').split(' — ')[0].trim().toUpperCase().replace(/\s+/g, '');
+  if (!c) return '';
+  return tipo === 'cid' ? c.replace(/^([A-Z]\d\d)(\d)$/, '$1.$2') : c;
+}
+
+/* ---------- eventos ---------- */
+document.addEventListener('click', function(e){
+  var b = e.target.closest('button'); if (!b) return;
+  var d = b.dataset;
+  if (d.tri) {
+    if (S[d.tri] === d.v) delete S[d.tri]; else S[d.tri] = d.v;
+    var it = ITEM[d.tri];
+    if (it && it.det && it.det.tipo === 'farmacos' && S[d.tri] === 'sim' && !(S[d.tri + '.rows'] || []).length) S[d.tri + '.rows'] = [{}];
+    reBloco(b); atualiza();
+  } else if (d.esc) {
+    if (d.esc === 'quadros' && (S.quadros || []).indexOf(d.v) > -1) {
+      var nq = respostasSo(d.v), qn = lista().filter(function(q){ return q.id === d.v; })[0];
+      if (nq && !confirm('Desmarcar ' + (qn ? qn.nome : d.v) + ' tira do texto ' + nq + (nq === 1 ? ' resposta' : ' respostas') +
+          ' deste quadro. Desmarcar?')) return;
+    }
+    var sel = (S[d.esc] || []).slice(), i = sel.indexOf(d.v);
+    if (i > -1) sel.splice(i, 1);
+    else if (d.multi) {
+      var so = {};
+      optsDe(d.esc).forEach(function(o){ if (o.so) so[o.v] = 1; });
+      if (so[d.v]) sel = [d.v];
+      else { sel = sel.filter(function(x){ return !so[x]; }); sel.push(d.v); }
+    } else sel = [d.v];
+    if (sel.length) S[d.esc] = sel; else delete S[d.esc];
+    if (d.esc === 'quadros' || d.esc === 'sexo') { render(); return; }
+    if (/^cod\./.test(d.esc)) { var cb = elFicha.querySelector('[data-bloco="cod"]'); cb.innerHTML = itemHTML(ITEM.cod); atualiza(); return; }
+    reBloco(b); atualiza();
+  } else if (d.add) {
+    (S[d.add + '.rows'] = S[d.add + '.rows'] || []).push({}); reBloco(b); atualiza();
+  } else if (d.del) {
+    var pr = d.del.split('|'); S[pr[0] + '.rows'].splice(+pr[1], 1); reBloco(b); atualiza();
+  } else if (d.prescAdd) {
+    linhaPresc(0); S.presc.push({}); reBloco(b); atualiza();
+  } else if (d.prescDel !== undefined) {
+    var pb = b.closest('[data-bloco]');
+    S.presc.splice(+d.prescDel, 1); if (!S.presc.length) delete S.presc;
+    reBloco(pb); atualiza();
+  } else if (d.chip !== undefined) {
+    var rc = linhaPresc(+d.i), pb2 = b.closest('[data-bloco]');
+    rc.dose = doseDoChip(linhasDose(FX[rc.farmaco])[+d.chip].val);
+    reBloco(pb2); atualiza();
+    var dz = pb2.querySelector('input[data-presc="dose"][data-i="' + d.i + '"]');
+    if (dz) dz.scrollIntoView({block: 'nearest'});
+  } else if (d.codAdd) {
+    var inp = elFicha.querySelector('input[data-cod="' + d.codAdd + '"]'), c = codigoDigitado(d.codAdd, inp && inp.value);
+    if (c) { var k = 'cod.' + d.codAdd; S[k] = (S[k] || []).filter(function(x){ return x !== c; }).concat([c]); }
+    var cb2 = elFicha.querySelector('[data-bloco="cod"]'); cb2.innerHTML = itemHTML(ITEM.cod); atualiza();
+  } else if (d.atalho) {
+    atalhoIds(d.atalho).forEach(function(id){
+      S[id] = 'nao';
+      var bl = elFicha.querySelector('[data-bloco="' + id + '"]');
+      if (bl) bl.innerHTML = itemHTML(ITEM[id]);
+    });
+    atualiza();
+  } else if (d.copia) { copiar(textoCampo(d.copia), b); }
+  else if (b.id === 'bt-exemplo' || b.id === 'bt-exemplo-m') { carregaExemplo(); }
+  else if (b.id === 'bt-limpar' || b.id === 'bt-limpar-m') { limpar(); }
+  else if (b.id === 'bt-ver') { document.getElementById('s-texto').scrollIntoView({block: 'start'}); }
+  else if (b.id === 'bt-copiar' || b.id === 'bt-copiar2' || b.id === 'bt-copiar-m') { copiar(gerarTexto(), b); }
+});
+document.addEventListener('input', function(e){
+  var d = e.target.dataset, v = e.target.value;
+  if (d.txt) { if (v.trim()) S[d.txt] = v; else delete S[d.txt]; }
+  else if (d.row) { var p = d.row.split('|'); S[p[0] + '.rows'][+p[1]][p[2]] = v; }
+  else if (d.presc) { linhaPresc(+d.i)[d.presc] = v; }
+  else return;
+  if (e.target.type === 'date') { reBloco(e.target); }
+  atualiza();
+});
+document.addEventListener('change', function(e){
+  var el = e.target;
+  if (el.hasAttribute('data-presc-f')) {
+    var r = linhaPresc(+el.dataset.i);
+    r.farmaco = el.value; r.dose = ''; if (el.value !== '__outro') delete r.nome;
+    reBloco(el); atualiza();
+  }
+});
+/* Sem gravação: o único jeito de não perder o que foi digitado é avisar antes de sair. */
+window.addEventListener('beforeunload', function(e){ if (!vazioS()) { e.preventDefault(); e.returnValue = ''; } });
+
+/* copiado da admissao/ (que copiou do copiloto): clipboard pode falhar em file:// */
+function copiar(txt, btn){
+  if (!btn.dataset.rot) btn.dataset.rot = btn.textContent;
+  var avisa = function(ok){
+    clearTimeout(btn._t);
+    btn.textContent = ok ? 'Copiado' : 'Não consegui copiar';
+    btn.classList.toggle('copiou', ok);
+    btn._t = setTimeout(function(){ btn.textContent = btn.dataset.rot; btn.classList.remove('copiou'); }, 2200);
+    if (!ok) {
+      try {
+        var rg = document.createRange(); rg.selectNodeContents(elSaida);
+        var sl = window.getSelection(); sl.removeAllRanges(); sl.addRange(rg);
+        elSaida.scrollIntoView({block: 'start'});
+      } catch (err) {}
+    }
+  };
+  var naMao = function(){
+    try {
+      var t = document.createElement('textarea');
+      t.value = txt; t.setAttribute('readonly', '');
+      t.style.cssText = 'position:fixed;top:-9999px;opacity:0';
+      document.body.appendChild(t);
+      t.select(); t.setSelectionRange(0, txt.length);
+      var ok = document.execCommand('copy');
+      document.body.removeChild(t);
+      avisa(ok);
+    } catch (err) { avisa(false); }
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(txt).then(function(){ avisa(true); }, naMao);
+  } else { naMao(); }
+}
+
+/* ---------- caso de exemplo — MODELO DIDÁTICO, não é paciente ----------
+   Caso inventado no formato da preceptora (crônico que traz exames). A dose da
+   prescrição fica vazia de propósito: exemplo não apresenta dose como conduta. */
+function carregaExemplo(){
+  if (!vazioS() && !confirm('Substituir o que foi preenchido pelo caso de exemplo?')) return;
+  didatico = true;
+  S = typeof EXEMPLO !== 'undefined' ? JSON.parse(JSON.stringify(EXEMPLO)) : {};
+  render(); window.scrollTo(0, 0);
+}
+
+indexa();
+lista().forEach(qxDe);   // queixa inexistente: avisa no console já na carga
+render();
+if (location.hash === '#exemplo') { S = {}; carregaExemplo(); }
+/* para os testes (teste/teste.mjs) lerem o texto de cada campo sem raspar a tela */
+window.__consulta = { gerarTexto: gerarTexto, textoCampo: textoCampo, estado: function(){ return S; } };
+})();
+</script>
+</body>
+</html>
