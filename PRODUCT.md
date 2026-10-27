@@ -23,7 +23,7 @@ Repositório de material clínico e de estudo do internato, publicado como HTML 
 
 A superfície ativa é o **Copiloto Clínico**, com dois módulos escolhidos por um seletor na lista — **APS** (o do rodízio atual) e **Psiquiatria** (construído no rodízio de Saúde Mental e mantido porque saúde mental cai na APS). Apoio à decisão durante o atendimento: red flags, checklists de anamnese, diagnósticos diferenciais, "não posso perder", erros comuns, formulário de fármacos com fonte por linha e calculadoras que calculam de verdade. Sucesso é chegar da queixa à informação que importa em dois toques e menos de dez segundos.
 
-Ao lado dele, **separadas de propósito**, ficam as páginas que escrevem o registro a partir do que foi marcado: `admissao/` (prontuário da emergência psiquiátrica do HELR, já em uso) e `consulta-aps/` (a nota da consulta na USF, decidida em 26/10/2026, ainda não construída).
+Ao lado dele, **separadas de propósito**, ficam as páginas que escrevem o registro a partir do que foi marcado: `admissao/` (prontuário da emergência psiquiátrica do HELR, já em uso) e `consulta-aps/` (o texto da consulta na USF, nos campos do sistema da Viveiros II — Queixas Principais, Anamnese, Exame Físico, Conduta e CID/CIAP —, em caixa alta, construída em 26/10/2026).
 
 O conteúdo do APS I se organiza pelas 7 temáticas oficiais do rodízio: (1) saúde da comunidade; (2) saúde da família; (3) risco familiar e social, acamados, cuidados paliativos; (4) criança e adolescente; (5) mulher e gestante; (6) pessoa idosa; (7) grupos em vulnerabilidade — com a taxonomia comum `APS1::T0-Base-SUS-APS`, `T1-Comunidade` … `T7-Vulneraveis`, `TC-Clinica-Prevalente`.
 
@@ -51,7 +51,7 @@ Um copiloto que carrega o conteúdo clínico **do próprio usuário**, rastreado
 
 **Corte de calculadora:** entram apenas as de aritmética pura sobre fórmula publicada inequívoca cujo resultado é uma medida ou classificação. Escores cujo output implique limiar de **tratamento** ficam de fora até haver fonte datada e conferida.
 
-**Indefinido:** se há portfólio exigido; se a Viveiros II registra no PEC ou em ficha CDS, e em que formato a preceptora quer a nota (decide o formato da `consulta-aps/`).
+**Indefinido:** se há portfólio exigido. **Definido em 26/10/2026** (fotos do sistema da unidade): a Viveiros II não usa o PEC/SOAP; os campos são Queixas Principais, Anamnese, Exame Físico, Conduta e CID/CIAP; a preceptora escreve em caixa alta; o texto vai pelo WhatsApp ou direto no PC da USF.
 
 ## Brand Commitments
 
@@ -61,14 +61,14 @@ Sem emoji, em nenhuma superfície. Português do Brasil. Terminologia clínica c
 
 ## Evidence on Hand
 
-- `copiloto/` — módulo de psiquiatria completo (22 queixas, formulário, EEM, No Brasil) e as 3 queixas de APS do APS II (saúde mental na APS, HAS/DM2, criança/AIDPI), reativadas em 26/10/2026.
+- `copiloto/` — módulo de psiquiatria completo (22 queixas, formulário, EEM, No Brasil) e o módulo APS do APS I (21 queixas pelos temas do rodízio, 73 cartões no `farmacos-aps.js`, integrados em 26/10/2026 depois de revisão clínica adversarial).
 - `admissao/` — a página irmã que escreve prontuário; é a referência de qualidade para a `consulta-aps/`.
 - `guia-bolso-aps.html` — 466 linhas, sistema visual e mecanismo de busca reaproveitáveis.
 - `../../30-RECURSOS/medicina-wiki/wiki/saude-mental-fatos.md` — conteúdo clínico real, com fonte datada (2026-08-03).
 - `../../projetos/dr-house/checklists/` — 12 checklists **vazios** ("A preencher." em 9 seções cada). A estrutura serve; o conteúdo não existe.
 - `flashcards-aps.md`, `internato-aps-2026.html`, `folder-hepatites/` — material publicado.
 
-**Ausências que não podem ser inventadas:** não existe protocolo da USF Viveiros II no repositório; o conteúdo clínico de APS I (puericultura, pré-natal, rastreios, idoso, visita domiciliar, IST/TB/hanseníase, populações vulneráveis) ainda não existe no copiloto, e a medicina-wiki cobre pouco dele. Preencher isso exige fonte real ou marcação `VERIFICAR` visível.
+**Ausências que não podem ser inventadas:** não existe protocolo da USF Viveiros II no repositório (fluxos locais saem `VERIFICAR`). Fontes que não baixaram (Caderneta da Criança 2025, Suplementação 2025, PNAB, AD vol. 2, NT 9/2023) deixam itens `VERIFICAR` até chegarem — lista em `../internato-aps1-2026-2/copiloto-onda-aps1/fontes/downloads-status.md`.
 
 ## Product Principles
 

@@ -79,7 +79,11 @@ var GUIA_SYS = [
   "   contradição, fármaco de classe errada para a hipótese, dado que contraria a conclusão.",
   "6. avaliacao_soap e plano_soap são só o A e o P. Não escreva S nem O: você não examinou",
   "   o paciente e não pode registrar achado que não foi feito.",
-  "7. Escreva para quem está com o paciente na frente: frase curta, resolvida numa linha."
+  "7. Escreva para quem está com o paciente na frente: frase curta, resolvida numa linha.",
+  "8. Na consulta da USF, o dado que decide vem do contexto: na gestante, a idade gestacional e o",
+  "   trimestre (exames, vacinas e suplementação mudam por trimestre); na criança, a idade em meses",
+  "   (marcos, vacinas e curvas são por mês); no hipertenso ou diabético, a PA e a glicemia ou HbA1c",
+  "   da consulta. Se a nota não traz, isso vai em dados_faltantes — nunca suponha o valor."
 ].join("\n");
 
 /* Roda a camada determinística sobre a nota e as medidas digitadas, e devolve o
@@ -107,6 +111,8 @@ function montarDeterministica(nota, med) {
 
   var falta = [];
   FALTAS.forEach(function (f) { if (!a[f.k].length) falta.push(f.t); });
+  /* APS I: IG na gestante, PA e glicemia no crônico — só quando o assunto da nota pede */
+  faltasContexto(nota).forEach(function (t) { falta.push(t); });
 
   /* Antropometria só quando as medidas foram digitadas nos campos — não se
      adivinha a partir da nota, justamente porque a nota pode se contradizer. */

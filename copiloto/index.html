@@ -100,6 +100,10 @@ main{padding:.9rem .8rem 0; max-width:820px; margin:0 auto}
 .modsel button:active{background:var(--acc-w)}
 .modsel button[aria-pressed="true"]{background:var(--acc-w); color:var(--acc); font-weight:700}
 .modsel .n{font-weight:400; margin-left:.3rem}
+/* Grupos por tema na lista da APS (26/10/2026): o mesmo subtítulo discreto dos grupos
+   "Mais comuns / Outros" da admissão. */
+.grp{font-size:var(--fs-sm); color:var(--mut); margin:.9rem .2rem .35rem}
+.modsel + [data-tema] .grp, [data-tema]:first-child .grp{margin-top:.2rem}
 
 /* ---------- seções da queixa ---------- */
 h1{outline:none; font-size:var(--fs-xl); margin:.2rem 0 .1rem; letter-spacing:-.01em}
@@ -371,6 +375,7 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
   <div id="anot" class="hide"></div>
   <div id="veem" class="hide"></div>
   <div id="vfar" class="hide"></div>
+  <div id="vfar-aps" class="hide"></div>
 </main>
 
 <footer>
@@ -410,6 +415,7 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
 <script src="anotacao.js"></script>
 <script src="eem.js"></script>
 <script src="psicofarmacos.js"></script>
+<script src="farmacos-aps.js"></script>
 <script src="brasil.js"></script>
 <script>
 (function(){
@@ -427,6 +433,7 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
     elEem = document.getElementById('veem'),
     elEemBtn = document.getElementById('eem'),
     elFar = document.getElementById('vfar'),
+    elFarAps = document.getElementById('vfar-aps'),
     elFarBtn = document.getElementById('farmacos'),
       elGuiar = document.getElementById('guiar'),
       marcados = {},          // estado dos checkboxes: só em memória, nunca localStorage
@@ -438,7 +445,7 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
       medidasAtual = {},
       guiaAtual = null,
       gerando = false,
-      vista = 'lista',        // lista | detalhe | revisao | guia | anot | eem | far
+      vista = 'lista',        // lista | detalhe | revisao | guia | anot | eem | far | far-aps
       atual = null;
 
   /* A chave de API é a ÚNICA coisa que este app grava. Não é dado de paciente:
@@ -505,8 +512,20 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
   if (location.hash === '#psiq' && MODULOS.some(function(m){ return m.k === 'psiq'; })) modulo = 'psiq';
   function rotMod(k){ var m = MODULOS.filter(function(x){ return x.k === k; })[0]; return m ? m.r : ''; }
   /* Painéis de referência por módulo. A APS ganha o próprio "Fármacos" quando o
-     registro de fármacos de APS tiver conteúdo. */
-  var PAINEIS = { aps: ['anotar'], psiq: ['eem', 'farmacos'] };
+     registro de fármacos de APS tiver conteúdo — nada entra vazio. O mesmo botão
+     abre o registro do módulo da lista. */
+  var TEM_FAR_APS = typeof FARMACOS_APS !== 'undefined' && FARMACOS_APS.classes.length > 0;
+  var PAINEIS = { aps: TEM_FAR_APS ? ['anotar', 'farmacos'] : ['anotar'], psiq: ['eem', 'farmacos'] };
+
+  /* Temas do APS I (taxonomia APS1::…). A lista da APS agrupa por tema, nesta
+     ordem; o rótulo mora aqui, o dado guarda só o código. */
+  var TEMAS = [
+    ['T0-Base-SUS-APS', 'Base do SUS e da APS'], ['T1-Comunidade', 'Saúde da comunidade'],
+    ['T2-Familia', 'Saúde da família'], ['T3-Risco-Acamados-Paliativos', 'Risco, acamados e paliativos'],
+    ['T4-Crianca-Adolescente', 'Criança e adolescente'], ['T5-Mulher-Gestante', 'Mulher e gestante'],
+    ['T6-Idoso', 'Pessoa idosa'], ['T7-Vulneraveis', 'Populações vulneráveis'],
+    ['TC-Clinica-Prevalente', 'Clínica prevalente']
+  ];
 
   function seletorHTML(){
     if (MODULOS.length < 2) return '';
@@ -561,7 +580,7 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
     } else {
       /* Na busca o seletor some: ele não filtra o resultado, e um controle que
          parece filtrar e não filtra mente. */
-      elLista.innerHTML = (termo ? '' : seletorHTML()) + vis.map(function(qx){
+      var card = function(qx){
         var aberta = naConsulta.indexOf(qx.id) > -1;
         /* A busca mistura os módulos: a queixa diz de qual é, a não ser que a
            própria tag já diga ("Psiquiatria"). */
@@ -573,7 +592,19 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
           (aberta ? '<span class="tag t-nesta">nesta consulta</span>' : '') +
           nItens(qx) + ' itens · atualizado ' + esc(qx.atualizado || '—') +
           '</span></button>';
-      }).join('');
+      };
+      /* Na APS sem busca, a lista vem agrupada pelos temas do rodízio. Na busca não:
+         o resultado é por relevância, e grupo ali esconderia o que foi achado. */
+      var corpo = (!termo && modulo === 'aps' && MODULOS.length > 1)
+        ? TEMAS.concat([['', 'Outras']]).map(function(t){
+            var qs = vis.filter(function(qx){
+              return t[0] ? qx.tema === t[0] : !TEMAS.some(function(x){ return x[0] === qx.tema; });
+            });
+            return qs.length ? '<div role="group" aria-label="' + esc(t[1]) + '" data-tema="' + esc(t[0]) +
+              '"><div class="grp">' + esc(t[1]) + '</div>' + qs.map(card).join('') + '</div>' : '';
+          }).join('')
+        : vis.map(card).join('');
+      elLista.innerHTML = (termo ? '' : seletorHTML()) + corpo;
     }
     elCount.textContent = termo
       ? (vis.length ? vis.length + (vis.length > 1 ? ' queixas' : ' queixa') : 'nenhuma queixa')
@@ -1041,6 +1072,7 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
     elAnot.classList.toggle('hide', v !== 'anot');
     elEem.classList.toggle('hide', v !== 'eem');
     elFar.classList.toggle('hide', v !== 'far');
+    elFarAps.classList.toggle('hide', v !== 'far-aps');
     elVoltar.classList.toggle('hide', v === 'lista');
     /* Os paineis de referencia so aparecem na lista, e so os do modulo escolhido.
        Sete botoes no header do celular empurram a busca para fora da tela — e
@@ -1182,18 +1214,22 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
            fonteHTML({fonte: i.f}) + '</div>';
   }
 
-  /* Índice por id do psicofarmacos.js. É o que deixa a queixa REFERENCIAR o
-     fármaco em vez de copiá-lo: a dose continua morando num lugar só, e
-     envelhece num lugar só — a razão de as combinações não viverem nos cartões. */
+  /* Índice por id dos DOIS registros — psicofarmacos.js e farmacos-aps.js. É o
+     que deixa a queixa REFERENCIAR o fármaco em vez de copiá-lo: a dose continua
+     morando num lugar só, e envelhece num lugar só — a razão de as combinações
+     não viverem nos cartões. A queixa de APS acha a fluoxetina no psicofarmacos.js
+     pelo mesmo caminho; os ids são únicos entre os dois (há teste). */
   var FX = {}, REL = {};
-  function indexarPsico(){
-    var p = typeof PSICOFARMACOS !== 'undefined' ? PSICOFARMACOS : null;
-    if (!p) return;
-    (p.classes || []).forEach(function(c){
-      (c.farmacos || []).forEach(function(f){ FX[f.id] = {f: f, classe: c.rot}; });
-    });
-    [p.combos, p.proibidos, p.dosemuda].forEach(function(s){
-      ((s || {}).itens || []).forEach(function(i){ REL[i.id] = i; });
+  function indexarFarmacos(){
+    [typeof PSICOFARMACOS !== 'undefined' ? PSICOFARMACOS : null,
+     typeof FARMACOS_APS !== 'undefined' ? FARMACOS_APS : null].forEach(function(p){
+      if (!p) return;
+      (p.classes || []).forEach(function(c){
+        (c.farmacos || []).forEach(function(f){ FX[f.id] = {f: f, classe: c.rot}; });
+      });
+      [p.combos, p.proibidos, p.dosemuda].forEach(function(s){
+        ((s || {}).itens || []).forEach(function(i){ REL[i.id] = i; });
+      });
     });
   }
 
@@ -1257,12 +1293,13 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
     return h;
   }
 
-  function renderFarmacos(){
-    if (elFar.innerHTML) return;
-    var p = typeof PSICOFARMACOS !== 'undefined' ? PSICOFARMACOS : null;
-    if (!p) { elFar.innerHTML = '<div class="vazio"><p>psicofarmacos.js não carregou.</p></div>'; return; }
+  /* Um renderer para os dois registros: mesmo esquema, outro título e outro
+     container. Cada um monta uma vez só. */
+  function renderRegistro(p, titulo, el, arquivo){
+    if (el.innerHTML) return;
+    if (!p) { el.innerHTML = '<div class="vazio"><p>' + esc(arquivo) + ' não carregou.</p></div>'; return; }
 
-    var h = painelHTML({atualizado: p.atualizado, regra: p.regra}, 'Psicofármacos');
+    var h = painelHTML({atualizado: p.atualizado, regra: p.regra}, titulo);
     p.classes.forEach(function(c){
       h += '<h2>' + esc(c.rot) + '</h2>';
       h += '<details class="sec"><summary>' + c.farmacos.length +
@@ -1284,7 +1321,15 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
       h += '</div></details>';
     });
 
-    elFar.innerHTML = h;
+    el.innerHTML = h;
+  }
+  function renderFarmacos(){
+    renderRegistro(typeof PSICOFARMACOS !== 'undefined' ? PSICOFARMACOS : null,
+                   'Psicofármacos', elFar, 'psicofarmacos.js');
+  }
+  function renderFarmacosAps(){
+    renderRegistro(typeof FARMACOS_APS !== 'undefined' ? FARMACOS_APS : null,
+                   'Fármacos da APS', elFarAps, 'farmacos-aps.js');
   }
 
   function irPainel(render, el, v){
@@ -1295,7 +1340,11 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
   }
   function irAnotacao(){ irPainel(renderAnotacao, elAnot, 'anot'); }
   function irEEM(){      irPainel(renderEEM,      elEem, 'eem'); }
-  function irFarmacos(){ irPainel(renderFarmacos, elFar, 'far'); }
+  /* O botão "Fármacos" abre o registro do módulo da lista. */
+  function irFarmacos(){
+    if (MODULOS.length > 1 && modulo === 'aps' && TEM_FAR_APS) irPainel(renderFarmacosAps, elFarAps, 'far-aps');
+    else irPainel(renderFarmacos, elFar, 'far');
+  }
 
   /* ---------- eventos ---------- */
   document.addEventListener('click', function(e){
@@ -1382,7 +1431,7 @@ footer{max-width:820px; margin:2.5rem auto 0; padding:1rem .9rem;
     }
   });
 
-  indexarPsico();
+  indexarFarmacos();
   renderLista('');
   atualizaPaineis();
 })();

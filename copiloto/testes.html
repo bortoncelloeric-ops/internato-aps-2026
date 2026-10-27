@@ -35,6 +35,7 @@ code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
 <script src="guia-contrato.js"></script>
 <script src="eem.js"></script>
 <script src="psicofarmacos.js"></script>
+<script src="farmacos-aps.js"></script>
 <script src="brasil.js"></script>
 <script>
 (function(){
@@ -223,6 +224,20 @@ code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
   /* nota em branco não pode virar lista de cobranças */
   ver('nota vazia não cobra nada', faltas('   ').length, 0);
 
+  /* APS I (26/10/2026): cobrança por contexto. Só dispara pelo assunto da nota e cala
+     se o dado está lá — PA numa nota de puericultura seria cobrança sem sentido. */
+  var temFalta = function(txt, rx){ return faltas(txt).some(function(t){ return rx.test(t); }); };
+  ver('APS I · gestante sem IG cobra a idade gestacional', temFalta('Gestante, 24 anos, nauseas.', /^idade gestacional/), 'true');
+  ver('APS I · gestante com IG não cobra', temFalta('Gestante, 24 anos, IG 10 semanas, nauseas.', /^idade gestacional/), 'false');
+  ver('APS I · gestante com DUM não cobra', temFalta('Gravida, DUM 02/08/2026.', /^idade gestacional/), 'false');
+  ver('APS I · HAS sem PA cobra a PA', temFalta('Paciente 60 anos com HAS, renovar receita.', /^PA desta consulta/), 'true');
+  ver('APS I · HAS com PA 150x95 não cobra', temFalta('Paciente 60 anos com HAS, PA 150x95.', /^PA desta consulta/), 'false');
+  ver('APS I · DM com HbA1c não cobra glicemia', temFalta('DM2, PA 130/80, HbA1c 7,8%.', /^glicemia/), 'false');
+  ver('APS I · DM sem glicemia cobra', temFalta('Diabetico, PA 130/80.', /^glicemia/), 'true');
+  ver('APS I · nota de criança não cobra PA nem IG', faltas(notaEx2).length + faltas(notaEx1).filter(function(t){ return /^PA|^idade gest|^glicemia/.test(t); }).length, 0);
+  ver('APS I · o guia leva a cobrança de contexto', /idade gestacional/.test(montarDeterministica('Gestante de 20 anos, sangramento.', {}).falta.join(' ')), 'true');
+  ver('APS I · o prompt manda olhar trimestre, idade em meses e PA/glicemia', /trimestre/.test(GUIA_SYS) && /idade em meses/.test(GUIA_SYS) && /HbA1c/.test(GUIA_SYS), 'true');
+
   /* ---------- contrato da camada generativa ---------- */
   /* S e O por concatenação literal: é a invariante que impede registro de ato
      não praticado. Nos PDFs de referência o ChatGPT devolveu ausculta normal
@@ -304,8 +319,14 @@ code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
   ver('todo item do EEM tem termo e significado', eemSemPar.length, '0');
 
   ver('psicofarmacos.js carregou', typeof PSICOFARMACOS !== 'undefined', 'true');
+  /* FX = os cartões dos DOIS registros (APS I, 26/10/2026): as invariantes de dose,
+     fonte e No Brasil valem para o farmacos-aps.js do mesmo jeito. Teste que é só
+     de psiquiatria lê PSICOFARMACOS direto. */
+  ver('farmacos-aps.js carregou', typeof FARMACOS_APS !== 'undefined', 'true');
   var FX = [];
-  PSICOFARMACOS.classes.forEach(function(c){ c.farmacos.forEach(function(f){ FX.push(f); }); });
+  [PSICOFARMACOS, FARMACOS_APS].forEach(function(R){
+    R.classes.forEach(function(c){ c.farmacos.forEach(function(f){ FX.push(f); }); });
+  });
   ver('o formulário tem fármacos', FX.length > 20, 'true');
   ver('todo fármaco tem fonte', FX.filter(function(f){ return !f.fonte; }).length, '0');
 
@@ -427,14 +448,14 @@ code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
      A queixa REFERENCIA o fármaco por id; não o copia. Esses testes são o que
      sustenta essa promessa: id órfão quebra o teste em vez de virar buraco na
      tela, e dose repetida no `papel` quebra antes de envelhecer em dois lugares. */
+  /* Ids únicos ENTRE os dois registros: o resolvedor do app procura o id nos dois,
+     e um id repetido faria a queixa mostrar o cartão errado sem erro nenhum. */
   var IDS_FX = {}, IDS_REL = {}, dupId = [];
-  PSICOFARMACOS.classes.forEach(function(c){
-    c.farmacos.forEach(function(f){
-      if (!f.id || IDS_FX[f.id]) dupId.push(f.nome);
-      IDS_FX[f.id] = f;
-    });
+  FX.forEach(function(f){
+    if (!f.id || IDS_FX[f.id]) dupId.push(f.nome);
+    IDS_FX[f.id] = f;
   });
-  REL.forEach(function(sec){
+  REL.concat([FARMACOS_APS.combos, FARMACOS_APS.proibidos, FARMACOS_APS.dosemuda]).forEach(function(sec){
     sec.itens.forEach(function(i){
       if (!i.id || IDS_REL[i.id] || IDS_FX[i.id]) dupId.push(i.t.slice(0, 40));
       IDS_REL[i.id] = i;
@@ -480,10 +501,14 @@ code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
   var doseNoPapel = [];
   comForm.forEach(function(q){
     (q.formulario.farmacos || []).forEach(function(r){
-      if (/[0-9]+\s*(mg|g|mcg|mL|mEq)/i.test(r.papel)) doseNoPapel.push(q.id + ' → ' + r.id);
+      /* "Hb abaixo de 11 g/dL" é corte de laboratório, não dose (APS I, 26/10/2026) */
+      if (/[0-9]+\s*(mg|g|mcg|mL|mEq)\b(?!\s*\/\s*(dL|L)\b)/i.test(r.papel)) doseNoPapel.push(q.id + ' → ' + r.id);
     });
   });
   ver('nenhuma dose reescrita no papel da queixa', doseNoPapel.join(', '), '');
+  ver('o detector de dose no papel separa dose de corte de laboratório',
+      [/[0-9]+\s*(mg|g|mcg|mL|mEq)\b(?!\s*\/\s*(dL|L)\b)/i.test('dose de tratamento se Hb abaixo de 11 g/dL'),
+       /[0-9]+\s*(mg|g|mcg|mL|mEq)\b(?!\s*\/\s*(dL|L)\b)/i.test('início 40 mg ao dia')].join(' '), 'false true');
 
   /* Seletor de módulo (26/10/2026). Queixa sem módulo some da lista sem aviso —
      só a busca a acharia. A tag "Psiquiatria" e o módulo psiq andam juntos. */
@@ -531,20 +556,34 @@ code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
       if (src.indexOf('Maudsley') > -1 && !ehMaud) maudVariante.push(cita);
       if (ehMaud && DIGITO.test(d.val) &&
           !(typeof d.p === 'number' && d.p % 1 === 0 && d.p >= 1 && d.p <= 974)) maudSemPag.push(cita);
-      if (d.p != null && !ehMaud) pagSemMaud.push(cita);
+      /* APS I: página também em fonte do MS (o conferir-doses lê só a página, pelo
+         offset do .cite). Aqui se confere a forma: número inteiro de página. */
+      if (d.p != null && !(typeof d.p === 'number' && d.p % 1 === 0 && d.p >= 1)) pagSemMaud.push(cita);
       if (d.f && (d.f.indexOf(' · ') > -1 || !fonteValida(d.f))) fLinhaRuim.push(cita);
     });
   });
   ver('onda 2 · toda linha de dose com dígito tem fonte conferida', linhaSemFonte.join(', '), '');
   ver('onda 2 · linha do Maudsley traz a página impressa', maudSemPag.join(', '), '');
-  ver('onda 2 · página só aparece em linha do Maudsley', pagSemMaud.join(', '), '');
+  ver('onda 2 · página de linha é número inteiro de página', pagSemMaud.join(', '), '');
   ver('onda 2 · fonte de linha é uma só e está no allowlist', fLinhaRuim.join(', '), '');
   ver('onda 2 · o Maudsley é citado pela string canônica', maudVariante.join(', '), '');
 
+  /* Psiquiatria: a divergência é BR × Maudsley. APS I (26/10/2026): é entre duas fontes
+     brasileiras (ex.: NT 14/2023 × PCDT IST), e o texto tem de nomear as duas — ou entre duas
+     partes da mesma fonte, e aí cita as duas páginas. */
+  var DOS_PSI = {}; PSICOFARMACOS.classes.forEach(function(c){ c.farmacos.forEach(function(f){ DOS_PSI[f.id] = 1; }); });
   ver('onda 2 · divergência cita as duas fontes',
       FX.filter(function(f){
         if (f.diverge == null) return false;
         var t = String(f.diverge);
+        if (!DOS_PSI[f.id]) {
+          var achadas = {};
+          (t.match(/PCDT[^,;.()]*|CAB n[ºo] ?\d+|Nota (?:Técnica|Informativa)[^,;.()]*?\d+\/\d{4}|Caderneta[^,;.()]*|Manual[^,;.()]*|Protocolos?[^,;.()]*|OMS|Portaria[^,;.()]*?\d+/g) || [])
+            .forEach(function(x){ achadas[x.trim()] = 1; });
+          /* divergência DENTRO da mesma fonte (o texto × o quadro do PCDT) vale se citar as duas páginas */
+          var pags = {}; (t.match(/p\. ?\d+/g) || []).forEach(function(x){ pags[x.replace(/\s/g, '')] = 1; });
+          return Object.keys(achadas).length < 2 && Object.keys(pags).length < 2;
+        }
         return !(t.indexOf('Maudsley') > -1 && /CAB|PCDT|Portaria|MS —|ABP|ABS|Manual|Consenso/.test(t));
       }).map(function(f){ return f.id; }).join(', '), '');
 
@@ -705,6 +744,152 @@ code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
 
   ver('auditoria D · No Brasil: ciproeptadina registrada só em associação', /só em associação/.test((BRASIL.ciproeptadina || {}).registro || ''), 'true');
   ver('auditoria D · No Brasil: a metadona da RENAME é pelo PCDT Dor Crônica', /PCDT Dor Crônica/.test((BRASIL.metadona || {}).sus || ''), 'true');
+
+  /* ---------- APS I (26/10/2026) ----------
+     Toda queixa de APS fica sob "guia novo não escreve dose" (antes valia só para os
+     14 guias da onda 2) e tem tema da taxonomia, que é como a lista da APS se agrupa. */
+  var TEMAS_APS = ['T0-Base-SUS-APS','T1-Comunidade','T2-Familia','T3-Risco-Acamados-Paliativos',
+    'T4-Crianca-Adolescente','T5-Mulher-Gestante','T6-Idoso','T7-Vulneraveis','TC-Clinica-Prevalente'];
+  var aps = QUEIXAS.filter(function(q){ return q.mod === 'aps'; });
+  ver('APS I · toda queixa de APS tem tema da taxonomia',
+      aps.filter(function(q){ return TEMAS_APS.indexOf(q.tema) < 0; }).map(function(q){ return q.id; }).join(', '), '');
+  ver('APS I · tema só existe em queixa de APS',
+      QUEIXAS.filter(function(q){ return q.tema && q.mod !== 'aps'; }).map(function(q){ return q.id; }).join(', '), '');
+  /* Valor de laboratório (mg/dL, mEq/L) é corte, não dose: a queixa pode trazê-lo com fonte. */
+  var DOSE_APS = /[0-9]+(?:[.,][0-9]+)?\s*(?:mg|mcg|\u00b5g|mL|mEq|UI)\b(?!\s*\/\s*(?:dL|L)\b)/i;
+  ver('APS I · o detector de dose não confunde corte de laboratório com dose',
+      [DOSE_APS.test('glicemia <200 mg/dL'), DOSE_APS.test('bicarbonato <18 mEq/L'),
+       DOSE_APS.test('fluoxetina 20 mg'), DOSE_APS.test('1 mg/kg/dia'), DOSE_APS.test('2.400.000 UI')].join(' '),
+      'false false true true true');
+  var doseAps = [];
+  aps.forEach(function(q){
+    ['redflags','perguntas','exame','naoperder','ddx','exames','farmaco','conduta','erros'].forEach(function(k){
+      ((q[k] || {}).itens || []).forEach(function(i){
+        if (DOSE_APS.test(typeof i === 'string' ? i : i.t)) doseAps.push(q.id + '/' + k);
+      });
+    });
+  });
+  ver('APS I · nenhuma queixa de APS escreve dose: o número mora no cartão', doseAps.join(', '), '');
+  var IDS_PSI = {}; PSICOFARMACOS.classes.forEach(function(c){ c.farmacos.forEach(function(f){ IDS_PSI[f.id] = 1; }); });
+  ver('APS I · nenhum cartão da APS repete id do psicofarmacos.js',
+      FARMACOS_APS.classes.reduce(function(a, c){
+        return a.concat(c.farmacos.filter(function(f){ return IDS_PSI[f.id]; }).map(function(f){ return f.id; }));
+      }, []).join(', '), '');
+  var sma = queixa('saude-mental-aps');
+  ver('APS I · saúde mental na APS aponta para a fluoxetina do psicofarmacos.js, sem copiar a dose',
+      ((sma.formulario || {}).farmacos || []).some(function(r){ return r.id === 'fluoxetina'; }) + ' · ' +
+      FARMACOS_APS.classes.some(function(c){ return c.farmacos.some(function(f){ return f.id === 'fluoxetina'; }); }), 'true · false');
+
+  /* ---------- auditoria APS I (revisão adversarial, 26/10/2026) ----------
+     Cada teste reproduz um achado da revisão (copiloto-onda-aps1/relatorios/revisao-<tema>.md)
+     e FALHA sem a correção. Prefixo = tema. */
+  /* Regra geral nascida do C1 do idoso: a linha fechada do formulário mostra a dose usual do
+     cartão, que é de ADULTO. Fármaco listado para EVITAR ficaria com dose de adulto ao lado de
+     um papel de exceção — é texto da queixa (farmaco/erros), não opção do formulário. */
+  ver('APS I · formulário de queixa de APS não lista fármaco para evitar (a linha fechada mostraria a dose de adulto)',
+      aps.reduce(function(a, q){
+        return a.concat(((q.formulario || {}).farmacos || []).filter(function(r){
+          return /^(evitar|não usar|nunca|contraindicad)/i.test(String(r.papel).trim()); }).map(function(r){ return q.id + ' → ' + r.id; }));
+      }, []).join(', '), '');
+  var tq = function(id, secs){ return textosDe(queixa(id), secs || ['redflags','perguntas','exame','naoperder','ddx','exames','farmaco','conduta','erros']); };
+  ver('auditoria APS I · idoso C1: o formulário do idoso só tem a gliclazida',
+      ((queixa('idoso-avaliacao').formulario || {}).farmacos || []).map(function(r){ return r.id; }).join(','), 'gliclazida');
+  ver('auditoria APS I · idoso C2: retenção aguda de urina é red flag',
+      tq('idoso-avaliacao', ['redflags']).some(function(t){ return /retenção aguda de urina/i.test(t) && /urgência/.test(t); }), 'true');
+  ver('auditoria APS I · idoso I10: glibenclamida não recomendada a partir de 60 anos (PCDT DM2), não só "preferir gliclazida"',
+      tq('idoso-avaliacao').some(function(t){ return /glibenclamida/.test(t) && /não é recomendada a partir de 60 anos/.test(t); }), 'true');
+  ver('auditoria APS I · idoso I5: faixa de IMC do idoso (SISVAN) no exame',
+      tq('idoso-avaliacao', ['exame']).some(function(t){ return /22/.test(t) && /27/.test(t) && /IMC/.test(t); }), 'true');
+  ver('auditoria APS I · IST C1: PVHIV — punção lombar em todo retratamento, com ou sem nova exposição',
+      tq('sifilis-ist').some(function(t){ return /PVHIV/.test(t) && /todo retratamento/.test(t); }), 'true');
+  ver('auditoria APS I · IST C2: violência sexual — contracepção até 5 dias; 24 h é só a notificação',
+      tq('sifilis-ist', ['redflags']).some(function(t){ return /violência sexual/i.test(t) && /5 dias/.test(t); }) + ' · ' +
+      tq('sifilis-ist').some(function(t){ return /contracepção de emergência e notificação em até 24/.test(t); }), 'true · false');
+  var benz = cartao('penicilina-benzatina'), metro = cartao('metronidazol');
+  ver('auditoria APS I · IST I1: benzatina na gestante — D0, nunca antes do 7º dia, máximo 9',
+      (benz.dose || []).some(function(d){ return /Gestante/.test(d.rot) && /D0/.test(d.val) && /nunca antes/.test(d.val) && /9/.test(d.val); }), 'true');
+  ver('auditoria APS I · IST I3: ácido bórico na vaginose recorrente é ao dia por 21 dias',
+      (metro.dose || []).some(function(d){ return /recorrente/i.test(d.rot) && /21 dias/.test(d.val); }), 'true');
+  ver('auditoria APS I · IST I4: a profilaxia de violência sexual corta por peso, não por idade',
+      FX.filter(function(f){ return (f.dose || []).some(function(d){ return /adulto ou adolescente com mais de 45 kg/.test(d.rot); }); })
+        .map(function(f){ return f.id; }).join(', '), '');
+  ver('auditoria APS I · IST I6: benzatina não trata neurossífilis — nenhum texto diz "todo estágio" sem a exceção',
+      tq('sifilis-ist').concat([benz.escolher || '']).concat(((queixa('sifilis-ist').formulario || {}).farmacos || []).map(function(r){ return r.papel; }))
+        .filter(function(t){ return /todo estágio/.test(t) && !/neuross/.test(t); }).length, 0);
+
+  var pred = cartao('prednisona');
+  ver('auditoria APS I · TB C1: prednisona adjuvante na TB — 4 semanas E redução gradual nas 4 seguintes',
+      (pred.dose || []).filter(function(d){ return /meningo|osteoarticular/i.test(d.rot + d.val); })
+        .every(function(d){ return /redução gradual/.test(d.val); }) &&
+      (pred.dose || []).some(function(d){ return /meningo|osteoarticular/i.test(d.rot + d.val); }), 'true');
+  ver('auditoria APS I · TB C2: limiar de corticoide não mora no array dose da prednisona',
+      (pred.dose || []).filter(function(d){ return /não é dose|limiar|ILTB|BCG/i.test(d.rot + ' ' + d.val); }).length, 0);
+  ver('auditoria APS I · TB C2: o limiar da ILTB diz a população (adulto e adolescente)',
+      (FARMACOS_APS.dosemuda.itens || []).some(function(i){ return /ILTB/.test(i.t + i.d) && /adolescente|10 anos/.test(i.t + i.d); }), 'true');
+  ver('auditoria APS I · TB C3: PVHIV trata ILTB por CD4 (≤ 350 ou desconhecido), independentemente da PT',
+      tq('tuberculose').some(function(t){ return /PVHIV|HIV/.test(t) && /CD4/.test(t) && /350/.test(t); }), 'true');
+
+  ver('auditoria APS I · criança C1: a puericultura diz quando NÃO amamentar (mãe HIV ou HTLV; galactosemia, fenilcetonúria, xarope de bordo)',
+      tq('puericultura-0-2').some(function(t){ return /HIV/.test(t) && /HTLV/.test(t) && /amament|aleitamento/i.test(t); }) + ' · ' +
+      tq('puericultura-0-2').some(function(t){ return /galactosemia/i.test(t) && /fenilceton/i.test(t); }), 'true · true');
+  ver('auditoria APS I · criança I1: "não anda" é alerta aos 18 meses, não aos 15',
+      tq('puericultura-0-2').filter(function(t){ return /15 a 18 meses|15–18 meses/.test(t) && /não anda/.test(t); }).length, 0);
+
+  /* domiciliar C2–C4: a linha fechada do formulário mostra a dose do cartão de PSIQUIATRIA
+     (sono, psicose, SAMU) — no paliativo isso é dose de outro contexto. Até haver linha paliativa
+     nesses cartões (decisão do Eric), eles não entram no formulário do paliativo. */
+  ver('auditoria APS I · domiciliar C2–C4: o paliativo não mostra dose de psiquiatria de naloxona, midazolam, haloperidol',
+      ((queixa('paliativos-aps').formulario || {}).farmacos || []).filter(function(r){
+        return ['naloxona', 'midazolam', 'haloperidol', 'decanoato-de-haloperidol'].indexOf(r.id) > -1; }).map(function(r){ return r.id; }).join(', '), '');
+  ver('auditoria APS I · domiciliar C4: o paliativo diz "nunca o decanoato" do haloperidol',
+      tq('paliativos-aps').some(function(t){ return /haloperidol/i.test(t) && /decanoato/.test(t); }), 'true');
+  ver('auditoria APS I · domiciliar C1: resgate da morfina é para quem usa opioide forte (quem usa codeína resgata com codeína)',
+      (cartao('morfina').dose || []).filter(function(d){ return /^Resgate/i.test(d.rot); })
+        .every(function(d){ return /opioide forte|codeína/.test(d.rot + ' ' + d.val); }) &&
+      (cartao('morfina').dose || []).some(function(d){ return /^Resgate/i.test(d.rot); }), 'true');
+
+  var fol = cartao('acido-folico');
+  ver('auditoria APS I · gestante C1: ácido fólico em dose alta também na epilepsia em anticonvulsivante, no diabetes e na trombofilia',
+      ['epilep|anticonvuls', 'diabet', 'trombofil'].map(function(rx){
+        return (fol.dose || []).some(function(d){ return new RegExp(rx, 'i').test(d.rot + ' ' + d.val); }); }).join(' '), 'true true true');
+  ver('auditoria APS I · gestante C2: proteinúria — "repetir" não vale para a hipertensa',
+      tq('prenatal-baixo-risco').filter(function(t){ return /tra[çc]os/.test(t) && /repetir/.test(t) && /hipertens/.test(t) && !/sem hipertens/.test(t); }).length, 0);
+
+  ver('auditoria APS I · vulneráveis C1: darunavir na gestante só nos 28 dias da PEP, nunca "até o parto"',
+      (cartao('darunavir-ritonavir').dose || []).filter(function(d){ return /até o parto/.test(d.val); }).length + ' · ' +
+      (FARMACOS_APS.combos.itens || []).filter(function(i){ return /darunavir/i.test(i.t + ' ' + i.d) && /até o parto/.test(i.t + ' ' + i.d); }).length, '0 · 0');
+  ver('auditoria APS I · vulneráveis C2: depois de 72 h ainda cabem contracepção de emergência (120 h) e profilaxia de IST',
+      tq('prep-pep').some(function(t){ return /72 h/.test(t) && /120 h/.test(t) && /IST/.test(t); }), 'true');
+
+  ver('auditoria APS I · mulher C2: contraindicação da terapia hormonal é "história de" tromboembolismo',
+      FX.filter(function(f){ return /tromboembolismo agudo/.test(f.contraind || '') && !/hist[óo]ria de tromboembolismo/.test(f.contraind); })
+        .map(function(f){ return f.id; }).join(', '), '');
+  ver('auditoria APS I · mulher C3: menor de 14 anos é estupro de vulnerável, sem o corte "10 a 14"',
+      tq('planejamento-reprodutivo').some(function(t){ return /14 anos/.test(t) && /vulner[áa]vel/.test(t); }) + ' · ' +
+      tq('planejamento-reprodutivo').filter(function(t){ return /10 a 14 anos/.test(t); }).length, 'true · 0');
+  ver('auditoria APS I · mulher C4: "absorção mínima" do estrogênio vaginal só para o estriol',
+      tq('climaterio').concat((FARMACOS_APS.proibidos.itens || []).map(function(i){ return i.t + ' ' + i.d; }))
+        .filter(function(t){ return /absorção mínima/.test(t) && !/estriol/.test(t); }).length, 0);
+  /* A regra geral dos cartões de PSIQUIATRIA em queixa de APS (idoso C1, domiciliar C2–C4, mulher I6):
+     a linha fechada mostra a dose de outra indicação. Só entram onde a indicação é a mesma do cartão;
+     toda referência nova passa por esta lista, de propósito. */
+  var PSI_EM_APS = { 'saude-mental-aps': ['fluoxetina'], 'puerperio': ['sertralina', 'fluoxetina'] };
+  var psiEmAps = [];
+  aps.forEach(function(q){ ((q.formulario || {}).farmacos || []).forEach(function(r){
+    if (DOS_PSI[r.id] && (PSI_EM_APS[q.id] || []).indexOf(r.id) < 0) psiEmAps.push(q.id + ' → ' + r.id); }); });
+  ver('APS I · cartão da psiquiatria em queixa de APS só na lista revisada (mesma indicação)', psiEmAps.join(', '), '');
+
+  ver('auditoria APS I · crônicas C1: hidroclorotiazida sem 200 mg como máxima na linha de dose',
+      (cartao('hidroclorotiazida').dose || []).filter(function(d){ return /200/.test(d.val); }).length + ' · ' +
+      (cartao('hidroclorotiazida').dose || []).some(function(d){ return /50 mg/.test(d.val) && /[Mm]áxima/.test(d.rot + ' ' + d.val); }), '0 · true');
+  ver('auditoria APS I · crônicas C2: idoso frágil definido (75 anos ou mais) junto da meta 140–149',
+      tq('has-dm2-aps').filter(function(t){ return /140.?149/.test(t) && /frágil/.test(t); })
+        .every(function(t){ return /75 anos/.test(t); }) &&
+      tq('has-dm2-aps').some(function(t){ return /140.?149/.test(t); }), 'true');
+  ver('auditoria APS I · crônicas C3: "antes dos 25 não considerar" só para o DNA-HPV',
+      tq('rastreamento-adulto').filter(function(t){ return /antes dos 25/.test(t) && /não deve ser considerado|desconsiderar/.test(t) && !/DNA-HPV/.test(t); }).length, 0);
+  ver('auditoria APS I · crônicas C4: sulfato de magnésio na gestante com PA ≥ 160×110',
+      tq('has-dm2-aps', ['redflags']).some(function(t){ return /160/.test(t) && /110/.test(t) && /magnésio/i.test(t); }), 'true');
 
   document.querySelector('#tc tbody').innerHTML = linhas.join('');
 

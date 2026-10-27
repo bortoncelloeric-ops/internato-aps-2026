@@ -16,16 +16,18 @@ Roda em `file://`, offline, sem servidor e sem build; o celular abre pelo GitHub
 | `anotacao.js` | **conteúdo do painel "Como anotar". Só dados.** Manual de como anotar a consulta |
 | `eem.js` | **conteúdo do painel "EEM". Só dados.** Os 12 domínios do exame do estado mental |
 | `psicofarmacos.js` | **conteúdo do painel "Psicofármacos". Só dados.** Formulário por classe e fármaco, mais as três seções de combinação |
+| `farmacos-aps.js` | **conteúdo do painel "Fármacos" do módulo APS. Só dados.** Irmão do `psicofarmacos.js`, o MESMO esquema (APS I, 26/10/2026) |
 | `brasil.js` | **conteúdo da linha "No Brasil". Só dados.** Mapa id do cartão → receita (Portaria 344), SUS (RENAME) e registro (Anvisa). Muda por RDC, não por revisão clínica |
-| `ferramentas/conferir-doses.mjs` | confere se cada número de dose está escrito na página/fonte citada (textos das fontes fora do repo, em `../../internato-sm-sc-2026-2/raw/`) |
+| `ferramentas/conferir-doses.mjs` | confere se cada número de dose está escrito na página/fonte citada, nos DOIS registros (textos das fontes fora do repo, em `../../internato-sm-sc-2026-2/raw/` e `../../internato-aps1-2026-2/copiloto-onda-aps1/raw/`) |
 | `calculadoras.js` | registro das calculadoras (contém funções puras) |
 | `oms-lms.js` | **gerado, não editar.** Tabelas LMS da OMS, 318 KB |
 | `ferramentas/gerar-oms-lms.py` | regenera o `oms-lms.js` a partir dos `.xlsx` da OMS |
 | `testes.html` | casos de teste + lint de fontes. Abrir no navegador |
 | `e2e.mjs` | verificação de interação via Chrome DevTools Protocol |
 
-A ordem das tags `<script>` importa: `oms-lms.js` antes de `calculadoras.js`,
-nos dois arquivos que carregam o app (`index.html` e `testes.html`).
+A ordem das tags `<script>` importa: `oms-lms.js` antes de `calculadoras.js`, e
+`farmacos-aps.js` logo depois do `psicofarmacos.js`, nos dois arquivos que carregam o app
+(`index.html` e `testes.html`).
 
 ## Como uma consulta funciona
 
@@ -355,7 +357,9 @@ que parecem detalhe e não são:
 
 ## Verificar antes de dar por pronto
 
-1. `open testes.html` — todos os casos verdes e lint sem seção sem fonte.
+1. `open testes.html` — todos os casos verdes e lint sem seção sem fonte
+   (ou `node ../../internato-aps1-2026-2/copiloto-onda-aps1/ferramentas/rodar-testes.mjs`).
+   `node ferramentas/conferir-doses.mjs --estrito` e `node ferramentas/conferir-doses.teste.mjs`.
 2. `open index.html` — a queixa aparece, a busca acha por sinônimo, red flags no topo.
 3. Interação completa (opcional, mais lento):
    ```
@@ -385,35 +389,53 @@ mental cai na APS. O que mudou foi a lista.
   mente) e a queixa de APS ganha a tag "APS"; a de psiquiatria já diz pela tag.
 - **A consulta atravessa os módulos.** HAS e depressão abertas no mesmo atendimento são
   uma consulta só: o "Revisar consulta" traz as duas, o "Novo paciente" zera as duas.
-- **Painéis por módulo** (`PAINEIS` no `index.html`): APS → Como anotar; Psiquiatria →
-  EEM e Fármacos (o painel de psicofármacos). A APS ganha o próprio "Fármacos" quando o
-  `farmacos-aps.js` existir com conteúdo — nada entra vazio.
+- **Painéis por módulo** (`PAINEIS` no `index.html`): APS → Como anotar e Fármacos (o
+  registro da APS, `#vfar-aps`); Psiquiatria → EEM e Fármacos (os Psicofármacos, `#vfar`).
+  O MESMO botão abre o registro do módulo da lista. Com o `farmacos-aps.js` vazio, a APS
+  não oferece Fármacos — nada entra vazio.
+- **A lista da APS agrupa por `tema`** (taxonomia `APS1::`), na ordem T0…T7, TC, com o
+  subtítulo discreto dos grupos da admissão. Na busca não agrupa. Toda queixa de APS tem
+  `tema`, e há teste. O rótulo de cada tema mora no `index.html` (`TEMAS`); o dado guarda
+  só o código.
 - **Módulo sem queixa não é oferecido.** Com a APS comentada só sobra um módulo: o seletor
   some, a lista mostra tudo e os três painéis voltam. O e2e cobre os dois casos.
 - **No e2e**, depois do bloco de módulos (2b) o resto roda em Psiquiatria; o bloco da
   antropometria troca para APS e volta. Teste novo que abra queixa pela lista precisa
   estar no módulo certo — ou usar a busca, que atravessa.
 
-### Decidido em 26/10/2026 e ainda não construído (F0 do APS I)
+### APS I — o que a onda de 26/10/2026 construiu (F0 decidido, F2 feito)
 
 - **`farmacos-aps.js` (`FARMACOS_APS`)**, arquivo irmão do `psicofarmacos.js` com o MESMO
   esquema (classes, combos, proibidos, dosemuda, `f`/`p` por linha, `v`, `id`). Um
   resolvedor único procura o `id` nos dois; ids únicos entre os dois (teste). O
   `psicofarmacos.js` não muda — a admissão lê `PSICOFARMACOS` direto. Fármaco de saúde
   mental usado na APS (fluoxetina, amitriptilina) é referenciado de lá, não copiado.
+  **Mas só na mesma indicação** (lição da revisão adversarial da onda): a linha fechada do
+  formulário mostra a dose usual do cartão, e a do psicofarmacos.js é de psiquiatria de
+  adulto. Midazolam (indutor do sono) no paliativo, haloperidol (psicose) no delirium do
+  paliativo, ISRS (depressão) no fogacho, benzodiazepínico "a evitar" no idoso: tudo isso
+  vira TEXTO na seção `farmaco`, com a página da fonte, e a dose daquele contexto fica como
+  pendência do Eric. Há teste: referência de cartão da psiquiatria em queixa de APS só na
+  lista revisada (`PSI_EM_APS` no `testes.html`), e nenhum papel "evitar" no formulário.
   `conferir-doses` passa a ler os dois registros e as duas pastas `raw/`; o `brasil.js`
   ganha as linhas dos fármacos de APS.
 - **Toda queixa de APS fica sob "guia novo não escreve dose".** A única dose em texto hoje
   é a de `saude-mental-aps` (conduta, "fluoxetina 20 mg"), anterior à regra: migra para
   `formulario` apontando para o cartão da fluoxetina.
-- **`../consulta-aps/`**, página irmã da `../admissao/`, que escreve a nota da consulta
-  na USF (S/O/A/P, CIAP-2 e CID-10 para buscar no PEC) a partir do que foi marcado. Mesmas
-  invariantes da admissão. O formato exato espera a conferência na Viveiros II (PEC ou
-  CDS, campos separados, caixa alta).
-- **Conteúdo do APS I** entra em fragmentos fora do repo
-  (`../../internato-aps1-2026-2/copiloto-onda-aps1/fragmentos/`), organizado pela
-  taxonomia `APS1::T0-Base-SUS-APS … T7-Vulneraveis, TC-Clinica-Prevalente`, e é integrado
-  pelo mesmo fluxo da onda 2.
+- **`../consulta-aps/`**, página irmã da `../admissao/`, que escreve o texto da consulta
+  nos campos do sistema da USF Viveiros II (não é o PEC: Queixas Principais · Anamnese ·
+  Exame Físico · Conduta · CID/CIAP, em caixa alta, como a preceptora escreve). Contrato em
+  `../consulta-aps/CLAUDE.md`.
+- **Conteúdo do APS I** foi escrito em fragmentos fora do repo
+  (`../../internato-aps1-2026-2/copiloto-onda-aps1/fragmentos/`), um agente por tema, com
+  as fontes baixadas em `raw/` (manifesto, `.cite` com `offset=` para a página impressa), e
+  integrado por `copiloto-onda-aps1/ferramentas/integrar.mjs` (lint em `lint-fragmento.mjs`).
+  Cada tema passou por revisão clínica adversarial de um agente que não o escreveu
+  (`copiloto-onda-aps1/relatorios/revisao-<tema>.md`); cada achado CRÍTICO e IMPORTANTE
+  de risco tem teste `auditoria APS I ·` no `testes.html` que falha sem a correção.
+- **`p` (página) também em fonte do MS**: a linha de dose de fonte paginada leva `p` (o
+  lint exige), e o `conferir-doses` confere só aquela página e a seguinte, pelo `offset=`
+  do `.cite`. "O número existe em algum lugar de 366 páginas" deixou de ser conferência.
 
 ## APS estacionada em 16/09, reativada em 26/10/2026
 

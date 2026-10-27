@@ -97,9 +97,34 @@ if (TEM_APS) {
   ok('módulos · na busca a de psiquiatria não repete o rótulo',
      await evalJS(`[...document.querySelectorAll('.qcard[data-id="insonia"] .tag')].filter(t=>t.textContent==='Psiquiatria').length`), 1);
   await evalJS(`(()=>{const q=document.getElementById('q');q.value='';q.dispatchEvent(new Event('input'));})()`);
-  ok('módulos · em APS só aparece o painel Como anotar',
+  /* Desde 26/10/2026 (APS I) o registro da APS existe: com conteúdo, a APS ganha o próprio
+     "Fármacos". EEM continua sendo só da psiquiatria. */
+  const TEM_FAR_APS = await evalJS(`typeof FARMACOS_APS !== 'undefined' && FARMACOS_APS.classes.length > 0`);
+  ok('módulos · em APS aparecem Como anotar e, com registro da APS, Fármacos; nunca EEM',
      await evalJS(`!document.getElementById('anotar').classList.contains('hide') &&
-       ['eem','farmacos'].every(i=>document.getElementById(i).classList.contains('hide'))`), true);
+       document.getElementById('eem').classList.contains('hide') &&
+       document.getElementById('farmacos').classList.contains('hide') === ${!TEM_FAR_APS}`), true);
+  /* A lista da APS agrupa pelos temas do rodízio, na ordem T0…T7, TC (decisão de interface
+     do F2; captura mostrada ao Eric). */
+  ok('APS I · a lista da APS vem em grupos de tema, na ordem da taxonomia',
+     await evalJS(`(()=>{const ORD=['T0-Base-SUS-APS','T1-Comunidade','T2-Familia','T3-Risco-Acamados-Paliativos','T4-Crianca-Adolescente','T5-Mulher-Gestante','T6-Idoso','T7-Vulneraveis','TC-Clinica-Prevalente'];
+       const gs=[...document.querySelectorAll('#lista [data-tema]')].map(g=>g.dataset.tema);
+       return gs.length>0 && gs.every((t,i)=>i===0||ORD.indexOf(t)>ORD.indexOf(gs[i-1]))})()`), true);
+  ok('APS I · cada queixa da APS está no grupo do próprio tema, e nenhuma fica de fora',
+     await evalJS(`(()=>{let n=0, ruins=[]; document.querySelectorAll('#lista [data-tema]').forEach(g=>g.querySelectorAll('.qcard').forEach(c=>{n++;
+       if(QUEIXAS.find(q=>q.id===c.dataset.id).tema!==g.dataset.tema) ruins.push(c.dataset.id);}));
+       return ruins.length===0 && n===QUEIXAS.filter(q=>q.mod==='aps').length})()`), true);
+  ok('APS I · todo grupo tem o subtítulo do tema',
+     await evalJS(`[...document.querySelectorAll('#lista [data-tema]')].every(g=>g.querySelector('.grp') && g.querySelector('.grp').textContent.trim().length>3)`), true);
+  if (TEM_FAR_APS) {
+    await evalJS(`document.getElementById('farmacos').click()`); await espera(150);
+    ok('APS I · em APS, o botão Fármacos abre o registro da APS',
+       await evalJS(`!document.getElementById('vfar-aps').classList.contains('hide') && document.getElementById('vfar').classList.contains('hide') &&
+         document.querySelector('#vfar-aps h1').textContent`), 'Fármacos da APS');
+    ok('APS I · o painel da APS mostra as classes do farmacos-aps.js',
+       await evalJS(`document.querySelectorAll('#vfar-aps h2').length >= FARMACOS_APS.classes.length`), true);
+    await evalJS(`document.getElementById('voltar').click()`); await espera(100);
+  }
 
   /* A consulta atravessa os módulos: abre a de APS, troca, abre a de psiquiatria. */
   await evalJS(`document.querySelector('.qcard[data-id="saude-mental-aps"]').click()`); await espera(150);
@@ -116,6 +141,16 @@ if (TEM_APS) {
      await evalJS(`document.getElementById('anotar').classList.contains('hide') &&
        ['eem','farmacos'].every(i=>!document.getElementById(i).classList.contains('hide'))`), true);
   ok('módulos · o endereço guarda #psiq para favorito', await evalJS(`location.hash`), '#psiq');
+  ok('APS I · em Psiquiatria a lista não agrupa por tema', await evalJS(`document.querySelectorAll('#lista [data-tema]').length`), 0);
+  if (TEM_FAR_APS) {
+    await evalJS(`document.getElementById('farmacos').click()`); await espera(150);
+    ok('APS I · em Psiquiatria, o mesmo botão abre os Psicofármacos',
+       await evalJS(`!document.getElementById('vfar').classList.contains('hide') && document.querySelector('#vfar h1').textContent`), 'Psicofármacos');
+    await evalJS(`document.getElementById('voltar').click()`); await espera(100);
+    /* o painel monta uma vez só e fica em cache; o bloco dos Psicofármacos, mais abaixo, injeta
+       cartões de teste e conta de novo — o cache aberto aqui não pode sobreviver até lá */
+    await evalJS(`document.getElementById('vfar').innerHTML=''; document.getElementById('vfar-aps').innerHTML=''`);
+  }
   await evalJS(`document.querySelector('.qcard[data-id="depressao-maior"]').click()`); await espera(150);
   await evalJS(`document.getElementById('revisar').click()`); await espera(150);
   ok('módulos · HAS-e-depressão continua uma consulta só: a revisão traz as duas',
@@ -213,20 +248,26 @@ ok('o proibido da clozapina aparece na queixa certa',
    await evalJS(`document.getElementById('detalhe').textContent.indexOf('Clozapina sem hemograma')>-1`), true);
 ok('nenhum id órfão na segunda queixa',
    await evalJS(`document.getElementById('detalhe').textContent.indexOf('não encontrado')>-1`), false);
-/* Todas, de uma vez: abre cada queixa de psiquiatria e confere que o bloco montou. */
-ok('todas as queixas de psiquiatria renderizam o formulário sem órfão',
-   await evalJS(`(()=>{const ids=QUEIXAS.filter(q=>q.formulario).map(q=>q.id);
+/* Todas, de uma vez: abre cada queixa COM formulário, nos dois módulos, e confere que
+   o bloco montou. Desde 26/10/2026 a APS também tem formulário (a fluoxetina da saúde
+   mental na APS, e os cartões do farmacos-aps.js): a contagem deixou de ser "as de
+   psiquiatria" e passou a ser "toda queixa com formulário". A queixa de outro módulo
+   não está na lista: troca o seletor antes e volta para Psiquiatria no fim. */
+ok('toda queixa com formulário renderiza o formulário sem órfão, nos dois módulos',
+   await evalJS(`(()=>{const qs=QUEIXAS.filter(q=>q.formulario);
      let bons=0;
-     for (const id of ids){
-       document.querySelector('[data-id="'+id+'"]') || document.getElementById('voltar').click();
-       const b=document.querySelector('[data-id="'+id+'"]');
+     for (const q of qs){
+       if (!document.getElementById('lista').offsetParent) document.getElementById('voltar').click();
+       const m=document.querySelector('.modsel [data-mod="'+q.mod+'"]'); if (m) m.click();
+       const b=document.querySelector('.qcard[data-id="'+q.id+'"]');
        if(!b) continue;
        b.click();
        const t=document.getElementById('detalhe').textContent;
        if(document.querySelectorAll('#detalhe .fx-op').length>0 && t.indexOf('não encontrado')<0) bons++;
        document.getElementById('voltar').click();
      }
-     return bons===ids.length && ids.length===QUEIXAS.filter(q=>q.tag==='Psiquiatria').length})()`), true);
+     const p=document.querySelector('.modsel [data-mod="psiq"]'); if (p) p.click();
+     return bons===qs.length && qs.length>=QUEIXAS.filter(q=>q.tag==='Psiquiatria').length})()`), true);
 /* ---------- onda 2 (23/09/2026): os 14 guias novos, pela tela ---------- */
 const NOVAS = ['toc','tept','demencia','insonia','tdah','tea','transtornos-alimentares',
   'personalidade-borderline','perinatal','infanto-juvenil','emergencia-psicofarmaco',
@@ -650,6 +691,10 @@ await evalJS(`(()=>{
     fonte:'Maudsley Prescribing Guidelines, 15ª ed., 2025'}]});
 })()`);
 
+/* Desde 26/10/2026 o botão Fármacos abre o registro do MÓDULO da lista: este bloco é dos
+   Psicofármacos, então garante Psiquiatria antes de abrir (com o registro da APS preenchido,
+   em APS o mesmo botão abre o outro painel). */
+await evalJS(`(()=>{const b=document.querySelector('.modsel [data-mod="psiq"]'); if(b) b.click();})()`); await espera(100);
 ok('Psicofármacos abre pelo header', await evalJS(`(()=>{document.getElementById('farmacos').click();
    return !document.getElementById('vfar').classList.contains('hide')})()`), true);
 ok('o formulário renderiza um cartão por fármaco',
@@ -727,14 +772,17 @@ ok('sem rolagem lateral com o formulário aberto',
    alargava o cartão aberto dentro da queixa. O details.fx-op tem overflow:hidden,
    então o texto sumia à direita SEM rolagem lateral — o teste de documento não via. */
 await send('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 2, mobile: true });
+/* Desde 26/10/2026 vale para toda queixa com formulário, dos dois módulos. */
 ok('celular 390 · nenhum cartão aberto dentro da queixa corta texto à direita',
    await evalJS(`(()=>{ if (innerWidth !== 390) return 'largura ' + innerWidth; const res=[];
-     for (const q of QUEIXAS.filter(x=>x.tag==='Psiquiatria')){
-       document.querySelector('.qcard[data-id="'+q.id+'"]') || document.getElementById('voltar').click();
-       const b=document.querySelector('.qcard[data-id="'+q.id+'"]'); if(!b) continue; b.click();
+     for (const q of QUEIXAS.filter(x=>x.formulario)){
+       if (!document.getElementById('lista').offsetParent) document.getElementById('voltar').click();
+       const m=document.querySelector('.modsel [data-mod="'+q.mod+'"]'); if (m) m.click();
+       const b=document.querySelector('.qcard[data-id="'+q.id+'"]'); if(!b){ res.push(q.id+': fora da lista'); continue; } b.click();
        document.querySelectorAll('#detalhe details.fx-op').forEach(d=>{ d.open=true;
          if (d.scrollWidth > d.clientWidth + 1) res.push(q.id+'/'+((d.querySelector('.fx-nome')||{}).textContent||'?')); });
        document.getElementById('voltar').click(); }
+     const p=document.querySelector('.modsel [data-mod="psiq"]'); if (p) p.click();
      return res.join(', ') })()`), '');
 await send('Emulation.clearDeviceMetricsOverride');
 

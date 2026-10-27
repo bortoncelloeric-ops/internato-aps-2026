@@ -504,6 +504,23 @@ var FALTAS = [
   { k: "altura", t: "estatura — sem ela não sai IMC para idade" }
 ];
 
+/* APS I (26/10/2026): cobranças que só valem no CONTEXTO. Pedir PA numa nota de
+   puericultura, ou idade gestacional numa de HAS, seria cobrança sem sentido — por
+   isso cada uma dispara pelo assunto da nota (`se`) e cala se o dado está lá (`tem`).
+   O texto chega sem acento e em minúscula (o mesmo de lerNota). */
+var FALTAS_CONTEXTO = [
+  { se: /gestante|gravid|gestac|pre-?natal/, tem: /\big\b|idade gestacional|\d+\s*(?:semanas|sem)\b|\bdum\b|trimestre/,
+    t: "idade gestacional (ou DUM) — sem ela não se sabe o trimestre, e exames, vacinas e suplementação mudam por trimestre" },
+  { se: /\bhas\b|hipertens|\bdm2?\b|diabet/, tem: /\bpa\b|pressao arterial|\d{2,3}\s*(?:x|\/)\s*\d{2,3}/,
+    t: "PA desta consulta — sem ela não se avalia o controle da pressão nem se ajusta o esquema" },
+  { se: /\bdm2?\b|diabet/, tem: /glicemia|\bhgt\b|hba1c|glicada/,
+    t: "glicemia ou HbA1c — sem elas não se avalia o controle do diabetes" }
+];
+function faltasContexto(txt) {
+  var t = " " + String(txt || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") + " ";
+  return FALTAS_CONTEXTO.filter(function (f) { return f.se.test(t) && !f.tem.test(t); }).map(function (f) { return f.t; });
+}
+
 CALCS.push({
   id: "nota-conferencia",
   nome: "Conferência da nota",
@@ -536,18 +553,20 @@ CALCS.push({
     if (a.peso.length) lidos.push("peso " + a.peso.map(num).join(" / ") + " kg");
     if (a.altura.length) lidos.push(a.altura.map(num).join(" / ") + " cm");
     if (a.sexo.length) lidos.push(a.sexo.join(" / "));
-    if (!lidos.length) return null;
+    var ctx = faltasContexto(v.nota);
+    if (!lidos.length && !ctx.length) return null;
 
     /* O que a conta exige e a nota não tem. É a terceira resposta possível,
        ao lado de "calculei" e "achei uma contradição": a nota do ex1 não traz
        peso, e o certo ali não é calcular nem calar — é dizer qual dado falta
        e o que ele destrava. Só aparece depois que algo foi reconhecido, senão
        campo em branco viraria uma lista de cobranças. */
-    FALTAS.forEach(function (f) {
+    if (lidos.length) FALTAS.forEach(function (f) {
       if (!a[f.k].length) linhas.push({ rot: "Falta", val: f.t, cls: "amb" });
     });
+    ctx.forEach(function (t) { linhas.push({ rot: "Falta", val: t, cls: "amb" }); });
 
-    linhas.push({ rot: "Lido na nota", val: lidos.join(" · "), cls: linhas.length ? "" : "acc" });
+    if (lidos.length) linhas.push({ rot: "Lido na nota", val: lidos.join(" · "), cls: linhas.length ? "" : "acc" });
     return linhas;
   },
   alerta: function (v) {

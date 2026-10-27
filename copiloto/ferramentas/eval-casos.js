@@ -40,5 +40,45 @@ export const CASOS = [
        determinística aponta a divergência sozinha. */
     med: { sexo: "f", meses: 8, peso: 8.650, est: 76 },
     espera: { hipotese: /resfriado|ivas|via[s]? a[eé]rea|rinofaringite|viral/i }
+  },
+
+  /* ---- APS I (26/10/2026): casos ANONIMIZADOS e inventados no formato da USF ----
+     Não são pacientes. Medem se o modelo acha a consulta certa e cobra o dado que
+     decide (IG, idade em meses, PA, glicemia). `espera.hipotese` é regex sobre a
+     hipótese principal, como nos dois casos de 05/08. */
+  {
+    id: "aps1-prenatal-1tri",
+    nota:
+      "Paciente, 23 anos, feminina. Primeira consulta de pre-natal, DUM ha cerca de 9 semanas, " +
+      "teste de farmacia positivo. Nauseas pela manha. Nega sangramento, nega dor. G1P0. " +
+      "Sem exames ainda. Cartao de vacina nao trouxe.",
+    med: {},
+    espera: { hipotese: /gesta[cç][aã]o|gravidez|pr[eé]-?natal|gestante/i }
+  },
+  {
+    id: "aps1-puericultura-4m",
+    nota:
+      "Lactente, 4 meses, masculino. Consulta de puericultura. Aleitamento materno exclusivo. " +
+      "Sorri, sustenta a cabeca. Mae pergunta sobre vacinas da idade. Peso 6,8kg Comprimento 63 cm.",
+    med: { sexo: "m", meses: 4, peso: 6.8, est: 63 },
+    espera: { hipotese: /puericultura|crescimento|desenvolvimento|consulta de rotina|lactente saud[aá]vel|hígido|higido/i }
+  },
+  {
+    id: "aps1-has-descompensada",
+    nota:
+      "Paciente, 58 anos, masculino. HAS ha 10 anos, em uso de losartana e hidroclorotiazida. " +
+      "Refere que esquece as doses do fim de semana. Cefaleia leve. Nega dor toracica, nega " +
+      "dispneia, nega deficit motor. PA 168x102 e 164x100 na consulta.",
+    med: {},
+    espera: { hipotese: /hipertens|HAS|descontrol|n[aã]o controlad/i }
+  },
+  {
+    id: "aps1-idoso-quedas",
+    nota:
+      "Paciente, 81 anos, feminina. Duas quedas nos ultimos 6 meses, a ultima ao levantar a noite " +
+      "para ir ao banheiro. Usa diazepam para dormir ha anos, amitriptilina, losartana, " +
+      "hidroclorotiazida, omeprazol e glibenclamida. Mora com a filha.",
+    med: {},
+    espera: { hipotese: /queda|polifarm[aá]cia|iatrogenia|medicamento(s)? potencialmente inapropriado|fragilidade/i }
   }
 ];

@@ -29,10 +29,16 @@ WIKI = os.path.normpath(os.path.join(COPILOTO, "..", "..", "..", "..",
 PAGINAS = {
     "mfc-aps": ("mfc-aps-fatos.md",
                 "aps atencao primaria starfield longitudinalidade integralidade "
-                "coordenacao acesso vinculo equipe esf acolhimento mccp"),
+                "coordenacao acesso vinculo equipe esf acolhimento mccp "
+                # APS I (26/10/2026): os temas do rodizio na USF Viveiros II
+                "visita domiciliar acamado paliativo familia genograma ecomapa idoso "
+                "ivcf quedas polifarmacia rastreamento tuberculose hanseniase sifilis ist "
+                "prep pep populacao de rua vulneravel"),
     "materno-infantil": ("materno-infantil-fatos.md",
                          "crianca lactente bebe recem-nascido neonato gestante gestacao "
-                         "pre-natal puerperio amamentacao vacina icterica diarreia pediatria"),
+                         "pre-natal puerperio amamentacao vacina icterica diarreia pediatria "
+                         "puericultura marcos desenvolvimento trimestre gestacional dum "
+                         "suplementacao ferro acido folico adolescente contracepcao climaterio"),
     # O rodizio de saude mental (CAPS III + HELR, set-out/2026) trouxe vocabulario
     # que esta lista nao cobria: uma nota de psicose nao puxava esta pagina. Havia
     # teste falhando por isso — a busca e lexical, entao o termo tem de estar aqui.
@@ -113,11 +119,10 @@ def main():
     fontes += fontes_da_wiki(io.open(caminho_fh, encoding="utf-8").read())
 
     fontes += FONTES_DO_PROJETO
-    # psicofarmacos.js, eem.js e brasil.js entram pelo mesmo caminho: os campos
-    # `fonte:`/`f:` deles sao curados e passam pelo mesmo criterio (autoridade externa + ano).
-    # queixas-aps.js está estacionado no app mas continua no allowlist: o guia
-    # generativo ainda pode citar AIDPI e SISVAN, e a fonte tem de ser válida.
-    for arq in ("queixas.js", "queixas-aps.js", "psicofarmacos.js", "eem.js", "brasil.js"):
+    # psicofarmacos.js, farmacos-aps.js, eem.js e brasil.js entram pelo mesmo caminho: os
+    # campos `fonte:`/`f:` deles sao curados e passam pelo mesmo criterio (autoridade externa + ano).
+    # farmacos-aps.js (APS I, 26/10/2026) é o registro irmão do psicofarmacos.js.
+    for arq in ("queixas.js", "queixas-aps.js", "psicofarmacos.js", "farmacos-aps.js", "eem.js", "brasil.js"):
         caminho = os.path.join(COPILOTO, arq)
         if not os.path.exists(caminho):
             print("  ! faltando: %s" % arq)
