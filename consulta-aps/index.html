@@ -428,7 +428,16 @@ function dumTexto(v){
 function formDe(q){ var qx = qxDe(q); return (qx && qx.formulario) || null; }
 /* só vira botão a linha que é dose de verdade: número com unidade de dose */
 function linhasDose(f){
-  return (f.dose || []).filter(function(d){ return /[0-9]/.test(d.val) && /\b(mg|mcg|UI|mL|g)\b/i.test(d.val); });
+  var ds = (f.dose || []).filter(function(d){ return /[0-9]/.test(d.val) && /\b(mg|mcg|UI|mL|g)\b/i.test(d.val); });
+  /* a linha da indicação do quadro marcado vem primeiro: o guia do copiloto aponta `linha`
+     quando o cartão é de outra indicação (diazepam na convulsão, ISRS no fogacho) */
+  var pref = [];
+  quadrosSel().forEach(function(q){
+    ((formDe(q) || {}).farmacos || []).forEach(function(x){ if (x.id === f.id && x.linha) pref.push(x.linha); });
+  });
+  if (!pref.length) return ds;
+  var cima = ds.filter(function(d){ return pref.some(function(l){ return d.rot.indexOf(l) === 0; }); });
+  return cima.concat(ds.filter(function(d){ return cima.indexOf(d) < 0; }));
 }
 /* o chip preenche só a posologia: corta a explicação (" — …", ", para …", ", porque …", ", pois …") */
 function doseDoChip(val){ return String(val).split(' — ')[0].replace(/,\s+(para|porque|pois)\s[\s\S]*$/i, ''); }

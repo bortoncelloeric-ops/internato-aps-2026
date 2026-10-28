@@ -107,7 +107,7 @@ if (TEM_APS) {
   /* A lista da APS agrupa pelos temas do rodízio, na ordem T0…T7, TC (decisão de interface
      do F2; captura mostrada ao Eric). */
   ok('APS I · a lista da APS vem em grupos de tema, na ordem da taxonomia',
-     await evalJS(`(()=>{const ORD=['T0-Base-SUS-APS','T1-Comunidade','T2-Familia','T3-Risco-Acamados-Paliativos','T4-Crianca-Adolescente','T5-Mulher-Gestante','T6-Idoso','T7-Vulneraveis','TC-Clinica-Prevalente'];
+     await evalJS(`(()=>{const ORD=['T0-Base-SUS-APS','T1-Comunidade','T2-Familia','T3-Risco-Acamados-Paliativos','T4-Crianca-Adolescente','T5-Mulher-Gestante','T6-Idoso','T7-Vulneraveis','TC-Clinica-Prevalente','A2-Cardiorrenal-Metabolica','A2-Digestivo-Nutricional','A2-Respiratoria','A2-Neuromusculoesqueletica','A2-Urgencias','A2-Demanda-Comum'];
        const gs=[...document.querySelectorAll('#lista [data-tema]')].map(g=>g.dataset.tema);
        return gs.length>0 && gs.every((t,i)=>i===0||ORD.indexOf(t)>ORD.indexOf(gs[i-1]))})()`), true);
   ok('APS I · cada queixa da APS está no grupo do próprio tema, e nenhuma fica de fora',

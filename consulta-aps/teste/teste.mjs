@@ -110,6 +110,13 @@ await digita('[data-txt="oriento"]', 'dieta e atividade física'); await clica('
 await digita('[data-txt="retorno"]', 'em 30 dias com exames');
 c1 = await campo('conduta');
 ok('conduta no formato da preceptora', /^ORIENTO SOBRE DIETA E ATIVIDADE FÍSICA\./.test(c1) && /\nORIENTAÇÕES GERAIS\./.test(c1) && /\nRETORNO EM 30 DIAS COM EXAMES\.$/.test(c1), c1);
+/* APS II: com o quadro do climatério marcado, a fluoxetina põe primeiro a linha do fogacho (a `linha` do guia) */
+await vai();
+const qClima = await ev(`(QUADROS.find(q=>/climat/i.test(q.id))||{}).id`);
+await clica(`[data-esc="quadros"][data-v="${qClima}"]`);
+await ev(`(()=>{const s=document.querySelector('select[data-presc-f]'); s.value='fluoxetina'; s.dispatchEvent(new Event('change',{bubbles:true}));})()`);
+const climaFluox = await ev(`(document.querySelector('.chip b')||{}).textContent`);
+ok('quadro Climatério → fluoxetina: o 1º botão de dose é "Climatério — fogacho"', /^Climatério — fogacho/.test(climaFluox), climaFluox);
 
 /* ---------- CID/CIAP: só da tabela ---------- */
 const Q = await ev(`QUADROS.map(q=>({id:q.id, ciap:q.ciap||[], cid:q.cid||[]}))`);

@@ -437,6 +437,23 @@ mental cai na APS. O que mudou foi a lista.
   lint exige), e o `conferir-doses` confere só aquela página e a seguinte, pelo `offset=`
   do `.cite`. "O número existe em algum lugar de 366 páginas" deixou de ser conferência.
 
+### APS II — a onda de 27/10/2026 (demanda espontânea do adulto)
+
+- **Temas `A2-…`** na mesma lista APS (decisão do Eric: um botão só): Cardiorrenal-metabólica,
+  Digestivo-nutricional, Respiratória, Neuromuscular e musculoesquelética, Urgências na APS
+  e Outras queixas comuns (ITU, pele, arboviroses). Fragmentos e ferramentas em
+  `../../internato-aps1-2026-2/copiloto-onda-aps2/` (mesmo método da APS I; `raw/` é a mesma
+  biblioteca).
+- **Cartão da psiquiatria com dose de OUTRA indicação** (decisão do Eric, 27/10, revoga a
+  pendência da APS I acima): o cartão do `psicofarmacos.js` ganha a linha da indicação
+  (`{ rot: "Adulto — crise convulsiva", val, f, p }` — rot "população — indicação", nunca
+  "Dose usual"/"Faixa", sempre com `f` próprio), e a queixa de APS aponta essa linha no
+  formulário com **`linha`** (o começo do `rot`):
+  `{ id: "diazepam", papel: "…", linha: "Adulto — crise convulsiva" }`. A linha fechada
+  (`doseCurta`) mostra a dose DESSA linha, não a usual psiquiátrica. A `admissao/` também
+  mostra a linha nova, rotulada. Testes: `PSI_EM_APS` aceita cartão da psiquiatria com
+  `linha`; `linha` órfã quebra; linha de outra indicação chamada "Dose usual"/"Faixa" quebra.
+
 ## APS estacionada em 16/09, reativada em 26/10/2026
 
 Durante o rodízio de Saúde Mental o Eric pediu para focar em psiquiatria "por

@@ -840,5 +840,325 @@ var BRASIL = {
     sus: "RENAME 2024 — Componente Estratégico, em comprimidos separados (darunavir 75 mg, 150 mg, 600 mg e 800 mg; ritonavir 100 mg)",
     registro: "registrado na Anvisa (darunavir e ritonavir com genérico ou similar ativo)",
     f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23 · MS — PCDT PEP de risco ao HIV, IST e hepatites virais, Portaria SECTICS/MS nº 14, 2024"
+  },
+
+  /* Bloco 5 (2026-10-27): cartões do farmacos-aps.js (APS II). */
+  "sinvastatina": {
+    receita: "sem controle especial",
+    sus: "RENAME 2024 — Componente Básico (comprimido 10 mg, 20 mg e 40 mg): é a estatina da farmácia da UBS",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "atorvastatina": {
+    receita: "sem controle especial",
+    sus: "RENAME 2024 — Componente Especializado, pelo PCDT de Dislipidemia (comprimido 10 mg, 20 mg, 40 mg e 80 mg): não é da farmácia da UBS",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "digoxina": {
+    receita: "sem controle especial",
+    sus: "RENAME 2024 — Componente Básico (comprimido 0,25 mg; elixir 0,05 mg/mL)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "sacubitril-valsartana": {
+    receita: "sem controle especial",
+    sus: "RENAME 2024 — Componente Especializado, Grupo 1B, pelo PCDT de Insuficiência Cardíaca com Fração de Ejeção Reduzida (comprimido 50 mg, 100 mg e 200 mg): não é da farmácia da UBS",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "mononitrato-de-isossorbida": {
+    receita: "sem controle especial",
+    sus: "RENAME 2024 — Componente Básico (comprimido 20 mg e 40 mg)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "omeprazol": {
+    receita: "sem controle especial",
+    sus: "RENAME 2024 — Componente Básico (cápsula 10 mg e 20 mg)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "claritromicina": {
+    receita: "sem controle especial (fora das listas da Portaria 344); antimicrobiano da lista da IN nº 360/2025 — receita com retenção (RDC nº 471/2021, alterada pela RDC nº 973/2025)",
+    sus: "RENAME 2024 — Componente Básico (cápsula 500 mg; comprimido 250 mg e 500 mg; grânulo para suspensão oral 50 mg/mL); classificação AWaRe: Alerta",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23 · Anvisa — Instrução Normativa nº 360/2025 (antimicrobianos e agonistas de GLP-1), 2025 · Anvisa — RDC nº 973/2025 (altera a RDC nº 471/2021), 2025"
+  },
+  "sais-de-reidratacao-oral": {
+    receita: "sem controle especial",
+    sus: "RENAME 2024 — Componente Básico (pó para solução oral: cloreto de sódio, glicose anidra, cloreto de potássio, citrato de sódio di-hidratado)",
+    registro: "registrado na Anvisa (há também produtos com zinco, que não são a SRO da RENAME)",
+    f: "Portaria SVS/MS nº 344/1998 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "cloreto-de-sodio-0-9": {
+    receita: "sem controle especial",
+    sus: "RENAME 2024 — Componente Básico (solução injetável 9 mg/mL, 0,9%); a solução de Ringer com lactato também está no Componente Básico",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "ondansetrona": {
+    receita: "sem controle especial",
+    sus: "RENAME 2024 — Componente Básico (cloridrato de ondansetrona: comprimido 4 mg e 8 mg; comprimido orodispersível 4 mg e 8 mg)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "ciprofloxacino": {
+    receita: "sem controle especial (fora das listas da Portaria 344); antimicrobiano da lista da IN nº 360/2025 (ciprofloxacina) — receita com retenção (RDC nº 471/2021, alterada pela RDC nº 973/2025)",
+    sus: "RENAME 2024 — Componente Básico (comprimido 250 mg e 500 mg); classificação AWaRe: Alerta",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23 · Anvisa — Instrução Normativa nº 360/2025 (antimicrobianos e agonistas de GLP-1), 2025 · Anvisa — RDC nº 973/2025 (altera a RDC nº 471/2021), 2025"
+  },
+  "albendazol": {
+    receita: "sem controle especial",
+    sus: "RENAME 2024 — comprimido mastigável 400 mg (Componente Básico e Estratégico); suspensão oral 40 mg/mL (Componente Básico)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "ivermectina": {
+    receita: "sem controle especial",
+    sus: "RENAME 2024 — Componente Básico (comprimido 6 mg)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "praziquantel": {
+    receita: "sem controle especial",
+    sus: "RENAME 2024 — Componente Estratégico (comprimido 600 mg); o MS o distribui aos estados e municípios para a esquistossomose",
+    registro: "registrado na Anvisa (um registro ativo no CSV, de Farmanguinhos)",
+    f: "Portaria SVS/MS nº 344/1998 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "sofosbuvir-daclatasvir": {
+    receita: "sem controle especial",
+    sus: "RENAME 2024 — Componente Estratégico (sofosbuvir comprimido 400 mg; daclatasvir comprimido 30 mg e 60 mg); dispensação nas unidades dispensadoras de medicamentos, com prescrição da APS conforme o PCDT",
+    registro: "registrados na Anvisa (sofosbuvir e dicloridrato de daclatasvir, isolados)",
+    f: "Portaria SVS/MS nº 344/1998 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "levotiroxina": {
+    receita: "sem controle especial",
+    sus: "RENAME 2024 — Componente Básico (levotiroxina sódica: comprimido 12,5 mcg, 25 mcg, 37,5 mcg, 50 mcg e 100 mcg)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "metimazol": {
+    receita: "sem controle especial",
+    sus: "RENAME 2024 — Componente Básico (tiamazol: comprimido 5 mg e 10 mg)",
+    registro: "registrado na Anvisa (um registro ativo de tiamazol isolado no CSV)",
+    f: "Portaria SVS/MS nº 344/1998 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "propiltiouracil": {
+    receita: "sem controle especial",
+    sus: "RENAME 2024 — Componente Básico (propiltiouracila: comprimido 100 mg)",
+    registro: "registrado na Anvisa (um registro ativo de propiltiouracila isolada no CSV)",
+    f: "Portaria SVS/MS nº 344/1998 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "cianocobalamina": {
+    receita: "sem controle especial",
+    sus: "RENAME 2024 — Componente Básico (solução injetável 500 mcg/mL); a forma oral não consta da RENAME 2024",
+    registro: "registrado na Anvisa (um registro ativo de cianocobalamina isolada no CSV; a maioria é associação com outras vitaminas do complexo B)",
+    f: "Portaria SVS/MS nº 344/1998 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "amoxicilina": {
+    receita: "sem controle especial (fora das listas da Portaria 344); antimicrobiano da lista da IN nº 360/2025 — uso sob prescrição com retenção da receita (RDC nº 471/2021); a receita pode ser eletrônica com assinatura avançada; número de vias e validade da receita do antimicrobiano não conferidos no texto da RDC 471 (não baixado) — VERIFICAR",
+    sus: "RENAME 2024 — Componente Básico (cápsula 500 mg, comprimido 500 mg e suspensão oral 50 mg/mL)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · Anvisa — Instrução Normativa nº 360/2025 (antimicrobianos e agonistas de GLP-1), 2025 · Anvisa — RDC nº 973/2025 (altera a RDC nº 471/2021), 2025 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "amoxicilina-clavulanato": {
+    receita: "sem controle especial (fora das listas da Portaria 344); amoxicilina e ácido clavulânico estão na lista de antimicrobianos da IN nº 360/2025 — uso sob prescrição com retenção da receita (RDC nº 471/2021); número de vias e validade da receita não conferidos no texto da RDC 471 (não baixado) — VERIFICAR",
+    sus: "RENAME 2024 — Componente Básico (comprimido 500 mg + 125 mg e suspensão oral 50 mg/mL + 12,5 mg/mL)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · Anvisa — Instrução Normativa nº 360/2025 (antimicrobianos e agonistas de GLP-1), 2025 · Anvisa — RDC nº 973/2025 (altera a RDC nº 471/2021), 2025 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "oseltamivir": {
+    receita: "sem controle especial (fora das listas da Portaria 344); receituário simples (Guia de manejo e tratamento de influenza 2023, p. 24)",
+    sus: "RENAME 2024 — Componente Estratégico (fosfato de oseltamivir cápsula 30 mg, 45 mg e 75 mg); não é da farmácia básica comum — o ponto de retirada em Feira de Santana não foi conferido",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · MS — Guia de manejo e tratamento de influenza, 2023 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "salbutamol": {
+    receita: "sem controle especial (fora das listas da Portaria 344)",
+    sus: "RENAME 2024 — Componente Básico (suspensão aerossol 100 mcg/dose, solução para inalação 5 mg/mL e solução injetável 0,5 mg/mL); salbutamol 100 mcg e 5 mg também no Aqui Tem Farmácia Popular, sem a forma especificada (PCDT Asma 2026, p. 38)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · MS — PCDT Asma, Portaria Conjunta SAES/SCTIE nº 43, 2026 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "brometo-de-ipratropio": {
+    receita: "sem controle especial (fora das listas da Portaria 344)",
+    sus: "RENAME 2024 — Componente Básico (solução para inalação 0,25 mg/mL e solução aerossol 20 mcg/dose)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "umeclidinio-vilanterol": {
+    receita: "sem controle especial (fora das listas da Portaria 344)",
+    sus: "RENAME 2024 — Componente Especializado (pó inalatório 62,5 mcg + 25 mcg), pelo PCDT DPOC: exige LME no CEAF, não sai da farmácia da UBS",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "beclometasona": {
+    receita: "sem controle especial (fora das listas da Portaria 344)",
+    sus: "RENAME 2024 — Componente Básico (solução aerossol 50, 200 e 250 mcg/dose; pó para inalação oral 200 e 400 mcg/dose; cápsula para inalação oral 200 e 400 mcg/dose; suspensão para inalação nasal 50 mcg/dose); beclometasona 50, 200 e 250 mcg também no Aqui Tem Farmácia Popular, sem a forma especificada (PCDT Asma 2026, p. 38)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · MS — PCDT Asma, Portaria Conjunta SAES/SCTIE nº 43, 2026 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "budesonida": {
+    receita: "sem controle especial (fora das listas da Portaria 344)",
+    sus: "RENAME 2024 — inalatória no Componente Especializado (aerossol oral, cápsula e pó 200 mcg; cápsula 400 mcg), com LME; suspensão nasal 32, 50 e 64 mcg no Componente Básico",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "formoterol-budesonida": {
+    receita: "sem controle especial (fora das listas da Portaria 344)",
+    sus: "RENAME 2024 — Componente Especializado (cápsula e pó inalatório 6 mcg + 200 mcg e 12 mcg + 400 mcg), pelo PCDT Asma: exige LME no CEAF, não sai da farmácia da UBS nem da Farmácia Popular",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "prednisolona": {
+    receita: "sem controle especial (fora das listas da Portaria 344)",
+    sus: "RENAME 2024 — Componente Básico (fosfato sódico de prednisolona, solução oral 1 mg/mL e 3 mg/mL)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "ibuprofeno": {
+    receita: "sem controle especial (fora das listas da Portaria 344)",
+    sus: "RENAME 2024 — Componente Básico (comprimido 200 mg, 300 mg e 600 mg; cápsula 600 mg; suspensão oral 50 mg/mL)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "naproxeno": {
+    receita: "sem controle especial (fora das listas da Portaria 344)",
+    sus: "RENAME 2024 — Componente Especializado, grupo 2 (comprimido 250 mg e 500 mg); pelos PCDT Dor Crônica (só artrose de joelho ou quadril), Artrite Reumatoide, Artrite Psoríaca, Artrite Reativa, Espondilite Ancilosante e Artrite Idiopática Juvenil, com LME",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "ciclobenzaprina": {
+    receita: "sem controle especial (fora das listas da Portaria 344)",
+    sus: "não consta da RENAME 2024",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "alopurinol": {
+    receita: "sem controle especial (fora das listas da Portaria 344)",
+    sus: "RENAME 2024 — Componente Básico (comprimido 100 mg e 300 mg)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "nortriptilina": {
+    receita: "C1 — Receita de Controle Especial, em 2 vias",
+    sus: "RENAME 2024 — Componente Básico (cápsula 10 mg, 25 mg, 50 mg e 75 mg)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "gabapentina": {
+    receita: "C1 — Receita de Controle Especial, em 2 vias",
+    sus: "RENAME 2024 — Componente Especializado, grupo 2 (cápsula 300 mg e 400 mg); pelo PCDT Dor Crônica ou pelo PCDT Epilepsia, com LME",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "dimenidrinato": {
+    receita: "sem controle especial (fora das listas da Portaria 344)",
+    sus: "não consta da RENAME 2024",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "epinefrina": {
+    receita: "sem controle especial (fora das listas da Portaria 344)",
+    sus: "RENAME 2024 — Componente Básico (solução injetável 1 mg/mL)",
+    registro: "registrado na Anvisa (ampola: Adren, Hyfren, Efrinalin, epinefrina genérica); nenhum autoinjetor (caneta) consta entre os registros ativos — o paciente não sai com caneta prescrita pelo SUS nem compra na farmácia",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "prometazina": {
+    receita: "sem controle especial (o adendo da lista C1 da Portaria 344 excetua a prometazina)",
+    sus: "RENAME 2024 — Componente Básico (solução injetável 25 mg/mL; comprimido 25 mg)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "glicose-hipertonica": {
+    receita: "sem controle especial (fora das listas da Portaria 344)",
+    sus: "RENAME 2024 — Componente Básico (solução injetável 50%, 10% e 5%); glicose 25% não consta",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "glucagon": {
+    receita: "sem controle especial (fora das listas da Portaria 344)",
+    sus: "não consta da RENAME 2024 — a UBS em geral não tem",
+    registro: "registrado na Anvisa (GlucaGen, um único registro ativo)",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "dinitrato-de-isossorbida": {
+    receita: "sem controle especial (fora das listas da Portaria 344)",
+    sus: "RENAME 2024 — Componente Básico (comprimido sublingual 5 mg)",
+    registro: "registrado na Anvisa (Isordil; os demais registros de dinitrato constam como inativos)",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "hidrocortisona": {
+    receita: "sem controle especial (fora das listas da Portaria 344)",
+    sus: "RENAME 2024 — Componente Básico (succinato sódico, pó para solução injetável 100 mg e 500 mg)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "nitrofurantoina": {
+    receita: "sem controle especial (fora das listas da Portaria 344); antimicrobiano da IN nº 360/2025: venda com retenção da receita, válida por 10 dias",
+    sus: "RENAME 2024 — Componente Básico (cápsula 100 mg; suspensão oral 5 mg/mL)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · Anvisa — Instrução Normativa nº 360/2025 (antimicrobianos e agonistas de GLP-1), 2025 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "fosfomicina": {
+    receita: "sem controle especial (fora das listas da Portaria 344); antimicrobiano da IN nº 360/2025: venda com retenção da receita, válida por 10 dias",
+    sus: "não consta da RENAME 2024 — a paciente compra",
+    registro: "registrado na Anvisa (fosfomicina trometamol, genérico e similares ativos)",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · Anvisa — Instrução Normativa nº 360/2025 (antimicrobianos e agonistas de GLP-1), 2025 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "cefalexina": {
+    receita: "sem controle especial (fora das listas da Portaria 344); antimicrobiano da IN nº 360/2025: venda com retenção da receita, válida por 10 dias",
+    sus: "RENAME 2024 — Componente Básico (cápsula 500 mg; comprimido 500 mg; suspensão oral 50 mg/mL)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · Anvisa — Instrução Normativa nº 360/2025 (antimicrobianos e agonistas de GLP-1), 2025 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "sulfametoxazol-trimetoprima": {
+    receita: "sem controle especial (fora das listas da Portaria 344); antimicrobiano da IN nº 360/2025: venda com retenção da receita, válida por 10 dias",
+    sus: "RENAME 2024 — Componente Básico (comprimido 400 mg + 80 mg; suspensão oral 40 mg/mL + 8 mg/mL; solução injetável 80 mg/mL + 16 mg/mL)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · Anvisa — Instrução Normativa nº 360/2025 (antimicrobianos e agonistas de GLP-1), 2025 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "permetrina": {
+    receita: "sem controle especial",
+    sus: "RENAME 2024 — Componente Básico (loção 1% e loção 5%)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "cetoconazol": {
+    receita: "sem controle especial",
+    sus: "RENAME 2024 — Componente Básico (xampu 2%); cetoconazol oral e creme não constam da RENAME",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "nistatina": {
+    receita: "sem controle especial",
+    sus: "RENAME 2024 — Componente Básico (suspensão oral 100.000 UI/mL)",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "itraconazol": {
+    receita: "sem controle especial",
+    sus: "RENAME 2024 — Componente Básico (solução oral 10 mg/mL); cápsula 100 mg nos Componentes Básico e Estratégico",
+    registro: "registrado na Anvisa",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "terbinafina": {
+    receita: "sem controle especial",
+    sus: "não consta da RENAME 2024 — o paciente compra",
+    registro: "registrado na Anvisa (cloridrato de terbinafina, genérico ativo)",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "dexametasona-creme": {
+    receita: "sem controle especial",
+    sus: "RENAME 2024 — Componente Básico (creme dermatológico 0,1%)",
+    registro: "registrado na Anvisa (acetato de dexametasona)",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
+  },
+  "hidrocortisona-creme": {
+    receita: "sem controle especial",
+    sus: "RENAME 2024 — Componente Básico (acetato de hidrocortisona, creme 1%)",
+    registro: "registrado na Anvisa (acetato de hidrocortisona)",
+    f: "Portaria SVS/MS nº 344/1998 · RDC Anvisa nº 1.036/2026 · RENAME 2024 · Anvisa — dados abertos de medicamentos registrados, consulta em 2026-09-23"
   }
 };

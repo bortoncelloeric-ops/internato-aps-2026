@@ -86,7 +86,11 @@ var PSICOFARMACOS = {
             { rot: "Máximo manutenção", val: "10 mg/dia" },
             { rot: "Equivalência", val: "2 mg equivalem a 100 mg de clorpromazina" },
             { rot: "Dose mínima efetiva", val: "primeiro episódio 2 mg/dia · multi-episódio 4 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 8 },
-            { rot: "Idoso", val: "psicose ou mania: início 0,25 a 0,5 mg/dia · manutenção 1 a 3,5 mg/dia · cautela acima de 3,5 mg (tolerância e ECG) · agitação: máximo 5 mg/dia · evitar no idoso, salvo no delirium, pelo QTc", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 706 }
+            { rot: "Idoso", val: "psicose ou mania: início 0,25 a 0,5 mg/dia · manutenção 1 a 3,5 mg/dia · cautela acima de 3,5 mg (tolerância e ECG) · agitação: máximo 5 mg/dia · evitar no idoso, salvo no delirium, pelo QTc", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 706 },
+            { rot: "Paliativo, idoso — delirium hiperativo com agitação", val: "início 0,5 a 1 mg VO, SC, EV ou IM; persistindo a agitação, repetir em 45 a 60 min; controlado, a dose inicial de 12/12 h ou 8/8 h; risco extrapiramidal acima de 4,5 mg/dia", f: "MS/HSL — Manual de Cuidados Paliativos, 2ª ed., 2023", p: 200 },
+            { rot: "Paliativo, adulto jovem — delirium hiperativo com agitação", val: "início 1 a 2 mg VO, SC, EV ou IM; persistindo a agitação, repetir em 45 a 60 min; controlado, a dose inicial de 12/12 h ou 8/8 h; risco extrapiramidal acima de 4,5 mg/dia", f: "MS/HSL — Manual de Cuidados Paliativos, 2ª ed., 2023", p: 200 },
+            { rot: "Paliativo — náusea e vômito de causa química (opioide, doença renal)", val: "1 a 2 mg EV ou SC, duas a três vezes ao dia", f: "MS/HSL — Manual de Cuidados Paliativos, 2ª ed., 2023", p: 173 },
+            { rot: "Paliativo — obstrução intestinal maligna", val: "em geral 2 a 6 mg/dia — via não informada no Manual", f: "MS/HSL — Manual de Cuidados Paliativos, 2ª ed., 2023", p: 174 }
           ],
           porque: "Bloqueio D2 quase puro, com pouquíssima ação em receptor histamínico, " +
                   "muscarínico e alfa-adrenérgico. É isso que o torna o antipsicótico que " +
@@ -563,7 +567,10 @@ PSICOFARMACOS.classes.push({
         { rot: "Máximo", val: "1.000 mg/dia" },
         { rot: "Nível terapêutico", val: "8 a 12 mcg/mL" },
         { rot: "Autoindução", val: "induz o próprio metabolismo e reduz a meia-vida com o uso crônico — rever a dosagem periodicamente e por vezes dividir em 3 a 4 tomadas" },
-        { rot: "Idoso", val: "início 50 mg 2x/dia ou 100 mg 2x/dia · manutenção 200 a 400 mg/dia · máximo 600 a 800 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 709 }
+        { rot: "Idoso", val: "início 50 mg 2x/dia ou 100 mg 2x/dia · manutenção 200 a 400 mg/dia · máximo 600 a 800 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 709 },
+        { rot: "Adulto — neuralgia do trigêmeo (PCDT Dor Crônica)", val: "início 200 a 400 mg/dia VO, subindo aos poucos até aliviar a dor (em geral 200 mg 3 a 4 vezes ao dia); máximo 1.200 mg/dia", f: "MS — PCDT Dor Crônica, Portaria Conjunta SAES/SAPS/SECTICS nº 1, 2024", p: 17 },
+        { rot: "Adulto — neuropatia diabética dolorosa (PCDT Dor Crônica)", val: "em média 200 mg VO, 2 a 4 vezes ao dia; máximo 1.200 mg/dia", f: "MS — PCDT Dor Crônica, Portaria Conjunta SAES/SAPS/SECTICS nº 1, 2024", p: 17 },
+        { rot: "Idoso — neuralgia do trigêmeo ou dor neuropática (PCDT Dor Crônica)", val: "início 100 mg VO 2 vezes ao dia, subindo devagar até aliviar a dor (em geral 200 mg 3 a 4 vezes ao dia) — depois reduzir à menor dose de manutenção", f: "MS — PCDT Dor Crônica, Portaria Conjunta SAES/SAPS/SECTICS nº 1, 2024", p: 17 }
       ],
       porque: "É o problema de interação da psiquiatria, não só um estabilizador: indutora " +
               "potente de citocromo P450. O PCDT é explícito — ela REDUZ o nível sérico da " +
@@ -641,7 +648,8 @@ PSICOFARMACOS.classes.push({
         { rot: "TOC", val: "60 a 80 mg/dia — sintoma obsessivo-compulsivo responde a doses mais altas, e ainda assim raramente com resposta plenamente satisfatória" },
         { rot: "Dose mínima efetiva", val: "20 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 342 },
         { rot: "Idoso", val: "início 20 mg pela manhã · manutenção 20 mg pela manhã · máximo 40 mg pela manhã", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 701 },
-        { rot: "Criança e adolescente", val: "início 5 a 10 mg/dia; a dose menor da faixa é para criança abaixo de 25 kg; ajustar conforme resposta e efeito adverso", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 626 }
+        { rot: "Criança e adolescente", val: "início 5 a 10 mg/dia; a dose menor da faixa é para criança abaixo de 25 kg; ajustar conforme resposta e efeito adverso", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 626 },
+        { rot: "Climatério — fogacho proeminente sem melhora com medida não farmacológica (terapia não hormonal)", val: "20 mg/dia", f: "MS — Protocolos da Atenção Básica: Saúde das Mulheres, 2016", p: 206 }
       ],
       porque: "Meia-vida muito longa, com metabólito ativo de vários dias. Isso a torna " +
               "perdoadora de dose esquecida e praticamente livre de síndrome de retirada — e, " +
@@ -717,7 +725,8 @@ PSICOFARMACOS.classes.push({
       dose: [
         { rot: "Dose usual", val: "20 mg/dia" },
         { rot: "Faixa terapêutica", val: "10 a 50 mg/dia" },
-        { rot: "Dose mínima efetiva", val: "20 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 342 }
+        { rot: "Dose mínima efetiva", val: "20 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 342 },
+        { rot: "Climatério — fogacho proeminente sem melhora com medida não farmacológica (terapia não hormonal)", val: "12,5 a 25 mg/dia (liberação prolongada)", f: "MS — Protocolos da Atenção Básica: Saúde das Mulheres, 2016", p: 206 }
       ],
       porque: "É o ISRS mais sedativo e o mais anticolinérgico — e o de meia-vida mais curta " +
               "sem metabólito ativo. Essa combinação explica as duas pontas: ajuda quando há " +
@@ -764,7 +773,15 @@ PSICOFARMACOS.classes.push({
         { rot: "Dose usual", val: "150 a 200 mg/dia" },
         { rot: "Faixa terapêutica", val: "50 a 300 mg/dia" },
         { rot: "Limiar antidepressivo", val: "o efeito antidepressivo só aparece ACIMA de 100 mg/dia — abaixo disso trata dor e insônia, não depressão" },
-        { rot: "Dose mínima efetiva", val: "tricíclicos: pelo menos 75 a 100 mg/dia, possivelmente 125 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 342 }
+        { rot: "Dose mínima efetiva", val: "tricíclicos: pelo menos 75 a 100 mg/dia, possivelmente 125 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 342 },
+        { rot: "Adulto — dor crônica, neuropática ou nociplástica (PCDT Dor Crônica)", val: "25 a 100 mg/dia VO; máximo 150 mg/dia", f: "MS — PCDT Dor Crônica, Portaria Conjunta SAES/SAPS/SECTICS nº 1, 2024", p: 17 },
+        { rot: "Idoso — dor crônica, neuropática ou nociplástica (PCDT Dor Crônica)", val: "10 a 50 mg/dia VO, em dose única de preferência ao deitar, ou fracionada", f: "MS — PCDT Dor Crônica, Portaria Conjunta SAES/SAPS/SECTICS nº 1, 2024", p: 17 },
+        { rot: "Adulto — fibromialgia (modulação da dor)", val: "12,5 a 50 mg VO à noite, 2 horas antes de dormir", f: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Reumatologia adulto, 2022", p: 33 },
+        { rot: "Adulto — profilaxia de migrânea ou de cefaleia tipo tensão", val: "início 10 mg VO à noite; dose-alvo 25 a 75 mg/dia, em uma tomada à noite", f: "TelessaúdeRS-UFRGS — Resumo clínico: Cefaleia, 2016" },
+        { rot: "Adulto — dor neuropática da chikungunya (DN4 de 4 ou mais), pós-aguda ou crônica: início", val: "25 a 50 mg/dia; reavaliar em 2 semanas e otimizar até 100 mg/dia — não usar com história de arritmia; evitar no idoso (sedação); não usar na gestante", f: "MS — Chikungunya: manejo clínico, 2ª ed., 2024", p: 69 },
+        { rot: "Adulto — dor neuropática da chikungunya: faixa e máximo do Quadro 4", val: "25 a 100 mg/dia; máximo 150 mg/dia — não usar na gestante", f: "MS — Chikungunya: manejo clínico, 2ª ed., 2024", p: 37 },
+        { rot: "Paliativo, idoso — dor neuropática ou crônica (adjuvante analgésico)", val: "início 10 mg/dia VO — idoso", f: "MS/HSL — Manual de Cuidados Paliativos, 2ª ed., 2023", p: 162 },
+        { rot: "Paliativo, adulto — dor neuropática ou crônica (adjuvante analgésico)", val: "25 a 75 mg/dia VO; máximo de 150 mg", f: "MS/HSL — Manual de Cuidados Paliativos, 2ª ed., 2023", p: 162 }
       ],
       porque: "Bloqueia recaptação de serotonina e noradrenalina, e de quebra os receptores " +
               "histamínico, muscarínico e alfa-1. A ação em dor neuropática e em sono aparece " +
@@ -813,7 +830,8 @@ PSICOFARMACOS.classes.push({
       dose: [
         { rot: "Dose usual", val: "150 a 200 mg/dia" },
         { rot: "Faixa terapêutica", val: "50 a 300 mg/dia" },
-        { rot: "Dose mínima efetiva", val: "tricíclicos: pelo menos 75 a 100 mg/dia, possivelmente 125 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 342 }
+        { rot: "Dose mínima efetiva", val: "tricíclicos: pelo menos 75 a 100 mg/dia, possivelmente 125 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 342 },
+        { rot: "Climatério — fogacho proeminente sem melhora com medida não farmacológica (terapia não hormonal)", val: "25 a 50 mg/dia", f: "MS — Protocolos da Atenção Básica: Saúde das Mulheres, 2016", p: 206 }
       ],
       porque: "Tricíclico de perfil intermediário, menos sedativo que a amitriptilina.",
       escolher: "Alternativa dentro da classe quando a sedação da amitriptilina incomoda.",
@@ -865,7 +883,8 @@ PSICOFARMACOS.classes.push({
           rot: "Idoso",
           val: "Iniciar 37,5 mg pela manhã; aumentar para 75 mg de liberação prolongada após 1 semana. Manutenção: 75–150 mg/dia; ocasionalmente 225 mg/dia, sob reavaliação",
           p: 702
-        }
+        },
+        { rot: "Climatério — fogacho proeminente sem melhora com medida não farmacológica (terapia não hormonal)", val: "37,5 a 75 mg/dia", f: "MS — Protocolos da Atenção Básica: Saúde das Mulheres, 2016", p: 206 }
       ],
       porque: "Inibe recaptação de serotonina e noradrenalina. A retirada abrupta é especialmente problemática.",
       escolher: "Depressão com indicação de troca de antidepressivo; ponderar resposta anterior e tolerabilidade.",
@@ -952,7 +971,10 @@ PSICOFARMACOS.classes.push({
           rot: "Idoso",
           val: "Iniciar 30 mg/dia; manutenção 60 mg/dia; máximo 120 mg/dia, com cautela pela escassez de dados geriátricos nessa dose",
           p: 701
-        }
+        },
+        { rot: "Adulto — fibromialgia (fora do SUS: não incorporada)", val: "30 a 60 mg VO pela manhã", f: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Reumatologia adulto, 2022", p: 33 },
+        { rot: "Adulto — fibromialgia, faixa estudada pela SBR (fora do SUS: não incorporada)", val: "30 a 120 mg/dia VO — 60 mg/dia é o melhor equilíbrio; com 120 mg/dia, mais efeito adverso e abandono", f: "SBR — Diretrizes de tratamento da fibromialgia, parte II (farmacológico), Adv Rheumatol, 2026" },
+        { rot: "Adulto — dor neuropática (fora do SUS: não incorporada)", val: "início 30 mg/dia VO; manutenção 60 a 120 mg/dia", f: "TelessaúdeRS-UFRGS — Protocolo de encaminhamento para Tratamento da Dor, 2020" }
       ],
       porque: "Dual serotoninérgico e noradrenérgico; pode ser útil quando depressão e dor coexistem.",
       escolher: "Depressão com dor, considerando função hepática e renal antes da prescrição.",
@@ -1013,7 +1035,11 @@ PSICOFARMACOS.classes.push({
         { rot: "Dose usual", val: "10 mg" },
         { rot: "Perfil", val: "ansiolítico e para insônia terminal" },
         { rot: "Abstinência alcoólica", val: "Estágio 2 (agitação, tremor, alucinação): 10–20 mg VO de hora em hora até sintomas leves, com SAMU e encaminhamento. Estágio 3 (convulsão): 10 mg EV até de hora em hora enquanto aguarda o SAMU. Não é titulação genérica de SAA leve/APS.", f: "MS — Linha de Cuidado: Transtornos por uso de álcool no adulto, manejo inicial/conduta, consulta em 2026-09-23" },
-        { rot: "Idoso", val: "agitação: início 1 mg 3x/dia · manutenção 1 mg 3x/dia · máximo (ansiedade) 7,5 a 15 mg/dia em doses divididas", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 710 }
+        { rot: "Idoso", val: "agitação: início 1 mg 3x/dia · manutenção 1 mg 3x/dia · máximo (ansiedade) 7,5 a 15 mg/dia em doses divididas", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 710 },
+        { rot: "Adulto — neurite vestibular ou labirintite aguda: sintomático, no máximo 3 dias", val: "5 a 10 mg VO de 12/12 h, por no máximo 3 dias — no idoso, evitar (CAB, vol. II)", f: "MS/UFRGS — Protocolos de encaminhamento da APS para a atenção especializada, vol. 16: Neurologia adulto, 2022", p: 29 },
+        { rot: "Adulto — crise convulsiva de 5 minutos ou mais (estado de mal epiléptico), primeira linha", val: "5 a 10 mg EV a 5 mg/min; máximo 20 mg", f: "MS — PCDT Epilepsia, Portaria Conjunta SAS/SCTIE nº 17, 2018", p: 9 },
+        { rot: "Bebê e criança (de 29 dias até o início da puberdade) — crise convulsiva de 5 minutos ou mais", val: "EV 0,3 a 0,5 mg/kg/dose, máximo 10 mg, sem diluir; sem acesso venoso, retal 0,5 a 1 mg/kg/dose, máximo 10 mg; interromper se a crise cessar; pode repetir por duas vezes, a cada 5 a 15 minutos", f: "MS — SAMU 192, Protocolos de Suporte Avançado de Vida, 2016" },
+        { rot: "Adulto — estresse emocional agudo com PA elevada (pseudocrise hipertensiva), se necessário", val: "5 mg VO", f: "MS — SAMU 192, Protocolos de Suporte Avançado de Vida, 2016" }
       ],
       porque: "Meia-vida muito longa com metabólitos ativos: o nível cai sozinho, devagar. " +
               "É exatamente o que se quer numa abstinência alcoólica — a própria " +
@@ -1041,7 +1067,8 @@ PSICOFARMACOS.classes.push({
         { rot: "Perfil", val: "intermediário; por vezes usado no tratamento da epilepsia" },
         { rot: "Acatisia", val: "0,5 a 2 mg/dia, como alternativa ao propranolol" },
         { rot: "Retirada", val: "em gotas, reduzir 1 gota (cerca de 0,12 mg) a cada 2 semanas ou mais" },
-        { rot: "Idoso", val: "agitação: início 0,5 mg/dia · manutenção 1 a 2 mg/dia · máximo 4 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 710 }
+        { rot: "Idoso", val: "agitação: início 0,5 mg/dia · manutenção 1 a 2 mg/dia · máximo 4 mg/dia", f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 710 },
+        { rot: "Paliativo — dispneia com ansiedade, junto com opioide", val: "0,25 a 2 mg VO a cada 12 h, em gotas", f: "MS/HSL — Manual de Cuidados Paliativos, 2ª ed., 2023", p: 190 }
       ],
       porque: "Junta meia-vida longa com apresentação em gotas. A gota é o detalhe que decide: " +
               "sem ela, o degrau mínimo de retirada é grande demais e o paciente não consegue " +
@@ -1127,7 +1154,10 @@ PSICOFARMACOS.classes.push({
         { rot: "Meia-vida", val: "1 a 5 horas" },
         { rot: "Faixa terapêutica", val: "7,5 a 30 mg" },
         { rot: "Dose usual", val: "15 mg" },
-        { rot: "Perfil", val: "indutor do sono; baixo desenvolvimento de tolerância" }
+        { rot: "Perfil", val: "indutor do sono; baixo desenvolvimento de tolerância" },
+        { rot: "Criança fora do período neonatal — crise convulsiva de 5 minutos ou mais, sem acesso venoso (segunda escolha, IM)", val: "0,2 mg/kg IM, máximo 5 mg por dose; pode repetir por duas vezes", f: "MS — SAMU 192, Protocolos de Suporte Avançado de Vida, 2016" },
+        { rot: "Criança fora do período neonatal — crise convulsiva de 5 minutos ou mais, sem acesso venoso (segunda escolha, intranasal)", val: "0,3 mg/kg, metade em cada narina, máximo 7,5 mg por dose, com a apresentação de 5 mg/mL; pode repetir por duas vezes", f: "MS — SAMU 192, Protocolos de Suporte Avançado de Vida, 2016" },
+        { rot: "Paliativo — sedação paliativa do sintoma refratário, EV ou hipodermóclise em bomba de infusão", val: "bolus de 2 a 5 mg EV ou por hipodermóclise (menor no idoso, no renal e no caquético; maior no usuário crônico de benzodiazepínico, de álcool ou de droga ilícita), seguido de infusão contínua de 1 mg/h em solução de 1 mg/mL; desconforto após 1 h: repetir o bolus e subir 1 mg/h, de hora em hora; confortável: manter a velocidade; máximo de 20 mg/h — atingido o máximo, associar clorpromazina", f: "MS/HSL — Manual de Cuidados Paliativos, 2ª ed., 2023", p: 303 }
       ],
       porque: "Hidrossolúvel no frasco e lipossolúvel no pH do corpo: por isso a absorção " +
               "intramuscular é rápida e confiável, ao contrário da do diazepam. É o que o " +
@@ -1406,7 +1436,9 @@ PSICOFARMACOS.classes.push({
           rot: "Síndrome de realimentação",
           val: "100 a 300 mg/dia EV antes de iniciar a dieta de quem tem risco",
           f: "BRASPEN J 2019"
-        }
+        },
+        { rot: "Adulto etilista, hepatopata ou desnutrido — hipoglicemia, antes da glicose", val: "100 mg IM, antes da glicose", f: "MS — SAMU 192, Protocolos de Suporte Avançado de Vida, 2016" },
+        { rot: "Adulto etilista ou desnutrido (suspeita de deficiência de tiamina) — crise convulsiva, entre as medidas gerais com a glicose", val: "100 mg EV", f: "MS — CAB nº 28, vol. II, Queixas mais comuns na Atenção Básica, 2012", p: 48 }
       ],
       porque: "Repõe vitamina necessária ao metabolismo energético; deficiência no uso crônico de álcool pode causar Wernicke.",
       escolher: "Prevenção na pessoa em risco. Suspeita de Wernicke é emergência hospitalar e requer tratamento parenteral, não o esquema oral profilático.",
@@ -1424,7 +1456,8 @@ PSICOFARMACOS.classes.push({
       apres: "ampola 0,4 mg/mL; spray nasal em alguns serviços",
       dose: [
         { rot: "Dose inicial", val: "adulto: 0,04 mg na primeira, 0,4 mg na segunda, 2 mg na terceira e 10 mg na quarta, IV/IO/ET a cada 2 a 3 min", f: "MS — SAMU 192, Protocolos de Suporte Avançado de Vida, 2016" },
-        { rot: "Faixa", val: "0,4 a 2 mg IV, repetir a cada 2 a 3 min até 10 mg; começar com 0,04 mg se ainda ventila", f: "SMS-SP — Manual de Toxicologia Clínica, 2017" }
+        { rot: "Faixa", val: "0,4 a 2 mg IV, repetir a cada 2 a 3 min até 10 mg; começar com 0,04 mg se ainda ventila", f: "SMS-SP — Manual de Toxicologia Clínica, 2017" },
+        { rot: "Paliativo — intoxicação grave por opioide apesar de dose cuidadosa", val: "0,04 mg, repetir em 1–3 min até FR > 10", f: "MS/HSL — Manual de Cuidados Paliativos, 2ª ed., 2023", p: 158 }
       ],
       porque: "Antagonista opioide. Reverte hipoventilação; não trata abstinência e não previne edema pulmonar.",
       escolher: "Coma com miose e frequência respiratória baixa. Via aérea primeiro se não reverter.",
@@ -1713,7 +1746,8 @@ PSICOFARMACOS.classes.push({
         { rot: "Abstinência de opioide", val: "0,3 a 1,2 mg/dia; pouco efetiva para insônia, agitação e fissura", f: "AMB/ABP — Abuso e Dependência dos Opioides e Opiáceos, 2012" },
         { rot: "Tiques", val: "dose terapêutica da ordem de 3 a 5 mcg/kg, subindo devagar", p: 615 },
         { rot: "Acatisia (adulto, adjunto)", val: "0,2–0,8 mg/dia VO", p: 132 },
-        { rot: "Sialorreia da clozapina", val: "adesivo 0,1–0,2 mg por semana ou 0,1 mg VO à noite", p: 259 }
+        { rot: "Sialorreia da clozapina", val: "adesivo 0,1–0,2 mg por semana ou 0,1 mg VO à noite", p: 259 },
+        { rot: "Climatério — fogacho proeminente sem melhora com medida não farmacológica (terapia não hormonal)", val: "0,1 a 0,2 mg/dia", f: "MS — Protocolos da Atenção Básica: Saúde das Mulheres, 2016", p: 206 }
       ],
       porque: "Agonista alfa-2. O Maudsley a cita no TDAH e nos tiques, mas só traz dose por kg para tiques; no TDAH não há dose própria nesta edição. A diretriz brasileira de opioides dá a faixa da abstinência. Titular pela pressão.",
       escolher: "TDAH com tique, ou quando estimulante não vai. Hipotensão limita.",

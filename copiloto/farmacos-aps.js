@@ -26,7 +26,7 @@
  */
 
 var FARMACOS_APS = {
-  atualizado: "2026-10-26",
+  atualizado: "2026-10-27",
 
   regra: {
     titulo: "Como ler este formulário",
@@ -111,7 +111,10 @@ FARMACOS_APS.classes.push({
           f: "MS — CAB nº 32, Atenção ao Pré-natal de Baixo Risco, 2012" },
         { rot: "Puérpera sem anemia — prevenção",
           val: "40 mg/dia de ferro elementar (comprimido de 200 mg), 30 minutos antes do almoço, de " +
-               "preferência com suco de fruta cítrica, até três meses após o parto", p: 135 }
+               "preferência com suco de fruta cítrica, até três meses após o parto", p: 135 },
+        { rot: "Adulto não gestante — anemia ferropriva, tratamento (PCDT)", val: "120 mg/dia de ferro elementar VO (3 comprimidos de 40 mg), longe das refeições, até 6 meses depois que a Hb normalizar", f: "MS — PCDT Anemia por Deficiência de Ferro, Portaria SAS/MS nº 1.247, 2014", p: 36 },
+        { rot: "Adulto não gestante, inclusive idoso (o TeleCondutas não separa o idoso) — anemia ferropriva, faixa e esquemas", val: "120 a 200 mg/dia de ferro elementar VO, em dose única ou em 2 a 3 tomadas; na intolerância, dose única em dias alternados — tratar de 3 a 6 meses", f: "TelessaúdeRS-UFRGS — TeleCondutas: Anemia, 2023", p: 19 },
+        { rot: "Idoso — anemia ferropriva, depois de corrigida a causa do sangramento (PCDT)", val: "15 mg/dia de ferro elementar VO — não há comprimido dessa dose: usar a solução oral ou o xarope, convertendo pela concentração do frasco; o TeleCondutas não separa o idoso", f: "MS — PCDT Anemia por Deficiência de Ferro, Portaria SAS/MS nº 1.247, 2014", p: 36 }
       ],
       porque: "A anemia na gestação se associa a baixo peso ao nascer, mortalidade perinatal e trabalho " +
               "de parto prematuro, e a deficiência de ferro é a causa mais comum — cerca de 40% das " +
@@ -178,7 +181,8 @@ FARMACOS_APS.classes.push({
           f: "MS — Manual de Gestação de Alto Risco, 2022" },
         { rot: "Gestante com anemia megaloblástica por deficiência de folato — tratamento",
           val: "1,0 mg/dia até a normalização dos exames laboratoriais",
-          f: "MS — Manual de Gestação de Alto Risco, 2022" }
+          f: "MS — Manual de Gestação de Alto Risco, 2022" },
+        { rot: "Adulto — deficiência de ácido fólico por ingestão inadequada", val: "5 mg/dia VO por 4 meses; causa irreversível: manter indefinidamente — se a vitamina B12 também estiver baixa, repor a B12 antes", f: "TelessaúdeRS-UFRGS — TeleCondutas: Anemia, 2023", p: 28 }
       ],
       porque: "O folato periconcepcional tem forte efeito protetor contra os defeitos abertos do tubo " +
               "neural (CAB 32); por isso começa pelo menos um mês antes da concepção e segue a gestação " +
@@ -224,7 +228,9 @@ FARMACOS_APS.classes.push({
       apres: "comprimido 100 mg; comprimido 500 mg (RENAME 2024)",
       dose: [
         { rot: "Gestante com 1 fator de alto risco ou 2 de risco moderado para pré-eclâmpsia — prevenção",
-          val: "100 mg/dia, à noite, iniciado antes da 16ª semana de gestação e mantido até 36 semanas" }
+          val: "100 mg/dia, à noite, iniciado antes da 16ª semana de gestação e mantido até 36 semanas" },
+        { rot: "Adulto — suspeita de síndrome coronariana aguda", val: "100 a 300 mg VO, mastigado", f: "MS — CAB nº 28, vol. II, Queixas mais comuns na Atenção Básica, 2012", p: 127 },
+        { rot: "Adulto — suspeita de síndrome coronariana aguda (protocolo do SAMU)", val: "300 mg VO, macerado e mastigado", f: "MS — SAMU 192, Protocolos de Suporte Avançado de Vida, 2016" }
       ],
       porque: "Na gestante de risco moderado a elevado, o AAS em baixa dose pode prevenir a " +
               "pré-eclâmpsia; na gestante sem risco não se recomenda (CAB 32, grau de recomendação A " +
@@ -351,7 +357,11 @@ FARMACOS_APS.classes.push({
       apres: "comprimido 5 mg, 10 mg e 20 mg",
       dose: [
         { rot: "Faixa habitual diária, adulto (começar pela menor)", val: "5 a 40 mg/dia, em 1 a 2 tomadas", p: 52 },
-        { rot: "Máxima adulto", val: "40 mg/dia", p: 52 }
+        { rot: "Máxima adulto", val: "40 mg/dia", p: 52 },
+        { rot: "Adulto — ICFEr (Quadro 5 do PCDT de IC)", val: "início 2,5 mg 2 vezes ao dia; alvo 10 a 20 mg 2 vezes ao dia", f: "MS — PCDT Insuficiência Cardíaca com Fração de Ejeção Reduzida, Portaria Conjunta SAES/SECTICS nº 10, 2024", p: 16 },
+        { rot: "Adulto com DRC — dose inicial com depuração plasmática de creatinina abaixo de 80 e acima de 30 mL/min (Quadro 4 do PCDT de DRC)", val: "5 a 10 mg/dia — só nesta faixa; com 30 mL/min ou menos a dose inicial é menor (linha abaixo)", f: "MS — PCDT Estratégias para Atenuar a Progressão da Doença Renal Crônica, Portaria Conjunta SAES/SECTICS nº 11, 2024", p: 10 },
+        { rot: "Adulto com DRC — dose inicial com depuração plasmática de creatinina de 30 mL/min ou menos e acima de 10 (Quadro 4)", val: "2,5 a 5 mg/dia", f: "MS — PCDT Estratégias para Atenuar a Progressão da Doença Renal Crônica, Portaria Conjunta SAES/SECTICS nº 11, 2024", p: 10 },
+        { rot: "Adulto com DRC — depuração plasmática de creatinina de 10 mL/min ou menos, em geral em diálise (Quadro 4)", val: "2,5 mg nos dias de diálise — nos outros dias, ajustar pela PA (o enalapril é dialisável)", f: "MS — PCDT Estratégias para Atenuar a Progressão da Doença Renal Crônica, Portaria Conjunta SAES/SECTICS nº 11, 2024", p: 10 }
       ],
       porque: "Inibe a conversão de angiotensina I em II e reduz a degradação da bradicinina, que é vasodilatadora. Beneficia IC, doença renal do diabetes e pós-IAM. É o IECA preferencial do PCDT.",
       escolher: "Proteinúria, diabetes, IC, doença renal, pós-IAM. Uma a duas tomadas ao dia, o que ajuda a adesão. Na pessoa preta não é a primeira escolha em monoterapia: responde menos e tem mais tosse e angioedema.",
@@ -369,7 +379,12 @@ FARMACOS_APS.classes.push({
       dose: [
         { rot: "Faixa habitual diária, adulto (começar pela menor)", val: "25 a 150 mg/dia, em 2 a 3 tomadas", p: 52 },
         { rot: "Máxima adulto", val: "250 mg/dia", p: 52 },
-        { rot: "Urgência hipertensiva com risco cardiovascular iminente (ex.: aneurisma aórtico ou cerebral)", val: "25 mg por via ORAL, não sublingual, se não houver sobrecarga de volume; pico de ação em 60 a 90 minutos", p: 47 }
+        { rot: "Urgência hipertensiva com risco cardiovascular iminente (ex.: aneurisma aórtico ou cerebral)", val: "25 mg por via ORAL, não sublingual, se não houver sobrecarga de volume; pico de ação em 60 a 90 minutos", p: 47 },
+        { rot: "Adulto — ICFEr (Quadro 5 do PCDT de IC)", val: "início 6,25 mg 3 vezes ao dia; alvo 50 mg 3 vezes ao dia", f: "MS — PCDT Insuficiência Cardíaca com Fração de Ejeção Reduzida, Portaria Conjunta SAES/SECTICS nº 10, 2024", p: 16 },
+        { rot: "Adulto com DRC — dose recomendada (PCDT de DRC)", val: "25 mg VO de 8 em 8 horas, uma hora antes das refeições", f: "MS — PCDT Estratégias para Atenuar a Progressão da Doença Renal Crônica, Portaria Conjunta SAES/SECTICS nº 11, 2024", p: 10 },
+        { rot: "Adulto com DRC — nefropatia diabética com insuficiência renal leve a moderada", val: "75 a 100 mg/dia, divididos em três tomadas", f: "MS — PCDT Estratégias para Atenuar a Progressão da Doença Renal Crônica, Portaria Conjunta SAES/SECTICS nº 11, 2024", p: 10 },
+        { rot: "Adulto com DRC — insuficiência renal significativa", val: "dose inicial reduzida, com aumentos menores e titulação lenta, a intervalos de uma a duas semanas", f: "MS — PCDT Estratégias para Atenuar a Progressão da Doença Renal Crônica, Portaria Conjunta SAES/SECTICS nº 11, 2024", p: 10 },
+        { rot: "Adulto — urgência hipertensiva, PA que segue elevada depois de repouso e tranquilização (inclusive sem diagnóstico prévio de HAS)", val: "12,5 a 25 mg VO, deglutido, não sublingual; início de ação em 20 a 30 minutos", f: "MS — SAMU 192, Protocolos de Suporte Avançado de Vida, 2016" }
       ],
       porque: "IECA de ação curta. É o único do formulário com papel descrito na urgência hipertensiva, por via oral. No tratamento crônico pede várias tomadas ao dia.",
       escolher: "Urgência hipertensiva em quem tem risco iminente (aneurisma), e PA muito alta sem diagnóstico prévio de HAS, com retorno à APS para confirmar se é HAS ou pseudocrise. No crônico, prefira o enalapril: menos tomadas, melhor adesão.",
@@ -387,7 +402,9 @@ FARMACOS_APS.classes.push({
       apres: "comprimido 50 mg",
       dose: [
         { rot: "Faixa habitual diária, adulto (começar pela menor)", val: "50 a 100 mg/dia, em 1 a 2 tomadas", p: 52 },
-        { rot: "Máxima adulto", val: "100 mg/dia", p: 52 }
+        { rot: "Máxima adulto", val: "100 mg/dia", p: 52 },
+        { rot: "Adulto — ICFEr com intolerância ao IECA (Quadro 5 do PCDT de IC)", val: "início 25 mg 1 vez ao dia; alvo 150 mg ao dia, em dose única ou dividida em 2 tomadas — o alvo da IC passa do teto da HAS", f: "MS — PCDT Insuficiência Cardíaca com Fração de Ejeção Reduzida, Portaria Conjunta SAES/SECTICS nº 10, 2024", p: 16 },
+        { rot: "Adulto com DRC (PCDT de DRC)", val: "50 mg 1 vez ao dia, podendo subir para 100 mg 1 vez ao dia conforme a PA — sem ajuste inicial na insuficiência renal, inclusive em diálise", f: "MS — PCDT Estratégias para Atenuar a Progressão da Doença Renal Crônica, Portaria Conjunta SAES/SECTICS nº 11, 2024", p: 10 }
       ],
       porque: "Antagoniza a ação vasoconstritora da angiotensina II no receptor. É o BRA do SUS. A hipercalemia é incomum, e é mais bem tolerado que o IECA por afrodescendentes.",
       escolher: "As mesmas indicações do IECA: proteinúria, diabetes, IC, doença renal. Na pessoa preta não é a primeira escolha em monoterapia.",
@@ -476,7 +493,8 @@ FARMACOS_APS.classes.push({
       apres: "comprimido 12,5 mg e 25 mg",
       dose: [
         { rot: "Faixa habitual diária, adulto (começar pela menor)", val: "25 a 50 mg/dia, em 1 a 2 tomadas", p: 52 },
-        { rot: "Máxima na HAS (adulto)", val: "50 mg/dia", f: "MS — CAB nº 37, Hipertensão Arterial Sistêmica, 2013" }
+        { rot: "Máxima na HAS (adulto)", val: "50 mg/dia", f: "MS — CAB nº 37, Hipertensão Arterial Sistêmica, 2013" },
+        { rot: "Adulto — ICFEr com congestão (Quadro 5 do PCDT de IC; a furosemida é a preferida, e os dois se associam na congestão resistente)", val: "início 25 mg 1 vez ao dia; dose usual 12,5 a 100 mg/dia — a faixa da IC passa do máximo da HAS (linha 'Máxima na HAS'); só com congestão", f: "MS — PCDT Insuficiência Cardíaca com Fração de Ejeção Reduzida, Portaria Conjunta SAES/SECTICS nº 10, 2024", p: 16 }
       ],
       porque: "Reduz o volume circulante e extracelular. É o diurético de escolha do PCDT. Em dose baixa diminui os eventos adversos sem perder efetividade.",
       escolher: "Primeira opção na pessoa preta, sozinho ou com BCC. Compõe a tripla de referência (IECA ou BRA + BCC + tiazídico).",
@@ -494,7 +512,9 @@ FARMACOS_APS.classes.push({
       apres: "comprimido 25 mg e 100 mg",
       dose: [
         { rot: "Faixa habitual diária, adulto (começar pela menor)", val: "25 a 100 mg/dia, em 1 a 2 tomadas", p: 52 },
-        { rot: "Máxima adulto", val: "200 mg/dia", p: 52 }
+        { rot: "Máxima adulto", val: "200 mg/dia", p: 52 },
+        { rot: "Adulto — ICFEr, NYHA II a IV (Quadro 5 do PCDT de IC)", val: "início 12,5 a 25 mg 1 vez ao dia; alvo 25 a 50 mg 1 vez ao dia — dosar potássio na primeira semana e no primeiro mês", f: "MS — PCDT Insuficiência Cardíaca com Fração de Ejeção Reduzida, Portaria Conjunta SAES/SECTICS nº 10, 2024", p: 16 },
+        { rot: "Adulto com DRC estágios 1 a 4 — RAC de 300 ou mais, hipertrofia ventricular esquerda ou IC (PCDT de DRC, p. 8)", val: "25 a 50 mg/dia, em 1 tomada — sem ajuste inicial na DRC; ao incluí-la, reduzir a dose do IECA", f: "MS — PCDT Estratégias para Atenuar a Progressão da Doença Renal Crônica, Portaria Conjunta SAES/SECTICS nº 11, 2024", p: 10 }
       ],
       porque: "Diurético poupador de potássio que antagoniza a aldosterona. A evidência a coloca como a quarta classe preferencial na HAS resistente.",
       escolher: "HAS resistente: PA acima da meta com IECA ou BRA, BCC e tiazídico em dose máxima e boa adesão.",
@@ -512,7 +532,9 @@ FARMACOS_APS.classes.push({
       apres: "comprimido 40 mg; solução injetável 10 mg/mL",
       dose: [
         { rot: "Faixa habitual diária, adulto", val: "20 a 80 mg/dia, em 1 a 3 tomadas", p: 52 },
-        { rot: "Máxima adulto", val: "depende da resposta do paciente (Quadro 18, nota b)", p: 52 }
+        { rot: "Máxima adulto", val: "depende da resposta do paciente (Quadro 18, nota b)", p: 52 },
+        { rot: "Adulto — ICFEr com congestão (Quadro 5 do PCDT de IC)", val: "início 20 a 40 mg 1 vez ao dia; dose usual 40 a 240 mg/dia, ajustada pela congestão, em 1 a 3 tomadas", f: "MS — PCDT Insuficiência Cardíaca com Fração de Ejeção Reduzida, Portaria Conjunta SAES/SECTICS nº 10, 2024", p: 16 },
+        { rot: "Adulto — edema agudo de pulmão na UBS, até a remoção (CAB nº 28, vol. II)", val: "40 mg EV — cautela na hipotensão; paciente sentado com as pernas pendentes, oxigênio e acesso venoso, enquanto aguarda o SAMU", f: "MS — CAB nº 28, vol. II, Queixas mais comuns na Atenção Básica, 2012", p: 73 }
       ],
       porque: "Diurético de alça: mantém efeito quando o tiazídico já não funciona pela queda da filtração.",
       escolher: "Doença renal com TFG abaixo de 30; edema por IC.",
@@ -555,7 +577,9 @@ FARMACOS_APS.classes.push({
       apres: "comprimido 10 mg e 40 mg",
       dose: [
         { rot: "Faixa habitual diária, adulto (começar pela menor)", val: "80 a 320 mg/dia, em 2 a 3 tomadas", p: 52 },
-        { rot: "Máxima adulto", val: "640 mg/dia", p: 52 }
+        { rot: "Máxima adulto", val: "640 mg/dia", p: 52 },
+        { rot: "Adulto — sintomas adrenérgicos do hipertireoidismo", val: "10 a 40 mg VO, 3 a 4 vezes ao dia — reduzir aos poucos quando o hipertireoidismo for controlado", f: "TelessaúdeRS-UFRGS — TeleCondutas: Hipertireoidismo, 2021", p: 7 },
+        { rot: "Adulto — profilaxia de migrânea", val: "dose-alvo de 40 a 240 mg/dia VO, em 2 a 3 tomadas — 240 mg/dia é o máximo", f: "SBCe — Consenso para o tratamento profilático da migrânea episódica, parte I, Arq Neuropsiquiatr, 2022" }
       ],
       porque: "Betabloqueador não seletivo. Na HAS, só com indicação específica. Este é o cartão de HAS; o uso em acatisia está no cartão propranolol-para-acatisia.",
       escolher: "Angina, pós-IAM, controle de FC. Pode ser usado na lactação.",
@@ -574,7 +598,8 @@ FARMACOS_APS.classes.push({
       dose: [
         { rot: "Faixa habitual diária, adulto (começar pela menor)", val: "12,5 a 50 mg/dia, em 1 a 2 tomadas", p: 52 },
         { rot: "Máxima adulto", val: "50 mg/dia", p: 52 },
-        { rot: "Gestante (Quadro 16)", val: "12,5 a 50 mg/dia, em 1 a 2 tomadas; iniciar com 12,5 mg/dia por 2 dias e então aumentar", p: 49 }
+        { rot: "Gestante (Quadro 16)", val: "12,5 a 50 mg/dia, em 1 a 2 tomadas; iniciar com 12,5 mg/dia por 2 dias e então aumentar", p: 49 },
+        { rot: "Adulto — ICFEr (Quadro 5 do PCDT de IC)", val: "início 3,125 mg 2 vezes ao dia; alvo 25 mg 2 vezes ao dia — começar só no paciente compensado (não congesto)", f: "MS — PCDT Insuficiência Cardíaca com Fração de Ejeção Reduzida, Portaria Conjunta SAES/SECTICS nº 10, 2024", p: 16 }
       ],
       porque: "Betabloqueador com ação vasodilatadora, de terceira geração: ao contrário dos outros, não contribui para a intolerância à glicose.",
       escolher: "Indicação de betabloqueador em quem tem diabetes ou síndrome metabólica; HAS com IC; gestante com indicação de betabloqueador.",
@@ -592,7 +617,8 @@ FARMACOS_APS.classes.push({
       dose: [
         { rot: "Faixa habitual diária, adulto (começar pela menor)", val: "50 a 200 mg/dia, em 1 a 2 tomadas", p: 52 },
         { rot: "Máxima adulto", val: "200 mg/dia", p: 52 },
-        { rot: "Gestante (Quadro 16)", val: "100 a 200 mg/dia, em 1 a 2 tomadas", p: 49 }
+        { rot: "Gestante (Quadro 16)", val: "100 a 200 mg/dia, em 1 a 2 tomadas", p: 49 },
+        { rot: "Adulto — ICFEr, só o succinato de liberação prolongada (Quadro 5 do PCDT de IC)", val: "início 12,5 a 25 mg 1 vez ao dia; alvo 200 mg 1 vez ao dia — começar só no paciente compensado (não congesto)", f: "MS — PCDT Insuficiência Cardíaca com Fração de Ejeção Reduzida, Portaria Conjunta SAES/SECTICS nº 10, 2024", p: 16 }
       ],
       porque: "Betabloqueador cardiosseletivo; o succinato é de liberação prolongada. Ao contrário do atenolol, entra no quadro da gestante e pode ser usado na lactação.",
       escolher: "Indicação de betabloqueador em mulher em idade fértil, gestante ou lactante; angina, pós-IAM, controle de FC; HAS com IC.",
@@ -638,7 +664,8 @@ FARMACOS_APS.classes.push({
       dose: [
         { rot: "Faixa habitual diária, adulto (começar pela menor)", val: "50 a 200 mg/dia, em 2 a 3 tomadas", p: 52 },
         { rot: "Máxima adulto", val: "200 mg/dia", p: 52 },
-        { rot: "Gestante, via oral (Quadro 16)", val: "50 a 150 mg/dia, em 2 a 3 tomadas", p: 49 }
+        { rot: "Gestante, via oral (Quadro 16)", val: "50 a 150 mg/dia, em 2 a 3 tomadas", p: 49 },
+        { rot: "Adulto — ICFEr, associada a nitrato (Quadro 5 do PCDT de IC)", val: "início 12,5 a 25 mg 3 vezes ao dia; alvo 50 a 100 mg 3 vezes ao dia — o alvo da IC passa do máximo da HAS (linha 'Máxima adulto'); só na ICFEr, com nitrato", f: "MS — PCDT Insuficiência Cardíaca com Fração de Ejeção Reduzida, Portaria Conjunta SAES/SECTICS nº 10, 2024", p: 16 }
       ],
       porque: "Vasodilatador direto, arteriolar.",
       escolher: "Gestante hipertensa (via oral); HAS resistente.",
@@ -738,7 +765,9 @@ FARMACOS_APS.classes.push({
       apres: "comprimido 10 mg",
       dose: [
         { rot: "Dose usual", val: "10 mg, uma vez ao dia", p: 25 },
-        { rot: "TFG abaixo de 25 (p. 25, 40 e 44)", val: "não iniciar; se já usa e a TFG fica persistentemente abaixo de 25, suspender e encaminhar ao endocrinologista e ao nefrologista", p: 40 }
+        { rot: "TFG abaixo de 25 (p. 25, 40 e 44)", val: "não iniciar; se já usa e a TFG fica persistentemente abaixo de 25, suspender e encaminhar ao endocrinologista e ao nefrologista", p: 40 },
+        { rot: "Adulto — ICFEr (NYHA II a IV, fração de ejeção abaixo de 40%, sintomático), somada à terapia padrão", val: "10 mg 1 vez ao dia — é a dose inicial e a dose-alvo", f: "MS — PCDT Insuficiência Cardíaca com Fração de Ejeção Reduzida, Portaria Conjunta SAES/SECTICS nº 10, 2024", p: 16 },
+        { rot: "Adulto com DRC e TFG entre 25 e 75, com DM2 ou, sem diabetes, com RAC acima de 300 — somada ao IECA ou BRA", val: "10 mg 1 vez ao dia, a qualquer hora, sem ajuste pela função renal — pelo PCDT de DRC, manter até a terapia renal substitutiva; no DM2 com TFG persistentemente abaixo de 25, o PCDT de DM2 manda suspender (linha 'TFG abaixo de 25'): divergência, decidir com o nefrologista", f: "MS — PCDT Estratégias para Atenuar a Progressão da Doença Renal Crônica, Portaria Conjunta SAES/SECTICS nº 11, 2024", p: 11 }
       ],
       porque: "iSGLT2: inibe a reabsorção de glicose e sódio no túbulo proximal (glicosúria e natriurese). Reduz eventos e morte cardiovascular e hospitalização por IC, preserva a função renal, raramente dá hipoglicemia e baixa um pouco o peso e a PA.",
       escolher: "Segunda intensificação em quem tem 40 anos ou mais e doença cardiovascular estabelecida (IAM, revascularização, angioplastia, angina, AVC ou AIT, IC com fração de ejeção abaixo de 40%), ou homem a partir de 55 e mulher a partir de 60 anos com HAS, dislipidemia ou tabagismo.",
@@ -790,7 +819,9 @@ FARMACOS_APS.classes.push({
         { rot: "Titulação", val: "aumentar 1 U, duas vezes por semana, até a glicemia 2 h após a refeição ficar entre 90 e 180", p: 28 },
         { rot: "Horário", val: "30 minutos antes da refeição", p: 29 },
         { rot: "Correção (fator de correção 50)", val: "1 U para cada 50 acima do limite superior do alvo pré-refeição, somada à dose prandial", p: 28 },
-        { rot: "Correção sem cálculo (Quadro 8)", val: "abaixo de 50: menos 2 U · abaixo de 70: menos 1 U · 70 a 130: 0 · 131 a 180: mais 1 U · 181 a 230: mais 2 U · 231 a 280: mais 3 U · 281 a 330: mais 4 U · acima de 330: mais 5 U", p: 28 }
+        { rot: "Correção sem cálculo (Quadro 8)", val: "abaixo de 50: menos 2 U · abaixo de 70: menos 1 U · 70 a 130: 0 · 131 a 180: mais 1 U · 181 a 230: mais 2 U · 231 a 280: mais 3 U · 281 a 330: mais 4 U · acima de 330: mais 5 U", p: 28 },
+        { rot: "Adulto com diabetes em uso de insulina — glicemia acima de 250 com cetonúria, sem desidratação, vômito nem hálito cetônico", val: "20% da dose diária total, como regular — com cetonúria de 2+ ou mais, a SBD pede gasometria para excluir cetoacidose: sem ela, discutir a remoção antes da dose extra; reavaliar em 4 horas e repetir a dose se a glicemia seguir acima de 250", f: "MS — CAB nº 36, Diabetes Mellitus, 2013" },
+        { rot: "Adulto com diabetes em uso de insulina — glicemia acima de 250 sem cetonúria, com sintomas", val: "10% da dose diária total, como regular; glicemia de 4 em 4 horas até estabilizar", f: "MS — CAB nº 36, Diabetes Mellitus, 2013" }
       ],
       porque: "Insulina de ação rápida (bolus): cobre a glicemia depois das refeições e corrige hiperglicemia.",
       escolher: "HbA1c fora da meta com jejum na meta, já em duas doses de NPH; hiperglicemia pós-prandial acima de 180 com pré-prandial adequada.",
@@ -1052,7 +1083,8 @@ FARMACOS_APS.classes.push({
       apres: "creme vaginal 1 mg/g (0,1%)",
       dose: [
         { rot: "Ressecamento vaginal ou colpite atrófica", val: "creme a 0,1%, de preferência à noite: 21 dias com pausa de sete, ou duas vezes por semana (sempre nos mesmos dias), por um a três meses", p: 181 },
-        { rot: "Preparo com atrofia antes do teste de DNA-HPV ou da colposcopia", val: "1 grama com aplicador vaginal, por 14 noites consecutivas; coletar entre cinco e sete dias após suspender", f: "INCA/MS — Diretrizes Brasileiras para o Rastreamento do Câncer do Colo do Útero, Parte I: DNA-HPV, 2025", p: 48 }
+        { rot: "Preparo com atrofia antes do teste de DNA-HPV ou da colposcopia", val: "1 grama com aplicador vaginal, por 14 noites consecutivas; coletar entre cinco e sete dias após suspender", f: "INCA/MS — Diretrizes Brasileiras para o Rastreamento do Câncer do Colo do Útero, Parte I: DNA-HPV, 2025", p: 48 },
+        { rot: "Pós-menopausa — prevenção de ITU de repetição", val: "creme vaginal 1 mg/g: 0,5 mg (1 aplicador cheio) por dia, por 2 semanas; depois a mesma dose 2x/semana, sem prazo para parar", f: "SBI/FEBRASGO/SBU/SBPC-ML — Joint report: infecção do trato urinário na mulher, Braz J Infect Dis, 2020" }
       ],
       porque: "Estrogênio vaginal de absorção sistêmica desprezível, disponível no SUS (NT 72/2026). Trata a síndrome geniturinária sem os riscos da terapia hormonal sistêmica.",
       escolher: "Ressecamento, dispareunia, prurido ou ardor vulvovaginal, disúria e urgência por atrofia, sem outra indicação de terapia sistêmica. Também melhora a amostra quando a atrofia atrapalha a coleta.",
@@ -1111,7 +1143,12 @@ FARMACOS_APS.classes.push({
       dose: [
         { rot: "Adulto — dor", val: "500 a 2000 mg VO ou EV a cada 6 horas", p: 149 },
         { rot: "Adulto — hipodermóclise", val: "1 a 2 g até de 6/6h, diluída em SF 0,9% 20 mL, em bolus lento, em sítio exclusivo", p: 347 },
-        { rot: "Reação de Jarisch-Herxheimer após a benzatina (sífilis), se necessário", val: "500 mg, 6/6h, se necessário", f: "MS — PCDT IST, Atenção Integral às Pessoas com Infecções Sexualmente Transmissíveis, 2022", p: 78 }
+        { rot: "Reação de Jarisch-Herxheimer após a benzatina (sífilis), se necessário", val: "500 mg, 6/6h, se necessário", f: "MS — PCDT IST, Atenção Integral às Pessoas com Infecções Sexualmente Transmissíveis, 2022", p: 78 },
+        { rot: "Adulto — osteoartrite de joelho ou quadril (PCDT Dor Crônica)", val: "500 mg, um a dois comprimidos VO até quatro vezes ao dia", f: "MS — PCDT Dor Crônica, Portaria Conjunta SAES/SAPS/SECTICS nº 1, 2024", p: 14 },
+        { rot: "Adulto — crise de migrânea ou de cefaleia tipo tensão", val: "500 a 1.000 mg VO; nova dose em 4 a 6 h se preciso; máximo 3.000 mg/dia", f: "TelessaúdeRS-UFRGS — Resumo clínico: Cefaleia, 2016" },
+        { rot: "Adulto — dengue (febre e dor)", val: "1 comprimido de 500 mg ou 20 gotas (solução 500 mg/mL) até de 6/6 horas", f: "MS — Dengue: diagnóstico e manejo clínico, adulto e criança, 6ª ed., 2024", p: 77 },
+        { rot: "Criança a partir de 3 meses e com 5 kg ou mais — dengue (febre e dor)", val: "10 mg/kg/dose até de 6/6 horas (gotas 500 mg/mL: 1 mL = 20 gotas; solução oral 50 mg/mL) — respeitar a dose máxima por peso e idade, nunca acima da dose do adulto (linha do adulto — dengue); abaixo dessa idade ou desse peso, não usar dipirona oral (manual de chikungunya)", f: "MS — Dengue: diagnóstico e manejo clínico, adulto e criança, 6ª ed., 2024", p: 77 },
+        { rot: "Acima de 15 anos — chikungunya, fase aguda (em horário fixo)", val: "1 a 2 comprimidos de 500 mg, ou 20 a 40 gotas, de 6/6 horas, em horário fixo — o manual de chikungunya contraindica na gravidez e na lactação", f: "MS — Chikungunya: manejo clínico, 2ª ed., 2024", p: 33 }
       ],
       porque: "Analgésico não opioide do primeiro degrau da escada da OMS. Não sai quando o opioide entra: soma em qualquer degrau.",
       escolher: "Dor leve, ou como base associada ao opioide na dor moderada e intensa. Está na farmácia básica nas três formas, e vai por hipodermóclise quando não há via oral nem veia.",
@@ -1128,7 +1165,11 @@ FARMACOS_APS.classes.push({
       apres: "comprimido 500 mg; solução oral 200 mg/mL",
       dose: [
         { rot: "Adulto — dor", val: "500 a 1000 mg VO a cada 4 ou 6 horas; máximo 4 g/dia", p: 149 },
-        { rot: "Reação de Jarisch-Herxheimer após a benzatina (sífilis), se necessário", val: "500 mg, 6/6h, se necessário", f: "MS — PCDT IST, Atenção Integral às Pessoas com Infecções Sexualmente Transmissíveis, 2022", p: 78 }
+        { rot: "Reação de Jarisch-Herxheimer após a benzatina (sífilis), se necessário", val: "500 mg, 6/6h, se necessário", f: "MS — PCDT IST, Atenção Integral às Pessoas com Infecções Sexualmente Transmissíveis, 2022", p: 78 },
+        { rot: "Adulto — osteoartrite de joelho ou quadril (PCDT Dor Crônica)", val: "500 mg, um a dois comprimidos VO, três a quatro vezes ao dia, em horário regular; máximo 4 g/dia", f: "MS — PCDT Dor Crônica, Portaria Conjunta SAES/SAPS/SECTICS nº 1, 2024", p: 14 },
+        { rot: "Adulto — crise de migrânea ou de cefaleia tipo tensão", val: "750 a 1.000 mg VO; nova dose em 4 a 6 h se preciso; máximo 4.000 mg/dia", f: "TelessaúdeRS-UFRGS — Resumo clínico: Cefaleia, 2016" },
+        { rot: "Adulto — dengue (febre e dor)", val: "1 comprimido de 500 mg (ou 40 gotas) de 4/4 horas, ou 2 comprimidos (ou 60 gotas) até de 6/6 horas — não passar de 4 g em 24 horas; as gotas não equivalem aos comprimidos (40 gotas dão menos que 1 comprimido)", f: "MS — Dengue: diagnóstico e manejo clínico, adulto e criança, 6ª ed., 2024", p: 77 },
+        { rot: "Criança a partir de 2 meses — dengue (febre e dor)", val: "10 mg/kg/dose até de 6/6 horas (gotas 200 mg/mL: 1 mL = 20 gotas) — respeitar a dose máxima para peso e idade, nunca acima da dose do adulto (linha do adulto — dengue); dose maior é hepatotóxica; contar as gotas pelo conta-gotas do frasco — o manual de chikungunya conta outra quantidade de gotas por mL para a mesma solução", f: "MS — Dengue: diagnóstico e manejo clínico, adulto e criança, 6ª ed., 2024", p: 77 }
       ],
       porque: "Analgésico não opioide do primeiro degrau, somável ao opioide em qualquer degrau da escada.",
       escolher: "Dor leve, ou base associada ao opioide. Está na farmácia básica (comprimido e solução oral).",
@@ -1149,7 +1190,8 @@ FARMACOS_APS.classes.push({
         { rot: "Adulto sem uso prévio de opioide — dispneia leve", val: "30 mg VO a cada 6 ou 4 horas", p: 189 },
         { rot: "Adulto — tosse", val: "10 a 20 mg até de 4 em 4 horas", p: 191 },
         { rot: "Adulto — diarreia, controle sintomático, depois de excluir fecaloma e causa infecciosa", val: "até 200 mg/dia", p: 183 },
-        { rot: "Equipotência", val: "1/10 da morfina oral (codeína 10 mg ≈ morfina oral 1 mg)", p: 150 }
+        { rot: "Equipotência", val: "1/10 da morfina oral (codeína 10 mg ≈ morfina oral 1 mg)", p: 150 },
+        { rot: "Adulto — chikungunya fase aguda, dor intensa, junto do analgésico comum", val: "30 a 60 mg VO de 4/4 horas, 3 a 4 vezes ao dia; máximo 360 mg/dia — idoso: começar com 15 mg; o fluxograma do mesmo manual usa 30 mg de 6/6 h; não usar na diarreia por colite pseudomembranosa ou por envenenamento nem na dependência de álcool ou drogas", f: "MS — Chikungunya: manejo clínico, 2ª ed., 2024", p: 34 }
       ],
       porque: "Opioide fraco do segundo degrau. É pró-fármaco: só faz analgesia depois de convertida em morfina no fígado, e quem não tem a enzima conversora não tem efeito.",
       escolher: "Dor que persiste com o não opioide; dispneia leve em quem nunca usou opioide; tosse; diarreia refratária, depois de excluir fecaloma (diarreia paradoxal) e causa infecciosa. O resgate, na analgesia com codeína, é com a própria codeína. Componente Especializado: não está na farmácia da USF.",
@@ -1199,7 +1241,8 @@ FARMACOS_APS.classes.push({
       apres: "comprimido 10 mg; solução oral 4 mg/mL; solução injetável 5 mg/mL",
       dose: [
         { rot: "Adulto — náusea e vômito de causa química", val: "10 mg EV ou VO a cada 8 ou 6 horas", p: 173 },
-        { rot: "Adulto — estase gástrica", val: "até 40 mg/dia EV", p: 174 }
+        { rot: "Adulto — estase gástrica", val: "até 40 mg/dia EV", p: 174 },
+        { rot: "Adulto — neurite vestibular ou labirintite aguda: sintomático, no máximo 3 dias", val: "5 a 10 mg VO de 6/6 h, por no máximo 3 dias", f: "MS/UFRGS — Protocolos de encaminhamento da APS para a atenção especializada, vol. 16: Neurologia adulto, 2022", p: 29 }
       ],
       porque: "Antagonista dopaminérgico na zona quimiorreceptora do vômito e procinético: serve quando a náusea vem de trânsito gástrico lento, como a do opioide.",
       escolher: "Náusea por opioide com esvaziamento gástrico lento, estase gástrica, náusea química. Está na farmácia básica nas três formas e pode ir por hipodermóclise, com potencial de irritação local.",
@@ -1250,7 +1293,8 @@ FARMACOS_APS.classes.push({
       kw: "laxante osmotico constipacao prisao de ventre xarope",
       apres: "xarope 667 mg/mL",
       dose: [
-        { rot: "Adulto — constipação", val: "15 a 30 mL, 2 a 3 vezes ao dia", p: 179 }
+        { rot: "Adulto — constipação", val: "15 a 30 mL, 2 a 3 vezes ao dia", p: 179 },
+        { rot: "Adulto — constipação crônica que não respondeu a fibras e medidas (APS)", val: "15 a 30 mL/dia VO, pela manhã ou à noite", f: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Gastroenterologia adulto, 3ª ed., 2025", p: 45 }
       ],
       porque: "Laxante osmótico: cria meio hiperosmolar na luz intestinal, atrai água, aumenta o bolo fecal e amolece as fezes.",
       escolher: "Constipação em geral; na constipação por opioide, entra associada quando o irritativo não basta. Está na farmácia básica.",
@@ -1310,7 +1354,9 @@ FARMACOS_APS.classes.push({
           val: "2,4 milhões UI, IM, dose única (1,2 milhão UI em cada glúteo)",
           f: "MS — Nota Técnica Conjunta nº 7/2026 (PEP na violência sexual), 2026" },
         { rot: "Violência sexual — profilaxia, teste rápido de sífilis não reagente, criança ou adolescente com menos de 45 kg",
-          val: "50.000 UI/kg, IM, dose única (dose máxima total 2,4 milhões UI)", p: 178 }
+          val: "50.000 UI/kg, IM, dose única (dose máxima total 2,4 milhões UI)", p: 178 },
+        { rot: "Criança de 2 meses a 5 anos — infecção moderada de garganta (nesta idade vale esta linha, não a do CAB 28)", val: "IM, dose única: abaixo de 20 kg, 600.000 UI; acima de 20 kg, 1.200.000 UI", f: "MS/OPAS/UNICEF — Manual AIDPI Criança: 2 meses a 5 anos, 2017", p: 91 },
+        { rot: "Faringoamigdalite estreptocócica — criança acima de 5 anos, adolescente e adulto (CAB 28)", val: "IM, dose única: 1.200.000 UI a partir de 27 kg; 600.000 UI abaixo de 27 kg — observar 30 minutos na UBS depois da aplicação", f: "MS — CAB nº 28, vol. II, Queixas mais comuns na Atenção Básica, 2012", p: 113 }
       ],
       porque: "É o medicamento de escolha da sífilis e o único com eficácia documentada na gestação; " +
               "não há resistência descrita do T. pallidum à penicilina no Brasil nem no mundo. Na " +
@@ -1443,7 +1489,10 @@ FARMACOS_APS.classes.push({
           val: "500 mg, 2 comprimidos, VO, dose única (dose total 1 g)",
           f: "MS — Nota Técnica Conjunta nº 7/2026 (PEP na violência sexual), 2026" },
         { rot: "Violência sexual — profilaxia, criança ou adolescente com menos de 45 kg — junto da ceftriaxona",
-          val: "20 mg/kg, VO, dose única (dose máxima total 1 g)", p: 178 }
+          val: "20 mg/kg, VO, dose única (dose máxima total 1 g)", p: 178 },
+        { rot: "Adulto — pneumonia adquirida na comunidade ambulatorial (sozinha no hígido sem fator de risco; com comorbidade, junto do betalactâmico)", val: "500 mg VO 1 vez ao dia, por 3 a 5 dias sozinha ou 5 a 7 dias junto do betalactâmico — Quadros 5 e 6 da SBPT", f: "SBPT — Recomendações para o manejo da pneumonia adquirida na comunidade, J Bras Pneumol, 2018" },
+        { rot: "Adulto — otite média aguda em alérgico à penicilina (reação tipo I)", val: "500 mg/dia VO por 5 dias", f: "MS — CAB nº 28, vol. II, Queixas mais comuns na Atenção Básica, 2012", p: 108 },
+        { rot: "Faringoamigdalite estreptocócica em alérgico à penicilina — criança, adolescente ou adulto", val: "12 mg/kg VO uma vez ao dia, máximo 500 mg, por 5 dias", f: "MS — CAB nº 28, vol. II, Queixas mais comuns na Atenção Básica, 2012", p: 113 }
       ],
       porque: "Macrolídeo de dose única para clamídia, M. genitalium e cancroide. Na gonorreia completa o " +
               "esquema da ceftriaxona e cobre a clamídia que costuma vir junto.",
@@ -1482,7 +1531,12 @@ FARMACOS_APS.classes.push({
           f: "MS — Nota Técnica Conjunta nº 7/2026 (PEP na violência sexual), 2026" },
         { rot: "Violência sexual — profilaxia de tricomoníase, criança ou adolescente com menos de 45 kg",
           val: "15 mg/kg/dia, divididos a cada 8 horas, por 7 dias (dose diária máxima 2 g) · a dose é de metronidazol; a suspensão da RENAME é de benzoilmetronidazol, rotulada em mg do sal, e a equivalência em metronidazol base NÃO está conferida em fonte: confirmar antes de converter em mL",
-          f: "MS — PCDT PEP de risco ao HIV, IST e hepatites virais, Portaria SECTICS/MS nº 14, 2024", p: 26 }
+          f: "MS — PCDT PEP de risco ao HIV, IST e hepatites virais, Portaria SECTICS/MS nº 14, 2024", p: 26 },
+        { rot: "Adulto — giardíase", val: "250 mg VO 3x/dia por 5 a 7 dias, ou 500 mg (2 comprimidos de 250 mg) VO 2x/dia por 5 a 7 dias", f: "TelessaúdeRS-UFRGS — TeleCondutas: Alterações Endoscópicas, 2ª ed., 2024", p: 27 },
+        { rot: "Criança — giardíase", val: "15 mg/kg/dia VO, divididos em 3 tomadas, por 5 a 7 dias; máximo de 250 mg por dose — a suspensão da RENAME é de benzoilmetronidazol, em mg do sal: conferir a equivalência antes de converter em mL", f: "TelessaúdeRS-UFRGS — TeleCondutas: Alterações Endoscópicas, 2ª ed., 2024", p: 27 },
+        { rot: "Adulto — amebíase intestinal leve ou assintomática", val: "500 mg VO 3x/dia por 5 dias — a RENAME não tem comprimido de 500 mg: conferir a apresentação na farmácia", f: "MS — Doenças infecciosas e parasitárias: guia de bolso, 8ª ed. rev., 2010", p: 93 },
+        { rot: "Adulto — amebíase intestinal sintomática (inclusive disenteria) ou extraintestinal", val: "750 mg VO 3x/dia por 10 dias — a RENAME não tem comprimido de 750 mg; abscesso hepático: hospital", f: "MS — Doenças infecciosas e parasitárias: guia de bolso, 8ª ed. rev., 2010", p: 93 },
+        { rot: "Adulto — H. pylori, terapia concomitante (com amoxicilina, claritromicina e IBP)", val: "400 mg VO de 8/8 h, ou 500 mg de 12/12 h (a RENAME não tem comprimido de 500 mg), por 14 dias — 14 dias pelo V Consenso; a Tabela 3 do V Consenso imprime metronidazol 500 mg 4x/dia na concomitante: conferir com a preceptora", f: "TelessaúdeRS-UFRGS — TeleCondutas: Alterações Endoscópicas, 2ª ed., 2024", p: 25 }
       ],
       porque: "Nitroimidazol: cobre anaeróbios e Trichomonas. Trata a vaginose bacteriana, a tricomoníase " +
               "e o componente anaeróbio da DIP.",
@@ -1555,7 +1609,13 @@ FARMACOS_APS.classes.push({
         { rot: "Candidíase vulvovaginal complicada ou recorrente — indução",
           val: "creme vaginal, 1x/dia por 10 a 14 dias", p: 115 },
         { rot: "Candidíase vulvovaginal recorrente — manutenção",
-          val: "creme vaginal, 2x/semana", p: 115 }
+          val: "creme vaginal, 2x/semana", p: 115 },
+        { rot: "Tinea corporis (e cruris, mesmo esquema) — tópico de 1ª linha", val: "creme dermatológico 2%, 2x/dia, até a lesão sumir e mais 1 a 2 semanas (em geral 2 a 6 semanas no total)", f: "TelessaúdeRS-UFRGS — TeleCondutas: Dermatofitoses, 2ª ed., 2025", p: 8 },
+        { rot: "Tinea pedis ou manuum — tópico de 1ª linha", val: "creme dermatológico 2%, 1 a 2x/dia, até a lesão sumir e mais 1 a 2 semanas (em geral 1 a 6 semanas no total)", f: "TelessaúdeRS-UFRGS — TeleCondutas: Dermatofitoses, 2ª ed., 2025", p: 16 },
+        { rot: "Intertrigo por Candida, leve a moderado", val: "creme dermatológico 2%, 2x/dia, até a melhora completa (cerca de 2 a 4 semanas)", f: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Dermatologia, 2023", p: 38 },
+        { rot: "Pitiríase versicolor — tópico de 1ª escolha", val: "creme ou loção dermatológica 2%, 1 a 2x/dia, por 1 a 4 semanas", f: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Dermatologia, 2023", p: 39 },
+        { rot: "Dermatite seborreica de face e corpo", val: "creme dermatológico 2%, 2x/dia, por até 4 semanas", f: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Dermatologia, 2023", p: 37 },
+        { rot: "Candidíase orofaríngea — adulto, criança e bebê", val: "gel oral 2%: 1,25 mL, 4x/dia, por 7 a 14 dias — idade mínima e interação com anticoagulante: conferir na bula", f: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Dermatologia, 2023", p: 38 }
       ],
       porque: "Imidazólico de uso vaginal. É a via que serve para gestante e lactante, em quem o " +
               "antifúngico oral é contraindicado.",
@@ -1580,7 +1640,16 @@ FARMACOS_APS.classes.push({
         { rot: "Candidíase vulvovaginal complicada ou recorrente — indução",
           val: "150 mg, VO, 1x/dia nos dias 1, 4 e 7", p: 115 },
         { rot: "Candidíase vulvovaginal recorrente — manutenção",
-          val: "150 mg, VO, 1x/semana por 6 meses", p: 115 }
+          val: "150 mg, VO, 1x/semana por 6 meses", p: 115 },
+        { rot: "Adulto — tinea corporis extensa ou que falhou no tópico", val: "150 a 200 mg VO 1x/semana, por 2 a 4 semanas", f: "TelessaúdeRS-UFRGS — TeleCondutas: Dermatofitoses, 2ª ed., 2025", p: 9 },
+        { rot: "Criança — tinea corporis extensa ou que falhou no tópico", val: "6 mg/kg VO 1x/semana (máximo 200 mg por semana), por 2 a 4 semanas", f: "TelessaúdeRS-UFRGS — TeleCondutas: Dermatofitoses, 2ª ed., 2025", p: 9 },
+        { rot: "Adulto — tinea cruris extensa ou que falhou no tópico (alternativa à terbinafina e ao itraconazol)", val: "150 a 200 mg VO 1x/semana, por 2 a 6 semanas", f: "TelessaúdeRS-UFRGS — TeleCondutas: Dermatofitoses, 2ª ed., 2025", p: 14 },
+        { rot: "Adulto — tinea pedis ou manuum que falhou no tópico", val: "150 mg VO 1x/semana, por 2 a 6 semanas", f: "TelessaúdeRS-UFRGS — TeleCondutas: Dermatofitoses, 2ª ed., 2025", p: 17 },
+        { rot: "Adulto e criança — tinea capitis (2ª linha: eficácia menor que a da griseofulvina e da terbinafina)", val: "6 mg/kg VO 1x/dia (máximo 400 mg), por 3 a 6 semanas · alternativa: 6 mg/kg 1x/semana, por 6 a 12 semanas", f: "TelessaúdeRS-UFRGS — TeleCondutas: Dermatofitoses, 2ª ed., 2025", p: 11 },
+        { rot: "Adulto — pitiríase versicolor extensa, recorrente ou refratária", val: "300 mg VO 1x/semana, por 2 a 4 semanas", f: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Dermatologia, 2023", p: 39 },
+        { rot: "Adulto — intertrigo por Candida extenso ou que falhou no tópico", val: "150 mg VO 1x/semana, por 2 a 6 semanas", f: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Dermatologia, 2023", p: 38 },
+        { rot: "Adulto — candidíase orofaríngea sem resposta ao tópico, extensa ou recorrente", val: "150 mg VO 1x/dia, por 7 a 14 dias", f: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Dermatologia, 2023", p: 38 },
+        { rot: "Criança a partir de 2 meses — candidíase orofaríngea sem resposta ao tópico", val: "6 mg/kg VO no 1º dia, depois 3 mg/kg/dia, por 7 a 14 dias (máximo 200 mg/dia) — o guia de bolso do MS manda evitar fluconazol na criança com candidíase oral; esta dose é do protocolo do TelessaúdeRS: usar só sem resposta à nistatina ou ao miconazol gel, com a preceptora; o limite de idade é a regra do app, não da fonte", f: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Dermatologia, 2023", p: 38 }
       ],
       porque: "Azólico oral: segunda opção na candidíase vulvovaginal e base do esquema de indução e " +
               "manutenção da forma recorrente.",
@@ -1858,7 +1927,12 @@ FARMACOS_APS.classes.push({
         { rot: "Adulto — mesma indicação: duração", val: "no mínimo seis meses, em média, com ANS periódica", p: 61 },
         { rot: "Criança — reação tipo 1", val: "o regime do adulto adaptado ao peso e à idade; orientação pediátrica se passar de três meses ou de 1 mg/kg; nunca suspender de repente (insuficiência adrenal)", p: 62 },
         { rot: "Adulto e adolescente (≥ 10 anos) — TB meningoencefálica ou osteoarticular, adjuvante (início no hospital ou na referência)", val: "1 a 2 mg/kg/dia por quatro semanas, com redução gradual nas quatro semanas seguintes; não suspender de uma vez (forma grave meningoencefálica: dexametasona injetável na internação)", f: "MS — Manual de Recomendações para o Controle da Tuberculose no Brasil, 2ª ed., 2019", p: 107 },
-        { rot: "Criança abaixo de 10 anos — TB meningoencefálica ou osteoarticular, adjuvante (início no hospital ou na referência)", val: "1 a 2 mg/kg/dia por quatro semanas, com redução gradual nas quatro semanas seguintes; não suspender de uma vez (forma grave meningoencefálica: dexametasona injetável na internação)", f: "MS — Manual de Recomendações para o Controle da Tuberculose no Brasil, 2ª ed., 2019", p: 109 }
+        { rot: "Criança abaixo de 10 anos — TB meningoencefálica ou osteoarticular, adjuvante (início no hospital ou na referência)", val: "1 a 2 mg/kg/dia por quatro semanas, com redução gradual nas quatro semanas seguintes; não suspender de uma vez (forma grave meningoencefálica: dexametasona injetável na internação)", f: "MS — Manual de Recomendações para o Controle da Tuberculose no Brasil, 2ª ed., 2019", p: 109 },
+        { rot: "Adolescente (12 anos ou mais) e adulto — exacerbação de asma (o PCDT dá esta dose para a exacerbação grave)", val: "40 a 50 mg/dia VO por 5 a 7 dias, pela manhã, em dose única; uso por menos de 2 semanas dispensa desmame", f: "MS — PCDT Asma, Portaria Conjunta SAES/SCTIE nº 43, 2026", p: 38 },
+        { rot: "Adulto — exacerbação moderada ou grave de DPOC", val: "40 mg/dia VO por 5 dias; sem melhora no quinto dia, sobretudo na grave, estender para 10 a 14 dias", f: "MS — PCDT Doença Pulmonar Obstrutiva Crônica, Portaria Conjunta SAES/SCTIE nº 29, 2025", p: 22 },
+        { rot: "Adulto — rinossinusite crônica sem resposta ao tratamento inicial, com edema grave de mucosa ou agudizada (junto do antibiótico)", val: "20 mg VO 2 vezes ao dia por 5 dias, depois 20 mg 1 vez ao dia por mais 5 dias (10 dias no total)", f: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Otorrinolaringologia adulto, 2023", p: 27 },
+        { rot: "Adulto — síndrome do túnel do carpo (tratamento clínico)", val: "10 mg VO de 12/12 h por 14 dias", f: "TelessaúdeRS-UFRGS — Protocolo de encaminhamento para Tratamento da Dor, 2020" },
+        { rot: "Adulto — chikungunya pós-aguda (15 a 90 dias) com artrite ou tenossinovite", val: "0,5 mg/kg/dia VO, máximo 40 mg/dia; com boa resposta depois de quatro semanas, reduzir um quarto da dose a cada sete dias (total de oito semanas) — não suspender de uma vez (rebote); o fluxograma do mesmo manual fala em até três semanas: confirmar", f: "MS — Chikungunya: manejo clínico, 2ª ed., 2024", p: 35 }
       ],
       porque: "Corticoide oral de escolha nas reações hansênicas e na neurite: o anti-inflamatório potente controla a inflamação do nervo e previne o dano neural permanente. Vira prednisolona, a forma ativa, no fígado.",
       escolher: "Reação tipo 1, neurite aguda e neurite silenciosa (piora da ANS mesmo sem dor) e reação tipo 2 com neurite, orquite ou episclerite. Na gestação, só se o benefício superar o risco; na amamentação pode, adiando a mamada até quatro horas depois da tomada.",
@@ -1883,6 +1957,27 @@ FARMACOS_APS.classes.push({
       adversos: "Teratogênica mesmo em dose única de 50 mg (focomelia, a mais comum, e malformações de crânio, olhos, orelhas, palato, coração, trato digestivo, vias urinárias e rins). Neuropatia periférica possivelmente irreversível; sonolência (soma com ansiolítico, hipnótico, antipsicótico, anti-histamínico, opioide, tricíclico e álcool); bradicardia; neutropenia; tromboembolismo quando associada a corticoide.",
       monitor: "Exame neurológico antes e durante (parestesia, fraqueza ou incoordenação: reavaliar já); β-hCG conforme acima; neutrófilos. Suspeita de exposição fetal é notificada à Anvisa pelo Vigimed. Com corticoide associado, AAS profilático (ver combinação).",
       fonte: "MS — PCDT Hanseníase, Portaria SCTIE nº 67, 2022"
+    },
+    {
+      nome: "Hidrocortisona (succinato sódico)",
+      id: "hidrocortisona",
+      kw: "hidrocortisona solucortef corticoide venoso injetavel crise de asma grave dpoc exacerbacao anafilaxia",
+      apres: "pó para solução injetável 100 mg e 500 mg (RENAME 2024)",
+      dose: [
+        { rot: "Adulto — crise grave de asma, até a remoção (vale também para o adolescente com puberdade iniciada)", val: "200 a 300 mg EV" },
+        { rot: "Adulto — exacerbação de DPOC sem possibilidade de via oral", val: "200 mg EV de 6/6 h até passar à via oral", f: "MS — PCDT Doença Pulmonar Obstrutiva Crônica, Portaria Conjunta SAES/SCTIE nº 29, 2025", p: 22 },
+        { rot: "Adulto — anafilaxia que persiste depois da adrenalina (segunda linha; vale também para o adolescente com puberdade iniciada)", val: "5 a 10 mg/kg EV; máximo 100 mg" },
+        { rot: "Criança de 2 meses até o início da puberdade — anafilaxia, segunda linha depois da adrenalina", val: "5 a 10 mg/kg EV; máximo 250 mg" },
+        { rot: "Criança de 2 meses até o início da puberdade — crise de asma grave ou muito grave", val: "4 mg/kg EV; máximo 250 mg" }
+      ],
+      porque: "Corticoide de uso venoso da farmácia básica e da lista de urgência da UBS, para quem não pode tomar pela boca. O início de ação é mais tardio: não substitui a adrenalina na anafilaxia nem o broncodilatador na crise.",
+      escolher: "Crise grave de asma e exacerbação de DPOC em quem não consegue a via oral; anafilaxia que persiste depois da adrenalina (o SAMU a dá no pré-hospitalar porque pode ajudar a prevenir a reação bifásica). Se engole, o corticoide oral é o preferido (PCDT DPOC).",
+      evitar: "Via venosa quando a oral é possível: a parenteral tem mais toxicidade (PCDT DPOC). Dar o corticoide e adiar a adrenalina na anafilaxia.",
+      contraind: "Na urgência, as fontes lidas não trazem contraindicação. Para o corticoide sistêmico, o PCDT DPOC lista hipersensibilidade, varicela, ceratite herpética, infecção fúngica sistêmica não tratada e infecção não controlada; cautela na úlcera péptica ativa, HAS grave, diabetes descompensado, osteoporose grave, psicose prévia e tuberculose não tratada.",
+      adversos: "Hiperglicemia, hipertensão, retenção de líquido, alteração de humor; no uso prolongado, supressão adrenal e osteoporose (PCDT DPOC).",
+      monitor: "Glicemia (sobretudo no diabético) e PA. Ao voltar a engolir, seguir com o corticoide oral pelo tempo do protocolo.",
+      diverge: "Teto na anafilaxia: o protocolo de adulto do SAMU (AC33) limita a 100 mg e o pediátrico (APed26) a 250 mg — reproduzido como está na fonte.",
+      fonte: "MS — SAMU 192, Protocolos de Suporte Avançado de Vida, 2016"
     }
   ]
 });
@@ -2045,6 +2140,1571 @@ FARMACOS_APS.classes.push({
   ]
 });
 
+FARMACOS_APS.classes.push({
+  rot: "Hipolipemiantes — estatinas",
+  kw: "estatina hipolipemiante sinvastatina atorvastatina colesterol ldl dislipidemia prevencao cardiovascular",
+  quando: "Prevenção de eventos cardiovasculares pelo RISCO, não pela meta de LDL (PCDT de Dislipidemia, 2019). Indicação sem calcular risco: doença aterosclerótica, LDL ≥190, DRC estágio 3 ou mais, diabetes a partir dos 40 anos, HAS com lesão de órgão-alvo (PCDT de HAS, 2025).",
+  nota: "O PCDT de 2019 considera sinvastatina, pravastatina e atorvastatina. A farmácia da UBS tem a sinvastatina (RENAME 2024, Componente Básico); atorvastatina e pravastatina são do Componente Especializado. Rosuvastatina e ezetimiba não constam da RENAME 2024, e o PCDT não preconiza a ezetimiba (não incorporada). Doses da Tabela 1 do PCDT (p. 10).",
+  farmacos: [
+    {
+      nome: "Sinvastatina",
+      id: "sinvastatina",
+      kw: "sinvastatina estatina colesterol ldl dislipidemia prevencao cardiovascular",
+      apres: "comprimido 10 mg, 20 mg e 40 mg (RENAME 2024, Componente Básico)",
+      dose: [
+        { rot: "Adulto — prevenção de eventos cardiovasculares (dose inicial, Tabela 1)", val: "20 mg VO, 1 vez ao dia, de preferência à noite", p: 10 },
+        { rot: "Adulto — dose máxima do PCDT (Tabela 1)", val: "80 mg/dia — o rodapé da tabela avisa: risco aumentado de toxicidade", p: 10 },
+        { rot: "Adulto em uso de amiodarona — dose máxima (SBC)", val: "20 mg/dia — a amiodarona inibe o CYP3A4 e aumenta a exposição à sinvastatina", f: "SBC — Diretriz Brasileira de Dislipidemias e Prevenção da Aterosclerose, Arq Bras Cardiol, 2025" },
+        { rot: "Adulto em uso de anlodipino ou verapamil — dose máxima (SBC)", val: "20 mg/dia — o BCC inibe o metabolismo da sinvastatina (CYP3A4) e aumenta o risco de miopatia", f: "SBC — Diretriz Brasileira de Dislipidemias e Prevenção da Aterosclerose, Arq Bras Cardiol, 2025" }
+      ],
+      porque: "Inibidor da HMG-CoA redutase: reduz a síntese hepática de colesterol e aumenta a depuração do LDL (SBC). É, com a pravastatina, a estatina com a evidência mais contundente de redução de mortalidade (PCDT, p. 6). É a estatina que a farmácia da UBS dispensa.",
+      escolher: "Quem tem indicação de estatina pelo risco cardiovascular e é atendido na UBS: é a do Componente Básico. Dose única diária, de preferência à noite, para o efeito máximo (PCDT, p. 10). O tratamento é contínuo.",
+      evitar: "Gestação e mulher em idade fértil sem contracepção segura. Junto com genfibrozila, nunca. Com claritromicina ou eritromicina (inibem o CYP3A4; a azitromicina pode ser usada, segundo a SBC). Dose máxima: o PCDT avisa toxicidade e a SBC a considera proscrita. Hipotireoidismo descompensado: tratar antes. Com inibidor de protease do HIV: evitar (SBC); o PCDT prefere a pravastatina com antirretroviral (p. 5). Itraconazol: contraindicado (SBC). Verapamil aumenta a toxicidade da sinvastatina (CAB nº 37). Com anlodipino, verapamil ou amiodarona: não passar do teto das linhas próprias de dose (SBC).",
+      contraind: "Gestação (TER, p. 20). Critérios de exclusão do PCDT (p. 4): hipotireoidismo descompensado (TSH acima de 10), gestante ou mulher em idade fértil sem pelo menos dois métodos contraceptivos seguros ou contracepção definitiva, doença hepática aguda ou crônica grave (aminotransferases acima de 3 vezes o normal, icterícia, tempo de protrombina prolongado), hipersensibilidade ou evento adverso prévio.",
+      adversos: "Frequentes: prisão de ventre, diarreia, gases, dor de estômago, tontura, dor de cabeça, náusea, alergia de pele. Menos frequentes e graves (atenção médica imediata): dor muscular, cãibras, febre, cansaço e fraqueza — miopatia ou rabdomiólise. Raros: impotência, insônia (TER do PCDT, p. 20).",
+      monitor: "TGO/TGP e CPK no início, aos 6 meses e a cada mudança de dose ou acréscimo de fármaco que aumente a toxicidade (PCDT, p. 10 e 11). Suspender se mialgia, CPK acima de 10 vezes o normal ou aminotransferases acima de 3 vezes (p. 10). Pelo PCDT, o perfil lipídico não precisa ser repetido depois de iniciar (p. 10).",
+      diverge: "Monitorização e meta: o PCDT de 2019 decide pelo risco, não pela busca do LDL-alvo (p. 7) — só cita, no diagnóstico, LDL abaixo de 100 para a maioria de risco elevado (p. 2 e 3) — e dispensa repetir o perfil lipídico (p. 10); a SBC 2025 persegue metas de LDL por categoria de risco e repete o perfil cerca de 4 semanas depois de iniciar ou ajustar. Dose máxima: o PCDT admite 80 mg/dia com aviso de toxicidade (Tabela 1, p. 10); a SBC chama a sinvastatina 80 mg de proscrita. CK e TGO/TGP: o PCDT manda repetir aos 6 meses e a cada mudança de dose (p. 10); a SBC recomenda contra dosagens rotineiras sem sintoma muscular, sinal de hepatotoxicidade ou mudança na terapia.",
+      fonte: "MS — PCDT Dislipidemia: prevenção de eventos cardiovasculares e pancreatite, Portaria Conjunta nº 8, 2019"
+    },
+    {
+      nome: "Atorvastatina cálcica",
+      id: "atorvastatina",
+      kw: "atorvastatina estatina colesterol ldl dislipidemia muito alto risco prevencao secundaria",
+      apres: "comprimido 10 mg, 20 mg, 40 mg e 80 mg (RENAME 2024, Componente Especializado)",
+      dose: [
+        { rot: "Adulto — prevenção de eventos cardiovasculares (dose inicial e usual, Tabela 1)", val: "10 mg VO, 1 vez ao dia, de preferência à noite", p: 10 },
+        { rot: "Adulto de muito alto risco (Framingham acima de 20% ou prevenção secundária com fatores de risco maiores mantidos) — dose máxima", val: "até 80 mg/dia — restrita a casos especiais; o PCDT sugere avaliar esses casos na atenção terciária", p: 10 }
+      ],
+      porque: "Estatina com a dose alta prevista no PCDT para o muito alto risco: em dose alta foi superior à pravastatina em dose usual e à própria atorvastatina em dose baixa na prevenção secundária, e reduziu eventos maiores depois do IAM em comparação à sinvastatina, sem mudar a mortalidade total (PCDT, p. 6 e 7).",
+      escolher: "Paciente de muito alto risco (Framingham acima de 20% em 10 anos, ou prevenção secundária com fator de risco maior mantido) candidato a terapia agressiva com dose alta, avaliado na atenção terciária (PCDT, p. 4 e 5). Componente Especializado: dispensada pelos critérios do PCDT, fora da farmácia da UBS. Com antirretroviral, o PCDT prefere a pravastatina (p. 5).",
+      evitar: "Gestação e mulher em idade fértil sem contracepção segura. Junto com genfibrozila. Com claritromicina ou eritromicina (CYP3A4, segundo a SBC). Dose alta fora dos casos especiais do PCDT.",
+      contraind: "Gestação (TER, p. 20). Critérios de exclusão do PCDT (p. 4): hipotireoidismo descompensado (TSH acima de 10), gestante ou mulher em idade fértil sem pelo menos dois métodos contraceptivos seguros ou contracepção definitiva, doença hepática aguda ou crônica grave (aminotransferases acima de 3 vezes o normal, icterícia, tempo de protrombina prolongado), hipersensibilidade ou evento adverso prévio.",
+      adversos: "Os da classe (TER do PCDT, p. 20): prisão de ventre, diarreia, dor de estômago, náusea, cefaleia, alergia de pele; dor muscular, cãibras, febre, cansaço e fraqueza pedem atenção imediata (miopatia, rabdomiólise). A SBC lembra que o risco de sintoma muscular cresce com a dose e a potência.",
+      monitor: "TGO/TGP e CPK no início, aos 6 meses e a cada mudança de dose (PCDT, p. 10). Suspender se mialgia, CPK acima de 10 vezes o normal ou aminotransferases acima de 3 vezes (p. 10).",
+      diverge: "O PCDT de 2019 restringe a dose máxima a casos especiais (p. 5 e p. 10) e decide pelo risco, não pela busca do LDL-alvo (p. 7); só cita, no diagnóstico, LDL abaixo de 100 para a maioria de risco elevado (p. 2 e 3). A SBC 2025 recomenda estatina de alta intensidade (estatina potente em dose alta, que reduz o LDL em 50% ou mais) já no início para alto, muito alto e extremo risco, quase sempre com ezetimiba — que o SUS não tem. CK e TGO/TGP: o PCDT repete aos 6 meses e a cada mudança de dose (p. 10); a SBC recomenda contra dosagens rotineiras sem sintoma, sinal de hepatotoxicidade ou mudança na terapia.",
+      fonte: "MS — PCDT Dislipidemia: prevenção de eventos cardiovasculares e pancreatite, Portaria Conjunta nº 8, 2019"
+    }
+  ]
+});
+
+FARMACOS_APS.classes.push({
+  rot: "Insuficiência cardíaca — digitálico, nitrato e sacubitril-valsartana",
+  kw: "insuficiencia cardiaca icfer digoxina sacubitril valsartana mononitrato nitrato hidralazina",
+  quando: "ICFEr (fração de ejeção abaixo de 40%) que segue sintomática apesar do tratamento padrão (IECA ou BRA, betabloqueador, espironolactona, diurético se congesto) e da dapagliflozina — Figura 2 do PCDT de IC (p. 11).",
+  nota: "Doses do Quadro 5 do PCDT de IC (p. 16). Os outros fármacos da IC já têm cartão (enalapril, captopril, losartana, carvedilol, metoprolol, espironolactona, furosemida, hidroclorotiazida, dapagliflozina, hidralazina), com a linha 'Adulto — ICFEr'. O dinitrato de isossorbida é o cartão dinitrato-de-isossorbida.",
+  farmacos: [
+    {
+      nome: "Digoxina",
+      id: "digoxina",
+      kw: "digoxina digitalico insuficiencia cardiaca icfer",
+      apres: "comprimido 0,25 mg; elixir 0,05 mg/mL (RENAME 2024, Componente Básico)",
+      dose: [
+        { rot: "Adulto não idoso — ICFEr sintomática apesar de tratamento otimizado (Quadro 5, dose inicial)", val: "0,125 mg em dias alternados a 0,25 mg 1 vez ao dia — começar pela dose baixa; o nível sérico ajuda a ajustar", p: 16 },
+        { rot: "Idoso — ICFEr", val: "no máximo 0,125 mg/dia — acima disso é medicamento potencialmente inapropriado no idoso; começar pela dose baixa e ajustar pelo sintoma e pela digoxinemia", f: "Oliveira MG et al. — Consenso Brasileiro de Medicamentos Potencialmente Inapropriados para Idosos, Geriatr Gerontol Aging, 2016" },
+        { rot: "Baixo peso, função renal alterada ou dificuldade de entender o uso — ICFEr", val: "começar pela dose baixa e ajustar pelo sintoma e pela digoxinemia", p: 15 }
+      ],
+      porque: "Digitálico. O benefício se restringe a quem segue sintomático apesar do tratamento otimizado com as doses dos estudos (IECA ou BRA ou sacubitril-valsartana, betabloqueador, espironolactona, dapagliflozina) (PCDT, p. 15).",
+      escolher: "Último degrau da Figura 2 do PCDT, como alternativa ao nitrato com hidralazina, em quem continua sintomático (p. 11 e 15). Doses baixas são preferíveis.",
+      evitar: "Começar em dose cheia. Cautela redobrada na função renal alterada, no baixo peso, no idoso e em quem tem dificuldade de entender o uso (p. 15). No idoso, passar do teto da linha 'Idoso — ICFEr' (Consenso PIM 2016). Hipocalemia não corrigida; verapamil (aumenta a toxicidade) (CAB nº 37). Usar sem que o resto do tratamento esteja otimizado.",
+      contraind: "O PCDT de IC não lista contraindicação formal além da hipersensibilidade (TER, p. 25); destaca a janela terapêutica estreita (p. 15 e 24).",
+      adversos: "Arritmias, redução da condução atrioventricular, bradicardia sinusal, náusea, vômitos, diarreia e distúrbios visuais (p. 15); alterações eletrocardiográficas (TER, p. 24).",
+      monitor: "Digoxinemia para ajustar a dose ou na suspeita de intoxicação (p. 15 e 16); potássio, sobretudo com furosemida ou hidroclorotiazida, que aumentam a toxicidade da digoxina (a espironolactona também aumenta o efeito dela); ECG e FC com betabloqueador (bloqueio atrioventricular) (CAB nº 37); sintomas gastrointestinais e visuais; função renal.",
+      diverge: "O texto do PCDT (p. 15) escreve a dose baixa como '0,125 pg/mL em dias alternados' — unidade errada; o Quadro 5 (p. 16) dá 0,125 mg em dias alternados.",
+      fonte: "MS — PCDT Insuficiência Cardíaca com Fração de Ejeção Reduzida, Portaria Conjunta SAES/SECTICS nº 10, 2024"
+    },
+    {
+      nome: "Sacubitril-valsartana (sacubitril valsartana sódica hidratada)",
+      id: "sacubitril-valsartana",
+      kw: "sacubitril valsartana inra inibidor da neprilisina insuficiencia cardiaca icfer",
+      apres: "comprimido 50 mg, 100 mg e 200 mg (RENAME 2024, Componente Especializado)",
+      dose: [
+        { rot: "Adulto — ICFEr, dose inicial", val: "50 mg VO 2 vezes ao dia", p: 14 },
+        { rot: "Adulto — ICFEr que já usava IECA ou BRA em dose alta, com PA preservada (acima de 100 mmHg) (dose inicial)", val: "100 mg VO 2 vezes ao dia", p: 14 },
+        { rot: "Adulto — ICFEr, titulação até a dose-alvo", val: "aumentar a cada 2 a 4 semanas até 200 mg 2 vezes ao dia — conferindo função renal, eletrólitos e hipotensão", p: 14 }
+      ],
+      porque: "Associa um inibidor da neprilisina (sacubitril), que impede a degradação de substâncias vasodilatadoras, a um BRA (valsartana). Reduziu mortalidade e hospitalização na ICFEr com BNP ou NT-proBNP elevados (PCDT, p. 13 e 14).",
+      escolher: "Substitui o IECA ou o BRA em adulto com menos de 75 anos, NYHA II, fração de ejeção reduzida, BNP acima de 150 ou NT-proBNP acima de 600 (pg/mL), em tratamento otimizado e ainda sintomático (p. 8 e 14). A prescrição inicial é preferencialmente do especialista; o acompanhamento pode ser na APS (p. 14). Quem cumpre os critérios dos dois começa pela dapagliflozina (Conitec, p. 29).",
+      evitar: "Junto com IECA ou com outro BRA, nunca. Iniciar antes de 36 horas da última dose de IECA. Gestação.",
+      contraind: "Gestantes; uso concomitante com IECA ou BRA; hipersensibilidade (TER do PCDT, p. 25).",
+      adversos: "Hipotensão e tontura, os mais comuns; angioedema relatado; risco de perda de função renal (p. 14).",
+      monitor: "Função renal, eletrólitos e PA a cada aumento de dose (p. 14).",
+      diverge: "Fração de ejeção: os critérios de inclusão (p. 8) dizem ≤35%; o texto e a nota da Figura 2 (p. 11 e 14) dizem abaixo de 35%.",
+      fonte: "MS — PCDT Insuficiência Cardíaca com Fração de Ejeção Reduzida, Portaria Conjunta SAES/SECTICS nº 10, 2024"
+    },
+    {
+      nome: "Mononitrato de isossorbida",
+      id: "mononitrato-de-isossorbida",
+      kw: "mononitrato de isossorbida nitrato vasodilatador insuficiencia cardiaca hidralazina",
+      apres: "comprimido 20 mg e 40 mg (RENAME 2024, Componente Básico)",
+      dose: [
+        { rot: "Adulto — ICFEr, associado à hidralazina (Quadro 5)", val: "início 10 a 20 mg VO 3 vezes ao dia; alvo 40 mg 3 vezes ao dia", p: 16 }
+      ],
+      porque: "Nitrato. Com a hidralazina, foi a primeira conduta vasodilatadora com benefício clínico provável na IC; começa em dose baixa e sobe conforme a tolerância (PCDT, p. 14).",
+      escolher: "Sempre com a hidralazina: ICFEr com intolerância a IECA e a BRA por hipercalemia ou perda de função renal; ou NYHA III e IV apesar do tratamento otimizado, sobretudo na população negra (p. 14 e 15).",
+      evitar: "Pressão arterial baixa (TER, p. 24). Junto com sildenafila, tadalafila ou outro remédio para disfunção erétil (SAMU). Usar sozinho na IC: o PCDT preconiza a associação com hidralazina.",
+      contraind: "Pressão arterial baixa; hipersensibilidade (TER do PCDT, p. 24 e 25). Uso de inibidor da fosfodiesterase-5 — sildenafila, vardenafila ou lodenafila nas últimas 24 horas, tadalafila nas últimas 48 horas (contraindicação do nitrato no protocolo AC17 do SAMU 192, 2016).",
+      adversos: "Cefaleia, hipotensão, hipotensão postural, síncope (TER, p. 24).",
+      monitor: "PA sentado e em pé; cefaleia; tolerância a cada aumento.",
+      diverge: "O PCDT de IC dá, no Quadro 5 (p. 16), a mesma posologia numa linha só para o dinitrato de 5 mg e o mononitrato de 20 e 40 mg; o esquema de 3 tomadas não foi conferido em outra fonte para o mononitrato (a bula e as Diretrizes de IC da Portaria Conjunta nº 17/2020 não foram baixadas).",
+      fonte: "MS — PCDT Insuficiência Cardíaca com Fração de Ejeção Reduzida, Portaria Conjunta SAES/SECTICS nº 10, 2024"
+    }
+  ]
+});
+
+FARMACOS_APS.classes.push({
+  rot: "Antissecretores e esquemas para H. pylori",
+  kw: "ibp omeprazol dispepsia drge refluxo azia ulcera h pylori helicobacter erradicacao claritromicina",
+  quando: "Dispepsia, DRGE e úlcera péptica na APS, e os esquemas de erradicação do H. pylori que a " +
+          "farmácia do SUS permite montar.",
+  nota: "Bismuto e vonoprazana, que o V Consenso (2026) prefere, não estão na RENAME 2024; a tetraciclina " +
+        "está, mas a quádrupla clássica sem bismuto não é o esquema validado. Os combos abaixo dizem de " +
+        "qual fonte é cada esquema.",
+  farmacos: [
+    {
+      nome: "Omeprazol",
+      id: "omeprazol",
+      kw: "omeprazol ibp inibidor bomba protons azia pirose refluxo drge dispepsia ulcera gastrite h pylori",
+      apres: "cápsula 10 mg e 20 mg (RENAME 2024); a dose de 40 mg são 2 cápsulas de 20 mg",
+      dose: [
+        { rot: "Adulto — dose padrão (dispepsia, DRGE)", val: "20 mg VO 1x/dia, 30 min antes do café", p: 24 },
+        { rot: "Adulto — dose plena (tratamento otimizado da DRGE e da dispepsia)", val: "40 mg VO 1x/dia, 30 min antes do café", p: 24 },
+        { rot: "Adulto — dose máxima (DRGE refratária, junto com o pedido de EDA)", val: "40 mg VO 2x/dia, 30 min antes do café e do jantar", p: 24 },
+        { rot: "Adulto — H. pylori, nos esquemas do TeleCondutas (base: IV Consenso)",
+          val: "20 mg VO de 12/12 h, durante todo o esquema", p: 25 },
+        { rot: "Adulto — H. pylori, esquemas com IBP em dose padrão (concomitante; quádrupla ou tríplice com bismuto) — não na terapia dupla",
+          val: "40 mg VO 2x/dia (dose padrão do Consenso, em equivalente de omeprazol), 30 a 60 min antes da refeição, nos 14 dias do esquema",
+          f: "FBG/NBEHPM — V Consenso Brasileiro sobre infecção por Helicobacter pylori, Arq Gastroenterol, 2026" },
+        { rot: "Adulto — úlcera péptica, depois do esquema de erradicação",
+          val: "manter o IBP por mais 4 a 8 semanas após o fim do esquema", p: 25 },
+        { rot: "Adulto — gastroproteção com AINE por mais de 5 dias em quem já teve evento gastrointestinal (PCDT Dor Crônica, na osteoartrite de joelho e de quadril)",
+          val: "10 ou 20 mg VO em jejum, antes do café da manhã",
+          f: "MS — PCDT Dor Crônica, Portaria Conjunta SAES/SAPS/SECTICS nº 1, 2024", p: 14 }
+      ],
+      porque: "Inibe a bomba de prótons da célula parietal e reduz a secreção ácida. IBP é o fármaco de escolha " +
+              "no refluxo ácido, e o efeito não muda entre os IBP disponíveis (FBG 2024).",
+      escolher: "DRGE erosiva ou não erosiva (o tratamento é o mesmo); dispepsia sem sinal de alarme; úlcera " +
+                "péptica; parte de todo esquema contra o H. pylori. Na DRGE, tratamento otimizado é IBP em dose " +
+                "plena com medidas comportamentais por 2 meses; sem controle, EDA (Protocolo de Gastroenterologia " +
+                "2025). Controlado, a manutenção pode ser contínua ou sob demanda (FBG 2024).",
+      evitar: "Prova terapêutica com IBP em quem tem sinal de alarme: o caminho é a EDA. Teste de H. pylori em " +
+              "uso de IBP: suspender o IBP 14 dias antes (V Consenso 2026). Manter por anos sem rever a " +
+              "indicação, sobretudo no idoso.",
+      contraind: "Não listada no TeleCondutas 2024 nem no Protocolo de Gastroenterologia 2025: conferir na bula.",
+      adversos: "Uso prolongado: atenção no idoso, no imunossuprimido e em quem tem risco de doença óssea, renal " +
+                "ou de deficiência de ferro, vitamina B12 e magnésio; riscos maiores não foram comprovados (FBG " +
+                "2024). Reduz a absorção do ferro oral (TeleCondutas Anemia 2023) e da levotiroxina " +
+                "(TeleCondutas Hipotireoidismo 2020). Pode elevar enzimas hepáticas (Quadro 5 do Protocolo de " +
+                "Gastroenterologia 2025).",
+      monitor: "Reavaliar a resposta ao fim de 2 meses de dose plena. Ferro oral: tomar 2 horas antes ou 4 " +
+               "horas depois do IBP (TeleCondutas Anemia 2023).",
+      diverge: "Dose de IBP nos esquemas de H. pylori: o TeleCondutas 2024 (adaptado do IV Consenso, 2018) usa " +
+               "omeprazol 20 mg de 12/12 h; o V Consenso 2026 define a dose padrão como 40 mg de equivalente de " +
+               "omeprazol 2x/dia e, na terapia dupla, IBP em dose alta 3 ou 4 vezes ao dia.",
+      fonte: "TelessaúdeRS-UFRGS — TeleCondutas: Alterações Endoscópicas, 2ª ed., 2024"
+    },
+    {
+      nome: "Claritromicina",
+      id: "claritromicina",
+      kw: "claritromicina macrolideo h pylori helicobacter erradicacao ulcera tripla concomitante",
+      apres: "cápsula 500 mg; comprimido 250 mg e 500 mg; grânulo para suspensão oral 50 mg/mL (RENAME 2024)",
+      dose: [
+        { rot: "Adulto — erradicação do H. pylori, na terapia concomitante (a tríplice com IBP só com resistência abaixo de 15% ou sensibilidade confirmada)",
+          val: "500 mg VO de 12/12 h por 14 dias — sempre com amoxicilina e IBP (ver os combos)", p: 25 }
+      ],
+      porque: "Macrolídeo que entra nos esquemas de erradicação do H. pylori junto com amoxicilina e IBP. A " +
+              "resistência do H. pylori à claritromicina é o que derruba a tríplice clássica (V Consenso 2026).",
+      escolher: "Só dentro de esquema de erradicação. O V Consenso 2026 desencoraja a tríplice com IBP, salvo " +
+                "resistência local baixa ou sensibilidade confirmada; a terapia concomitante (com metronidazol) " +
+                "e a tríplice otimizada com bismuto ou vonoprazana são as formas que o Consenso mantém.",
+      evitar: "Repetir em quem já usou claritromicina num esquema anterior (V Consenso 2026). Cautela em quem " +
+              "tem intervalo QT prolongado (V Consenso 2026). Junto com sinvastatina ou atorvastatina: ver o " +
+              "proibido car-sinvastatina-macrolideo (SBC 2025).",
+      contraind: "O TeleCondutas 2024 e o V Consenso 2026 não listam contraindicação absoluta: conferir na bula, " +
+                 "inclusive as interações do macrolídeo.",
+      adversos: "Elevação de enzimas hepáticas por reação idiossincrásica (macrolídeos no Quadro 5 do Protocolo " +
+                "de Gastroenterologia 2025). Os demais não foram conferidos: ver a bula.",
+      monitor: "Confirmar a erradicação com teste respiratório com ureia ou antígeno fecal, pelo menos 4 semanas " +
+               "depois do antibiótico e 14 dias sem IBP (V Consenso 2026); na úlcera péptica, EDA de controle em " +
+               "8 a 12 semanas (Protocolo de Gastroenterologia 2025).",
+      fonte: "TelessaúdeRS-UFRGS — TeleCondutas: Alterações Endoscópicas, 2ª ed., 2024"
+    }
+  ]
+});
+
+FARMACOS_APS.classes.push({
+  rot: "Diarreia aguda: reidratação, antiemético e antibiótico",
+  kw: "diarreia desidratacao sro soro reidratacao oral plano a plano b plano c vomito ondansetrona disenteria ciprofloxacino soro fisiologico",
+  quando: "Diarreia aguda pelo cartaz do MS (2023): planos A, B e C, antiemético no plano B e antibiótico só na " +
+          "disenteria com comprometimento do estado geral.",
+  nota: "Criança de 2 meses a 5 anos: seguir o guia AIDPI (zinco e doses de criança pequena estão lá). Antidiarreico " +
+        "não se usa (cartaz 2023).",
+  farmacos: [
+    {
+      nome: "Sais para reidratação oral (SRO)",
+      id: "sais-de-reidratacao-oral",
+      kw: "sro soro caseiro reidratacao oral sais envelope diarreia desidratacao plano a plano b",
+      apres: "pó para solução oral em envelope (cloreto de sódio, glicose anidra, cloreto de potássio, citrato de " +
+             "sódio di-hidratado) — RENAME 2024",
+      dose: [
+        { rot: "Todas as idades — plano A (prevenir desidratação em casa)",
+          val: "após cada evacuação diarreica: menor de 1 ano, 50 a 100 mL; de 1 a 10 anos, 100 a 200 mL; acima de 10 anos, o quanto aceitar — em pequenas quantidades e mais vezes" },
+        { rot: "Todas as idades — plano B (com desidratação, na unidade)",
+          val: "50 a 100 mL/kg (média de 75 mL/kg) em 4 a 6 horas, só como orientação inicial — o volume segue a sede; continuar até sumirem os sinais de desidratação" },
+        { rot: "Adulto (13 anos ou mais) — dengue, grupos A e B: volume do dia", val: "60 mL/kg/dia de líquido, 1/3 como SRO e 2/3 como líquidos caseiros; 1/3 do total nas primeiras 4 a 6 horas — ex.: 70 kg = 4,2 L/dia, 1,4 L nas primeiras 4 a 6 h; escrever o volume na receita", f: "MS — Dengue: diagnóstico e manejo clínico, adulto e criança, 6ª ed., 2024", p: 30 },
+        { rot: "Criança abaixo de 13 anos — dengue, grupos A e B: volume do dia", val: "até 10 kg, 130 mL/kg/dia; acima de 10 até 20 kg, 100 mL/kg/dia; acima de 20 kg, 80 mL/kg/dia — 1/3 como SRO; 1/3 do total nas primeiras 4 a 6 horas; manter o peito e a comida", f: "MS — Dengue: diagnóstico e manejo clínico, adulto e criança, 6ª ed., 2024", p: 30 }
+      ],
+      porque: "Repõe água e eletrólitos perdidos nas fezes e no vômito; é o tratamento da diarreia aguda. Os " +
+              "antidiarreicos não devem ser usados (cartaz 2023).",
+      escolher: "Plano A: diarreia sem desidratação, em casa (líquidos caseiros ou SRO). Plano B: com desidratação " +
+                "(dois ou mais sinais), na própria unidade, até a reidratação completa (cartaz 2023).",
+      evitar: "Misturar a SRO com chá, leite ou refrigerante; usá-la no lugar das refeições (CAB nº 28). No plano A, " +
+              "não usar refrigerante e, de preferência, não adoçar o chá ou o suco (cartaz 2023).",
+      contraind: "Contraindicam a terapia de reidratação oral e indicam a via venosa: perda de peso ou ganho " +
+                 "insuficiente nas primeiras horas, vômitos persistentes, recusa persistente, distensão abdominal " +
+                 "grave ou íleo paralítico, alteração da consciência, choque (CAB nº 28, Quadro 18).",
+      adversos: "Não listados no cartaz de 2023 nem no CAB nº 28: conferir na bula.",
+      monitor: "No plano B, reavaliar com o quadro de avaliação do estado de hidratação: sem sinais, plano A; " +
+               "continua desidratado, sonda nasogástrica; piora, plano C. Sem melhora em 6 horas, hospital " +
+               "(cartaz 2023). Preparo: seguir a instrução do envelope — o cartaz manda ensinar o preparo, mas não " +
+               "traz o volume de água.",
+      fonte: "MS — Manejo do paciente com diarreia (cartaz), 2023"
+    },
+    {
+      nome: "Cloreto de sódio 0,9% (soro fisiológico) — reidratação venosa",
+      id: "cloreto-de-sodio-0-9",
+      kw: "soro fisiologico sf cloreto de sodio ringer lactato plano c desidratacao grave choque expansao venosa",
+      apres: "solução injetável 9 mg/mL (0,9%), RENAME 2024; a solução de Ringer com lactato também consta da " +
+             "RENAME 2024 e serve no mesmo esquema",
+      dose: [
+        { rot: "A partir de 1 ano, inclusive adulto — diarreia com desidratação grave (plano C), fase de expansão",
+          val: "30 mL/kg EV em 30 minutos e, em seguida, 70 mL/kg em 2 horas e 30 minutos — SF 0,9% ou Ringer lactato; criança abaixo de 5 anos com cardiopatia grave: começar com 10 mL/kg; se não melhorar, aumentar a velocidade" },
+        { rot: "Menor de 1 ano — diarreia com desidratação grave (plano C), fase de expansão",
+          val: "30 mL/kg EV em 1 hora e, em seguida, 70 mL/kg em 5 horas — SF 0,9% ou Ringer lactato; recém-nascido ou cardiopatia grave: começar com 10 mL/kg" },
+        { rot: "Adulto — suspeita de cetoacidose ou de estado hiperglicêmico hiperosmolar, até a remoção: 1ª hora", val: "1.000 mL EV — atenção ao coração e ao rim (cardiopata, idoso, doença renal): somar o volume total para a ficha de referência", f: "MS — CAB nº 28, vol. II, Queixas mais comuns na Atenção Básica, 2012", p: 53 },
+        { rot: "Adulto — suspeita de cetoacidose ou de estado hiperglicêmico hiperosmolar, até a remoção: depois", val: "500 mL/h até boa diurese — atenção ao coração e ao rim (cardiopata, idoso, doença renal): somar o volume total para a ficha de referência", f: "MS — CAB nº 28, vol. II, Queixas mais comuns na Atenção Básica, 2012", p: 53 },
+        { rot: "Criança até o início da puberdade — suspeita de cetoacidose, até a remoção: 1ª hora", val: "10 a 20 mL/kg EV na 1ª hora — depois, só com a regulação: o Caderno manda manter até a glicemia chegar a cerca de 250, e o SAMU pede hidratação lenta pelo risco de edema cerebral", f: "MS — CAB nº 28, vol. II, Queixas mais comuns na Atenção Básica, 2012", p: 53 },
+        { rot: "Adulto — anafilaxia com choque", val: "1 a 2 L EV rápido: 5 a 10 mL/kg nos primeiros 5 a 10 minutos", f: "MS — SAMU 192, Protocolos de Suporte Avançado de Vida, 2016" },
+        { rot: "Dengue grupo C (sinal de alarme), adulto e criança — começar na UBS e manter no transporte", val: "10 mL/kg EV na primeira hora; na segunda hora, 10 mL/kg/hora até o hematócrito (no máximo 20 mL/kg em duas horas por fase); sem melhora, repetir a fase até três vezes", f: "MS — Dengue: diagnóstico e manejo clínico, adulto e criança, 6ª ed., 2024", p: 33 },
+        { rot: "Dengue grupo D (choque), adulto e criança — começar na UBS e manter no transporte", val: "20 mL/kg EV em até 20 minutos; repetir até três vezes, conforme a avaliação clínica", f: "MS — Dengue: diagnóstico e manejo clínico, adulto e criança, 6ª ed., 2024", p: 36 }
+      ],
+      porque: "Expansão venosa que começa na UBS e segue no transporte: plano C da diarreia, dengue grupos C e D, cetoacidose e anafilaxia com choque; cada linha diz a indicação (cartaz 2023 para o plano C).",
+      escolher: "Plano C: dois ou mais sinais de desidratação, ao menos um grave (comatoso, hipotônico, letárgico " +
+                "ou inconsciente; não consegue beber; pulso fraco ou ausente). Na UBS, iniciar enquanto a remoção " +
+                "chega (CAB nº 28). A fase de manutenção e reposição está no cartaz e no AIDPI.",
+      evitar: "Dar a fase de expansão cheia à criança abaixo de 5 anos com cardiopatia grave: começar com volume menor, como diz a linha do cartão (cartaz 2023, nota 3). Esperar a transferência sem começar a reidratação venosa. Interromper o soro antes de o paciente " +
+              "beber SRO o bastante para se manter hidratado (cartaz 2023).",
+      contraind: "O cartaz de 2023 não lista contraindicação para a expansão no plano C: conferir na bula e no " +
+                 "protocolo do serviço.",
+      adversos: "Não listados no cartaz de 2023: conferir na bula.",
+      monitor: "Reavaliar continuamente; começar a SRO assim que puder beber (em geral 2 a 3 horas após o início " +
+               "da via venosa); observar por pelo menos 6 horas e manter na unidade até estar hidratado e mantendo " +
+               "a hidratação por via oral (cartaz 2023). Auscultar o pulmão: hiper-hidratação no idoso e no cardiopata (Dengue 2024, pp. 34 e 36).",
+      diverge: "O CAB nº 28 (2012) dava, no adulto, volumes iguais de SF 0,9% e Ringer lactato somando cerca de " +
+               "10% do peso em cerca de 2 horas; o cartaz de 2023 é o esquema vigente.",
+      fonte: "MS — Manejo do paciente com diarreia (cartaz), 2023"
+    },
+    {
+      nome: "Ondansetrona",
+      id: "ondansetrona",
+      kw: "ondansetrona antiemetico vomito nausea diarreia plano b",
+      apres: "comprimido 4 mg e 8 mg; comprimido orodispersível 4 mg e 8 mg (RENAME 2024)",
+      dose: [
+        { rot: "Adulto e criança acima de 10 anos (mais de 30 kg) — vômitos persistentes no plano B", val: "8 mg, dose única — não usar na gestante" },
+        { rot: "Criança de 2 a 10 anos (até 30 kg) — vômitos persistentes no plano B", val: "4 mg, dose única" },
+        { rot: "Criança de 6 meses a 2 anos — vômitos persistentes no plano B", val: "2 mg, dose única (0,2 a 0,4 mg/kg, em geral 2 mg)" }
+      ],
+      porque: "Antiemético antagonista 5-HT3: no plano B, garante que o paciente consiga beber a SRO e se " +
+              "reidratar (cartaz 2023).",
+      escolher: "Só com vômitos persistentes durante o plano B (cartaz 2023). O cartaz não diz a via; a RENAME " +
+                "tem comprimido e comprimido orodispersível.",
+      evitar: "Gestante (cartaz 2023: não utilizar). Abaixo de 6 meses: o cartaz não dá dose. Associar com metoclopramida — mecanismos que se anulam (ver " +
+              "pal-metoclopramida-ondansetrona). Dar fora do plano B, como rotina na diarreia.",
+      contraind: "Gestação (cartaz 2023). As demais não foram conferidas: ver a bula.",
+      adversos: "Não listados no cartaz de 2023: conferir na bula.",
+      monitor: "Reavaliar a aceitação da SRO depois da dose; vômitos que persistem contraindicam a via oral e " +
+               "levam ao plano C (CAB nº 28).",
+      diverge: "O AIDPI 2017 dá 0,2 mg/kg/dose até três vezes ao dia (2 mg dos 6 meses aos 2 anos; 4 mg acima de " +
+               "2 anos, sublingual); o cartaz de 2023 dá dose única. Abaixo de 5 anos, seguir o guia AIDPI.",
+      fonte: "MS — Manejo do paciente com diarreia (cartaz), 2023"
+    },
+    {
+      nome: "Ciprofloxacino",
+      id: "ciprofloxacino",
+      kw: "ciprofloxacino ciprofloxacina quinolona disenteria diarreia com sangue shigella antibiotico",
+      apres: "comprimido 250 mg e 500 mg (RENAME 2024)",
+      dose: [
+        { rot: "Adulto, adolescente e criança acima de 10 anos com mais de 30 kg — disenteria com comprometimento do estado geral",
+          val: "500 mg VO de 12/12 h por 3 dias" },
+        { rot: "Mulher adulta não gestante — ITU complicada ou com sintoma sistêmico, quando há como tratar em casa", val: "500 mg VO de 12/12 horas, por 7 a 14 dias — colher urocultura antes e reavaliar em 24 horas", f: "MS — Protocolos da Atenção Básica: Saúde das Mulheres, 2016", p: 61 },
+        { rot: "Homem adulto — pielonefrite leve, sem comorbidade e com bom estado geral", val: "500 mg VO de 12/12 horas, por 10 a 14 dias — reavaliar em 48 horas", f: "MS — CAB nº 28, vol. II, Queixas mais comuns na Atenção Básica, 2012", p: 79 },
+        { rot: "Homem adulto — cistite (alternativa à cefalexina)", val: "500 mg VO de 12/12 horas, por 7 dias", f: "MS — CAB nº 28, vol. II, Queixas mais comuns na Atenção Básica, 2012", p: 77 },
+        { rot: "Homem adulto — prostatite bacteriana aguda (alternativa ao SMX-TMP)", val: "500 mg VO de 12/12 horas, por três a quatro semanas", f: "MS — CAB nº 28, vol. II, Queixas mais comuns na Atenção Básica, 2012", p: 78 }
+      ],
+      porque: "Fluoroquinolona oral para infecção bacteriana invasiva: disenteria com comprometimento do estado geral " +
+              "(cartaz de 2023), ITU complicada e pielonefrite leve tratadas em casa (Protocolos AB 2016; CAB nº 28) e " +
+              "prostatite ou cistite do homem (CAB nº 28).",
+      escolher: "Disenteria com comprometimento do estado geral, febre alta persistente, dor abdominal, tenesmo " +
+                "ou comprometimento sistêmico, ou cólera grave (cartaz 2023); ITU complicada da mulher e pielonefrite " +
+                "leve tratadas em casa (Protocolos AB 2016); cistite e prostatite do homem (CAB nº 28). Nunca na " +
+                "cistite não complicada da mulher nem na gestante (consenso 2020). Em outras diarreias, o antibiótico " +
+                "é ineficaz e gera resistência (cartaz 2023). Criança de até 30 kg: o cartaz usa azitromicina (ver a queixa).",
+      evitar: "Diarreia aquosa sem sangue. Gestante: o CAB nº 28 (2012) contraindica quinolona na gestante e na " +
+              "criança; o cartaz de 2023 não trata da gestante — decidir com a preceptora. Cautela especial no idoso, " +
+              "no portador de doença renal, no transplantado e em quem usa corticoide: risco maior de lesão de tendão " +
+              "(consenso de ITU 2020, citando a EMA 2019).",
+      contraind: "Gestação: quinolonas são contraindicadas por poderem levar a danos fetais (MS — Manual de Gestação " +
+                 "de Alto Risco, 2022, p. 571; também o CAB nº 28, 2012). As demais não foram conferidas: ver a bula.",
+      adversos: "Hepatotoxicidade idiossincrásica (fluoroquinolonas no Quadro 5 do Protocolo de Gastroenterologia " +
+                "2025). Incapacidade associada à fluoroquinolona (FDA 2016; EMA 2019): tendinite e ruptura de tendão, " +
+                "fraqueza muscular, neuropatia periférica, disfunção autonômica e cognitiva, convulsão, demência, " +
+                "distúrbios psiquiátricos, ruptura de aneurisma de aorta, arritmias e disglicemia (consenso de ITU 2020). " +
+                "Os demais não foram conferidos: ver a bula.",
+      monitor: "Reavaliar em 2 dias. Sangue nas fezes depois de 48 horas: com boas condições gerais, seguir só a " +
+               "hidratação, sem antibiótico; com condições comprometidas, ceftriaxona ou internação (cartaz 2023).",
+      diverge: "O CAB nº 28 (Quadro 20) contraindica quinolona também na criança; o cartaz de 2023 a usa acima de 10 anos e de 30 kg.",
+      fonte: "MS — Manejo do paciente com diarreia (cartaz), 2023"
+    }
+  ]
+});
+
+FARMACOS_APS.classes.push({
+  rot: "Antiparasitários",
+  kw: "verme verminose parasitose lombriga ascaris ancilostomo amarelao oxiuro enterobius estrongiloides tenia solitaria esquistossomose xistose barriga dagua escabiose albendazol ivermectina praziquantel",
+  quando: "Parasitoses intestinais e esquistossomose na APS. Cada linha diz a parasitose e a população.",
+  nota: "O guia de bolso do MS é de 2010 e cita fármacos que nenhuma fonte mais nova recomenda; a dose de " +
+        "criança vem da SBP (2020) ou do GVS (2024), e a linha diz de qual. Mebendazol, nitazoxanida, " +
+        "secnidazol e tinidazol não estão na RENAME 2024.",
+  farmacos: [
+    {
+      nome: "Albendazol",
+      id: "albendazol",
+      kw: "albendazol zentel verme lombriga ascaridiase ancilostomiase amarelao enterobiase oxiuro teniase giardiase geo-helmintiase",
+      apres: "comprimido mastigável 400 mg; suspensão oral 40 mg/mL (RENAME 2024)",
+      dose: [
+        { rot: "Adulto — ascaridíase", val: "400 mg VO, dose única", p: 98 },
+        { rot: "Adulto — ancilostomíase", val: "2 comprimidos (1 comprimido = 200 mg) VO, dose única", p: 96 },
+        { rot: "Adulto — enterobíase", val: "400 mg VO, dose única — o teto da dose de 10 mg/kg do guia", p: 167 },
+        { rot: "Adulto — teníase", val: "400 mg/dia VO por 3 dias", p: 388 },
+        { rot: "Adulto — giardíase (alternativa ao metronidazol)", val: "400 mg VO 1x/dia por 5 dias",
+          f: "TelessaúdeRS-UFRGS — TeleCondutas: Alterações Endoscópicas, 2ª ed., 2024", p: 27 },
+        { rot: "Tricuríase (SBP, guia pediátrico; sem linha do MS)", val: "400 mg VO 1x/dia por 3 a 7 dias",
+          f: "SBP — Guia Prático de Atualização nº 7, Parasitoses intestinais: diagnóstico e tratamento, 2020", p: 7 },
+        { rot: "Adulto — diarreia crônica: tratamento empírico de parasitose na APS", val: "400 mg/dia VO por 5 dias",
+          f: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Gastroenterologia adulto, 3ª ed., 2025", p: 44 },
+        { rot: "Criança a partir de 2 anos (SBP) — ascaridíase, ancilostomíase ou enterobíase",
+          val: "400 mg VO, dose única; na enterobíase, repetir em 2 semanas",
+          f: "SBP — Guia Prático de Atualização nº 7, Parasitoses intestinais: diagnóstico e tratamento, 2020", p: 7 },
+        { rot: "Criança de 12 a 24 meses (SBP) — ascaridíase ou ancilostomíase", val: "200 mg VO, dose única",
+          f: "SBP — Guia Prático de Atualização nº 7, Parasitoses intestinais: diagnóstico e tratamento, 2020", p: 2 }
+      ],
+      porque: "Benzimidazólico ovicida, larvicida e vermicida (guia de bolso 2010); é a 1ª escolha nas " +
+              "geo-helmintíases e o que a rede dá de graça (GVS 2024).",
+      escolher: "Ascaridíase, ancilostomíase, tricuríase e enterobíase; teníase; giardíase como alternativa ao " +
+                "metronidazol (TeleCondutas 2024); tratamento empírico de parasitose na diarreia crônica " +
+                "(Protocolo de Gastroenterologia 2025). Na estrongiloidíase, a escolha é a ivermectina (SBP 2020).",
+      evitar: "Gestação (GVS 2024; guia de bolso 2010). Estrongiloidíase: usar a ivermectina — a dose de " +
+              "albendazol impressa no guia de bolso para essa parasitose não bate com a apresentação do " +
+              "comprimido e não foi usada aqui.",
+      contraind: "Gestação: os anti-helmínticos não devem ser usados (GVS 2024, p. 974). As demais não foram " +
+                 "conferidas: ver a bula.",
+      adversos: "Dor abdominal transitória, náusea ou diarreia, sobretudo com carga alta de vermes (SBP 2020).",
+      monitor: "Controle de cura com parasitológico de fezes no 7º, 14º e 21º dia na ancilostomíase (guia de bolso " +
+               "2010). Enterobíase: tratar todos da casa acima de 6 meses (SBP 2020).",
+      diverge: "Criança na ascaridíase: o guia de bolso de 2010 dá 10 mg/kg em dose única; a SBP (2020) dá 400 mg a " +
+               "partir de 2 anos e 200 mg de 12 a 24 meses — as linhas acima seguem a SBP.",
+      fonte: "MS — Doenças infecciosas e parasitárias: guia de bolso, 8ª ed. rev., 2010"
+    },
+    {
+      nome: "Ivermectina",
+      id: "ivermectina",
+      kw: "ivermectina revectina estrongiloidiase strongyloides escabiose sarna piolho verme hiperinfeccao",
+      apres: "comprimido 6 mg (RENAME 2024)",
+      dose: [
+        { rot: "Pessoa com 15 kg ou mais — estrongiloidíase (guia de bolso MS)",
+          val: "dose única VO, por faixa de peso: 15 a 24 kg, ½ comprimido; 25 a 35 kg, 1; 36 a 50 kg, 1½; 51 a 65 kg, 2; 65 a 79 kg, 2½; 80 kg ou mais, 3 comprimidos", p: 177 },
+        { rot: "Pessoa com 15 kg ou mais — escabiose (guia de bolso MS)",
+          val: "dose única VO, pela mesma faixa de peso (15 a 24 kg, ½ comprimido; 25 a 35 kg, 1; 36 a 50 kg, 1½; 51 a 65 kg, 2; 65 a 79 kg, 2½; 80 kg ou mais, 3); pode repetir após 1 semana", p: 169 },
+        { rot: "Criança com 15 kg ou mais (SBP) — estrongiloidíase", val: "200 mcg/kg VO por 2 dias — na hiperinfecção, prolongar",
+          f: "SBP — Guia Prático de Atualização nº 7, Parasitoses intestinais: diagnóstico e tratamento, 2020", p: 8 }
+      ],
+      porque: "1ª linha na estrongiloidíase (SBP 2020); também trata escabiose (guia de bolso 2010).",
+      escolher: "Estrongiloidíase; escabiose. Quem vai usar corticoide em dose alta ou imunossupressor deve ser " +
+                "avaliado e tratado para estrongiloides antes (guia de bolso 2010; SBP 2020).",
+      evitar: "Abaixo de 15 kg e na gestação: segurança não estabelecida (SBP 2020). Lactante (CAB nº 28, p. 86). Dar sem pesar o paciente.",
+      contraind: "Abaixo de 15 kg e gestação, pela SBP (2020); lactação (CAB nº 28, 2012, p. 86, na escabiose). As demais não foram conferidas: ver a bula.",
+      adversos: "Não descritos no guia de bolso 2010 nem na SBP 2020: conferir na bula.",
+      monitor: "Estrongiloidíase: três parasitológicos de fezes, no 7º, 14º e 21º dia (guia de bolso 2010). Tomar " +
+               "com o estômago vazio, com água (SBP 2020). O guia de bolso escreve 'comprimido' sem a concentração; " +
+               "a escala corresponde ao comprimido de 6 mg da RENAME.",
+      diverge: "Estrongiloidíase: o guia de bolso (2010) dá dose única pela faixa de peso; a SBP (2020) dá 200 " +
+               "mcg/kg por 2 dias.",
+      fonte: "MS — Doenças infecciosas e parasitárias: guia de bolso, 8ª ed. rev., 2010"
+    },
+    {
+      nome: "Praziquantel",
+      id: "praziquantel",
+      kw: "praziquantel esquistossomose xistose barriga dagua schistosoma teniase solitaria",
+      apres: "comprimido 600 mg (RENAME 2024, Componente Estratégico)",
+      dose: [
+        { rot: "Adulto — esquistossomose mansoni", val: "50 mg/kg VO, de preferência em dose única — repouso de pelo menos 3 horas depois", p: 962 },
+        { rot: "Criança de 2 anos ou mais — esquistossomose mansoni (o GVS não define a idade em que passa a 50 mg/kg)",
+          val: "60 mg/kg VO, de preferência em dose única — sem teto na fonte: em criança grande ou adolescente, conferir com a preceptora antes de passar da dose do adulto; abaixo de 2 anos, só a critério médico", p: 962 },
+        { rot: "Adulto — teníase (guia de bolso MS)", val: "5 a 10 mg/kg VO, dose única",
+          f: "MS — Doenças infecciosas e parasitárias: guia de bolso, 8ª ed. rev., 2010", p: 388 }
+      ],
+      porque: "É o único fármaco que o MS distribui para a esquistossomose (GVS 2024).",
+      escolher: "Esquistossomose com ovos de S. mansoni nas fezes (GVS 2024). Teníase: alternativa do guia de bolso " +
+                "(2010); a RENAME o lista no Componente Estratégico, para a esquistossomose — conferir a " +
+                "dispensação para teníase no município.",
+      evitar: "Gestação; amamentação (a lactante com forma grave é tratada sob supervisão médica); menor de 2 anos, " +
+              "a critério médico (GVS 2024).",
+      contraind: "Gestação; insuficiência hepática grave (fase descompensada da forma hepatoesplênica); insuficiência " +
+                 "renal ou outras descompensações graves, a critério médico (GVS 2024, p. 962).",
+      adversos: "Predominam diarreia e dor abdominal; náusea e tontura passageiras. Não há evidência de lesão tóxica " +
+                "grave no fígado ou em outros órgãos (GVS 2024, Quadro 1).",
+      monitor: "Pesar antes de calcular. Fracionar o comprimido expõe sabor amargo, o que dificulta na criança (GVS " +
+               "2024). Casos graves, hospitalizados ou de área não endêmica: notificar no Sinan.",
+      fonte: "MS — Guia de Vigilância em Saúde, vol. 2, 6ª ed. rev., 2024"
+    }
+  ]
+});
+
+FARMACOS_APS.classes.push({
+  rot: "Antivirais da hepatite C na APS",
+  kw: "hepatite c hcv antiviral daa sofosbuvir daclatasvir apri tratamento aps",
+  quando: "Hepatite C com APRI abaixo de 1, sem cirrose e sem os critérios de encaminhamento do PCDT de 2026: a " +
+          "APS prescreve e a unidade dispensadora entrega.",
+  farmacos: [
+    {
+      nome: "Sofosbuvir + daclatasvir (esquema da APS na hepatite C)",
+      id: "sofosbuvir-daclatasvir",
+      kw: "sofosbuvir daclatasvir hepatite c hcv antiviral acao direta daa apri",
+      apres: "sofosbuvir comprimido 400 mg; daclatasvir comprimido 30 mg e 60 mg — comprimidos separados (RENAME " +
+             "2024, Componente Estratégico)",
+      dose: [
+        { rot: "Adulto com hepatite C, APRI abaixo de 1 e sem cirrose — tratamento inicial ou reinfecção",
+          val: "sofosbuvir 400 mg 1 comprimido + daclatasvir 60 mg 1 comprimido (ou daclatasvir 30 mg, 2 comprimidos), juntos, VO, 1x/dia, por 12 semanas", p: 46 }
+      ],
+      porque: "Dois antivirais de ação direta de classes diferentes, pangenotípicos; a chance de cura supera 90% " +
+              "(PCDT Hepatite C 2026).",
+      escolher: "Toda pessoa com HCV-RNA detectável tem indicação de tratar, aguda ou crônica. Na APS: APRI abaixo " +
+                "de 1, sem cirrose e sem coinfecção HIV ou HBV, gestação, idade abaixo de 18 anos, depuração de " +
+                "creatinina abaixo de 30, quimioterapia, transplante, neoplasia, anticonvulsivante de 1ª geração ou " +
+                "amiodarona, manifestação extra-hepática grave ou falha prévia de DAA (PCDT 2026). APRI de 1 ou mais " +
+                "ou cirrose: outro esquema, no serviço especializado.",
+      evitar: "Gestação e amamentação (PCDT Hepatite C 2026: o tratamento não deve ser feito em grávidas e, na amamentação, aguardar o término); teste de gravidez e contracepção antes de iniciar. Rifampicina, rifabutina, rifapentina, " +
+              "carbamazepina, oxcarbazepina, fenitoína e fenobarbital: nenhum DAA pode ser usado junto; amiodarona: " +
+              "evitar (PCDT 2026).",
+      contraind: "Gestação e aleitamento (PCDT Hepatite C 2026, pp. 36 e 58-59); uso concomitante dos indutores " +
+                 "listados acima (PCDT 2026).",
+      adversos: "Poucos ou nenhum efeito adverso, pelo PCDT 2026; o perfil detalhado não foi conferido — ver a bula.",
+      monitor: "Rever interações de todo medicamento, inclusive os não prescritos, antes e durante o tratamento. " +
+               "Cura (RVS): HCV-RNA indetectável a partir de 12 semanas após o fim do esquema. Evitar gravidez " +
+               "durante e até 6 meses depois (GVS 2024).",
+      fonte: "MS — PCDT Hepatite C e Coinfecções, Portaria SCTIE/MS nº 39, 2026"
+    }
+  ]
+});
+
+FARMACOS_APS.classes.push({
+  rot: "Tireoide",
+  kw: "tireoide hipotireoidismo hipertireoidismo graves bocio tsh t4 levotiroxina tiamazol metimazol propiltiouracila",
+  quando: "Hipotireoidismo primário tratado na APS; hipertireoidismo iniciado na APS até a consulta com o " +
+          "endocrinologista; gestante com tireoidopatia.",
+  farmacos: [
+    {
+      nome: "Levotiroxina",
+      id: "levotiroxina",
+      kw: "levotiroxina puran synthroid euthyrox t4 hipotireoidismo hashimoto tsh alto",
+      apres: "comprimido 12,5 mcg, 25 mcg, 37,5 mcg, 50 mcg e 100 mcg (RENAME 2024)",
+      dose: [
+        { rot: "Adulto saudável abaixo de 60 anos — hipotireoidismo primário franco",
+          val: "1,6 mcg/kg/dia VO, dose plena desde o início — em jejum, 30 minutos antes do café da manhã", p: 6 },
+        { rot: "Idoso ou cardiopata — hipotireoidismo primário franco",
+          val: "início 25 mcg/dia VO; subir 12,5 a 25 mcg/dia a cada duas semanas, até a dose adequada pelo TSH", p: 6 },
+        { rot: "Idoso acima de 80 anos, ou com coronariopatia ou insuficiência cardíaca (SBEM)",
+          val: "início 12,5 a 25 mcg/dia VO; titular a cada 4 a 8 semanas",
+          f: "SBEM — Abordagem do adulto com hipotireoidismo primário em situações especiais, Arch Endocrinol Metab, 2022" },
+        { rot: "Adulto — hipotireoidismo subclínico com indicação de tratar", val: "25 a 75 mcg/dia VO", p: 6 },
+        { rot: "Gestante — hipotireoidismo franco diagnosticado na gestação",
+          val: "100 a 150 mcg/dia VO, ou 1,6 mcg/kg/dia, começando já", p: 8 },
+        { rot: "Gestante que já usava levotiroxina — ao confirmar a gestação", val: "aumentar a dose em 25 a 30%", p: 8 },
+        { rot: "Gestante — hipotireoidismo subclínico com TSH acima de 4,0, com indicação de tratar",
+          val: "cerca de 1,0 mcg/kg/dia VO", p: 9 },
+        { rot: "Gestante — TSH entre 2,6 e 4,0, quando se opta por tratar", val: "50 mcg/dia VO", p: 9 }
+      ],
+      porque: "Repõe o T4 no hipotireoidismo primário; o tratamento depende sobretudo da dose certa e da adesão, e " +
+              "raramente precisa de endocrinologista (TeleCondutas 2020).",
+      escolher: "Hipotireoidismo primário franco: sempre. Subclínico: TSH persistentemente acima de 10; de 7 a 10 " +
+                "com menos de 65 anos, ou 65 ou mais com sintomas muito sugestivos; acima do normal e abaixo de 7, " +
+                "com menos de 65 anos e anti-TPO alto, bócio ou sintomas muito sugestivos (TeleCondutas 2020). No " +
+                "idoso, o subclínico com TSH acima de 10 pode ser tratado; acima de 80 anos, cautela (SBEM 2022).",
+      evitar: "Tomar com o café da manhã ou junto com ferro, carbonato de cálcio, suplementos minerais, hidróxido de " +
+              "alumínio ou omeprazol, que reduzem a absorção (TeleCondutas 2020). Usar para reduzir nódulo em quem " +
+              "não tem hipotireoidismo (TeleCondutas Nódulo 2022).",
+      contraind: "O TeleCondutas 2020 não lista contraindicação: conferir na bula. Excesso de dose no idoso aumenta " +
+                 "fibrilação atrial e fratura (SBEM 2022).",
+      adversos: "Os de dose excessiva: palpitação, hiperatividade, perda de peso com aumento do apetite — antecipar " +
+                "a consulta (TeleCondutas 2020).",
+      monitor: "TSH 6 a 8 semanas depois de iniciar ou ajustar, até normalizar; depois, a cada 6 meses no 1º ano e " +
+               "então anual. Não precisa de T4 livre nem de T3 no seguimento do hipotireoidismo primário. Mais de " +
+               "2,5 mcg/kg/dia sem controle: rever adesão, absorção e fenobarbital, fenitoína ou carbamazepina; " +
+               "persistindo, endocrinologista (TeleCondutas 2020). Gestante: TSH mensal até a metade da gestação. " +
+               "Idoso: alvo de TSH de 2,0 a 6,0 (SBEM 2022).",
+      diverge: "Início no idoso: o TeleCondutas 2020 manda começar baixo em todo idoso ou cardiopata; a SBEM (2022) " +
+               "aceita dose plena no idoso saudável abaixo de 80 anos e reserva o início baixo para 80 anos ou mais " +
+               "e comorbidade grave. Titulação no cardiopata: o TeleCondutas sobe a cada 2 semanas; a SBEM, no coronariopata e na " +
+               "insuficiência cardíaca, a cada 4 a 8 semanas, com alvo de TSH de 2,0 a 6,0 no idoso.",
+      fonte: "TelessaúdeRS-UFRGS — TeleCondutas: Hipotireoidismo, 2020"
+    },
+    {
+      nome: "Tiamazol (metimazol)",
+      id: "metimazol",
+      kw: "tiamazol metimazol tapazol antitireoidiano hipertireoidismo graves bocio toxico",
+      apres: "comprimido 5 mg e 10 mg (RENAME 2024)",
+      dose: [
+        { rot: "Adulto — hipertireoidismo franco, T4 livre de 1 a 1,5 vez o valor normal", val: "5 a 10 mg VO 1x/dia", p: 6 },
+        { rot: "Adulto — hipertireoidismo franco, T4 livre de 1,5 a 2 vezes o valor normal", val: "10 a 20 mg VO 1x/dia", p: 7 },
+        { rot: "Adulto — hipertireoidismo franco, T4 livre de 2 a 3 vezes o valor normal", val: "20 a 40 mg/dia VO, em 1 ou 2 tomadas", p: 7 },
+        { rot: "Adulto — manutenção, com T3 e T4 livre normais",
+          val: "reduzir a dose em 30 a 50% e repetir os exames em 4 a 6 semanas; em geral, 5 a 10 mg/dia bastam", p: 7 },
+        { rot: "Adulto — hipertireoidismo subclínico com indicação de tratar", val: "5 a 10 mg/dia VO", p: 10 },
+        { rot: "Gestante a partir de 16 semanas — doença de Graves", val: "5 a 30 mg/dia VO, em dose única", p: 15 }
+      ],
+      porque: "Antitireoidiano de 1ª escolha por ter menor risco de hepatotoxicidade grave que o propiltiouracila " +
+              "(TeleCondutas 2021).",
+      escolher: "Hipertireoidismo franco (Graves, bócio multinodular tóxico, adenoma tóxico): iniciar na APS e " +
+                "encaminhar ao endocrinologista. Subclínico: pelo Quadro 2 do TeleCondutas (idade, TSH, " +
+                "comorbidade). Amamentação: é o de escolha (TeleCondutas 2021), e o Manual de Gestação de Alto Risco (MS, 2022) o aceita na amamentação (ver o campo de divergência).",
+      evitar: "1º trimestre da gestação: trocar pelo propiltiouracila. Tireotoxicose gestacional transitória e " +
+              "tireoidite subaguda: antitireoidiano não está indicado (TeleCondutas 2021).",
+      contraind: "1º trimestre da gestação (TeleCondutas 2021). As demais não foram conferidas: ver a bula.",
+      adversos: "Hepatotoxicidade grave é menos frequente que com o propiltiouracila (TeleCondutas 2021). Os demais, " +
+                "inclusive o risco hematológico, não foram conferidos em fonte desta onda: ver a bula. Agranulocitose e hepatite " +
+                "medicamentosa, raras: suspender o fármaco (MS — Manual de Gestação de Alto Risco, 2022, dito para a gestante).",
+      monitor: "T4 livre e T3 total a cada 4 a 6 semanas até estabilizar a dose; depois, a cada 3 a 6 meses. O TSH " +
+               "pode ficar suprimido de 6 a 12 meses: não usar o TSH para ajustar no início. Graves: manter de 12 a " +
+               "18 meses (TeleCondutas 2021).",
+      diverge: "Lactante: o Manual de Gestação de Alto Risco (MS, 2022) aceita até 30 mg/dia. Gestante: o mesmo Manual dá tiamazol 10 a 30 mg/dia em 1 ou 2 tomadas, prefere o PTU " +
+               "e só troca por intolerância; o TeleCondutas 2021 troca para tiamazol a partir de 16 semanas. A gestante vai ao " +
+               "pré-natal de alto risco, que decide.",
+      fonte: "TelessaúdeRS-UFRGS — TeleCondutas: Hipertireoidismo, 2021"
+    },
+    {
+      nome: "Propiltiouracila",
+      id: "propiltiouracil",
+      kw: "propiltiouracila propiltiouracil ptu antitireoidiano gestacao primeiro trimestre graves",
+      apres: "comprimido 100 mg (RENAME 2024)",
+      dose: [
+        { rot: "Gestante no 1º trimestre — doença de Graves",
+          val: "200 a 450 mg/dia VO, divididos em 2 a 3 tomadas — a partir de 16 semanas, trocar por tiamazol", p: 15 }
+      ],
+      porque: "Menor risco de malformação fetal que o tiamazol no 1º trimestre (TeleCondutas 2021).",
+      escolher: "1º trimestre da gestação, inclusive em quem engravidou usando tiamazol; crise tireotóxica, no " +
+                "hospital (TeleCondutas 2021). Fora disso, o tiamazol é o de escolha.",
+      evitar: "Depois de 16 semanas de gestação e fora da gestação: mais hepatotóxico que o tiamazol (TeleCondutas " +
+              "2021).",
+      contraind: "O TeleCondutas 2021 não lista contraindicação absoluta: conferir na bula.",
+      adversos: "Hepatotoxicidade, maior que a do tiamazol (TeleCondutas 2021). Agranulocitose e hepatite medicamentosa, " +
+                "raras: suspender o fármaco (MS — Manual de Gestação de Alto Risco, 2022, dito para a gestante). Os demais " +
+                "não foram conferidos: ver a bula.",
+      monitor: "Gestante: T4 total e TSH a cada 2 a 4 semanas no início ou ajuste; controlada, a cada 4 semanas. O " +
+               "alvo é T4 total até 1,5 vez o limite superior para não gestante. Encaminhar ao pré-natal de alto " +
+               "risco (TeleCondutas 2021).",
+      diverge: "O Manual de Gestação de Alto Risco (MS, 2022) dá PTU 100 a 450 mg/dia em 3 ou 4 tomadas, prefere o PTU e só troca " +
+               "por intolerância; o TeleCondutas 2021 troca para tiamazol a partir de 16 semanas. A gestante vai ao " +
+               "pré-natal de alto risco, que decide.",
+      fonte: "TelessaúdeRS-UFRGS — TeleCondutas: Hipertireoidismo, 2021"
+    }
+  ]
+});
+
+FARMACOS_APS.classes.push({
+  rot: "Vitamina B12",
+  kw: "vitamina b12 cianocobalamina anemia megaloblastica macrocitica deficiencia metformina neuropatia",
+  quando: "Deficiência de vitamina B12 no adulto: fase de ataque e, quando a causa não se reverte, manutenção.",
+  farmacos: [
+    {
+      nome: "Cianocobalamina (vitamina B12)",
+      id: "cianocobalamina",
+      kw: "cianocobalamina vitamina b12 citoneurin anemia megaloblastica macrocitica neuropatia metformina vegano",
+      apres: "solução injetável 500 mcg/mL (RENAME 2024): 1.000 mcg são 2 mL; a forma oral não está na RENAME e, " +
+             "no comércio, costuma vir associada a B1 e B6 (5.000 mcg)",
+      dose: [
+        { rot: "Adulto sem sintoma neurológico — deficiência de B12, ataque IM", val: "1.000 mcg IM 3x/semana por 2 semanas", p: 26 },
+        { rot: "Adulto sem sintoma neurológico — deficiência de B12, ataque VO",
+          val: "1.000 mcg/dia VO; sem tempo estabelecido, sugerem-se 4 a 6 meses", p: 26 },
+        { rot: "Adulto com sintoma neurológico — deficiência de B12, ataque",
+          val: "1.000 mcg IM 1x/dia por 1 a 5 dias; depois, 1.000 a 2.000 mcg/dia VO por 4 a 6 meses", p: 26 },
+        { rot: "Adulto — manutenção, quando a causa não se reverte",
+          val: "1.000 mcg IM 1x/mês; sem sintoma neurológico, também 1.000 a 2.000 mcg/dia VO", p: 26 },
+        { rot: "Adulto — deficiência ligada à dieta, manutenção",
+          val: "50 a 150 mcg/dia VO, ou 2.000 mcg VO 1x/semana", p: 26 }
+      ],
+      porque: "Repõe a B12 na anemia megaloblástica e nos sintomas neurológicos da deficiência; a via oral é tão " +
+              "eficaz quanto a IM em quem adere (TeleCondutas Anemia 2023).",
+      escolher: "Deficiência confirmada. Preferir IM com anemia sintomática ou sintoma neuropsiquiátrico, na gestação " +
+                "e na suspeita de absorção prejudicada. Manutenção por toda a vida em bariátrica, gastrectomia, " +
+                "ressecção de íleo, Crohn, celíaca, anemia perniciosa e dieta vegana persistente (TeleCondutas " +
+                "Anemia 2023).",
+      evitar: "Começar o ácido fólico antes da B12 quando as duas faltam — precipita degeneração combinada subaguda " +
+              "da medula (TeleCondutas Anemia 2023).",
+      contraind: "O TeleCondutas Anemia 2023 não lista contraindicação: conferir na bula.",
+      adversos: "Na 1ª semana, piora transitória das parestesias. Associações com B6: risco de superdose de B6 se " +
+                "passar de 1 g/dia por mais de 2 meses (TeleCondutas Anemia 2023).",
+      monitor: "Com alteração hematológica: hemograma e reticulócitos em 7 a 10 dias e em 8 semanas; o VCM deve " +
+               "normalizar em 8 semanas. Ataque oral: dosar B12 em 8 semanas. Sintoma neurológico melhora em 1 " +
+               "semana e resolve entre 6 semanas e 1 ano (TeleCondutas Anemia 2023).",
+      fonte: "TelessaúdeRS-UFRGS — TeleCondutas: Anemia, 2023"
+    }
+  ]
+});
+
+FARMACOS_APS.classes.push({
+  rot: "Antibacterianos para infecções respiratórias",
+  kw: "antibiotico pneumonia pac otite oma sinusite rinossinusite faringite amigdalite amoxicilina clavulanato",
+  quando: "Otite média aguda, rinossinusite bacteriana, pneumonia adquirida na comunidade e a segunda linha da " +
+          "AIDPI na criança de 2 meses a 5 anos. Resfriado, faringite viral e bronquite aguda não levam antibiótico.",
+  nota: "A faringoamigdalite estreptocócica é penicilina benzatina (cartão dos antibacterianos para IST) e o " +
+        "alérgico tipo I vai para a azitromicina: os dois cartões ganharam a linha respiratória. Na criança, a " +
+        "tabela da AIDPI vai de 4 a 24 kg e não vale fora dessa faixa.",
+  farmacos: [
+    {
+      nome: "Amoxicilina",
+      id: "amoxicilina",
+      kw: "amoxicilina amoxil penicilina betalactamico pneumonia pac otite oma sinusite rinossinusite crianca aidpi",
+      apres: "cápsula 500 mg e comprimido 500 mg; pó para suspensão oral 50 mg/mL (o mesmo que 250 mg/5 mL)",
+      dose: [
+        { rot: "Criança de 2 meses a 5 anos — pneumonia (respiração rápida, sem sinal geral de perigo)",
+          val: "50 mg/kg/dia VO, divididos em 2 tomadas de 12/12 h (metade da dose diária por tomada), por 7 dias — suspensão 250 mg/5 mL; a tabela da AIDPI vai de 4 a 24 kg", p: 90 },
+        { rot: "Criança de 2 meses a 5 anos — infecção aguda do ouvido",
+          val: "50 mg/kg/dia VO, divididos em 2 tomadas de 12/12 h (metade da dose diária por tomada), por 8 dias — mesma tabela de peso (4 a 24 kg)", p: 90 },
+        { rot: "Criança de 2 meses a 5 anos — infecção aguda do ouvido que não melhorou em dois dias de amoxicilina",
+          val: "80 mg/kg/dia VO, de 12/12 h (ou trocar por amoxicilina + clavulanato) — reavaliar em 48 h; sem melhora no segundo retorno, referir", p: 169 },
+        { rot: "Adulto — otite média aguda",
+          val: "500 mg VO de 8/8 h ou 875 mg VO de 12/12 h, por 10 dias — a RENAME só tem a de 500 mg",
+          f: "MS — CAB nº 28, vol. II, Queixas mais comuns na Atenção Básica, 2012", p: 108 },
+        { rot: "Adulto — rinossinusite bacteriana aguda (piora depois do 5º dia ou sintomas por mais de 10 a 14 dias)",
+          val: "1,5 a 4 g/dia VO, divididos de 8/8 h ou de 12/12 h — manter até cinco a sete dias depois da melhora (em média 10 a 14 dias no total)",
+          f: "MS — CAB nº 28, vol. II, Queixas mais comuns na Atenção Básica, 2012", p: 171 },
+        { rot: "Adulto previamente hígido, sem comorbidade, sem antibiótico recente e sem fator de risco para resistência — pneumonia adquirida na comunidade ambulatorial",
+          val: "500 mg VO de 8/8 h por 5 a 7 dias — 5 dias na PAC leve pelo texto da SBPT; 7 dias na tabela (Quadro 5); dose da errata do Quadro 6",
+          f: "SBPT — Recomendações para o manejo da pneumonia adquirida na comunidade, J Bras Pneumol, 2018" },
+        { rot: "Adulto com comorbidade, antibiótico nos últimos 3 meses ou risco de pneumococo resistente — PAC ambulatorial, sempre junto de um macrolídeo",
+          val: "1 g VO de 8/8 h, por sete a dez dias",
+          f: "MS — CAB nº 28, vol. II, Queixas mais comuns na Atenção Básica, 2012", p: 65 },
+        { rot: "Adulto — H. pylori, concomitante (TeleCondutas); a tríplice só com resistência à claritromicina abaixo de 15% ou sensibilidade confirmada", val: "1 g (2 cápsulas de 500 mg) VO de 12/12 h por 14 dias — com claritromicina e IBP; na concomitante, também metronidazol", f: "TelessaúdeRS-UFRGS — TeleCondutas: Alterações Endoscópicas, 2ª ed., 2024", p: 25 },
+        { rot: "Adulto — H. pylori, terapia dupla em dose alta (V Consenso)", val: "1 g (2 cápsulas de 500 mg) VO 3 ou 4 vezes ao dia (3 a 4 g/dia) por 14 dias, com IBP em dose alta; na obesidade, 1 g 4x/dia", f: "FBG/NBEHPM — V Consenso Brasileiro sobre infecção por Helicobacter pylori, Arq Gastroenterol, 2026" },
+        { rot: "Gestante — bacteriúria assintomática (escolha para estreptococo do grupo B e Enterococcus faecalis)", val: "500 mg VO de 8/8 horas ou 875 mg VO de 12/12 horas, por 7 dias", f: "SBI/FEBRASGO/SBU/SBPC-ML — Joint report: infecção do trato urinário na mulher, Braz J Infect Dis, 2020" }
+      ],
+      porque: "Betalactâmico de primeira escolha nas infecções respiratórias bacterianas da comunidade: cobre o " +
+              "pneumococo, principal agente da PAC, da otite média aguda e da rinossinusite. Os dados brasileiros " +
+              "citados pela SBPT 2018 indicam que a resistência do pneumococo à penicilina não preocupa na PAC não grave.",
+      escolher: "Primeira escolha na otite média aguda do adulto e da criança, na rinossinusite bacteriana aguda do " +
+                "adulto e na PAC ambulatorial: sozinha no adulto hígido; em dose alta e junto de um macrolídeo quando " +
+                "há comorbidade, antibiótico recente ou risco de pneumococo resistente. Na criança de 2 meses a 5 anos, " +
+                "a tabela de peso da AIDPI.",
+      evitar: "Alergia à penicilina com urticária ou anafilaxia (reação tipo I): usar azitromicina ou claritromicina. " +
+              "Resfriado, faringite viral e bronquite aguda: antibiótico não tem indicação. Usar a tabela da AIDPI " +
+              "fora da faixa de peso dela, ou a dose do adulto na criança.",
+      contraind: "Hipersensibilidade à penicilina (reação tipo I: urticária ou anafilaxia).",
+      adversos: "As fontes usadas (AIDPI, CAB 28, SBPT 2018) não descrevem os eventos adversos da amoxicilina; conferir na bula.",
+      monitor: "PAC: reavaliar a cada dois dias do início e orientar ir ao pronto-socorro se piorar antes do retorno; " +
+               "primeira dose na própria UBS, sobretudo na criança (CAB 28). OMA da criança: retorno em dois dias (AIDPI). " +
+               "A suspensão da RENAME (50 mg/mL) tem a mesma concentração da tabela da AIDPI (250 mg/5 mL): recalcular " +
+               "o volume com o peso do dia.",
+      diverge: "PAC com comorbidade: o CAB 28 (2012, Quadro 24) dá 7 a 10 dias de betalactâmico + macrolídeo; a SBPT " +
+               "2018 (Quadro 5) dá 5 a 7 dias. Faringoamigdalite estreptocócica: o CAB 28 (Quadro 40) cita amoxicilina " +
+               "por peso por 10 dias, sem dose máxima e sem separar criança de adulto — essa linha não entrou; a escolha " +
+               "é a penicilina benzatina. Na associação, a azitromicina segue a mesma duração da fonte escolhida (CAB 28: 7 a 10 dias; " +
+               "SBPT: 5 a 7 dias). OMA da criança: o CAB 28 (2012, p. 107) cita 80 a 90 mg/kg/dia; a AIDPI 2017 usa 50 mg/kg/dia e " +
+               "sobe para 80 só na falha — este cartão segue a AIDPI.",
+      fonte: "MS/OPAS/UNICEF — Manual AIDPI Criança: 2 meses a 5 anos, 2017"
+    },
+    {
+      nome: "Amoxicilina + clavulanato de potássio",
+      id: "amoxicilina-clavulanato",
+      kw: "amoxicilina clavulanato clavulin betalactamase otite sinusite rinossinusite pneumonia pac falha aidpi",
+      apres: "comprimido 500 mg + 125 mg; pó para suspensão oral 50 mg/mL + 12,5 mg/mL",
+      dose: [
+        { rot: "Adulto — otite média aguda com falha da amoxicilina ou recorrente",
+          val: "500 mg VO de 8/8 h ou 875 mg VO de 12/12 h (dose de amoxicilina), por 10 a 14 dias", p: 108 },
+        { rot: "Adulto — rinossinusite bacteriana aguda moderada a grave, ou leve em quem usou antibiótico nas últimas 4 a 6 semanas",
+          val: "amoxicilina 1,5 a 4 g/dia + clavulanato 250 mg/dia VO, divididos de 8/8 h ou de 12/12 h — até cinco a sete dias depois da melhora", p: 171 },
+        { rot: "Adulto — rinossinusite crônica sem resposta ao tratamento inicial, com edema grave de mucosa ou agudizada (junto da prednisona)",
+          val: "500 mg VO 3 vezes ao dia ou 875 mg VO 2 vezes ao dia, por 10 a 14 dias",
+          f: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Otorrinolaringologia adulto, 2023", p: 27 },
+        { rot: "Adulto — PAC ambulatorial (alternativa à amoxicilina no hígido; com comorbidade, junto de um macrolídeo)",
+          val: "875/125 mg VO de 12/12 h ou 500/125 mg VO de 8/8 h, por 7 dias sozinha ou 5 a 7 dias junto do macrolídeo — errata do Quadro 6 da SBPT; a RENAME só tem o comprimido de 500 + 125",
+          f: "SBPT — Recomendações para o manejo da pneumonia adquirida na comunidade, J Bras Pneumol, 2018" },
+        { rot: "Criança de 2 meses a 5 anos — segunda linha na pneumonia",
+          val: "50 mg/kg/dia de amoxicilina VO, divididos de 12/12 h, por 7 dias — tabela da AIDPI de 4 a 24 kg; conferir a concentração do frasco (monitor)",
+          f: "MS/OPAS/UNICEF — Manual AIDPI Criança: 2 meses a 5 anos, 2017", p: 90 },
+        { rot: "Criança de 2 meses a 5 anos — segunda linha na infecção aguda do ouvido",
+          val: "50 mg/kg/dia de amoxicilina VO, divididos de 12/12 h, por 8 dias — tabela da AIDPI de 4 a 24 kg; conferir a concentração do frasco (monitor)",
+          f: "MS/OPAS/UNICEF — Manual AIDPI Criança: 2 meses a 5 anos, 2017", p: 90 },
+        { rot: "Criança de 2 meses a 5 anos — segunda linha na infecção moderada de garganta",
+          val: "50 mg/kg/dia de amoxicilina VO, divididos de 12/12 h, por 10 dias — tabela da AIDPI de 4 a 24 kg; conferir a concentração do frasco (monitor)",
+          f: "MS/OPAS/UNICEF — Manual AIDPI Criança: 2 meses a 5 anos, 2017", p: 90 },
+        { rot: "Mulher adulta, gestante ou não — cistite (2ª linha)", val: "500/125 mg VO de 8/8 horas ou 875/125 mg VO de 12/12 horas, por 7 dias — a RENAME só tem o comprimido de 500 + 125", f: "SBI/FEBRASGO/SBU/SBPC-ML — Joint report: infecção do trato urinário na mulher, Braz J Infect Dis, 2020" }
+      ],
+      porque: "Amoxicilina com inibidor de betalactamase: amplia a cobertura para H. influenzae e M. catarrhalis " +
+              "produtores de betalactamase. Por isso é a opção na falha da amoxicilina e quando há risco de germe resistente.",
+      escolher: "Falha da amoxicilina ou recorrência na otite média aguda; rinossinusite bacteriana moderada a grave, ou " +
+                "em quem usou antibiótico nas últimas quatro a seis semanas; rinossinusite crônica agudizada; PAC " +
+                "ambulatorial; segunda linha da AIDPI na criança.",
+      evitar: "Usar no lugar da amoxicilina simples sem motivo: o clavulanato em dose alta dá diarreia com frequência. " +
+              "Alergia à penicilina tipo I.",
+      contraind: "Hipersensibilidade à penicilina (reação tipo I).",
+      adversos: "Diarreia, com risco grande quando o clavulanato vai em dose alta (CAB 28, p. 108). Demais eventos: conferir na bula.",
+      monitor: "Para dose alta de amoxicilina, usar apresentação com mais amoxicilina sem aumentar o clavulanato (CAB 28). " +
+               "Criança: a tabela da AIDPI está montada para a suspensão de 250 mg/5 mL de amoxicilina 'na formulação BD'; " +
+               "a suspensão da RENAME 2024 é 50 mg/mL de amoxicilina + 12,5 mg/mL de clavulanato. Os volumes da tabela " +
+               "valem só para 50 mg/mL de amoxicilina: conferir no frasco a concentração e o intervalo indicado antes de " +
+               "converter em mL. Com a suspensão da RENAME (4:1), a dose de clavulanato fica acima da que o CAB 28 usa na criança — conferir com a preceptora. " +
+               "Com o comprimido da RENAME (500 mg + 125 mg), cada comprimido leva 125 mg de clavulanato: 3 por dia já passam dos 250 mg/dia do Quadro 56 do CAB 28. " +
+               "Não multiplicar o comprimido para chegar à dose alta de amoxicilina — conferir com a preceptora como montar a dose alta com o que a farmácia tem.",
+      diverge: "PAC do adulto com comorbidade: o CAB 28 (2012, Quadro 24) escreve amoxicilina-clavulanato 1 g de 12/12 h; " +
+               "a errata do Quadro 6 da SBPT 2018 dá 875/125 mg de 12/12 h ou 500/125 mg de 8/8 h, que é a linha deste cartão.",
+      fonte: "MS — CAB nº 28, vol. II, Queixas mais comuns na Atenção Básica, 2012"
+    }
+  ]
+});
+
+FARMACOS_APS.classes.push({
+  rot: "Antiviral da influenza",
+  kw: "influenza gripe sindrome gripal srag antiviral oseltamivir tamiflu",
+  quando: "Síndrome gripal com condição ou fator de risco para complicação (mesmo vacinado, mesmo no ambulatório), " +
+          "toda SRAG e toda gestante ou puérpera com síndrome gripal, pelo Guia de manejo e tratamento de influenza 2023.",
+  nota: "O CAB 28 (2012) dizia 'a critério médico' para quem tem fator de risco: está superado pelo Guia 2023, que " +
+        "indica para todos eles. O tratamento não espera o resultado do exame. Corticoide que conta como imunossupressão: " +
+        "prednisona acima de 20 mg/dia por mais de 2 semanas (Guia, p. 18).",
+  farmacos: [
+    {
+      nome: "Fosfato de oseltamivir",
+      id: "oseltamivir",
+      kw: "oseltamivir tamiflu influenza gripe sindrome gripal srag antiviral gestante puerpera crianca renal quimioprofilaxia",
+      apres: "cápsula 30 mg, 45 mg e 75 mg (sem suspensão na RENAME 2024: o Guia ensina a diluir a cápsula no Anexo B)",
+      dose: [
+        { rot: "Adulto — tratamento (síndrome gripal com fator de risco, SRAG, gestante e puérpera)",
+          val: "75 mg VO de 12/12 h, por 5 dias", p: 24 },
+        { rot: "Criança de 1 ano ou mais, até 15 kg — tratamento", val: "30 mg VO de 12/12 h por 5 dias", p: 24 },
+        { rot: "Criança de 1 ano ou mais, acima de 15 até 23 kg — tratamento", val: "45 mg VO de 12/12 h por 5 dias", p: 24 },
+        { rot: "Criança de 1 ano ou mais, acima de 23 até 40 kg — tratamento", val: "60 mg VO de 12/12 h por 5 dias", p: 24 },
+        { rot: "Criança de 1 ano ou mais, acima de 40 kg — tratamento", val: "75 mg VO de 12/12 h por 5 dias", p: 24 },
+        { rot: "Lactente de 29 dias a 8 meses — tratamento (recém-nascido até 28 dias: linha pela idade gestacional)",
+          val: "3 mg/kg por dose VO, de 12/12 h, por 5 dias", p: 24 },
+        { rot: "Criança de 9 a 11 meses — tratamento",
+          val: "3,5 mg/kg por dose VO, de 12/12 h, por 5 dias", p: 24 },
+        { rot: "Recém-nascido (até 28 dias) — tratamento, pela idade gestacional",
+          val: "abaixo de 38 semanas: 1 mg/kg; de 38 a 40 semanas: 1,5 mg/kg; acima de 40 semanas: 3 mg/kg — por dose, de 12/12 h, por 5 dias", p: 25 },
+        { rot: "Adulto com insuficiência renal — tratamento, pelo clearance de creatinina (mL/min)",
+          val: "acima de 60 a 90: 75 mg de 12/12 h; acima de 30 a 60: 30 mg de 12/12 h; acima de 10 a 30: 30 mg 1 vez ao dia; hemodiálise: 30 mg depois de cada sessão (três doses em cinco dias); diálise peritoneal: dose única de 30 mg logo depois da troca", p: 25 },
+        { rot: "Adulto — quimioprofilaxia, só nas situações do Guia (imunossupressão grave depois de contato; surto em ILP: ver o monitor)",
+          val: "75 mg VO 1 vez ao dia, por 10 dias", p: 36 }
+      ],
+      porque: "Inibidor da neuraminidase do vírus influenza: o tratamento precoce reduz a duração dos sintomas e, " +
+              "sobretudo, as complicações em quem tem condição ou fator de risco. Não age sobre covid-19 nem sobre outros " +
+              "vírus respiratórios.",
+      escolher: "Toda síndrome gripal com condição ou fator de risco para complicação, independentemente da vacina e " +
+                "mesmo no ambulatório; toda SRAG, já, sem esperar o exame; toda gestante e puérpera com síndrome gripal, " +
+                "mesmo vacinada e sem sinal de agravamento. Sem fator de risco: a critério clínico, de preferência nas " +
+                "primeiras 48 horas; com sinal de agravamento, iniciar já. Maior benefício até 48 horas do início; com " +
+                "fator de risco e SRAG ainda há benefício até cinco dias. Quimioprofilaxia só nas indicações do Guia e " +
+                "nunca se a última exposição passou de 48 horas.",
+      evitar: "Covid-19 e outros vírus respiratórios: não indicado. Quimioprofilaxia para a população em geral. " +
+              "Interromper antes de completar os cinco dias (menos efeito e risco de resistência).",
+      contraind: "O Guia 2023 não lista contraindicação; não é contraindicado na gestação (categoria C, segurança " +
+                 "comprovada). Hipersensibilidade: conferir na bula.",
+      adversos: "O Guia 2023 não descreve os eventos adversos; conferir na bula. Vomitou até uma hora depois da tomada: dar uma dose adicional.",
+      monitor: "Receituário simples (Guia, p. 24). Monitorar critérios de SRAG e sinais de agravamento, com retorno " +
+               "orientado. Ajustar a dose pelo clearance. Sem suspensão: abrir a cápsula na hora e diluir o conteúdo em " +
+               "um pouco de água com alimento adocicado; a cápsula de 75 mg em 5 mL de água dá 15 mg/mL (Guia, Anexo B). " +
+               "Imunocomprometido pode precisar de tratamento mais longo. Afastado o diagnóstico de influenza, suspender (CAB 28). " +
+               "Surto em ILP: o Guia manda manter a profilaxia na instituição por no mínimo 2 semanas e até 7 dias depois do último caso (p. 36); " +
+               "ajuste renal da profilaxia na Tabela 5 (p. 25).",
+      fonte: "MS — Guia de manejo e tratamento de influenza, 2023"
+    }
+  ]
+});
+
+FARMACOS_APS.classes.push({
+  rot: "Broncodilatadores inalatórios",
+  kw: "broncodilatador bombinha spray salbutamol aerolin ipratropio atrovent umeclidinio vilanterol saba sama lama laba asma dpoc sibilancia",
+  quando: "Alívio da asma (sempre junto de corticoide inalatório) e da DPOC, exacerbação leve a moderada na UBS, " +
+          "sibilância da criança de 2 meses a 5 anos (AIDPI) e a manutenção da DPOC dos grupos B e E.",
+  nota: "Na UBS saem salbutamol e ipratrópio (Componente Básico). Nenhum broncodilatador de longa ação sai da " +
+        "farmácia básica: umeclidínio + vilanterol é Componente Especializado e exige LME.",
+  farmacos: [
+    {
+      nome: "Sulfato de salbutamol",
+      id: "salbutamol",
+      kw: "salbutamol aerolin bombinha spray saba beta2 alivio crise asma dpoc sibilancia nebulizacao espacador",
+      apres: "suspensão aerossol 100 mcg/dose e solução para inalação 5 mg/mL (a RENAME traz também solução injetável, fora do uso da APS)",
+      dose: [
+        { rot: "Exacerbação leve a moderada de asma — spray com espaçador (a linha do PCDT não separa idade) — criança de até 5 anos: conferir com a preceptora (a AIDPI usa 2 a 4 jatos por dose)",
+          val: "4 a 10 jatos de 100 mcg a cada 20 minutos na primeira hora; depois, 4 a 10 jatos a cada 3 a 4 horas ou 6 a 10 jatos a cada 1 a 2 horas, conforme a resposta", p: 39 },
+        { rot: "Adulto com DPOC — alívio dos sintomas ou antes do esforço",
+          val: "200 a 400 mcg (2 a 4 jatos do spray) em dose única antes do esforço, ou a cada 4 a 6 horas até melhorar",
+          f: "MS — PCDT Doença Pulmonar Obstrutiva Crônica, Portaria Conjunta SAES/SCTIE nº 29, 2025", p: 19 },
+        { rot: "Adulto com DPOC muito debilitado, que não consegue usar o spray — nebulização",
+          val: "2,5 mg por nebulização a cada 4 a 6 horas; na exacerbação, pode repetir a cada 20 minutos nas primeiras horas, sob monitoramento médico",
+          f: "MS — PCDT Doença Pulmonar Obstrutiva Crônica, Portaria Conjunta SAES/SCTIE nº 29, 2025", p: 20 },
+        { rot: "Criança de 2 meses a 5 anos — sibilância, tratamento em casa (spray de 100 mcg por jato, com espaçador)",
+          val: "de 6/6 h por cinco dias: abaixo de 2 anos, 2 a 3 jatos por dose; a partir de 2 anos, 2 a 4 jatos por dose",
+          f: "MS/OPAS/UNICEF — Manual AIDPI Criança: 2 meses a 5 anos, 2017", p: 105 },
+        { rot: "Criança de 2 meses a 5 anos — sibilância, nebulização quando não há spray",
+          val: "1 gota para cada 3 kg de peso por nebulização, no máximo dez gotas, de 6/6 h por cinco dias",
+          f: "MS/OPAS/UNICEF — Manual AIDPI Criança: 2 meses a 5 anos, 2017", p: 105 },
+        { rot: "Adulto — exacerbação de DPOC, até a remoção (protocolo do SAMU)", val: "4 a 8 jatos (400 a 800 mcg) com espaçador a cada 10 a 20 minutos, até 3 repetições", f: "MS — SAMU 192, Protocolos de Suporte Avançado de Vida, 2016" }
+      ],
+      porque: "Beta-2 agonista de curta ação: broncodilata em minutos e o efeito dura de 4 a 6 horas. É o alívio do " +
+              "broncoespasmo — não trata a inflamação da asma.",
+      escolher: "Asma: sempre junto de um corticoide inalatório — é o alívio do regime 2 do PCDT 2026 e o broncodilatador " +
+                "da exacerbação na UBS. DPOC: alívio sob demanda em todos os grupos; sozinho, só no grupo A. Criança com " +
+                "sibilância: tratar a sibilância antes de classificar a tosse (AIDPI). A linha 'Exacerbação leve a moderada' é o esquema de crise na " +
+                "unidade, não a receita de alívio para casa; o PCDT 2026 não traz a dose do alívio fora da crise.",
+      evitar: "Asma tratada só com salbutamol: não é mais recomendado (mais exacerbação grave e morte). Uso diário como " +
+              "manutenção na DPOC dos grupos B e E. Uso excessivo (mais de três frascos de 200 doses por ano) é sinal de " +
+              "asma mal controlada, não motivo para dar mais frascos.",
+      contraind: "Hipersensibilidade ao salbutamol. Cautela em doença cardiovascular, hipertireoidismo, diabetes e uso " +
+                 "de outro simpatomimético (PCDT DPOC).",
+      adversos: "Tremor, taquicardia, palpitação, cefaleia, nervosismo, cãibras; hipocalemia em dose alta ou uso " +
+                "prolongado; menos frequentes: arritmia, broncoespasmo paradoxal, urticária e angioedema (PCDT DPOC). " +
+                "Com uso regular, o tremor e a taquicardia tendem a ceder em 1 a 2 semanas (PCDT Asma).",
+      monitor: "Ver a técnica com espaçador em toda consulta; o espaçador pode ser artesanal, de garrafa plástica (CAB 28). " +
+               "Nebulização do adulto: diluir em 2 a 4 mL de soro fisiológico (PCDT DPOC). Nebulização da criança: " +
+               "preparar com 3 mL de soro fisiológico e nebulizar até acabar (AIDPI). Contar os frascos usados no ano. " +
+               "Gestante com SABA em dose alta nas 48 horas antes do parto: monitorar a glicemia do recém-nascido.",
+      fonte: "MS — PCDT Asma, Portaria Conjunta SAES/SCTIE nº 43, 2026"
+    },
+    {
+      nome: "Brometo de ipratrópio",
+      id: "brometo-de-ipratropio",
+      kw: "ipratropio atrovent sama anticolinergico dpoc broncodilatador nebulizacao spray exacerbacao",
+      apres: "solução para inalação 0,25 mg/mL e solução aerossol 20 mcg/dose",
+      dose: [
+        { rot: "Adulto com DPOC estável — spray (20 mcg por jato)",
+          val: "40 mcg (2 jatos) por via inalatória, 3 a 4 vezes ao dia; máximo 240 mcg/dia", p: 20 },
+        { rot: "Adulto com DPOC — nebulização (solução 0,25 mg/mL)",
+          val: "0,25 a 0,5 mg (20 a 40 gotas) a cada 4 a 6 horas, até a melhora clínica", p: 20 },
+        { rot: "Adulto — crise grave de asma ou exacerbação grave de DPOC, junto do beta-2 (protocolo do SAMU)", val: "40 gotas em nebulização com 5 mL de soro fisiológico, depois do salbutamol spray", f: "MS — SAMU 192, Protocolos de Suporte Avançado de Vida, 2016" },
+        { rot: "Criança até o início da puberdade — crise de asma grave ou muito grave, junto do beta-2 (protocolo pediátrico do SAMU)", val: "nebulização com 5 mL de soro fisiológico: até 10 kg, 10 gotas; de 11 a 30 kg, 20 gotas; acima de 30 kg, 40 gotas", f: "MS — SAMU 192, Protocolos de Suporte Avançado de Vida, 2016" }
+      ],
+      porque: "Antimuscarínico de curta ação: broncodilata pelo bloqueio do receptor M3; começa em 1 a 3 minutos, tem " +
+              "pico em 1,5 a 2 horas e dura 4 a 6 horas — mais lento que o salbutamol.",
+      escolher: "DPOC: alívio sob demanda ou em esquema fixo no grupo A e associado ao salbutamol nas exacerbações. É o " +
+                "antimuscarínico que a farmácia da UBS tem.",
+      evitar: "Glaucoma de ângulo fechado, retenção urinária, hiperplasia prostática e distúrbio de motilidade " +
+              "gastrintestinal: usar com cautela. Não substitui o broncodilatador de longa ação dos grupos B e E.",
+      contraind: "Hipersensibilidade ao ipratrópio, à atropina ou a derivados.",
+      adversos: "Tosse, boca seca, náusea, cefaleia, tontura, irritação na garganta; incomuns: palpitação, taquicardia " +
+                "supraventricular, broncoespasmo, retenção urinária, visão turva, aumento da pressão intraocular; raros: " +
+                "fibrilação atrial, anafilaxia, glaucoma de ângulo fechado (sobretudo com o aerossol atingindo os olhos).",
+      monitor: "Ensinar a não deixar o aerossol atingir os olhos; dor ou desconforto ocular, visão embaçada ou halos " +
+               "com olho vermelho sugerem glaucoma. Nebulização: diluir em soro fisiológico até completar 3 a 4 mL.",
+      fonte: "MS — PCDT Doença Pulmonar Obstrutiva Crônica, Portaria Conjunta SAES/SCTIE nº 29, 2025"
+    },
+    {
+      nome: "Brometo de umeclidínio + trifenatato de vilanterol",
+      id: "umeclidinio-vilanterol",
+      kw: "umeclidinio vilanterol anoro lama laba dpoc grupo b grupo e manutencao broncodilatador longa acao lme",
+      apres: "pó inalatório 62,5 mcg + 25 mcg",
+      dose: [
+        { rot: "Adulto com DPOC sintomático do grupo B ou do grupo E, independentemente do grau de obstrução — manutenção",
+          val: "62,5 mcg + 25 mcg por via inalatória, 1 vez ao dia, sempre no mesmo horário", p: 20 }
+      ],
+      porque: "Associação de antimuscarínico de longa ação (LAMA) com beta-2 agonista de longa ação (LABA): a " +
+              "broncodilatação dupla melhora sintomas e qualidade de vida mais que cada um isolado. É o tratamento " +
+              "inicial preferencial dos grupos B e E no PCDT DPOC 2025.",
+      escolher: "DPOC muito sintomático (mMRC 2 ou mais, ou CAT 10 ou mais) do grupo B, ou do grupo E, sem depender do " +
+                "VEF1. Na USF: preencher o LME — não sai da farmácia básica.",
+      evitar: "Asma, ou suspeita de asma junto da DPOC (sobreposição asma-DPOC): nunca LAMA + LABA sem corticoide inalatório — o tratamento segue o PCDT da Asma, com CI (risco de exacerbação grave e morte). Alergia grave à proteína do leite.",
+      contraind: "Hipersensibilidade ao umeclidínio, ao vilanterol ou aos componentes; alergia grave à proteína do leite.",
+      adversos: "Infecção urinária, nasofaringite, sinusite, faringite, dor orofaríngea, tosse, constipação, boca seca, " +
+                "dor torácica; menos frequentes: taquicardia, arritmia, tremor, disgeusia; raros: anafilaxia, " +
+                "broncoespasmo paradoxal, visão turva, aumento da pressão intraocular, retenção urinária.",
+      monitor: "Sem ajuste no idoso nem na insuficiência renal ou hepática leve a moderada. Broncoespasmo paradoxal: " +
+               "suspender e trocar. Ver a técnica do pó seco; com obstrução muito grave o paciente pode não gerar fluxo suficiente.",
+      fonte: "MS — PCDT Doença Pulmonar Obstrutiva Crônica, Portaria Conjunta SAES/SCTIE nº 29, 2025"
+    }
+  ]
+});
+
+FARMACOS_APS.classes.push({
+  rot: "Corticoides na asma, na DPOC e na rinite",
+  kw: "corticoide inalatorio ci beclometasona budesonida formoterol corticoide nasal prednisolona asma dpoc rinite rinossinusite exacerbacao",
+  quando: "Controle da asma (todo paciente com asma recebe corticoide inalatório), terapia tripla da DPOC, corticoide " +
+          "nasal na rinite e na rinossinusite crônica e corticoide oral de curso curto na exacerbação.",
+  nota: "O que a UBS e a Farmácia Popular entregam para asma é beclometasona + salbutamol (regime 2). Formoterol + " +
+        "budesonida, o regime 1 preferido pelo PCDT Asma 2026, e a budesonida inalatória são Componente " +
+        "Especializado (LME). A prednisona, que também serve aqui, está no cartão de corticoide e imunomodulador.",
+  farmacos: [
+    {
+      nome: "Dipropionato de beclometasona",
+      id: "beclometasona",
+      kw: "beclometasona clenil miflasona corticoide inalatorio ci asma dpoc nasal rinite bombinha spray",
+      apres: "spray (solução aerossol) 50, 200 e 250 mcg/dose; pó e cápsula para inalação 200 e 400 mcg; suspensão nasal 50 mcg/dose",
+      dose: [
+        { rot: "Adolescente (12 anos ou mais) e adulto com asma — dose baixa, a de início e de manutenção da maioria (spray de partícula padrão)",
+          val: "200 a 500 mcg/dia", p: 38 },
+        { rot: "Adolescente (12 anos ou mais) e adulto com asma — dose média",
+          val: "acima de 500 até 1.000 mcg/dia", p: 38 },
+        { rot: "Adolescente (12 anos ou mais) e adulto com asma — dose alta (só por tempo limitado, com reavaliação)",
+          val: "acima de 1.000 mcg/dia", p: 38 },
+        { rot: "Criança de 6 a 11 anos com asma — dose baixa (spray de partícula padrão)",
+          val: "100 a 200 mcg/dia", p: 38 },
+        { rot: "Criança de 6 a 11 anos com asma — dose média",
+          val: "acima de 200 até 400 mcg/dia", p: 38 },
+        { rot: "Criança de até 5 anos — teste terapêutico de asma (2 a 3 meses)",
+          val: "100 mcg de 12/12 h; com resposta, reduzir para 50 mcg de 12/12 h", p: 13 },
+        { rot: "Adolescente e adulto com asma — intervalo entre as doses",
+          val: "dividir o total diário de 12/12 h — o PCDT dá só o total; o intervalo é do TelessaúdeRS",
+          f: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Pneumologia adulto, 2023", p: 19 },
+        { rot: "Adulto com DPOC — só dentro da terapia tripla (com LAMA + LABA), nunca sozinha",
+          val: "400 mcg duas vezes ao dia (800 mcg/dia)",
+          f: "MS — PCDT Doença Pulmonar Obstrutiva Crônica, Portaria Conjunta SAES/SCTIE nº 29, 2025", p: 21 },
+        { rot: "Adulto — rinite alérgica ou rinossinusite crônica (suspensão nasal 50 mcg por jato)",
+          val: "1 a 2 jatos, 2 vezes ao dia — o quadro não diz se é por narina",
+          f: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Otorrinolaringologia adulto, 2023", p: 28 }
+      ],
+      porque: "Corticoide inalatório: trata a inflamação das vias aéreas e previne sintomas e exacerbações. É o " +
+              "corticoide inalatório que a UBS e a Farmácia Popular entregam.",
+      escolher: "Asma: base do regime 2 do PCDT 2026 — CI de dose baixa sempre que usar o salbutamol (etapa 1) ou CI " +
+                "diário de dose baixa com salbutamol de alívio (etapa 2); doses maiores, com ou sem LABA, nas etapas 3 e " +
+                "4. A maioria controla com dose baixa. DPOC: só como parte da terapia tripla. Via nasal: rinite " +
+                "alérgica e rinossinusite crônica.",
+      evitar: "Monoterapia na DPOC. Suspender totalmente o CI na asma (só temporariamente, para confirmar o diagnóstico) " +
+              "ou na gestação. Spray e pó no mesmo paciente (técnicas diferentes confundem).",
+      contraind: "O PCDT não lista contraindicação além de hipersensibilidade; inibidores do citocromo P450 associados " +
+                 "aumentam o risco de supressão adrenal.",
+      adversos: "Candidíase orofaríngea e disfonia (menos com espaçador e enxágue da boca, cuspindo); com dose alta por " +
+                "longo prazo: osteoporose, catarata, glaucoma e supressão adrenal; na DPOC, dose alta aumenta o risco de pneumonia.",
+      monitor: "Técnica e adesão em toda consulta; espaçador com o spray; enxaguar a boca e cuspir depois. Com a asma " +
+               "estável por 3 meses, reduzir o CI de 25 a 50%. Densitometria em quem usa dose alta por longo prazo. As " +
+               "faixas do PCDT são do spray de partícula padrão; para o pó e a cápsula de inalação o PCDT não dá " +
+               "equivalência — conferir com a preceptora.",
+      diverge: "O Protocolo de Otorrinolaringologia do TelessaúdeRS (2023) diz que a budesonida é o único corticoide " +
+               "nasal do SUS; a RENAME 2024 também lista a suspensão nasal de beclometasona no Componente Básico.",
+      fonte: "MS — PCDT Asma, Portaria Conjunta SAES/SCTIE nº 43, 2026"
+    },
+    {
+      nome: "Budesonida",
+      id: "budesonida",
+      kw: "budesonida busonid pulmicort corticoide inalatorio nasal rinite rinossinusite asma dpoc",
+      apres: "inalatória: aerossol oral, pó e cápsula 200 mcg e cápsula 400 mcg; suspensão nasal 32, 50 e 64 mcg/dose",
+      dose: [
+        { rot: "Adolescente (12 anos ou mais) e adulto com asma — dose baixa",
+          val: "200 a 400 mcg/dia", p: 38 },
+        { rot: "Adolescente (12 anos ou mais) e adulto com asma — dose média",
+          val: "acima de 400 até 800 mcg/dia", p: 38 },
+        { rot: "Adolescente (12 anos ou mais) e adulto com asma — dose alta (só por tempo limitado, com reavaliação)",
+          val: "acima de 800 mcg/dia", p: 38 },
+        { rot: "Criança de 6 a 11 anos com asma — dose baixa",
+          val: "100 a 200 mcg/dia", p: 38 },
+        { rot: "Criança de 6 a 11 anos com asma — dose média",
+          val: "acima de 200 até 400 mcg/dia", p: 38 },
+        { rot: "Adulto com DPOC — só dentro da terapia tripla aberta (com LAMA + LABA), nunca sozinha",
+          val: "400 a 800 mcg uma vez ao dia — ficar nos 400 mcg em quem tem risco de pneumonia",
+          f: "MS — PCDT Doença Pulmonar Obstrutiva Crônica, Portaria Conjunta SAES/SCTIE nº 29, 2025", p: 21 },
+        { rot: "Adulto — rinite alérgica ou rinossinusite crônica (spray nasal 32 mcg por jato)",
+          val: "1 a 2 jatos, 1 vez ao dia; controlados os sintomas, reduzir à menor dose que mantém o controle — o quadro não diz se é por narina",
+          f: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Otorrinolaringologia adulto, 2023", p: 28 }
+      ],
+      porque: "Corticoide inalatório; o benefício é efeito de classe — maior potência não é maior eficácia. Pela via " +
+              "nasal, é corticoide tópico para rinite e rinossinusite crônica.",
+      escolher: "Asma: CI alternativo à beclometasona (a inalatória só sai pelo Componente Especializado); combinada ao " +
+                "formoterol é o regime 1 do PCDT. DPOC: só na terapia tripla. Spray nasal: rinite alérgica e " +
+                "rinossinusite crônica sem pólipo, com lavagem salina.",
+      evitar: "Monoterapia na DPOC; dose alta crônica na DPOC (osteoporose, fratura e pneumonia).",
+      contraind: "Hipersensibilidade; as fontes não listam outras.",
+      adversos: "Candidíase oral, disfonia, tosse e irritação na garganta (dependem da dose); com dose alta prolongada: " +
+                "supressão adrenal, hiperglicemia, acne, glaucoma, catarata; retardo de crescimento relatado em criança.",
+      monitor: "Técnica e adesão; enxaguar a boca e cuspir depois. Spray nasal: limpar o nariz com soro antes; reavaliar " +
+               "a rinossinusite crônica em 8 a 12 semanas.",
+      fonte: "MS — PCDT Asma, Portaria Conjunta SAES/SCTIE nº 43, 2026"
+    },
+    {
+      nome: "Fumarato de formoterol + budesonida",
+      id: "formoterol-budesonida",
+      kw: "formoterol budesonida alenia symbicort ci formoterol air mart regime 1 asma lme especializado",
+      apres: "cápsula ou pó inalatório 6 mcg + 200 mcg e 12 mcg + 400 mcg",
+      dose: [
+        { rot: "Adolescente (12 anos ou mais) e adulto com asma — etapas 1 e 2, alívio anti-inflamatório sob demanda (AIR)",
+          val: "1 inalação de 6/200 mcg sob demanda, nos sintomas ou antes do exercício ou da exposição ao alérgeno", p: 39 },
+        { rot: "Adolescente (12 anos ou mais) e adulto com asma — etapa 3 (MART: manutenção e alívio com o mesmo inalador)",
+          val: "1 inalação de 6/200 mcg uma ou duas vezes ao dia + 1 inalação sob demanda", p: 39 },
+        { rot: "Adolescente (12 anos ou mais) e adulto com asma — etapas 4 e 5 (MART)",
+          val: "2 inalações de 6/200 mcg duas vezes ao dia + 1 inalação sob demanda", p: 39 },
+        { rot: "Adolescente e adulto — máximo diário (manutenção e alívio somados)",
+          val: "12 inalações de 6/200 mcg por dia (72 mcg de formoterol)", p: 39 }
+      ],
+      porque: "Corticoide inalatório com formoterol, um LABA de início rápido: o mesmo inalador alivia o sintoma e trata " +
+              "a inflamação. É o regime 1, o preferido do PCDT Asma 2026, adaptado da GINA 2025.",
+      escolher: "Asma no adolescente e no adulto: etapas 1 e 2 como alívio sob demanda (AIR); etapas 3 a 5 como " +
+                "manutenção e alívio (MART). Não precisa de intervalo mínimo entre as doses de alívio, desde que respeite " +
+                "o máximo diário. Na USF: preencher o LME. Quando o regime 1 não é viável, o PCDT aceita o regime 2 " +
+                "(beclometasona + salbutamol).",
+      evitar: "Usar como alívio em quem faz manutenção com outro LABA que não o formoterol. Criança de 6 a 11 anos: o " +
+              "PCDT prefere a apresentação de menor dose de budesonida, que não está na RENAME 2024. DPOC sem asma: LABA " +
+              "com CI não é a opção preferencial.",
+      contraind: "Hipersensibilidade aos componentes.",
+      adversos: "Do formoterol: taquicardia, cefaleia, cãibras; do corticoide: candidíase oral e disfonia.",
+      monitor: "Ensinar o dispositivo de pó; contar as inalações do dia e respeitar o máximo. Quem está em MART de dose " +
+               "média e vai iniciar imunobiológico não deve trocar para CI-LABA convencional + SABA. Broncoespasmo " +
+               "paradoxal: suspender.",
+      diverge: "No item 7.4.1 o PCDT escreve '1 a 2 doses' sob demanda; o Quadro 11, que é a tabela de dose, escreve 1 " +
+               "inalação sob demanda em todas as etapas. Este cartão segue o Quadro 11.",
+      fonte: "MS — PCDT Asma, Portaria Conjunta SAES/SCTIE nº 43, 2026"
+    },
+    {
+      nome: "Fosfato sódico de prednisolona",
+      id: "prednisolona",
+      kw: "prednisolona predsim prelone corticoide oral solucao exacerbacao asma dpoc sibilancia crianca",
+      apres: "solução oral 1 mg/mL e 3 mg/mL",
+      dose: [
+        { rot: "Criança de 2 meses a 5 anos — sibilância moderada que melhorou na unidade, ou leve sem melhora com beta-2 correto há 24 h ou mais",
+          val: "1 a 2 mg/kg/dia VO pela manhã, em dose única, por três dias; máximo 40 mg/dia",
+          f: "MS/OPAS/UNICEF — Manual AIDPI Criança: 2 meses a 5 anos, 2017", p: 107 },
+        { rot: "Criança de 6 a 11 anos — exacerbação de asma",
+          val: "1 a 2 mg/kg/dia VO, máximo 40 mg/dia, por 3 a 5 dias", p: 38 },
+        { rot: "Adolescente (12 anos ou mais) e adulto — exacerbação de asma (o PCDT dá esta dose para a exacerbação grave)",
+          val: "40 a 50 mg/dia VO por 5 a 7 dias, pela manhã, em dose única; uso por menos de 2 semanas dispensa desmame", p: 38 },
+        { rot: "Adulto — exacerbação moderada ou grave de DPOC",
+          val: "40 mg/dia VO por 5 dias; sem melhora no quinto dia, sobretudo na grave, estender para 10 a 14 dias",
+          f: "MS — PCDT Doença Pulmonar Obstrutiva Crônica, Portaria Conjunta SAES/SCTIE nº 29, 2025", p: 22 }
+      ],
+      porque: "Corticoide sistêmico: acelera a melhora da exacerbação e reduz hospitalização e recaída precoce. A via " +
+              "oral é tão eficaz quanto a venosa, mais barata e menos tóxica.",
+      escolher: "Exacerbação de asma (criança e adulto) e exacerbação moderada ou grave de DPOC. Na criança de 2 meses a " +
+                "5 anos com sibilância moderada, a primeira dose é na unidade e o curso continua em casa (AIDPI). A " +
+                "solução oral facilita a dose por peso.",
+      evitar: "Curso repetido ou uso contínuo sem rever o controle da asma: os efeitos adversos se acumulam. Início em " +
+              "casa por decisão do cuidador na criança de até 5 anos (sem evidência, PCDT Asma). Abaixo de 1 ano, uso " +
+              "criterioso (AIDPI).",
+      contraind: "Hipersensibilidade, varicela, ceratite herpética, infecção fúngica sistêmica não tratada e infecção " +
+                 "não controlada; cautela em úlcera péptica ativa, hipertensão grave, diabetes descompensado, " +
+                 "osteoporose grave, psicose prévia e tuberculose latente ou ativa não tratada (PCDT DPOC).",
+      adversos: "Curto prazo: hiperglicemia, insônia, alteração de humor, aumento do apetite, refluxo, retenção de " +
+                "líquido, e também sepse e tromboembolismo (PCDT Asma); com cursos repetidos ou uso contínuo: diabetes, osteoporose, catarata, glaucoma, hipertensão e " +
+                "supressão adrenal.",
+      monitor: "Glicemia no diabético. Asma: reavaliar em 2 a 7 dias depois de exacerbação grave (criança, 1 a 2 dias) e " +
+               "antes de suspender o corticoide. Uso por mais de 3 semanas: retirada lenta (PCDT DPOC). A RENAME rotula a " +
+               "solução como fosfato sódico de prednisolona: conferir no frasco se a concentração está em prednisolona " +
+               "base antes de converter mg em mL.",
+      fonte: "MS — PCDT Asma, Portaria Conjunta SAES/SCTIE nº 43, 2026"
+    }
+  ]
+});
+
+FARMACOS_APS.classes.push({
+  rot: "Anti-inflamatórios e relaxante muscular da dor musculoesquelética",
+  kw: "aine anti-inflamatorio ibuprofeno naproxeno relaxante muscular ciclobenzaprina artrose osteoartrite lombalgia fibromialgia cefaleia",
+  quando: "Artrose de joelho e quadril, lombalgia, crise de cefaleia e fibromialgia, conforme o PCDT Dor Crônica 2024 e os protocolos do TelessaúdeRS.",
+  nota: "O AINE da farmácia básica é o ibuprofeno; o naproxeno sai pelo Componente Especializado só para artrose de joelho ou quadril. Diclofenaco oral e AINE tópico não foram incorporados para dor crônica (PCDT 2024, p. 14). Relaxante muscular: o PCDT não recomenda na dor crônica; a ciclobenzaprina está fora da RENAME.",
+  farmacos: [
+    {
+      nome: "Ibuprofeno",
+      id: "ibuprofeno",
+      kw: "ibuprofeno aine anti-inflamatorio artrose osteoartrite lombalgia cefaleia enxaqueca dor",
+      apres: "comprimido 200 mg, 300 mg e 600 mg; cápsula 600 mg; suspensão oral 50 mg/mL",
+      dose: [
+        { rot: "Adulto — osteoartrite de joelho ou quadril, quando paracetamol ou dipirona não bastam", val: "400 mg VO a cada 6 a 8 horas", p: 14 },
+        { rot: "Adulto — dor (posologia geral do PCDT Dor Crônica, Quadro 2)", val: "200 a 600 mg VO, 3 a 4 vezes ao dia; máximo 3.200 mg/dia", p: 18 },
+        { rot: "Adulto — crise de cefaleia leve a moderada (migrânea ou tipo tensão)", val: "600 a 1.200 mg VO; nova dose em 4 a 6 h se preciso; máximo 2.400 mg/dia", f: "TelessaúdeRS-UFRGS — Resumo clínico: Cefaleia, 2016" }
+      ],
+      porque: "Anti-inflamatório não esteroide não seletivo. Na lombalgia e na artrose dá melhora modesta, porém considerável, da dor (PCDT), à custa de risco gastrointestinal e cardiovascular.",
+      escolher: "Artrose de joelho ou quadril quando paracetamol ou dipirona não bastam (troca ou soma); lombalgia; crise de cefaleia leve a moderada. É o AINE da farmácia básica (RENAME 2024).",
+      evitar: "Doença renal crônica, em qualquer estágio: evitar — o PCDT de DRC manda orientar a evitar nefrotóxicos, AINE à frente (PCDT DRC 2024, p. 8). Idoso: evitar uso prolongado, sobretudo acima de 75 anos ou com corticoide, anticoagulante ou antiplaquetário (Consenso PIM 2016, Quadro 1), e evitar na DRC 4 e 5, na insuficiência cardíaca, na hipertensão moderada a grave e na úlcera prévia sem gastroprotetor (Quadro 2). Hipertensão: o AINE antagoniza o anti-hipertensivo — medir a PA no uso repetido (CAB nº 37). Quem toma AAS em dose baixa contínua: paracetamol ou dipirona, sem AINE (PCDT, p. 15). Somado ao paracetamol, o risco de sangramento gastrointestinal sobe (PCDT, p. 14).",
+      contraind: "Úlcera péptica ativa ou sangramento gastrointestinal; uso com bebida alcoólica; abaixo de 6 meses de idade; terceiro trimestre da gravidez (PCDT, Termo de Esclarecimento, p. 34). Uso concomitante de anticoagulante, distúrbio da coagulação e doença renal (Protocolos da AB: Saúde das Mulheres 2016, p. 24 e 25).",
+      adversos: "Tontura, cefaleia, dispepsia, dor e distensão abdominal, sangramento gastrointestinal; hipertensão; hematúria, nefrite intersticial, disfunção renal, síndrome nefrótica, necrose papilar; raros agranulocitose, anemia aplástica, hemólise, plaquetopenia (PCDT, Quadro 3, p. 21).",
+      monitor: "Menor dose pelo menor tempo. AINE oral por mais de cinco dias em quem tem história de evento gastrointestinal: omeprazol junto (PCDT, p. 14). PA e função renal no uso repetido, pelos eventos adversos do Quadro 3.",
+      diverge: "Teto diário diverge: PCDT Dor Crônica 2024, Quadro 2 (p. 18), 3.200 mg/dia; TSRS Resumo Cefaleia 2016 (crise), 2.400 mg/dia; CAB nº 28 (2012), 1.200 mg/dia na dor lombar (p. 120) e na crise fraca de cefaleia (p. 36).",
+      fonte: "MS — PCDT Dor Crônica, Portaria Conjunta SAES/SAPS/SECTICS nº 1, 2024"
+    },
+    {
+      nome: "Naproxeno",
+      id: "naproxeno",
+      kw: "naproxeno aine artrose osteoartrite joelho quadril risco cardiovascular componente especializado",
+      apres: "comprimido 250 mg e 500 mg",
+      dose: [
+        { rot: "Adulto — osteoartrite de joelho ou quadril com risco cardiovascular (texto do PCDT)", val: "250 a 500 mg VO, duas vezes ao dia", p: 14 },
+        { rot: "Adulto — osteoartrite de joelho ou quadril, posologia do Quadro 2 do PCDT", val: "250 mg VO 1 a 2 vezes ao dia, ou 500 mg 1 vez ao dia — não passar de 500 mg/dia salvo prescrição médica", p: 19 }
+      ],
+      porque: "AINE que o SUS ampliou para a artrose de joelho e de quadril (Portaria SCTIE/MS nº 53/2017); o PCDT o reserva para quem tem risco de evento cardiovascular.",
+      escolher: "Artrose de joelho ou de quadril com risco cardiovascular, quando paracetamol, dipirona e ibuprofeno não bastam. Componente Especializado: sai com LME, só para essa indicação.",
+      evitar: "Outras indicações: o PCDT preconiza o naproxeno apenas na artrose de joelho e quadril. Doença renal crônica: evitar AINE (PCDT DRC 2024, p. 8). Idoso: uso prolongado (Consenso PIM 2016, Quadro 1), e evitar na DRC 4 e 5, na insuficiência cardíaca, na hipertensão moderada a grave e na úlcera prévia sem gastroprotetor (Quadro 2). Com AAS em dose baixa contínua: paracetamol ou dipirona (PCDT, p. 15).",
+      contraind: "Hipersensibilidade; asma, rinite, pólipo nasal ou urticária por AAS ou outro AINE; insuficiência cardíaca grave; sangramento ativo, ou sangramento ou perfuração anterior por AINE; úlcera péptica ativa ou recorrente; depuração de creatinina abaixo de 30 mL/min (PCDT, Termo de Esclarecimento, p. 34); uso concomitante de anticoagulante, distúrbio da coagulação e doença renal (Protocolos da AB: Saúde das Mulheres 2016, p. 24 e 25).",
+      adversos: "Edema, hipertensão, insuficiência cardíaca, infarto e AVC; úlcera, sangramento ou perfuração gastrointestinal, às vezes fatal, sobretudo no idoso; hematúria, nefrite intersticial, disfunção renal; raros Stevens-Johnson e necrólise epidérmica (PCDT, Quadro 3, p. 21).",
+      monitor: "Menor dose pelo menor tempo; omeprazol se passar de cinco dias em quem tem história gastrointestinal (PCDT, p. 14). Na insuficiência hepática, renal ou cardíaca e no idoso, pode ser preciso reduzir a dose (PCDT, p. 19).",
+      diverge: "O PCDT diverge dele mesmo: o texto (p. 14) dá 250 a 500 mg duas vezes ao dia na artrose de joelho e quadril; o Quadro 2 (p. 19) dá 250 mg uma a duas vezes ao dia ou 500 mg uma vez, sem passar de 500 mg/dia salvo prescrição. O TSRS Reumatologia 2022 (Quadro 13) usa 500 mg de 12/12 h, como o texto.",
+      fonte: "MS — PCDT Dor Crônica, Portaria Conjunta SAES/SAPS/SECTICS nº 1, 2024"
+    },
+    {
+      nome: "Ciclobenzaprina (cloridrato)",
+      id: "ciclobenzaprina",
+      kw: "ciclobenzaprina relaxante muscular fibromialgia lombalgia sono",
+      apres: "comprimido — fora da RENAME 2024; concentrações: conferir na bula",
+      dose: [
+        { rot: "Adulto — fibromialgia (modulação da dor e do sono)", val: "5 a 10 mg VO à noite; subir conforme tolerância até 40 mg/dia (10 mg de manhã e 30 mg à noite)", p: 33 },
+        { rot: "Adulto — lombalgia aguda (relaxante muscular)", val: "10 mg VO de 8/8 h", f: "MS — CAB nº 28, vol. II, Queixas mais comuns na Atenção Básica, 2012", p: 120 }
+      ],
+      porque: "Relaxante muscular. Na fibromialgia, em dose baixa à noite, melhora sobretudo o sono; o efeito sobre dor e fadiga é inconsistente (SBR 2026).",
+      escolher: "Fibromialgia com distúrbio do sono marcado (SBR 2026; TSRS 2022). Na lombalgia aguda, o CAB nº 28 o lista entre os relaxantes musculares.",
+      evitar: "Idoso: relaxante muscular é inapropriado, por efeito anticolinérgico, sedação e risco de fratura (Consenso PIM 2016). Dor crônica em geral: o PCDT 2024 não recomenda relaxante muscular. Dose alta seda muito (TSRS 2022).",
+      contraind: "Não listada nas fontes da pasta (TSRS 2022, CAB nº 28, SBR 2026): conferir na bula.",
+      adversos: "Sedação, maior em dose alta (TSRS 2022); no idoso, efeito anticolinérgico, sedação e queda com fratura (Consenso PIM 2016).",
+      monitor: "Fator de risco para morte súbita ou doença cardiovascular prévia: considerar ECG de repouso se precisar de dose elevada (TSRS 2022, Quadro 15).",
+      diverge: "Relaxante muscular na dor: o PCDT Dor Crônica 2024 (p. 15) não recomenda, por evidência incerta e efeito clinicamente insignificante; a SBR 2026 recomenda a ciclobenzaprina na fibromialgia, em dose baixa ao deitar; o TSRS 2022 a põe no tratamento otimizado da fibromialgia.",
+      fonte: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Reumatologia adulto, 2022"
+    }
+  ]
+});
+
+FARMACOS_APS.classes.push({
+  rot: "Hipouricemiante (gota)",
+  kw: "gota acido urico hiperuricemia hipouricemiante alopurinol tofo",
+  quando: "Gota com crises recorrentes: tratamento hipouricemiante, junto com a profilaxia das crises (TSRS Reumatologia 2022).",
+  nota: "A colchicina, que o TSRS usa na profilaxia das crises, não está na RENAME 2024 e nenhuma fonte da pasta dá a dose: não há cartão. Meta de ácido úrico abaixo de 6 mg/dL em quem trata gota (SBR/SBPC-ML 2024).",
+  farmacos: [
+    {
+      nome: "Alopurinol",
+      id: "alopurinol",
+      kw: "alopurinol gota acido urico hiperuricemia hipouricemiante tofo",
+      apres: "comprimido 100 mg e 300 mg",
+      dose: [
+        { rot: "Adulto — gota: teto do tratamento otimizado", val: "até 800 mg/dia", p: 11 },
+        { rot: "Adulto — dose inicial e titulação", val: "sem fonte brasileira datada conferida — confirmar no protocolo do serviço" }
+      ],
+      porque: "Hipouricemiante: mantém o ácido úrico sérico abaixo da solubilidade, o que previne a precipitação do urato e permite reabsorver o cristal já depositado (SBR/SBPC-ML 2024).",
+      escolher: "Gota com crises recorrentes: compõe o tratamento otimizado, com a profilaxia das crises, exigido antes de encaminhar à Reumatologia (TSRS 2022). Está na farmácia básica (RENAME 2024).",
+      evitar: "Mexer no esquema de quem está estável, sem crise e aderente só porque o ácido úrico está fora do alvo (TSRS 2022).",
+      contraind: "Não listada nas fontes da pasta (TSRS 2022, SBR/SBPC-ML 2024): conferir na bula.",
+      adversos: "Eosinofilia (TSRS Hematologia 2023); linfonodomegalia (TSRS Hematologia e Otorrino); neutropenia quando associado ao captopril (PCDT DRC 2024). O resto: conferir na bula.",
+      monitor: "Ácido úrico sérico até a meta: abaixo de 6 mg/dL em quem trata gota (SBR/SBPC-ML 2024); abaixo de 5 mg/dL com tofo (MS/UFRGS 2016). Creatinina com TFG: DRC 4 ou 5 (TFG abaixo de 30) vai à Medicina Interna ou à Nefrologia (TSRS 2022).",
+      fonte: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Reumatologia adulto, 2022"
+    }
+  ]
+});
+
+FARMACOS_APS.classes.push({
+  rot: "Adjuvantes da dor neuropática",
+  kw: "dor neuropatica neuropatia diabetica pos-herpetica triciclico nortriptilina gabapentina gabapentinoide anticonvulsivante",
+  quando: "Dor neuropática (neuropatia diabética, pós-herpética, radiculopatia) e dor crônica, pelo PCDT Dor Crônica 2024. A amitriptilina, a carbamazepina e a duloxetina são cartões da psiquiatria, com a linha da indicação de dor.",
+  nota: "Pregabalina e duloxetina não foram incorporadas para dor neuropática nem fibromialgia (PCDT 2024). A gabapentina sai pelo Componente Especializado com LME; nortriptilina e amitriptilina estão na farmácia básica.",
+  farmacos: [
+    {
+      nome: "Nortriptilina (cloridrato)",
+      id: "nortriptilina",
+      kw: "nortriptilina triciclico dor neuropatica neuropatia diabetica pos-herpetica dor cronica",
+      apres: "cápsula 10 mg, 25 mg, 50 mg e 75 mg",
+      dose: [
+        { rot: "Adulto — dor neuropática (titulação do TSRS)", val: "início 10 a 25 mg VO; manutenção 25 a 150 mg à noite, subindo a cada 3 a 7 dias", f: "TelessaúdeRS-UFRGS — Protocolo de encaminhamento para Tratamento da Dor, 2020" },
+        { rot: "Adulto — dor crônica (PCDT Dor Crônica, Quadro 2)", val: "25 mg VO, 3 ou 4 vezes ao dia; máximo 150 mg/dia — o PCDT não dá dose inicial: começar pela titulação da linha do TSRS", p: 18 },
+        { rot: "Idoso — dor crônica (PCDT Dor Crônica, Quadro 2)", val: "30 a 50 mg/dia VO, em duas ou três tomadas ou dose única — manter a menor dose eficaz", p: 18 }
+      ],
+      porque: "Antidepressivo tricíclico com ação analgésica: os tricíclicos têm a evidência mais robusta na dor neuropática (lesão medular, pós-herpética, diabética, pós-AVE) e melhoram dor e sono na dor nociplástica (PCDT).",
+      escolher: "Dor neuropática: primeira linha na neuropatia diabética e na pós-herpética (TSRS 2020). Efeitos adversos menos intensos que os da amitriptilina (TSRS 2020). Farmácia básica (RENAME 2024).",
+      evitar: "Idoso: tricíclico é potencialmente inapropriado (anticolinérgico, sedativo, hipotensão ortostática), mas aceitável para tratar dor, na menor dose eficaz (Consenso PIM 2016; PCDT). Uso cauteloso em glaucoma, cardiopatia, hiperplasia prostática, distúrbio da motilidade intestinal e com outros sedativos (TSRS 2020).",
+      contraind: "Associação com IMAO, até 14 dias antes ou depois; fase de recuperação aguda do infarto do miocárdio (PCDT, Termo de Esclarecimento, p. 33).",
+      adversos: "Hipotensão ortostática, taquicardia, arritmia; boca seca, constipação, retenção urinária, visão borrada; confusão, alucinação, desorientação e delirium, sobretudo no idoso; sonolência, tremor, convulsão (PCDT, p. 20 e 33).",
+      monitor: "Pressão em pé (hipotensão ortostática), pulso, confusão no idoso, constipação e micção. Reavaliar a dor com a mesma escala a cada retorno (PCDT, p. 4); persistindo com dose otimizada, somar um fármaco de outra classe (TSRS 2020).",
+      fonte: "MS — PCDT Dor Crônica, Portaria Conjunta SAES/SAPS/SECTICS nº 1, 2024"
+    },
+    {
+      nome: "Gabapentina",
+      id: "gabapentina",
+      kw: "gabapentina gabapentinoide anticonvulsivante dor neuropatica neuropatia diabetica pos-herpetica componente especializado",
+      apres: "cápsula 300 mg e 400 mg",
+      dose: [
+        { rot: "Adulto — dor neuropática (titulação do TSRS)", val: "início 300 mg VO; manutenção 900 a 3.600 mg/dia, em três tomadas", f: "TelessaúdeRS-UFRGS — Protocolo de encaminhamento para Tratamento da Dor, 2020" },
+        { rot: "Adulto — fibromialgia (TSRS; a SBR 2026 acha a evidência insuficiente para recomendar)", val: "300 mg VO à noite, subindo conforme tolerância até 1.200 a 2.400 mg/dia, de 8/8 h", f: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Reumatologia adulto, 2022", p: 33 },
+        { rot: "Adulto — dor crônica, dose máxima (PCDT Dor Crônica)", val: "3.600 mg/dia", p: 18 }
+      ],
+      porque: "Anticonvulsivante que o PCDT destaca na dor neuropática pós-herpética, na neuropatia diabética, na dor neuropática mista e na hanseníase, onde superou o placebo.",
+      escolher: "Dor neuropática, sobretudo diabética e pós-herpética: primeira linha (TSRS 2020). Componente Especializado: sai com LME do PCDT Dor Crônica (CID R52.1 ou R52.2).",
+      evitar: "Fibromialgia: a SBR 2026 acha a evidência insuficiente para recomendar — embora o TSRS 2022 a use. Doença renal crônica: cautela e dose menor (TSRS 2020; PCDT).",
+      contraind: "Hipersensibilidade à gabapentina ou aos componentes; gravidez (PCDT, Termo de Esclarecimento, p. 34).",
+      adversos: "Ganho de peso, sedação, tontura e vertigem, incoordenação, edema periférico, cefaleia, tremor, fadiga, visão turva, nistagmo; leucopenia (PCDT, p. 21 e 34; TSRS 2020).",
+      monitor: "Função renal: o PCDT manda reduzir a dose com depuração de creatinina abaixo de 79 mL/min (p. 18); o ajuste por faixa não está no PCDT — conferir na bula. Sedação e queda no idoso.",
+      fonte: "MS — PCDT Dor Crônica, Portaria Conjunta SAES/SAPS/SECTICS nº 1, 2024"
+    }
+  ]
+});
+
+FARMACOS_APS.classes.push({
+  rot: "Antivertiginoso (sintomático da vertigem aguda)",
+  kw: "vertigem tontura labirintite neurite vestibular neuronite antivertiginoso anti-histaminico dimenidrinato nausea",
+  quando: "Neurite vestibular ou labirintite aguda: sintomático só nos três primeiros dias (protocolo MS/UFRGS de Neurologia 2022; TSRS Otorrino 2023). Na VPPB, o tratamento é a manobra de Epley.",
+  nota: "Dimenidrinato, meclizina, betaistina, cinarizina e flunarizina não estão na RENAME 2024. Na farmácia básica (Componente Básico) há prometazina, metoclopramida, ondansetrona e diazepam em comprimido.",
+  farmacos: [
+    {
+      nome: "Dimenidrinato",
+      id: "dimenidrinato",
+      kw: "dimenidrinato antivertiginoso anti-histaminico vertigem labirintite neurite vestibular nausea enjoo",
+      apres: "fora da RENAME 2024 — forma e concentração: conferir na bula",
+      dose: [
+        { rot: "Adulto — neurite vestibular ou labirintite aguda: sintomático, no máximo 3 dias", val: "50 mg VO de 6/6 h, por no máximo 3 dias", p: 24 }
+      ],
+      porque: "Anti-histamínico usado como antivertiginoso e antiemético no alívio sintomático da vertigem aguda (CAB nº 28; TSRS 2023).",
+      escolher: "Neurite vestibular ou labirintite aguda com náusea, só nos três primeiros dias. Fora da RENAME 2024: a família compra; a farmácia básica tem prometazina e metoclopramida.",
+      evitar: "Passar de três dias: atrasa a compensação pelo sistema nervoso central (MS/UFRGS 2022; TSRS 2023). Idoso: anti-histamínico de primeira geração é inapropriado — sedação, confusão, queda (Consenso PIM 2016; CAB nº 28). VPPB: a crise dura menos de um minuto e o remédio quase não ajuda; trata-se com a manobra (CAB nº 28).",
+      contraind: "Não listada nas fontes da pasta (TSRS 2023, CAB nº 28): conferir na bula.",
+      adversos: "Sonolência, menos concentração e atenção, efeito somado ao do álcool e de outros depressores do SNC; no idoso, sedação, queda, retenção urinária e confusão (CAB nº 28, p. 188).",
+      monitor: "Suspender no terceiro dia. Sem melhora progressiva em 15 dias de tratamento conservador: Otorrino; nenhuma resposta em 7 dias ou sintoma incapacitante: urgência (TSRS 2023, p. 5).",
+      fonte: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Otorrinolaringologia adulto, 2023"
+    }
+  ]
+});
+
+FARMACOS_APS.classes.push({
+  rot: "Urgência na UBS — até a remoção",
+  kw: "urgencia emergencia ubs usf maleta carrinho samu remocao anafilaxia hipoglicemia sindrome coronariana cetoacidose choque",
+  quando: "A urgência que chega à UBS: o que usar enquanto o SAMU não chega, com o que a unidade tem.",
+  nota: "A lista de medicamentos de urgência da UBS (Portaria GM/MS nº 2.048/2002, cap. III, item 1.3) é de 2002 e está desatualizada: não traz AAS, salbutamol nem prometazina, e traz dobutamina, dopamina, deslanosídeo e meperidina. Conferir o que a maleta da USF tem de fato.",
+  farmacos: [
+    {
+      nome: "Epinefrina (adrenalina)",
+      id: "epinefrina",
+      kw: "adrenalina epinefrina anafilaxia choque anafilatico alergia grave reacao a vacina picada de inseto edema de glote",
+      apres: "solução injetável 1 mg/mL (1:1.000) (RENAME 2024)",
+      dose: [
+        { rot: "Adulto — anafilaxia (vale também para o adolescente com puberdade iniciada)", val: "0,01 mg/kg IM na coxa; máximo 0,5 mg" },
+        { rot: "Criança — anafilaxia (protocolo pediátrico do SAMU: de 29 dias até o início da puberdade)", val: "0,01 mg/kg IM na coxa; máximo 0,3 mg" }
+      ],
+      porque: "É a droga de escolha na anafilaxia e deve ser dada de imediato, sem esperar confirmação diagnóstica. Corticoide e anti-histamínico só ajudam a evitar a evolução arrastada; não tratam a fase aguda (CAB nº 28).",
+      escolher: "Anafilaxia por qualquer dos três critérios do SAMU: pele ou mucosa com comprometimento respiratório ou queda da PA; dois ou mais sistemas logo após um alérgeno provável; queda da PA após alérgeno conhecido. Edema de glote na urticária ou no angioedema também. A via é a intramuscular, no terço médio da face anterolateral da coxa.",
+      evitar: "Via subcutânea: a intramuscular age mais rápido (CAB nº 28). Via venosa fora do choque: a EV, diluída e em infusão lenta com monitor, fica reservada à iminência de choque ou ao choque estabelecido, e é conduta do SAMU. Atrasar a adrenalina para dar antes anti-histamínico ou corticoide.",
+      contraind: "Na anafilaxia, as fontes lidas (SAMU 2016, CAB nº 28) não trazem contraindicação. Em uso de betabloqueador a resposta pode ser fraca e o quadro mais grave, mas a adrenalina não deve ser evitada (ASBAI 2013).",
+      adversos: "Depois da dose certa, é esperado e passa: palidez, tremor, ansiedade, palpitação, tontura e cefaleia — sinal de que a dose terapêutica foi dada (SAMU, protocolo pediátrico). A própria anafilaxia pode desmascarar doença coronariana, com isquemia e arritmia, com ou sem adrenalina (ASBAI 2013).",
+      monitor: "Repetir a cada 5 a 15 minutos, pela gravidade e pela resposta à dose anterior. Volume da solução 1 mg/mL: 0,01 mL/kg; teto de 0,5 mL no adulto e de 0,3 mL na criança. Seringa de 1 mL e agulha 25 × 7 (30 × 8 na obesidade), na coxa, até por cima da roupa. Anotar o horário de cada dose. Deitado com as pernas elevadas, sem sentar nem levantar de repente. PA, FC e oximetria até a remoção. A reação pode voltar em 8 a 12 horas (bifásica, cerca de 20% dos casos — ASBAI 2013): remover para observação mesmo se melhorar. Em uso de IMAO, a adrenalina tem risco maior (ASBAI 2013): monitorar PA e FC depois da dose.",
+      diverge: "O CAB nº 28 vol. II (2012, p. 26 e no quadro da p. 28) traz '0,3 a 0,5 mL IM ou SC' no adulto e '0,01 mg/kg/dia' na criança: a via SC e a unidade 'por dia' estão erradas. Vale o SAMU 2016: 0,01 mg/kg por aplicação, IM na coxa, teto de 0,5 mg no adulto e de 0,3 mg na criança. O guia de bolso do rodízio põe teto de 0,5 mg também na criança; o protocolo pediátrico do SAMU usa 0,3 mg.",
+      fonte: "MS — SAMU 192, Protocolos de Suporte Avançado de Vida, 2016"
+    },
+    {
+      nome: "Prometazina",
+      id: "prometazina",
+      kw: "prometazina fenergan anti-histaminico injetavel anafilaxia urticaria angioedema alergia",
+      apres: "solução injetável 25 mg/mL; comprimido 25 mg (RENAME 2024)",
+      dose: [
+        { rot: "Adulto — anafilaxia (adjuvante, depois da adrenalina) ou urticária e angioedema", val: "25 mg IM; pode repetir em 2 horas", p: 28 },
+        { rot: "Criança de 5 a 10 anos — mesma indicação", val: "6,25 a 12,5 mg IM; máximo 0,5 mg/kg por dose", p: 28 },
+        { rot: "Adulto — neurite vestibular ou labirintite aguda: sintomático, no máximo 3 dias", val: "25 mg VO de 8/8 h, por no máximo 3 dias", f: "MS/UFRGS — Protocolos de encaminhamento da APS para a atenção especializada, vol. 16: Neurologia adulto, 2022", p: 29 }
+      ],
+      porque: "Anti-histamínico injetável da farmácia básica. Na anafilaxia é adjuvante: ajuda a evitar a evolução arrastada, mas não trata a fase aguda (CAB nº 28).",
+      escolher: "Depois da adrenalina, na anafilaxia; urticária e angioedema sem sinal de anafilaxia. O protocolo de anafilaxia do SAMU não usa anti-histamínico. Entre 2 e 5 anos o CAB nº 28 não traz dose: não improvisar.",
+      evitar: "Usar no lugar da adrenalina. No idoso, anti-histamínico de primeira geração é potencialmente inapropriado (sedação, quedas, efeito anticolinérgico), embora possa ser apropriado na reação alérgica grave (Consenso PIM 2016).",
+      contraind: "Abaixo de 2 anos (CAB nº 28). As demais não estão nas fontes lidas: conferir na bula.",
+      adversos: "Sedação e efeito anticolinérgico (confusão, boca seca, constipação); no idoso, hipotensão postural e piora do parkinsonismo (Consenso PIM 2016).",
+      monitor: "Sonolência, nível de consciência e PA depois da aplicação, sobretudo no idoso.",
+      fonte: "MS — CAB nº 28, vol. II, Queixas mais comuns na Atenção Básica, 2012"
+    },
+    {
+      nome: "Glicose hipertônica (50% e 10%)",
+      id: "glicose-hipertonica",
+      kw: "glicose 50 glicose hipertonica soro glicosado 10 hipoglicemia grave coma hipoglicemico convulsao",
+      apres: "solução injetável a 50% (500 mg/mL) e a 10% (100 mg/mL) (RENAME 2024)",
+      dose: [
+        { rot: "Adulto — hipoglicemia grave (não engole, confuso, convulsionando ou inconsciente; vale também para o adolescente com puberdade iniciada)", val: "25 mL de glicose 50% EV, a 3 mL/min" },
+        { rot: "Adulto — hipoglicemia grave: depois do bolus", val: "manter a veia com glicose 10% até recuperar a consciência ou glicemia acima de 60; depois, via oral" },
+        { rot: "Criança de 2 meses a 5 anos — doença grave com hipoglicemia, antes de referir", val: "5 a 10 mL/kg de glicose 10% EV em flush; depois manter glicose 10%", f: "MS/OPAS/UNICEF — Manual AIDPI Criança: 2 meses a 5 anos, 2017", p: 100 },
+        { rot: "Criança de mais de 5 anos até o início da puberdade — hipoglicemia (glicemia abaixo de 60) que não pode ser tratada pela boca", val: "0,5 a 1 g/kg de glicose EV em bolus (com a glicose 10% da UBS: 5 a 10 mL/kg); glicemia em 10 minutos e repetir se seguir abaixo de 60 — o SAMU escreve a dose como glicose 25%, 2 a 4 mL/kg a 1 mL/min, que não vem pronta; nunca usar esse volume com a glicose 50%", f: "MS — SAMU 192, Protocolos de Suporte Avançado de Vida, 2016" }
+      ],
+      porque: "Repõe glicose de imediato pela veia em quem não consegue engolir. A hipoglicemia grave leva a convulsão, coma e morte.",
+      escolher: "Hipoglicemia nível 3 — rebaixamento, convulsão, coma ou quem precisa de outra pessoa para se tratar, qualquer que seja o valor (PCDT DM2). Consciente e engolindo: carboidrato pela boca, não glicose EV. Também na crise convulsiva com glicemia baixa.",
+      evitar: "Glicose EV em quem engole bem. Atrasar a glicose para esperar a tiamina no etilista: a tiamina vai antes, mas não segura a glicose. Liberar logo quem usa sulfonilureia: a hipoglicemia volta.",
+      contraind: "As fontes lidas não trazem contraindicação ao tratamento da hipoglicemia grave.",
+      adversos: "As fontes lidas não descrevem eventos adversos; o CAB nº 36 pede veia de grande calibre e infusão lenta.",
+      monitor: "Glicemia capilar logo depois do bolus e de novo enquanto aguarda. Insulina: observar enquanto durar o pico; sulfonilureia: observar 48 a 72 horas (CAB nº 36) — combinar com a regulação onde. A glicose 25% da linha pediátrica do SAMU não vem pronta (a RENAME tem 50% e 10%) e o preparo não está na fonte: confirmar com a regulação ao acionar o SAMU.",
+      diverge: "Adulto: o CAB nº 36 (2013, Quadro 11) dá 25 mL de glicose 50%; o SAMU (2016, AC29) dá 30 a 50 mL; o CAB nº 28 (2012, Quadro 13, crise convulsiva) escreve 'SG 50% 5 mL', provável erro de digitação — não usar esse número. Criança: a dose do SAMU é em gramas por kg; 5 a 10 mL/kg de glicose 10% é a mesma dose, e é a formulação que o AIDPI usa de 2 meses a 5 anos.",
+      fonte: "MS — CAB nº 36, Diabetes Mellitus, 2013"
+    },
+    {
+      nome: "Glucagon",
+      id: "glucagon",
+      kw: "glucagon glucagen hipoglicemia grave sem acesso venoso diabetes tipo 1 familia",
+      apres: "pó liofilizado com diluente, para injeção (fora da RENAME 2024)",
+      dose: [
+        { rot: "Adulto e criança de 8 anos ou mais — hipoglicemia moderada a grave, sem acesso venoso", val: "1 mg IM", p: 51 },
+        { rot: "Criança abaixo de 8 anos — mesma indicação", val: "0,5 mg IM", p: 51 }
+      ],
+      porque: "Alternativa intramuscular à glicose venosa na hipoglicemia, que pode ser feita antes da ida ao hospital, inclusive pela família treinada (CAB nº 28).",
+      escolher: "Hipoglicemia moderada a grave sem acesso venoso, quando houver glucagon; família de criança com DM1 que já tem o produto e foi treinada.",
+      evitar: "Contar com ele na UBS: é caro, não está na RENAME e em geral não está no estoque. Atrasar o SAMU por causa dele.",
+      contraind: "O CAB nº 28 não traz contraindicação: conferir na bula.",
+      adversos: "O CAB nº 28 não descreve: conferir na bula.",
+      monitor: "É um pó que precisa ser misturado ao diluente antes da aplicação, e a família precisa de instrução prévia (CAB nº 28). Glicemia capilar de novo e SAMU acionado.",
+      fonte: "MS — CAB nº 28, vol. II, Queixas mais comuns na Atenção Básica, 2012"
+    },
+    {
+      nome: "Dinitrato de isossorbida (sublingual)",
+      id: "dinitrato-de-isossorbida",
+      kw: "isordil isossorbida dinitrato nitrato sublingual angina dor toracica infarto sindrome coronariana edema agudo de pulmao",
+      apres: "comprimido sublingual 5 mg (RENAME 2024)",
+      dose: [
+        { rot: "Adulto — suspeita de síndrome coronariana aguda, dor que persiste", val: "5 mg SL a cada 5 a 10 min; máximo 15 mg", p: 127 },
+        { rot: "Adulto — edema agudo de pulmão com PAS acima de 90, até a remoção", val: "5 mg SL a cada 5 a 10 minutos — antes de cada comprimido, PAS acima de 90; o SAMU não dá teto no EAP", f: "MS — SAMU 192, Protocolos de Suporte Avançado de Vida, 2016" }
+      ],
+      porque: "Nitrato sublingual da farmácia básica e da lista de urgência da UBS. Na dor torácica isquêmica, entra junto com AAS e oxigênio quando indicado; no edema agudo de pulmão, só com PAS acima de 90 (SAMU).",
+      escolher: "Dor torácica com suspeita de SCA que persiste, enquanto aguarda a remoção; edema agudo de pulmão com PAS acima de 90. Antes de cada comprimido: PA, FC e as contraindicações.",
+      evitar: "Baixar demais a PA: limitar a queda a 10% no normotenso e a 30% no hipertenso (SAMU). Usar a melhora com nitrato como prova de que a dor é cardíaca: a dor do esôfago também melhora com nitrato (CAB nº 28).",
+      contraind: "Na SCA (SAMU AC17): PAS abaixo de 90; FC abaixo de 50 ou acima de 100; suspeita de infarto de ventrículo direito, ou de parede inferior que possa envolver o VD; sildenafila, vardenafila ou lodenafila nas últimas 24 horas, tadalafila nas últimas 48 horas, ou alprostadil, fentolamina ou ioimbina nas últimas 24 horas. No edema agudo de pulmão (SAMU AC24), o protocolo só exige PAS acima de 90: a taquicardia do EAP não impede o nitrato; perguntar o inibidor de PDE5 também (o AC24 não o cita — confirmar com a regulação).",
+      adversos: "Hipotensão — por isso a PA antes de cada dose. As fontes lidas não detalham os demais.",
+      monitor: "PA e FC antes de cada comprimido; repetir só se a dor persistir e a PAS se mantiver. Anotar horário e número de doses para a ficha de referência.",
+      diverge: "Intervalo entre doses: CAB nº 28 (2012, p. 127) 5 a 10 minutos; SAMU (2016, AC17) 3 a 5 minutos, até duas repetições. O teto é o mesmo.",
+      fonte: "MS — CAB nº 28, vol. II, Queixas mais comuns na Atenção Básica, 2012"
+    }
+  ]
+});
+
+FARMACOS_APS.classes.push({
+  rot: "Antibacterianos para ITU e pele",
+  kw: "itu cistite infeccao urinaria bacteriuria pielonefrite prostatite impetigo erisipela piodermite antibiotico",
+  quando: "Cistite, bacteriúria da gestante, prostatite; impetigo e erisipela tratados na APS. O ciprofloxacino (ITU complicada, pielonefrite leve, homem) está na classe “Diarreia aguda: reidratação, antiemético e antibiótico”, com as linhas de ITU.",
+  nota: "Todos aqui são antimicrobianos da IN nº 360/2025 (venda com retenção da receita, válida por 10 dias). Na cistite não complicada da mulher a quinolona saiu da 1ª linha (consenso de 2020); a fosfomicina, 1ª linha, não está na RENAME 2024.",
+  farmacos: [
+    {
+      nome: "Nitrofurantoína",
+      id: "nitrofurantoina",
+      kw: "nitrofurantoina macrodantina cistite itu infeccao urinaria bacteriuria gestante profilaxia",
+      apres: "cápsula 100 mg; suspensão oral 5 mg/mL",
+      dose: [
+        { rot: "Mulher adulta não gestante — cistite não complicada (1ª linha)", val: "100 mg VO de 6/6 horas, por 5 dias" },
+        { rot: "Gestante até 37 semanas — bacteriúria assintomática ou cistite", val: "100 mg VO de 6/6 horas, por 5 dias — depois de 37 semanas, o Manual recomenda trocar por cefalexina",
+          f: "MS — Manual de Gestação de Alto Risco, 2022" },
+        { rot: "Gestante — profilaxia até o parto: depois de pielonefrite, ou quando a bacteriúria ou a cistite se repete", val: "100 mg VO 1x/dia — depois de 37 semanas, trocar por cefalexina (risco de icterícia neonatal)",
+          f: "MS — Manual de Gestação de Alto Risco, 2022" },
+        { rot: "Mulher não gestante — profilaxia de ITU de repetição, por 6 a 12 meses", val: "100 mg VO 1x/dia ao deitar (contínua), ou 100 mg depois da relação sexual (pós-coito)" }
+      ],
+      porque: "Antibacteriano que se concentra na urina, com resistência baixa: a E. coli da cistite no Brasil foi sensível em mais de 90% nos estudos do consenso. Cobre E. coli, Enterococcus, S. aureus, S. saprophyticus e estreptococo do grupo B.",
+      escolher: "Primeira linha na cistite não complicada da mulher, junto da fosfomicina, e a única das duas na farmácia da USF. Na gestante, bacteriúria, cistite e profilaxia até 37 semanas.",
+      evitar: "ITU complicada e pielonefrite: pouca penetração no tecido (Protocolos da AB, Saúde das Mulheres, 2016, p. 61). Proteus e Pseudomonas têm resistência intrínseca: se a urocultura mostrar, trocar. Profilaxia longa sem reavaliar.",
+      contraind: "Gestação a partir de 37 semanas (consenso 2020; o CAB nº 32, de 2012, corta em 36) — risco de icterícia e de hemólise no recém-nato. Lactação: o CAB nº 32 (2012) não recomenda (anemia hemolítica no bebê com deficiência de G6PD). As demais: conferir na bula, sobretudo na função renal reduzida (o corte de depuração não está nas fontes da pasta).",
+      adversos: "Pneumonite no uso por mais de 14 dias, com risco maior na idosa e na disfunção renal. As fontes não detalham outros efeitos: conferir na bula.",
+      monitor: "Melhora clínica em 48 horas; sem melhora, urocultura e trocar. Gestante: urocultura de controle 1 a 2 semanas depois do fim. Na profilaxia longa, perguntar por tosse e falta de ar.",
+      fonte: "SBI/FEBRASGO/SBU/SBPC-ML — Joint report: infecção do trato urinário na mulher, Braz J Infect Dis, 2020"
+    },
+    {
+      nome: "Fosfomicina trometamol",
+      id: "fosfomicina",
+      kw: "fosfomicina trometamol monuril cistite itu dose unica gestante profilaxia",
+      apres: "fosfomicina trometamol 3 g para dose oral única (apresentação comercial: conferir na farmácia); fora da RENAME 2024",
+      dose: [
+        { rot: "Mulher adulta não gestante — cistite não complicada (1ª linha)", val: "3 g VO em dose única" },
+        { rot: "Gestante — bacteriúria assintomática ou cistite", val: "3 g VO em dose única", f: "MS — Manual de Gestação de Alto Risco, 2022" },
+        { rot: "Mulher não gestante — profilaxia de ITU de repetição, por 6 a 12 meses", val: "3 g VO a cada 10 dias" }
+      ],
+      porque: "Mecanismo de ação próprio e resistência baixa; ativa contra E. coli (inclusive a produtora de ESBL), Enterococcus, S. aureus e S. epidermidis.",
+      escolher: "Primeira linha na cistite não complicada, com a vantagem da dose única. Não está na RENAME 2024: a paciente compra. Na gestante, uma das opções do Manual de Alto Risco.",
+      evitar: "Suspeita de S. saprophyticus (atividade limitada). Pielonefrite: as fontes só a indicam na ITU baixa.",
+      contraind: "As fontes não listam contraindicação: conferir na bula.",
+      adversos: "As fontes não descrevem: conferir na bula.",
+      monitor: "Melhora em 48 horas; sem melhora, urocultura. Gestante: urocultura de controle 1 a 2 semanas depois.",
+      fonte: "SBI/FEBRASGO/SBU/SBPC-ML — Joint report: infecção do trato urinário na mulher, Braz J Infect Dis, 2020"
+    },
+    {
+      nome: "Cefalexina",
+      id: "cefalexina",
+      kw: "cefalexina keflex cefalosporina gestante itu bacteriuria profilaxia impetigo erisipela piodermite",
+      apres: "cápsula e comprimido 500 mg; suspensão oral 50 mg/mL",
+      dose: [
+        { rot: "Gestante — bacteriúria assintomática ou cistite", val: "500 mg VO de 6/6 horas, por 7 dias", f: "MS — Manual de Gestação de Alto Risco, 2022" },
+        { rot: "Gestante — profilaxia até o parto (depois de pielonefrite ou de episódio repetido; e, depois de 37 semanas, no lugar da nitrofurantoína)", val: "250 a 500 mg VO 1x/dia", f: "MS — Manual de Gestação de Alto Risco, 2022" },
+        { rot: "Homem adulto — cistite (infecção complicada)", val: "250 a 500 mg VO de 6/6 horas, por 7 dias", p: 77 },
+        { rot: "Adulto — impetigo com lesões disseminadas e estado geral comprometido", val: "250 a 500 mg VO quatro vezes ao dia, por sete dias", p: 81 },
+        { rot: "Adulto — erisipela sem comprometimento importante do estado geral", val: "250 a 500 mg VO quatro vezes ao dia, por sete dias", p: 82 }
+      ],
+      porque: "Cefalosporina de 1ª geração: cobre o estafilococo e o estreptococo da pele e é usada na gestação.",
+      escolher: "Gestante (bacteriúria, cistite e profilaxia, inclusive depois de 37 semanas); cistite no homem; impetigo e erisipela, preferida quando se suspeita de estafilococo (CAB nº 28); infecção secundária da dermatite atópica, onde a cefalosporina é a 1ª escolha (SBD, 2019). Está na farmácia da USF. Criança: o CAB nº 28 dá a dose por kg sem teto, por isso ela não entrou no cartão.",
+      evitar: "Na cistite da gestante, o consenso de 2020 aponta mais falha com cefalosporina de 1ª geração e amoxicilina: quando houver, guiar pelo antibiograma.",
+      contraind: "As fontes não listam contraindicação: conferir na bula.",
+      adversos: "As fontes não descrevem: conferir na bula.",
+      monitor: "Gestante: urocultura de controle 2 semanas depois. Erisipela sem melhora ou com piora do estado geral: avaliação hospitalar (CAB nº 28, p. 82).",
+      fonte: "MS — CAB nº 28, vol. II, Queixas mais comuns na Atenção Básica, 2012"
+    },
+    {
+      nome: "Sulfametoxazol + trimetoprima",
+      id: "sulfametoxazol-trimetoprima",
+      kw: "sulfametoxazol trimetoprima smx tmp bactrim cotrimoxazol prostatite cistite",
+      apres: "comprimido 400 mg + 80 mg; suspensão oral 40 mg/mL + 8 mg/mL; solução injetável 80 mg/mL + 16 mg/mL",
+      dose: [
+        { rot: "Homem adulto — prostatite bacteriana aguda", val: "800/160 mg VO de 12/12 horas, por três a quatro semanas", p: 78 },
+        { rot: "Homem adulto — prostatite bacteriana crônica (1ª escolha)", val: "800/160 mg VO de 12/12 horas, por quatro a 12 semanas", p: 78 },
+        { rot: "Mulher não gestante — cistite não complicada, só com urocultura mostrando sensibilidade", val: "800/160 mg VO de 12/12 horas, por 3 dias",
+          f: "MS — Protocolos da Atenção Básica: Saúde das Mulheres, 2016", p: 61 }
+      ],
+      porque: "Associação de duas drogas que bloqueiam etapas seguidas da síntese de folato da bactéria.",
+      escolher: "Prostatite: 1ª escolha na crônica e opção na aguda (CAB nº 28, 2012, a única fonte brasileira da pasta para o homem). Cistite da mulher: o Protocolo de 2016 a põe em 1ª linha, mas o consenso de 2020 mostra a E. coli sensível em só 55 a 63% no Brasil — usar quando a urocultura mostrar sensibilidade. Está na farmácia da USF.",
+      evitar: "Tratamento empírico da cistite sem antibiograma (resistência alta). Gestante: evitar no 1º trimestre (teratogenicidade da trimetoprima) e no 3º (kernicterus, sobretudo no prematuro) — CAB nº 32, 2012, p. 191.",
+      contraind: "1º e 3º trimestres da gestação (CAB nº 32, 2012). As demais: conferir na bula.",
+      adversos: "As fontes não descrevem: conferir na bula.",
+      monitor: "Prostatite: reavaliar estado geral e resposta; internação e antibiótico venoso se piorar ou não responder (CAB nº 28, p. 78). 800/160 mg = 2 comprimidos de 400/80 mg da RENAME.",
+      fonte: "MS — CAB nº 28, vol. II, Queixas mais comuns na Atenção Básica, 2012"
+    }
+  ]
+});
+
+FARMACOS_APS.classes.push({
+  rot: "Antifúngicos e escabicida de uso na pele",
+  kw: "micose tinha tinea frieira impingem pitiriase versicolor pano branco candidiase sapinho intertrigo onicomicose escabiose sarna antifungico escabicida",
+  quando: "Escabiose, dermatofitoses (tineas), pitiríase versicolor, candidíase mucocutânea e onicomicose na APS. O miconazol (creme, loção, gel oral) e o fluconazol são cartões do formulário de IST, com as linhas da pele.",
+  nota: "Tópico primeiro, oral se extensa ou se o tópico falhou; tinea capitis é sempre oral. Nistatina não trata tinea e cetoconazol oral não se usa em micose superficial.",
+  farmacos: [
+    {
+      nome: "Permetrina",
+      id: "permetrina",
+      kw: "permetrina escabiose sarna escabicida locao creme contatos",
+      apres: "loção 5% (50 mg/mL) e loção 1% (10 mg/mL) na RENAME; o CAB nº 28 cita o creme 5%",
+      dose: [
+        { rot: "Escabiose — adulto e criança a partir de três meses (escolha, CAB nº 28)", val: "creme ou loção 5%: do pescoço aos pés, 8 a 12 horas, sem repetir", p: 86 },
+        { rot: "Escabiose — esquema do guia de bolso do MS", val: "creme 5%: uma aplicação à noite por 6 noites",
+          f: "MS — Doenças infecciosas e parasitárias: guia de bolso, 8ª ed. rev., 2010", p: 169 }
+      ],
+      porque: "Escabicida tópico de escolha, com boa tolerância local.",
+      escolher: "Escabiose em adulto e em criança a partir de três meses, tratando todos os contatos ao mesmo tempo. A RENAME 2024 tem a loção 5% e a loção 1% (Componente Básico).",
+      evitar: "Aplicar logo depois de banho quente (absorve mais e pode dar dermatite de contato) e repetir sem necessidade (irrita a pele).",
+      contraind: "Segurança não estabelecida abaixo de três meses, na gestante e na lactante (CAB nº 28). Abaixo de três meses e na gestante, o CAB indica enxofre em vaselina (fora da RENAME); para a lactante, nenhuma das fontes indica alternativa.",
+      adversos: "Boa tolerância local; o uso repetido e desnecessário irrita a pele e pode dar dermatite de contato.",
+      monitor: "O prurido e alguns nódulos podem durar semanas depois do tratamento. Falha: sinais e sintomas depois de 2 semanas; voltar depois de 4 semanas é reinfestação (guia de bolso do MS, 2010, p. 170).",
+      diverge: "CAB nº 28 (2012): uma aplicação, sem repetir; enxofre 5% em vaselina abaixo de 3 meses e na gestante. Guia de bolso (2010): 6 noites; enxofre 10% em petrolato na gestante e abaixo de 2 anos.",
+      fonte: "MS — CAB nº 28, vol. II, Queixas mais comuns na Atenção Básica, 2012"
+    },
+    {
+      nome: "Cetoconazol (xampu)",
+      id: "cetoconazol",
+      kw: "cetoconazol xampu shampoo pitiriase versicolor pano branco dermatite seborreica caspa tinea capitis",
+      apres: "xampu 2% (20 mg/mL)",
+      dose: [
+        { rot: "Pitiríase versicolor — tratamento tópico", val: "xampu 2% na pele afetada: deixar 5 a 10 minutos, 1x/dia, por 1 a 4 semanas", p: 39 },
+        { rot: "Pitiríase versicolor recorrente — profilaxia", val: "xampu 2% no corpo todo, deixar 10 minutos, 1x/mês (sobretudo nos meses quentes)", p: 39 },
+        { rot: "Dermatite seborreica do couro cabeludo", val: "xampu 2%: deixar agir 3 a 5 minutos, 2 a 5x/semana, por 2 a 4 semanas; depois 1 a 2x/semana como manutenção", p: 37 },
+        { rot: "Tinea capitis — junto do antifúngico oral, no paciente e nos contatos da casa sem lesão", val: "xampu 2%: lavar o couro cabeludo, deixar agir 5 minutos e enxaguar, 2x/semana, por 2 a 4 semanas",
+          f: "TelessaúdeRS-UFRGS — TeleCondutas: Dermatofitoses, 2ª ed., 2025", p: 12 }
+      ],
+      porque: "Antifúngico azólico de uso tópico: o xampu age sobre a Malassezia (pitiríase versicolor, dermatite seborreica) e reduz os esporos de dermatófito no couro cabeludo.",
+      escolher: "Pitiríase versicolor, dermatite seborreica do couro cabeludo e adjuvante da tinea capitis. É a única forma de cetoconazol da RENAME 2024 (xampu 2%, Componente Básico).",
+      evitar: "Cetoconazol por via oral: contraindicado nas micoses superficiais, por mais efeitos adversos (alerta da Anvisa de reação hepática grave, citado pelo TeleCondutas de 2025).",
+      contraind: "Via oral em tinea e em pitiríase versicolor. Para o xampu, as fontes não listam: conferir na bula.",
+      adversos: "As fontes não descrevem os do xampu: conferir na bula.",
+      monitor: "Pitiríase versicolor: avisar que a mancha clara pode levar meses para repigmentar, mesmo curada.",
+      fonte: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Dermatologia, 2023"
+    },
+    {
+      nome: "Nistatina",
+      id: "nistatina",
+      kw: "nistatina micostatin sapinho candidiase oral orofaringea suspensao",
+      apres: "suspensão oral 100.000 UI/mL",
+      dose: [
+        { rot: "Adulto e criança — candidíase orofaríngea", val: "suspensão 100.000 UI/mL: bochechar e engolir 4 a 6 mL, 4x/dia, por 7 a 14 dias", p: 38 },
+        { rot: "Bebê — candidíase oral (sapinho)", val: "suspensão 100.000 UI/mL: 2 mL (1 mL em cada bochecha), 4x/dia, por 7 a 14 dias", p: 38 }
+      ],
+      porque: "Antifúngico de ação local na mucosa (uso tópico).",
+      escolher: "Candidíase oral do adulto, da criança e do bebê, como 1ª opção junto do miconazol gel oral. É a única forma de nistatina da RENAME 2024 (suspensão oral, Componente Básico).",
+      evitar: "Tinea (dermatofitose): a nistatina não é efetiva e não deve ser usada (TeleCondutas, 2025, p. 8).",
+      contraind: "As fontes não listam: conferir na bula.",
+      adversos: "As fontes não descrevem: conferir na bula.",
+      monitor: "Sem resposta, extensa ou recorrente: fluconazol (cartão próprio) e procurar diabetes e imunossupressão. Dentadura: tratar a prótese junto. Bebê: ferver bicos e brinquedos e examinar o mamilo da mãe que amamenta.",
+      fonte: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Dermatologia, 2023"
+    },
+    {
+      nome: "Itraconazol",
+      id: "itraconazol",
+      kw: "itraconazol antifungico oral tinea micose pitiriase versicolor onicomicose intertrigo candida",
+      apres: "cápsula 100 mg; solução oral 10 mg/mL",
+      dose: [
+        { rot: "Adulto — tinea corporis extensa ou que falhou no tópico", val: "200 mg VO 1x/dia, por 1 semana", p: 9 },
+        { rot: "Criança — tinea corporis extensa ou que falhou no tópico", val: "3 a 5 mg/kg VO 1x/dia (máximo 200 mg/dia), por 1 semana", p: 9 },
+        { rot: "Adulto — tinea cruris extensa ou que falhou no tópico", val: "200 mg VO 1x/dia, por 1 a 3 semanas", p: 14 },
+        { rot: "Adulto — tinea pedis ou manuum que falhou no tópico", val: "200 mg VO 2x/dia, por 1 semana", p: 17 },
+        { rot: "Adulto e criança — tinea capitis (2ª linha: eficácia menor que a da griseofulvina e da terbinafina)", val: "3 a 5 mg/kg VO 1x/dia (máximo 200 mg/dia), por 4 a 8 semanas · alternativa: a mesma dose 1 semana por mês, por 2 a 3 meses", p: 11 },
+        { rot: "Adulto — pitiríase versicolor extensa, recorrente ou refratária", val: "200 mg VO 1x/dia, por 5 a 7 dias",
+          f: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Dermatologia, 2023", p: 39 },
+        { rot: "Adulto — intertrigo por Candida extenso ou que falhou no tópico", val: "200 mg VO 2x/dia, por 2 a 6 semanas",
+          f: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Dermatologia, 2023", p: 38 },
+        { rot: "Adulto — onicomicose, em pulso (nos pés, 2ª linha depois da terbinafina)", val: "2 cápsulas de 100 mg VO 2x/dia, 1 semana por mês, por 2 meses (mãos) ou 3 meses (pés)",
+          f: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Dermatologia, 2023", p: 40 }
+      ],
+      porque: "Azólico oral contra dermatófitos e Candida.",
+      escolher: "Tinea extensa ou que falhou no tópico, tinea capitis quando terbinafina e griseofulvina não são acessíveis, pitiríase versicolor extensa, intertrigo por Candida e onicomicose. Está na RENAME 2024 (cápsula e solução oral). Tomar junto da refeição.",
+      evitar: "Uso junto com sinvastatina e na insuficiência cardíaca; cautela com fator de risco para IC. Atenção às interações.",
+      contraind: "Uso concomitante de sinvastatina; insuficiência cardíaca (Protocolo de Dermatologia, 2023, p. 38 a 40). Gestação e lactação: as fontes não tratam — não prescrever sem conferir na bula.",
+      adversos: "Sintomas gastrointestinais, erupção cutânea, cefaleia, vertigem e alteração de transaminases.",
+      monitor: "Uso diário por mais de 3 a 4 semanas, hepatopatia, hepatite medicamentosa prévia ou outro hepatotóxico: AST e ALT antes e a cada 4 semanas. O pulso, sem esses fatores, dispensa exame prévio.",
+      fonte: "TelessaúdeRS-UFRGS — TeleCondutas: Dermatofitoses, 2ª ed., 2025"
+    },
+    {
+      nome: "Terbinafina",
+      id: "terbinafina",
+      kw: "terbinafina lamisil antifungico oral tinea capitis onicomicose micose de unha dermatofitose",
+      apres: "comprimido 250 mg (não há solução oral: na criança, fracionar o comprimido)",
+      dose: [
+        { rot: "Adulto — tinea corporis extensa ou que falhou no tópico", val: "250 mg VO 1x/dia, por 1 a 3 semanas", p: 9 },
+        { rot: "Criança — tinea corporis extensa ou que falhou no tópico", val: "pelo peso, 1x/dia, por 1 a 3 semanas: 10 a 20 kg, 62,5 mg; 20 a 40 kg, 125 mg; acima de 40 kg, 250 mg", p: 9 },
+        { rot: "Adulto — tinea cruris extensa ou que falhou no tópico", val: "250 mg VO 1x/dia, por 1 a 3 semanas", p: 14 },
+        { rot: "Adulto — tinea pedis ou manuum que falhou no tópico", val: "250 mg VO 1x/dia, por 2 semanas", p: 17 },
+        { rot: "Adulto — tinea capitis (1ª escolha, com a griseofulvina)", val: "250 mg VO 1x/dia, por 3 a 6 semanas", p: 11 },
+        { rot: "Criança a partir de 4 anos — tinea capitis (1ª escolha)", val: "pelo peso, 1x/dia, por 3 a 6 semanas: 10 a 20 kg, 62,5 mg; 20 a 40 kg, 125 mg; acima de 40 kg, 250 mg", p: 11 },
+        { rot: "Adulto — onicomicose das mãos por dermatófito", val: "250 mg VO 1x/dia, por 6 semanas",
+          f: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Dermatologia, 2023", p: 40 },
+        { rot: "Adulto — onicomicose dos pés (sistêmica)", val: "250 mg VO 1x/dia, por 3 meses",
+          f: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Dermatologia, 2023", p: 40 }
+      ],
+      porque: "Antifúngico oral (alilamina) contra dermatófitos.",
+      escolher: "Primeira escolha oral na tinea capitis (com a griseofulvina) e na onicomicose; opção na tinea extensa. NÃO está na RENAME 2024: o paciente compra (há genérico registrado).",
+      evitar: "Atrasar o início à espera de exame em quem não tem doença hepática conhecida (TeleCondutas, 2025, p. 11).",
+      contraind: "As fontes não listam: conferir na bula, sobretudo na doença hepática. Gestação e lactação: as fontes não tratam — não prescrever sem conferir na bula.",
+      adversos: "Sintomas gastrointestinais, alteração do paladar, cefaleia, aumento de transaminases e erupção cutânea.",
+      monitor: "Uso previsto por mais de 3 a 4 semanas: AST e ALT antes, de preferência; repetir em 4 a 6 semanas só com doença hepática, álcool, hepatite medicamentosa prévia ou sintomas (náusea, vômito, icterícia, colúria, acolia).",
+      fonte: "TelessaúdeRS-UFRGS — TeleCondutas: Dermatofitoses, 2ª ed., 2025"
+    }
+  ]
+});
+
+FARMACOS_APS.classes.push({
+  rot: "Corticoides tópicos",
+  kw: "corticoide topico pomada creme eczema dermatite atopica dermatite de contato seborreica",
+  quando: "Eczema da dermatite atópica, de contato e seborreica, pela potência adequada à idade e ao local (Quadro 12 do Protocolo de Dermatologia de 2023).",
+  nota: "Os dois do Componente Básico da RENAME 2024 são de baixa potência. O clobetasol 0,05% (muito alta; creme e solução capilar) está no Componente Especializado, não na farmácia da USF; a betametasona não consta da RENAME.",
+  farmacos: [
+    {
+      nome: "Dexametasona creme 0,1%",
+      id: "dexametasona-creme",
+      kw: "dexametasona creme corticoide topico baixa potencia eczema dermatite",
+      apres: "creme dermatológico 0,1% (1 mg/g)",
+      dose: [
+        { rot: "Dermatite atópica — áreas de eczema", val: "creme 0,1%: 1 ou 2x/dia nas áreas de eczema, por 2 a 4 semanas", p: 36 },
+        { rot: "Dermatite de contato — depois de afastar o desencadeante", val: "creme 0,1%: 2x/dia, por 2 a 4 semanas", p: 37 },
+        { rot: "Dermatite seborreica de face e dobras", val: "creme 0,1%: 1 a 2x/dia até melhorar, pelo menor tempo possível", p: 37 }
+      ],
+      porque: "Corticoide tópico de baixa potência: anti-inflamatório para o eczema.",
+      escolher: "Eczema da dermatite atópica, de contato e seborreica; a baixa potência é a indicada na face e nas dobras. Está na RENAME 2024 (Componente Básico).",
+      evitar: "Lesão de micose (o corticoide tópico predispõe ao granuloma de Majocchi, TeleCondutas 2025); eczema disidrótico, que pede alta potência.",
+      contraind: "As fontes não listam contraindicação formal; o Protocolo de 2023 manda tratar a infecção cutânea associada (bacteriana, fúngica ou viral). Conferir na bula.",
+      adversos: "Atrofia da pele e, no uso extenso, supressão adrenal (consenso da SBD, 2019).",
+      monitor: "Reavaliar em 2 a 4 semanas; refratária a 1 mês de tratamento otimizado, com adesão conferida: dermatologia.",
+      fonte: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Dermatologia, 2023"
+    },
+    {
+      nome: "Acetato de hidrocortisona creme 1%",
+      id: "hidrocortisona-creme",
+      kw: "hidrocortisona creme corticoide topico baixa potencia eczema dermatite face crianca",
+      apres: "creme 1% (10 mg/g)",
+      dose: [
+        { rot: "Dermatite atópica — áreas de eczema", val: "creme 1%: 1 ou 2x/dia nas áreas de eczema, por 2 a 4 semanas — posologia geral do corticoide tópico (Quadro 11); hidrocortisona 1% é de baixa potência (Quadro 12)", p: 36 },
+        { rot: "Dermatite de contato — depois de afastar o desencadeante", val: "creme 1%: 2x/dia, por 2 a 4 semanas", p: 37 },
+        { rot: "Dermatite seborreica de face e dobras", val: "creme 1%: 1 a 2x/dia até melhorar, pelo menor tempo possível", p: 37 }
+      ],
+      porque: "Corticoide tópico de baixa potência: anti-inflamatório para o eczema.",
+      escolher: "As mesmas indicações da dexametasona creme; baixa potência, indicada na face e nas dobras. Está na RENAME 2024 (Componente Básico).",
+      evitar: "Lesão de micose (o corticoide tópico predispõe ao granuloma de Majocchi, TeleCondutas 2025); eczema disidrótico, que pede alta potência.",
+      contraind: "As fontes não listam contraindicação formal; o Protocolo de 2023 manda tratar a infecção cutânea associada (bacteriana, fúngica ou viral). Conferir na bula.",
+      adversos: "Atrofia da pele e, no uso extenso, supressão adrenal (consenso da SBD, 2019).",
+      monitor: "Reavaliar em 2 a 4 semanas; refratária a 1 mês de tratamento otimizado, com adesão conferida: dermatologia.",
+      fonte: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Dermatologia, 2023"
+    }
+  ]
+});
+
 /* =====================================================================
  * COMBINAÇÕES. Relação, não propriedade de um fármaco — por isso seção
  * própria, e não repetida em cada cartão.
@@ -2127,7 +3787,75 @@ FARMACOS_APS.combos = {
       t: "PEP seguida de PrEP, sem intervalo",
       d: "Quem procura PEP repetidamente termina os 28 dias, exclui o HIV com teste rápido ou sorologia em sangue e já inicia a PrEP (tenofovir/entricitabina), " +
          "sem lacuna entre as duas, com os exames iniciais da PrEP que ainda faltarem.",
-      f: "MS — PCDT PrEP oral ao HIV, Portaria SECTICS/MS nº 55/2024, 2025" }
+      f: "MS — PCDT PrEP oral ao HIV, Portaria SECTICS/MS nº 55/2024, 2025" },
+    { id: "car-ic-terapia-padrao",
+      t: "ICFEr — IECA (ou BRA) + betabloqueador + espironolactona, diurético se congesto, e dapagliflozina",
+      d: "O tratamento padrão do PCDT é IECA (BRA se não tolerar, sobretudo por tosse), betabloqueador (carvedilol ou succinato de metoprolol) e espironolactona na NYHA II a IV, com diurético só se houver congestão. Sintomático apesar disso, com fração de ejeção abaixo de 40%: somar dapagliflozina. Começar cada um em dose baixa e subir até a maior dose tolerada; reavaliar os sintomas quatro semanas depois de otimizar o último fármaco.",
+      f: "MS — PCDT Insuficiência Cardíaca com Fração de Ejeção Reduzida, Portaria Conjunta SAES/SECTICS nº 10, 2024", p: 11 },
+    { id: "car-hidralazina-nitrato",
+      t: "Hidralazina + nitrato de isossorbida — ICFEr sem IECA nem BRA, ou NYHA III e IV apesar de otimizado",
+      d: "Indicada a quem não tolera IECA nem BRA por hipercalemia ou perda de função renal, e a quem segue em classe III ou IV apesar do tratamento otimizado (IECA ou BRA ou sacubitril-valsartana, betabloqueador, espironolactona, dapagliflozina) — sobretudo na população negra, em que a evidência é maior. Começar em dose baixa e subir conforme a tolerância.",
+      f: "MS — PCDT Insuficiência Cardíaca com Fração de Ejeção Reduzida, Portaria Conjunta SAES/SECTICS nº 10, 2024", p: 14 },
+    { id: "car-drc-ieca-dapagliflozina",
+      t: "DRC — IECA ou BRA + dapagliflozina",
+      d: "IECA ou BRA no diabético com DRC e albuminúria (RAC de 30 ou mais) e no não diabético com RAC de 300 ou mais, com ou sem hipertensão. Com TFG entre 25 e 75 e, além disso, DM2 ou (sem diabetes) RAC acima de 300, somar a dapagliflozina à terapia padrão; pelo PCDT de DRC, mantê-la até o início da terapia renal substitutiva, mesmo que a TFG caia ou a RAC melhore (no DM2 com TFG persistentemente abaixo de 25, o PCDT de DM2 manda suspender: divergência). A prescrição pode ser feita na APS.",
+      f: "MS — PCDT Estratégias para Atenuar a Progressão da Doença Renal Crônica, Portaria Conjunta SAES/SECTICS nº 11, 2024" },
+    { id: "car-drc-espironolactona",
+      t: "DRC — espironolactona somada ao IECA ou BRA (RAC de 300 ou mais, hipertrofia ventricular ou IC)",
+      d: "Indicada na DRC estágios 1 a 4 com RAC de 300 ou mais, hipertrofia ventricular esquerda ou insuficiência cardíaca, com ou sem hipertensão. Ao incluí-la, reduzir a dose do IECA: a soma favorece hipercalemia grave. Creatinina e potássio em 2 a 4 semanas.",
+      f: "MS — PCDT Estratégias para Atenuar a Progressão da Doença Renal Crônica, Portaria Conjunta SAES/SECTICS nº 11, 2024" },
+    { id: "dig-tripla-claritromicina-h-pylori",
+      t: "Omeprazol + amoxicilina + claritromicina (H. pylori — tríplice do TeleCondutas; o V Consenso desencoraja como 1ª linha empírica)",
+      d: "Só com resistência local baixa à claritromicina ou sensibilidade confirmada (V Consenso). Omeprazol 20 mg de 12/12 h + amoxicilina 1 g de 12/12 h + claritromicina 500 mg de 12/12 h, por 14 dias; " +
+         "na úlcera péptica, IBP por mais 4 a 8 semanas. É o esquema padrão de 1ª linha do TeleCondutas, adaptado do " +
+         "IV Consenso. O V Consenso desencoraja esta tríplice com IBP, salvo resistência local baixa à claritromicina " +
+         "ou sensibilidade confirmada: ver a seção de tratamento da queixa.",
+      f: "TelessaúdeRS-UFRGS — TeleCondutas: Alterações Endoscópicas, 2ª ed., 2024", p: 25 },
+    { id: "dig-concomitante-h-pylori",
+      t: "Omeprazol + amoxicilina + claritromicina + metronidazol (H. pylori — terapia concomitante)",
+      d: "IBP de 12/12 h + amoxicilina 1 g de 12/12 h + claritromicina 500 mg de 12/12 h + metronidazol 500 mg de " +
+         "12/12 h (ou 400 mg de 8/8 h, quando não houver o de 500 mg), por 14 dias (V Consenso; o TeleCondutas, que a lista como " +
+         "esquema alternativo ou de 2ª linha, aceita 10 a 14). O V Consenso a aceita como opção de 1ª linha sem bismuto. Monta-se toda com a RENAME.",
+      f: "TelessaúdeRS-UFRGS — TeleCondutas: Alterações Endoscópicas, 2ª ed., 2024", p: 25 },
+    { id: "dig-dupla-amoxicilina-h-pylori",
+      t: "Amoxicilina em dose alta + IBP em dose alta (H. pylori sem bismuto — V Consenso)",
+      d: "Amoxicilina 3 a 4 g/dia, divididos em 3 ou 4 tomadas (750 a 1000 mg cada; na obesidade, 1 g 4x/dia), com " +
+         "IBP em dose alta 3 ou 4 vezes ao dia, por 14 dias. É a 1ª linha do V Consenso quando não há bismuto e se " +
+         "monta só com a RENAME (omeprazol e amoxicilina). O Consenso define IBP em dose alta como 54 a 128 mg de " +
+         "equivalente de omeprazol 2x/dia, mas no esquema duplo escreve 3 ou 4 tomadas: a dose de omeprazol por " +
+         "tomada não está fixada — combinar com a preceptora.",
+      f: "FBG/NBEHPM — V Consenso Brasileiro sobre infecção por Helicobacter pylori, Arq Gastroenterol, 2026" },
+    { id: "resp-pac-betalactamico-macrolideo",
+      t: "Amoxicilina (ou amoxicilina-clavulanato) + azitromicina na PAC ambulatorial com comorbidade",
+      d: "Com comorbidade (DPOC, doença hepática ou renal, câncer, diabetes, insuficiência cardíaca, alcoolismo, " +
+         "imunossupressão), antibiótico nos últimos três meses ou risco de pneumococo resistente, o betalactâmico vai junto " +
+         "de um macrolídeo; no hígido sem fator de risco, um dos dois sozinho basta. Na DPOC, a azitromicina é preferida à " +
+         "claritromicina por cobrir melhor o H. influenzae.",
+      f: "SBPT — Recomendações para o manejo da pneumonia adquirida na comunidade, J Bras Pneumol, 2018" },
+    { id: "resp-asma-beclometasona-salbutamol",
+      t: "Beclometasona + salbutamol — o regime 2 da asma, o que a UBS entrega",
+      d: "Etapa 1: CI de dose baixa sempre que usar o salbutamol (no mesmo inalador ou separado, o CI logo depois do SABA). " +
+         "Etapa 2: CI diário de dose baixa + salbutamol sob demanda. O PCDT 2026 prefere o regime 1 (formoterol + " +
+         "budesonida, Componente Especializado); o regime 2 é a alternativa quando o 1 não é viável, ou no paciente " +
+         "estável, aderente e sem exacerbação no último ano.",
+      f: "MS — PCDT Asma, Portaria Conjunta SAES/SCTIE nº 43, 2026" },
+    { id: "resp-dpoc-exacerbacao-saba-sama",
+      t: "Salbutamol + ipratrópio na exacerbação da DPOC",
+      d: "Na exacerbação ajusta-se o broncodilatador de curta ação, e o antimuscarínico de curta ação pode ser associado ao " +
+         "SABA. Junto: corticoide oral por cinco dias nas exacerbações moderadas e graves, e antibiótico só na exacerbação " +
+         "infecciosa, com critério.",
+      f: "MS — PCDT Doença Pulmonar Obstrutiva Crônica, Portaria Conjunta SAES/SCTIE nº 29, 2025" },
+    { id: "resp-rsc-antibiotico-corticoide",
+      t: "Amoxicilina-clavulanato + prednisona na rinossinusite crônica sem resposta ou agudizada",
+      d: "Depois de 8 a 12 semanas de lavagem salina e corticoide nasal sem resposta, ou com edema grave de mucosa, ou na " +
+         "agudização: curso curto de antibiótico oral por 10 a 14 dias junto de prednisona por 10 dias no total.",
+      f: "TelessaúdeRS-UFRGS/SES-RS — Protocolo de encaminhamento: Otorrinolaringologia adulto, 2023" },
+    { id: "neu-aine-omeprazol", t: "AINE oral + omeprazol na artrose com história gastrointestinal",
+      d: "Artrose de joelho ou quadril: AINE oral na menor dose individual efetiva pelo menor tempo; se o uso passar de cinco dias em quem tem história de evento gastrointestinal, associar omeprazol em jejum.",
+      f: "MS — PCDT Dor Crônica, Portaria Conjunta SAES/SAPS/SECTICS nº 1, 2024" },
+    { id: "neu-dor-neuropatica-duas-classes", t: "Dois fármacos de classes diferentes na dor neuropática que persiste (tricíclico + gabapentinoide ou IRSN)",
+      d: "Dor que persiste com um fármaco em dose otimizada: associar um segundo de classe diferente. O tratamento clínico otimizado que justifica encaminhar ao Tratamento da Dor é o uso de pelo menos dois fármacos em dose otimizada.",
+      f: "TelessaúdeRS-UFRGS — Protocolo de encaminhamento para Tratamento da Dor, 2020" }
   ]
 };
 
@@ -2220,7 +3948,60 @@ FARMACOS_APS.proibidos = {
          "símile). Desfecho: mal-estar, náuseas, tonturas e gosto metálico. Evitar bebida alcoólica " +
          "durante o uso e até 24 horas depois.",
       f: "MS — PCDT IST, Atenção Integral às Pessoas com Infecções Sexualmente Transmissíveis, 2022", p: 144 },
-    { id: "tb-rifampicina-inducao", t: "Rifampicina + anticoncepcional hormonal, anticoagulante oral, inibidor de protease, enalapril, metadona, beta-agonista, teofilina, propafenona ou quinidina", d: "MECANISMO: a rifampicina é indutora enzimática potente (citocromo P450) e reduz o nível sérico desses fármacos. DESFECHO: perda de efeito — gravidez não planejada durante o tratamento de TB, anticoagulação insuficiente, falha do antirretroviral, pressão descontrolada. O Manual manda evitar o uso concomitante: anticoncepcional, trocar por outro método; inibidor de protease ou dolutegravir, a referência troca a rifampicina por rifabutina no tratamento e usa isoniazida na ILTB; metadona, avaliar ajuste de dose e evitar. Antiácido junto reduz a absorção da rifampicina: separar. Cetoconazol e fluconazol: preferir outro agente. Corticoide, digital, barbitúrico e hipoglicemiante oral (no diabético, monitorar glicemia e considerar insulina) também caem: avaliar ajuste e monitorar.", f: "MS — Manual de Recomendações para o Controle da Tuberculose no Brasil, 2ª ed., 2019" }
+    { id: "tb-rifampicina-inducao", t: "Rifampicina + anticoncepcional hormonal, anticoagulante oral, inibidor de protease, enalapril, metadona, beta-agonista, teofilina, propafenona ou quinidina", d: "MECANISMO: a rifampicina é indutora enzimática potente (citocromo P450) e reduz o nível sérico desses fármacos. DESFECHO: perda de efeito — gravidez não planejada durante o tratamento de TB, anticoagulação insuficiente, falha do antirretroviral, pressão descontrolada. O Manual manda evitar o uso concomitante: anticoncepcional, trocar por outro método; inibidor de protease ou dolutegravir, a referência troca a rifampicina por rifabutina no tratamento e usa isoniazida na ILTB; metadona, avaliar ajuste de dose e evitar. Antiácido junto reduz a absorção da rifampicina: separar. Cetoconazol e fluconazol: preferir outro agente. Corticoide, digital, barbitúrico e hipoglicemiante oral (no diabético, monitorar glicemia e considerar insulina) também caem: avaliar ajuste e monitorar.", f: "MS — Manual de Recomendações para o Controle da Tuberculose no Brasil, 2ª ed., 2019" },
+    { id: "car-sacubitril-ieca",
+      t: "Sacubitril-valsartana + IECA (ou + outro BRA)",
+      d: "MECANISMO: o sacubitril inibe a neprilisina e impede a degradação de substâncias vasodilatadoras; o IECA também reduz a degradação de vasodilatadores (bradicinina) e a valsartana já bloqueia o eixo da angiotensina — a soma acumula o efeito vasodilatador e o bloqueio duplo (inferência a partir do que o PCDT descreve de cada um). DESFECHO: angioedema e perda de função renal. O PCDT proíbe o uso conjunto e manda esperar pelo menos 36 horas depois da última dose de IECA para começar o sacubitril-valsartana.",
+      f: "MS — PCDT Insuficiência Cardíaca com Fração de Ejeção Reduzida, Portaria Conjunta SAES/SECTICS nº 10, 2024", p: 14 },
+    { id: "car-estatina-genfibrozila",
+      t: "Estatina + genfibrozila",
+      d: "MECANISMO: estatinas e fibratos causam miopatia, e a genfibrozila inibe a glucuronidação das estatinas, o que aumenta a concentração delas (mecanismo descrito pela SBC). DESFECHO: rabdomiólise. O PCDT diz que a genfibrozila nunca deve ser administrada junto com estatina; se precisar de fibrato com estatina, outro fibrato (fenofibrato), tomado pela manhã, longe da estatina.",
+      f: "MS — PCDT Dislipidemia: prevenção de eventos cardiovasculares e pancreatite, Portaria Conjunta nº 8, 2019", p: 10 },
+    { id: "car-sinvastatina-macrolideo",
+      t: "Sinvastatina (ou atorvastatina) + claritromicina ou eritromicina",
+      d: "MECANISMO: claritromicina e eritromicina são os inibidores mais potentes do CYP3A4, a enzima que metaboliza sinvastatina e atorvastatina; a concentração da estatina sobe. DESFECHO: miotoxicidade. A SBC manda evitar a associação; a azitromicina pode ser usada com todas as estatinas, e rosuvastatina, fluvastatina e pravastatina não são afetadas de modo significativo.",
+      f: "SBC — Diretriz Brasileira de Dislipidemias e Prevenção da Aterosclerose, Arq Bras Cardiol, 2025" },
+    { id: "dig-daa-indutores",
+      t: "Sofosbuvir + daclatasvir + rifampicina, rifabutina, rifapentina, carbamazepina, oxcarbazepina, fenitoína ou fenobarbital",
+      d: "MECANISMO: interação impeditiva com os antivirais de ação direta — o PCDT proíbe o uso conjunto com todos os " +
+         "DAA disponíveis; o detalhe farmacocinético está no material suplementar de interações, não conferido. " +
+         "Desfecho: falha do tratamento. Conduta: o especialista decide trocar ou suspender o outro fármaco antes de " +
+         "começar o DAA.",
+      f: "MS — PCDT Hepatite C e Coinfecções, Portaria SCTIE/MS nº 39, 2026" },
+    { id: "dig-daa-amiodarona",
+      t: "Sofosbuvir + daclatasvir + amiodarona",
+      d: "MECANISMO: interação potencialmente grave entre a amiodarona e os antivirais da hepatite C do SUS, descrita " +
+         "no PCDT; o detalhe está no material suplementar, não conferido. Desfecho: arritmia cardíaca. Conduta: trocar " +
+         "o antiarrítmico sempre que possível; quem usa amiodarona vai ao serviço especializado.",
+      f: "MS — PCDT Hepatite C e Coinfecções, Portaria SCTIE/MS nº 39, 2026" },
+    { id: "resp-saba-isolado-asma",
+      t: "Salbutamol (SABA) sozinho, sem corticoide inalatório, na asma do adolescente, do adulto e da criança de 6 a 11 anos",
+      d: "MECANISMO: o SABA alivia o broncoespasmo em minutos e não trata a inflamação das vias aéreas; o alívio esconde a " +
+         "piora, e o uso isolado ou excessivo aumenta o risco de exacerbação grave e de morte. Desfecho: o PCDT Asma 2026 não " +
+         "recomenda tratar asma só com SABA — a partir de 6 anos todo paciente recebe CI (beclometasona com o salbutamol, ou formoterol + budesonida). " +
+         "Na criança de até 5 anos o PCDT é outro: etapa 1 é SABA sob demanda com curso intermitente de CI no início das viroses; " +
+         "CI diário quando há sintomas mais de 2 vezes por semana ou exacerbação grave no último ano.",
+      f: "MS — PCDT Asma, Portaria Conjunta SAES/SCTIE nº 43, 2026" },
+    { id: "resp-laba-sem-ci-asma",
+      t: "LABA ou LAMA (formoterol, salmeterol, umeclidínio + vilanterol, tiotrópio + olodaterol) sem corticoide inalatório na asma ou na sobreposição asma-DPOC",
+      d: "MECANISMO: o broncodilatador de longa ação controla o sintoma sem controlar a inflamação, que progride sem aviso. " +
+         "Desfecho: risco aumentado de exacerbação grave e de morte; na asma e na sobreposição asma-DPOC, LABA e LAMA vão sempre junto do CI (PCDT Asma, Quadro 5).",
+      f: "MS — PCDT Asma, Portaria Conjunta SAES/SCTIE nº 43, 2026" },
+    { id: "resp-ci-isolado-dpoc",
+      t: "Corticoide inalatório sozinho (beclometasona ou budesonida) na DPOC",
+      d: "MECANISMO: na DPOC o CI sozinho não altera o declínio do VEF1 nem reduz a mortalidade; a base do " +
+         "tratamento é o broncodilatador de longa ação. Desfecho: paciente sem tratamento eficaz e com mais risco de " +
+         "pneumonia; o CI só entra na terapia tripla, com eosinófilos altos ou exacerbações frequentes.",
+      f: "MS — PCDT Doença Pulmonar Obstrutiva Crônica, Portaria Conjunta SAES/SCTIE nº 29, 2025" },
+    { id: "neu-aine-aas-baixa-dose", t: "AINE (ibuprofeno, naproxeno) + AAS em dose baixa contínua",
+      d: "MECANISMO: o AAS é antiagregante plaquetário e aumenta o risco de sangramento; o AINE causa úlcera, sangramento e perfuração gastrointestinal — os riscos se somam. Desfecho: na artrose de joelho ou quadril, o PCDT manda paracetamol ou dipirona e evitar AINE seletivo ou não seletivo; fora da artrose, o AAS é fator de risco gastrointestinal do AINE (TSRS 2022) e, no idoso, o Consenso PIM manda evitar AINE crônico com antiplaquetário.",
+      f: "MS — PCDT Dor Crônica, Portaria Conjunta SAES/SAPS/SECTICS nº 1, 2024" },
+    { id: "neu-aine-anticoagulante", t: "AINE (ibuprofeno, naproxeno) + anticoagulante",
+      d: "MECANISMO: o AINE causa úlcera, sangramento e perfuração gastrointestinal, e o anticoagulante impede a hemostasia — o sangramento fica mais provável e mais grave. Desfecho: o protocolo do MS lista o uso concomitante de anticoagulante como contraindicação ao AINE; no idoso, o Consenso PIM manda evitar o AINE crônico com anticoagulante.",
+      f: "MS — Protocolos da Atenção Básica: Saúde das Mulheres, 2016" },
+    { id: "ap1-isrs-tamoxifeno", t: "Paroxetina ou fluoxetina + tamoxifeno",
+      d: "MECANISMO: a paroxetina (inibidor potente) e a fluoxetina (moderado a potente) bloqueiam o CYP2D6, que converte o tamoxifeno, um pró-fármaco, no metabólito ativo. Desfecho: menos efeito do tamoxifeno, com mais recidiva e mortalidade por câncer de mama. Na mulher em tamoxifeno, a venlafaxina inibe o CYP2D6 só fracamente.",
+      f: "Maudsley Prescribing Guidelines, 15ª ed., 2025", p: 401 }
   ]
 };
 
@@ -2255,6 +4036,18 @@ FARMACOS_APS.dosemuda = {
       f: "MS — PCDT IST, Atenção Integral às Pessoas com Infecções Sexualmente Transmissíveis, 2022", p: 125 },
     { id: "han-rifampicina-mensal", t: "Rifampicina — dose MENSAL na hanseníase", d: "Na PQT-U a rifampicina vai só na dose mensal supervisionada: acima de 50 kg, 600 mg uma vez por mês; de 30 a 50 kg, 450 mg. É por isso que os efeitos adversos que ela causa no tratamento diário da tuberculose quase não aparecem na hanseníase. Não transpor a frequência de um esquema para o outro.", f: "MS — PCDT Hanseníase, Portaria SCTIE nº 67, 2022" },
     { id: "tb-corticoide-limiar-iltb", t: "Corticoide — o limiar que indica tratar ILTB depende da idade", d: "Adulto e adolescente (≥ 10 anos): corticoide equivalente a mais de 15 mg/dia de prednisona por mais de 1 mês indica tratar ILTB se PT ≥ 5 mm (p. 166). Criança abaixo de 10 anos que vai iniciar imunossupressor: PT mesmo sem contato; PT ≥ 5 mm trata ILTB, sem corte de dose (p. 166).", f: "MS — Manual de Recomendações para o Controle da Tuberculose no Brasil, 2ª ed., 2019", p: 166 },
-    { id: "han-corticoide-limiar-bcg", t: "Corticoide — o limiar que contraindica revacinar BCG no contato de hanseníase", d: "Contato de hanseníase: não revacinar BCG em quem usa prednisona (ou equivalente) de 2 mg/kg/dia ou mais até 10 kg, ou de 20 mg/dia ou mais acima de 10 kg, por mais de duas semanas (p. 102).", f: "MS — PCDT Hanseníase, Portaria SCTIE nº 67, 2022", p: 102 }
+    { id: "han-corticoide-limiar-bcg", t: "Corticoide — o limiar que contraindica revacinar BCG no contato de hanseníase", d: "Contato de hanseníase: não revacinar BCG em quem usa prednisona (ou equivalente) de 2 mg/kg/dia ou mais até 10 kg, ou de 20 mg/dia ou mais acima de 10 kg, por mais de duas semanas (p. 102).", f: "MS — PCDT Hanseníase, Portaria SCTIE nº 67, 2022", p: 102 },
+    { id: "car-losartana-ic-has",
+      t: "Losartana — na IC o alvo passa do teto da HAS",
+      d: "Na HAS a faixa vai de 50 a 100 mg por dia (Quadro de doses do PCDT de HAS). Na ICFEr a losartana começa com 25 mg 1 vez ao dia e o alvo é 150 mg ao dia, em dose única ou dividida em 2 tomadas (Quadro 5 do PCDT de IC). Parar no teto da HAS deixa a IC subtratada; usar o alvo da IC num hipertenso sem IC é dose acima da prevista.",
+      f: "MS — PCDT Insuficiência Cardíaca com Fração de Ejeção Reduzida, Portaria Conjunta SAES/SECTICS nº 10, 2024", p: 16 },
+    { id: "car-sinvastatina-bcc-amiodarona",
+      t: "Sinvastatina com anlodipino, verapamil ou amiodarona — teto de 20 mg/dia",
+      d: "MECANISMO: anlodipino, verapamil e amiodarona inibem o CYP3A4, que metaboliza a sinvastatina; a exposição sobe. DESFECHO: miopatia e rabdomiólise. Teto da sinvastatina: 20 mg/dia (SBC, Tabela 8.2), contra os 80 da Tabela 1 do PCDT.",
+      f: "SBC — Diretriz Brasileira de Dislipidemias e Prevenção da Aterosclerose, Arq Bras Cardiol, 2025" },
+    { id: "car-hidralazina-ic-has",
+      t: "Hidralazina — na IC o alvo passa do máximo da HAS",
+      d: "Na HAS o máximo é 200 mg/dia (PCDT de HAS). Na ICFEr, com nitrato, o alvo é 50 a 100 mg 3 vezes ao dia (Quadro 5 do PCDT de IC). Fora da ICFEr, o teto é o da HAS.",
+      f: "MS — PCDT Insuficiência Cardíaca com Fração de Ejeção Reduzida, Portaria Conjunta SAES/SECTICS nº 10, 2024", p: 16 }
   ]
 };

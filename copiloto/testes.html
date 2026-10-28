@@ -578,7 +578,7 @@ code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
         var t = String(f.diverge);
         if (!DOS_PSI[f.id]) {
           var achadas = {};
-          (t.match(/PCDT[^,;.()]*|CAB n[ºo] ?\d+|Nota (?:Técnica|Informativa)[^,;.()]*?\d+\/\d{4}|Caderneta[^,;.()]*|Manual[^,;.()]*|Protocolos?[^,;.()]*|OMS|Portaria[^,;.()]*?\d+/g) || [])
+          (t.match(/PCDT[^,;.()]*|CAB n[ºo] ?\d+|Nota (?:Técnica|Informativa)[^,;.()]*?\d+\/\d{4}|Caderneta[^,;.()]*|Manual[^,;.()]*|Protocolos?[^,;.()]*|OMS|Portaria[^,;.()]*?\d+|\bA(?:C|Ped)\d+|TeleCondutas|TelessaúdeRS|RENAME|[Gg]uia de bolso|Consenso|SBPT?|SBR|SBEM|AIDPI|[Cc]artaz|Quadro \d+|item [0-9.]+/g) || [])
             .forEach(function(x){ achadas[x.trim()] = 1; });
           /* divergência DENTRO da mesma fonte (o texto × o quadro do PCDT) vale se citar as duas páginas */
           var pags = {}; (t.match(/p\. ?\d+/g) || []).forEach(function(x){ pags[x.replace(/\s/g, '')] = 1; });
@@ -749,7 +749,9 @@ code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
      Toda queixa de APS fica sob "guia novo não escreve dose" (antes valia só para os
      14 guias da onda 2) e tem tema da taxonomia, que é como a lista da APS se agrupa. */
   var TEMAS_APS = ['T0-Base-SUS-APS','T1-Comunidade','T2-Familia','T3-Risco-Acamados-Paliativos',
-    'T4-Crianca-Adolescente','T5-Mulher-Gestante','T6-Idoso','T7-Vulneraveis','TC-Clinica-Prevalente'];
+    'T4-Crianca-Adolescente','T5-Mulher-Gestante','T6-Idoso','T7-Vulneraveis','TC-Clinica-Prevalente',
+    'A2-Cardiorrenal-Metabolica','A2-Digestivo-Nutricional','A2-Respiratoria','A2-Neuromusculoesqueletica',
+    'A2-Urgencias','A2-Demanda-Comum'];
   var aps = QUEIXAS.filter(function(q){ return q.mod === 'aps'; });
   ver('APS I · toda queixa de APS tem tema da taxonomia',
       aps.filter(function(q){ return TEMAS_APS.indexOf(q.tema) < 0; }).map(function(q){ return q.id; }).join(', '), '');
@@ -765,7 +767,9 @@ code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
   aps.forEach(function(q){
     ['redflags','perguntas','exame','naoperder','ddx','exames','farmaco','conduta','erros'].forEach(function(k){
       ((q[k] || {}).itens || []).forEach(function(i){
-        if (DOSE_APS.test(typeof i === 'string' ? i : i.t)) doseAps.push(q.id + '/' + k);
+        var tx = typeof i === 'string' ? i : i.t;
+        /* diurese e espirometria são corte, não dose (como no lint-fragmento) */
+        if (DOSE_APS.test(tx) && !/diurese|espirometria/i.test(tx)) doseAps.push(q.id + '/' + k);
       });
     });
   });
@@ -837,10 +841,13 @@ code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
 
   /* domiciliar C2–C4: a linha fechada do formulário mostra a dose do cartão de PSIQUIATRIA
      (sono, psicose, SAMU) — no paliativo isso é dose de outro contexto. Até haver linha paliativa
-     nesses cartões (decisão do Eric), eles não entram no formulário do paliativo. */
+     nesses cartões (decisão do Eric), eles não entram no formulário do paliativo.
+     27/10/2026: o Eric decidiu pela linha paliativa no cartão; entram só apontando `linha`. */
   ver('auditoria APS I · domiciliar C2–C4: o paliativo não mostra dose de psiquiatria de naloxona, midazolam, haloperidol',
       ((queixa('paliativos-aps').formulario || {}).farmacos || []).filter(function(r){
-        return ['naloxona', 'midazolam', 'haloperidol', 'decanoato-de-haloperidol'].indexOf(r.id) > -1; }).map(function(r){ return r.id; }).join(', '), '');
+        return ['naloxona', 'midazolam', 'haloperidol', 'decanoato-de-haloperidol'].indexOf(r.id) > -1 && !r.linha; }).map(function(r){ return r.id; }).join(', '), '');
+  ver('auditoria APS I · domiciliar C4: o decanoato de haloperidol nunca entra no formulário do paliativo',
+      ((queixa('paliativos-aps').formulario || {}).farmacos || []).filter(function(r){ return r.id === 'decanoato-de-haloperidol'; }).length, 0);
   ver('auditoria APS I · domiciliar C4: o paliativo diz "nunca o decanoato" do haloperidol',
       tq('paliativos-aps').some(function(t){ return /haloperidol/i.test(t) && /decanoato/.test(t); }), 'true');
   ver('auditoria APS I · domiciliar C1: resgate da morfina é para quem usa opioide forte (quem usa codeína resgata com codeína)',
@@ -875,9 +882,23 @@ code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
      toda referência nova passa por esta lista, de propósito. */
   var PSI_EM_APS = { 'saude-mental-aps': ['fluoxetina'], 'puerperio': ['sertralina', 'fluoxetina'] };
   var psiEmAps = [];
+  /* APS II (27/10/2026, decisão do Eric): o cartão da psiquiatria pode ter linha de outra
+     indicação ("Adulto — crise convulsiva"), e a queixa de APS aponta para ela em `linha`. */
   aps.forEach(function(q){ ((q.formulario || {}).farmacos || []).forEach(function(r){
-    if (DOS_PSI[r.id] && (PSI_EM_APS[q.id] || []).indexOf(r.id) < 0) psiEmAps.push(q.id + ' → ' + r.id); }); });
-  ver('APS I · cartão da psiquiatria em queixa de APS só na lista revisada (mesma indicação)', psiEmAps.join(', '), '');
+    if (DOS_PSI[r.id] && !r.linha && (PSI_EM_APS[q.id] || []).indexOf(r.id) < 0) psiEmAps.push(q.id + ' → ' + r.id); }); });
+  ver('APS I · cartão da psiquiatria em queixa de APS só na lista revisada (mesma indicação) ou com `linha`', psiEmAps.join(', '), '');
+  var linhaOrfa = [];
+  QUEIXAS.forEach(function(q){ ((q.formulario || {}).farmacos || []).forEach(function(r){
+    if (!r.linha) return;
+    var c = cartao(r.id);
+    if (!(c.dose || []).some(function(d){ return d.rot.indexOf(r.linha) === 0; })) linhaOrfa.push(q.id + ' → ' + r.id + ' "' + r.linha + '"');
+    else if (/^(Dose usual|Faixa)/.test(r.linha)) linhaOrfa.push(q.id + ' → ' + r.id + ': `linha` é para outra indicação, não a usual');
+  }); });
+  ver('APS II · `linha` do formulário aponta para uma linha de dose que existe no cartão', linhaOrfa.join(', '), '');
+  var psiOutra = [];
+  PSICOFARMACOS.classes.forEach(function(c){ c.farmacos.forEach(function(f){ (f.dose || []).forEach(function(d){
+    if (/ — /.test(d.rot) && d.f && /^(Dose usual|Faixa)/.test(d.rot)) psiOutra.push(f.id + ': ' + d.rot); }); }); });
+  ver('APS II · linha de outra indicação no cartão da psiquiatria não se chama "Dose usual"/"Faixa"', psiOutra.join(', '), '');
 
   ver('auditoria APS I · crônicas C1: hidroclorotiazida sem 200 mg como máxima na linha de dose',
       (cartao('hidroclorotiazida').dose || []).filter(function(d){ return /200/.test(d.val); }).length + ' · ' +
@@ -890,6 +911,410 @@ code{background:#eef1f4;padding:.05rem .3rem;border-radius:4px;font-size:.86em}
       tq('rastreamento-adulto').filter(function(t){ return /antes dos 25/.test(t) && /não deve ser considerado|desconsiderar/.test(t) && !/DNA-HPV/.test(t); }).length, 0);
   ver('auditoria APS I · crônicas C4: sulfato de magnésio na gestante com PA ≥ 160×110',
       tq('has-dm2-aps', ['redflags']).some(function(t){ return /160/.test(t) && /110/.test(t) && /magnésio/i.test(t); }), 'true');
+
+
+  /* ---------- auditoria APS II (revisão adversarial, 27/10/2026) ----------
+     Copiadas das seções "Testes de auditoria" de copiloto-onda-aps2/fragmentos/<tema>.notas.md.
+     Cada tema num escopo próprio (auxiliares locais com o mesmo nome). */
+  ver('auditoria APS II · aps1 C1: o formulário do climatério abre o proibido ISRS × tamoxifeno',
+      ((queixa('climaterio').formulario || {}).proibidos || []).indexOf('ap1-isrs-tamoxifeno') > -1, 'true');
+  ver('auditoria APS II · aps1 I1: nenhuma linha "hipodermóclise" no haloperidol',
+      (cartao('haloperidol').dose || []).filter(function(d){ return /hipodermóclise/i.test(d.rot); }).length, '0');
+  (function(){ /* cardiorrenal */
+  /* auditoria APS II · cardiorrenal (revisão adversarial de 27/10/2026) */
+  var doseQueComeca = function(id, pre){ return (cartao(id).dose || []).filter(function(d){ return d.rot.indexOf(pre) === 0; }); };
+
+  ver('auditoria APS II · C1 nenhuma linha fechada de formulário mostra a dose de uma faixa de função renal',
+      QUEIXAS.reduce(function(acc, q){ ((q.formulario || {}).farmacos || []).forEach(function(r){
+        if (!r.linha) return;
+        var l = doseQueComeca(r.id, r.linha)[0];
+        if (l && l.val.length <= 40 && /depuração|TFG|clearance/i.test(l.rot)) acc.push(q.id + ' → ' + r.id);
+      }); return acc; }, []).join(', '), '');
+  ver('auditoria APS II · C1 enalapril na DRC: as três faixas do Quadro 4, e a primeira não cabe na linha fechada',
+      doseQueComeca('enalapril', 'Adulto com DRC').length + ' · ' +
+      (doseQueComeca('enalapril', 'Adulto com DRC')[0].val.length > 40) + ' · ' +
+      doseQueComeca('enalapril', 'Adulto com DRC').some(function(d){ return /10 mL\/min ou menos/.test(d.rot) && /dias de diálise/.test(d.val); }),
+      '3 · true · true');
+
+  ver('auditoria APS II · C2 digoxina: o idoso tem linha própria com o teto do Consenso PIM',
+      /no máximo 0,125 mg\/dia/.test(linhaDe('digoxina', 'Idoso — ICFEr').val) + ' · ' +
+      /Potencialmente Inapropriados/.test(linhaDe('digoxina', 'Idoso — ICFEr').f || '') + ' · ' +
+      doseQueComeca('digoxina', 'Adulto não idoso').some(function(d){ return /0,25 mg/.test(d.val); }) + ' · ' +
+      tq('insuficiencia-cardiaca', ['erros']).some(function(t){ return /Digoxina no idoso/.test(t) && /Idoso — ICFEr/.test(t); }),
+      'true · true · true · true');
+
+  ver('auditoria APS II · C3 sinvastatina: teto com anlodipino ou verapamil; inibidor de protease e itraconazol no evitar; dosemuda ligado',
+      /^20 mg\/dia/.test(linhaDe('sinvastatina', 'Adulto em uso de anlodipino ou verapamil — dose máxima (SBC)').val) + ' · ' +
+      /inibidor de protease/.test(cartao('sinvastatina').evitar || '') + ' · ' +
+      /Itraconazol: contraindicado/.test(cartao('sinvastatina').evitar || '') + ' · ' +
+      ['dislipidemia-risco-cv', 'has-dm2-aps'].every(function(id){
+        return ((queixa(id).formulario || {}).dosemuda || []).indexOf('car-sinvastatina-bcc-amiodarona') > -1; }) + ' · ' +
+      tq('dislipidemia-risco-cv', ['perguntas']).some(function(t){ return /anlodipino/.test(t) && /verapamil/.test(t) && /itraconazol/.test(t); }),
+      'true · true · true · true · true');
+
+  ver('auditoria APS II · I1 dapagliflozina na DRC: a divergência com o PCDT de DM2 (TFG abaixo de 25) no cartão, no farmaco e no erro',
+      doseQueComeca('dapagliflozina', 'Adulto com DRC').some(function(d){ return /PCDT de DM2 manda suspender/.test(d.val); }) + ' · ' +
+      tq('drc-aps', ['farmaco']).some(function(t){ return /^Dapagliflozina somada/.test(t) && /PCDT de DM2 manda suspender/.test(t); }) + ' · ' +
+      tq('drc-aps', ['erros']).some(function(t){ return /dapagliflozina/.test(t) && /ainda acima de 25/.test(t); }),
+      'true · true · true');
+
+  ver('auditoria APS II · I2 a meta de LDL da SBC vale para as categorias da SBC, não para as faixas da HEARTS',
+      ['dislipidemia-risco-cv', 'has-dm2-aps'].filter(function(id){
+        return !tq(id, ['conduta']).some(function(t){ return /^Meta de LDL/.test(t) && /PREVENT/.test(t) && /Não aplicar a meta à categoria da HEARTS/.test(t); });
+      }).join(', '), '');
+
+  ver('auditoria APS II · I3 hidralazina e hidroclorotiazida: a linha da IC avisa que passa do máximo da HAS',
+      ['hidralazina', 'hidroclorotiazida'].filter(function(id){
+        return !doseQueComeca(id, 'Adulto — ICFEr').some(function(d){ return /passa do máximo da HAS/.test(d.val); }); }).join(', ') + ' · ' +
+      (((queixa('insuficiencia-cardiaca').formulario || {}).dosemuda || []).indexOf('car-hidralazina-ic-has') > -1) + ' · ' +
+      !!IDS_REL['car-hidralazina-ic-has'],
+      ' · true · true');
+
+  ver('auditoria APS II · I4 espironolactona na DRC: a linha diz estágios 1 a 4',
+      doseQueComeca('espironolactona', 'Adulto com DRC').length + ' · ' +
+      doseQueComeca('espironolactona', 'Adulto com DRC').every(function(d){ return /estágios 1 a 4/.test(d.rot); }),
+      '1 · true');
+
+  ver('auditoria APS II · I5 dapagliflozina na DRC: TFG 25 a 75 E (DM2 ou RAC acima de 300), nos quatro lugares',
+      [ (doseQueComeca('dapagliflozina', 'Adulto com DRC')[0] || {}).rot || '',
+        (IDS_REL['car-drc-ieca-dapagliflozina'] || {}).d || '',
+        tq('drc-aps', ['farmaco']).filter(function(t){ return /^Dapagliflozina somada/.test(t); })[0] || '',
+        (((queixa('drc-aps').formulario || {}).farmacos || []).filter(function(r){ return r.id === 'dapagliflozina'; })[0] || {}).papel || ''
+      ].filter(function(t){ return !/TFG entre 25 e 75(, com DM2 ou| e, além disso)/.test(t); }).length, '0');
+
+  ver('auditoria APS II · I6 furosemida no EAP: cautela na hipotensão na linha e na red flag',
+      doseQueComeca('furosemida', 'Adulto — edema agudo de pulmão').some(function(d){ return /cautela na hipotensão/.test(d.val); }) + ' · ' +
+      tq('insuficiencia-cardiaca', ['redflags']).some(function(t){ return /^Edema agudo de pulmão/.test(t) && /cautela se PAS abaixo de 90/.test(t); }),
+      'true · true');
+
+  ver('auditoria APS II · I7 digoxina: potássio, diurético e betabloqueador no monitor; hipocalemia e verapamil no evitar',
+      [/potássio/, /furosemida/, /betabloqueador/].every(function(r){ return r.test(cartao('digoxina').monitor || ''); }) + ' · ' +
+      [/Hipocalemia/, /verapamil/].every(function(r){ return r.test(cartao('digoxina').evitar || ''); }),
+      'true · true');
+
+  ver('auditoria APS II · I8 captopril na DRC: leucograma com diferencial e corte de neutrófilos',
+      tq('drc-aps', ['exames']).some(function(t){ return /^Captopril/.test(t) && /leucograma/.test(t) && /neutrófilos abaixo de 1\.000/.test(t); }),
+      'true');
+  })();
+  (function(){ /* demanda */
+  /* ---------- auditoria APS II · demanda (relatorios/revisao-demanda.md) ---------- */
+  var smx = cartao('sulfametoxazol-trimetoprima');
+  ver('auditoria APS II · demanda C1: SMX-TMP se evita no 1º e no 3º trimestres (CAB 32)',
+      /1º e 3º trimestres/.test(smx.contraind || '') && /kernicterus/.test(smx.evitar || ''), 'true');
+  ver('auditoria APS II · demanda C1: quinolona contraindicada na gestante e sem exceção aberta para ela na cistite',
+      tq('itu-cistite').some(function(t){ return /Gestante: quinolona é contraindicada/.test(t); }) + ' · ' +
+      tq('itu-cistite', ['farmaco']).some(function(t){ return /Fluoroquinolona/.test(t) && /gestante/.test(t) && /salvo sem outra opção/.test(t); }), 'true · false');
+  ver('auditoria APS II · demanda C2: anticoagulante direto com plaquetas abaixo de 50 mil interna e troca por heparina',
+      tq('arboviroses', ['farmaco']).some(function(t){ return /rivaroxabana/.test(t) && /abaixo de 50 mil, internar/.test(t) && /heparina/.test(t); }), 'true');
+  ver('auditoria APS II · demanda C2: varfarina entre 30 e 50 mil interna e troca por heparina com INR abaixo de 2',
+      tq('arboviroses', ['farmaco']).some(function(t){ return /^Varfarina/.test(t) && /entre 30 e 50 mil, internar/.test(t) && /INR/.test(t); }), 'true');
+  ver('auditoria APS II · demanda I1: o volume da hidratação oral da dengue está no cartão da SRO, com p, e não na queixa',
+      (cartao('sais-de-reidratacao-oral').dose || []).filter(function(d){ return /dengue/.test(d.rot) && d.p === 30; }).length + ' · ' +
+      tq('arboviroses').filter(function(t){ return /mililitros|\d+\s*mL\/kg\/dia/.test(t); }).length, '2 · 0');
+  ver('auditoria APS II · demanda I2: dipirona da criança na dengue diz o peso mínimo',
+      (cartao('dipirona').dose || []).some(function(d){ return /^Criança/.test(d.rot) && /dengue/.test(d.rot) && /5 kg/.test(d.rot); }), 'true');
+  var amiChik = (cartao('amitriptilina').dose || []).filter(function(d){ return d.rot.indexOf('Adulto — dor neuropática da chikungunya') === 0; });
+  ver('auditoria APS II · demanda I3: a 1ª linha da amitriptilina na chikungunya é a de início e proíbe na arritmia',
+      amiChik.length > 1 && /^25 a 50 mg/.test(amiChik[0].val) && /não usar com história de arritmia/.test(amiChik[0].val), 'true');
+  ver('auditoria APS II · demanda I4: fluconazol na candidíase oral da criança avisa que o guia de bolso do MS manda evitar',
+      (cartao('fluconazol').dose || []).some(function(d){ return /^Criança/.test(d.rot) && /candidíase orofaríngea/.test(d.rot) && /guia de bolso/.test(d.val); }) + ' · ' +
+      tq('dermatoses-comuns', ['farmaco']).some(function(t){ return /criança/.test(t) && /evitar o fluconazol/.test(t); }), 'true · true');
+  ver('auditoria APS II · demanda I5: fluconazol diário pede AST e ALT antes',
+      tq('dermatoses-comuns', ['exames']).some(function(t){ return /fluconazol diário/.test(t) && /AST e ALT/.test(t); }), 'true');
+  var corTop = FARMACOS_APS.classes.filter(function(c){ return c.rot === 'Corticoides tópicos'; })[0] || {};
+  ver('auditoria APS II · demanda I6: clobetasol está na RENAME (Especializado), não "fora da RENAME"',
+      /clobetasol[^.]*Especializado/.test(corTop.nota || '') + ' · ' +
+      tq('dermatoses-comuns').some(function(t){ return /clobetasol\) fora da RENAME/.test(t); }), 'true · false');
+  ver('auditoria APS II · demanda I7: onicomicose das mãos por Candida é itraconazol',
+      tq('dermatoses-comuns', ['farmaco']).some(function(t){ return /^Onicomicose/.test(t) && /por Candida[^;]*itraconazol/.test(t); }), 'true');
+  ver('auditoria APS II · demanda I8: prednisona da chikungunya com a lista de cautela do fluxograma',
+      tq('arboviroses', ['farmaco']).some(function(t){ return /Prednisona na chikungunya: cautela/.test(t) && /diabetes/.test(t) && /coronariopatia/.test(t); }), 'true');
+  ver('auditoria APS II · demanda I9: profilaxia da gestante também depois de pielonefrite (cartão e conduta)',
+      (cartao('nitrofurantoina').dose || []).some(function(d){ return /profilaxia/.test(d.rot) && /pielonefrite/.test(d.rot); }) + ' · ' +
+      tq('itu-cistite', ['conduta']).some(function(t){ return /internação por pielonefrite/.test(t) && /profilaxia até o parto/.test(t); }), 'true · true');
+  ver('auditoria APS II · demanda I10: nitrofurantoína não recomendada na lactação (CAB 32)',
+      /Lactação: o CAB nº 32/.test(cartao('nitrofurantoina').contraind || ''), 'true');
+  ver('auditoria APS II · demanda I11: a queixa de pele tira a ivermectina da lactante',
+      tq('dermatoses-comuns', ['farmaco', 'erros']).some(function(t){ return /Ivermectina/.test(t) && /lactante/.test(t); }), 'true');
+  ver('auditoria APS II · demanda I11 (cartão do digestivo): ivermectina com a lactação no contraind',
+      /lacta/i.test(cartao('ivermectina').contraind || ''), 'true');
+  ver('auditoria APS II · demanda I12: ITU no homem diz que o CAB 28 é antigo e manda confirmar',
+      tq('itu-cistite', ['farmaco']).some(function(t){ return /^Homem/.test(t) && /fonte antiga/.test(t) && /preceptora/.test(t); }), 'true');
+  })();
+  (function(){ /* neuro */
+  /* auditoria APS II · neuro (revisão adversarial de 27/10/2026) */
+  var neuForm = function(qid, id){ return ((queixa(qid).formulario || {}).farmacos || []).filter(function(r){ return r.id === id; })[0] || { papel: '' }; };
+  var neuItem = function(qid, sec, re){ return ((queixa(qid)[sec] || {}).itens || []).filter(function(i){ return re.test(typeof i === 'string' ? i : i.t); })[0] || { t: '' }; };
+  var NEU_AINE = ['lombalgia-cervicalgia', 'ombro-joelho-artrose', 'gota', 'cefaleia'];
+
+  ver('auditoria APS II · neuro C1 ibuprofeno e naproxeno mandam evitar AINE na DRC (PCDT DRC 2024, p. 8) e contraindicam com anticoagulante e doença renal',
+      ['ibuprofeno', 'naproxeno'].every(function(id){
+        return /Doença renal crônica/.test(cartao(id).evitar || '') && /PCDT DRC 2024, p\. 8/.test(cartao(id).evitar || '') &&
+               /anticoagulante/.test(cartao(id).contraind || '') && /doença renal/.test(cartao(id).contraind || ''); }), 'true');
+  ver('auditoria APS II · neuro C1 gota: a DRC tem item de AINE no farmaco, e o red flag de DRC 4 e 5 não carrega mais o AINE',
+      /Doença renal crônica: evitar AINE/.test(neuItem('gota', 'farmaco', /Doença renal crônica: evitar AINE/).t) + ' · ' +
+      !/AINE vira problema/.test(neuItem('gota', 'redflags', /doença renal crônica estágio 4 ou 5/i).t) + ' · ' +
+      /nefrite intersticial/.test(neuItem('gota', 'farmaco', /Naproxeno contraindicado/).t),
+      'true · true · true');
+  ver('auditoria APS II · neuro C1 o papel do AINE nas queixas diz "não na DRC"',
+      ['lombalgia-cervicalgia', 'ombro-joelho-artrose', 'gota', 'cefaleia'].filter(function(qid){
+        return !/não na DRC/.test(neuForm(qid, 'ibuprofeno').papel); }).join(', ') + ' · ' +
+      !/não na DRC/.test(neuForm('ombro-joelho-artrose', 'naproxeno').papel), ' · false');
+
+  ver('auditoria APS II · neuro C2 existe o proibido AINE + anticoagulante, com fonte, e está nas 4 queixas de AINE',
+      !!IDS_REL['neu-aine-anticoagulante'] + ' · ' + /Saúde das Mulheres/.test((IDS_REL['neu-aine-anticoagulante'] || {}).f || '') + ' · ' +
+      NEU_AINE.filter(function(qid){ return ((queixa(qid).formulario || {}).proibidos || []).indexOf('neu-aine-anticoagulante') < 0; }).join(','),
+      'true · true · ');
+
+  ver('auditoria APS II · neuro I1 duloxetina na fibromialgia: a linha que o chip pega começa em 30 mg (TSRS 2022, p. 33), a SBR vira linha própria',
+      (cartao('duloxetina').dose.filter(function(d){ return d.rot.indexOf('Adulto — fibromialgia') === 0; })[0] || { val: '' }).val.indexOf('30 a 60 mg') + ' · ' +
+      cartao('duloxetina').dose.some(function(d){ return /faixa estudada pela SBR/.test(d.rot) && /30 a 120 mg/.test(d.val); }),
+      '0 · true');
+
+  ver('auditoria APS II · neuro I2 artrite séptica não é mais VERIFICAR: vai ao pronto-atendimento, com fonte (MS/UFRGS 2016, p. 8)',
+      [['gota', 'redflags'], ['gota', 'ddx'], ['ombro-joelho-artrose', 'redflags']].map(function(p){
+        var i = neuItem(p[0], p[1], /artrite séptica/i);
+        return !i.v && /p\. 8$/.test(i.f || '') && /pronto-atendimento|emergência/.test(i.t); }).join(','), 'true,true,true');
+
+  ver('auditoria APS II · neuro I3 cefaleia: convulsão é red flag de urgência',
+      tq('cefaleia', ['redflags']).some(function(t){ return /convuls/i.test(t) && /urgência/.test(t); }), 'true');
+
+  ver('auditoria APS II · neuro I4 amitriptilina: as 4 queixas avisam da gravidez (cefaleia: e da amamentação)',
+      ['neuropatia-periferica', 'cefaleia', 'dor-cronica-fibromialgia', 'lombalgia-cervicalgia'].filter(function(qid){
+        return !/gravidez/.test(neuForm(qid, 'amitriptilina').papel); }).join(', ') + ' · ' + /amamenta/.test(neuForm('cefaleia', 'amitriptilina').papel),
+      ' · true');
+
+  ver('auditoria APS II · neuro I5 ibuprofeno e naproxeno: IC, hipertensão e úlcera prévia no evitar',
+      ['ibuprofeno', 'naproxeno'].filter(function(id){
+        return !(/insuficiência cardíaca/.test(cartao(id).evitar || '') && /hipertensão/.test(cartao(id).evitar || '') && /úlcera prévia/.test(cartao(id).evitar || '')); }).join(', '), '');
+
+  ver('auditoria APS II · neuro I6 gota: o ibuprofeno não aponta linha de dose (não há esquema de crise com fonte)',
+      neuForm('gota', 'ibuprofeno').linha + ' · ' + /não há esquema de crise/.test(neuForm('gota', 'ibuprofeno').papel), 'undefined · true');
+  })();
+  (function(){ /* respiratoria */
+  /* ---------- auditoria respiratoria (revisão adversarial, 27/10/2026) ----------
+     Prefixo = achado de copiloto-onda-aps2/relatorios/revisao-respiratoria.md. */
+  function rel(id){ return IDS_REL[id] || { t: '', d: '' }; }
+  function chip(d){ return String(d.val).split(' — ')[0]; }
+  function itensDe(id, k){ return (queixa(id)[k] || {}).itens || []; }
+  var oselt = cartao('oseltamivir'), acl = cartao('amoxicilina-clavulanato'), uv = cartao('umeclidinio-vilanterol');
+  var benzR = cartao('penicilina-benzatina'), azi = cartao('azitromicina'), salb = cartao('salbutamol');
+
+  /* C1 — LAMA + LABA sem CI na sobreposição asma-DPOC */
+  ver('respiratoria C1: o cartão do umeclidínio + vilanterol não libera LAMA + LABA sem CI na sobreposição',
+      /sobreposição asma-DPOC/.test(uv.evitar || '') && /LAMA \+ LABA sem corticoide inalatório/.test(uv.evitar || '') && !/^Asma sem DPOC/.test(uv.evitar || ''), 'true');
+  ver('respiratoria C1: o proibido cobre LABA ou LAMA',
+      /LABA ou LAMA/.test(rel('resp-laba-sem-ci-asma').t) && /LAMA/.test(rel('resp-laba-sem-ci-asma').d), 'true');
+  ver('respiratoria C1: o formulário da DPOC abre o proibido do LABA/LAMA sem CI',
+      ((queixa('dpoc').formulario || {}).proibidos || []).indexOf('resp-laba-sem-ci-asma') > -1, 'true');
+  ver('respiratoria C1: papel do umeclidínio + vilanterol na DPOC diz que com asma só com CI',
+      ((queixa('dpoc').formulario || {}).farmacos || []).some(function(r){ return r.id === 'umeclidinio-vilanterol' && /só com CI/.test(r.papel); }), 'true');
+  ver('respiratoria C1: asma/naoperder diz LABA ou LAMA',
+      tq('asma', ['naoperder']).some(function(t){ return /^LABA ou LAMA nunca sem corticoide/.test(t); }), 'true');
+
+  /* I1 — oseltamivir da criança: um chip por faixa, com intervalo e duração antes do " — " */
+  var oseCri = (oselt.dose || []).filter(function(d){ return /^Criança de 1 ano ou mais/.test(d.rot); });
+  ver('respiratoria I1: oseltamivir da criança tem 4 linhas, uma por faixa de peso', oseCri.length, 4);
+  ver('respiratoria I1: o chip de cada faixa traz 12/12 h e 5 dias',
+      oseCri.every(function(d){ return /12\/12 h/.test(chip(d)) && /5 dias/.test(chip(d)); }), 'true');
+
+  /* I2 — recém-nascido não cabe em duas linhas */
+  ver('respiratoria I2: não existe mais a linha "0 a 8 meses" que engole o recém-nascido',
+      (oselt.dose || []).filter(function(d){ return /^Criança de 0 a 8 meses/.test(d.rot); }).length, 0);
+  ver('respiratoria I2: lactente a partir de 29 dias e recém-nascido até 28 dias',
+      (oselt.dose || []).some(function(d){ return /Lactente de 29 dias a 8 meses/.test(d.rot); }) &&
+      (oselt.dose || []).some(function(d){ return /Recém-nascido \(até 28 dias\)/.test(d.rot); }), 'true');
+
+  /* I3 — antibiótico sem duração no chip */
+  var aziPac = (azi.dose || []).filter(function(d){ return /pneumonia adquirida na comunidade/.test(d.rot); })[0] || { val: '' };
+  var aclPac = (acl.dose || []).filter(function(d){ return /PAC ambulatorial/.test(d.rot); })[0] || { val: '' };
+  var aclCri = (acl.dose || []).filter(function(d){ return /^Criança de 2 meses a 5 anos/.test(d.rot); });
+  ver('respiratoria I3: azitromicina na PAC traz a duração no chip', /dias/.test(chip(aziPac)), 'true');
+  ver('respiratoria I3: amoxicilina + clavulanato na PAC traz a duração no chip', /dias/.test(chip(aclPac)), 'true');
+  ver('respiratoria I3: amoxicilina + clavulanato da criança são 3 linhas (pneumonia, ouvido, garganta), cada chip com a duração',
+      aclCri.length + ' · ' + aclCri.every(function(d){ return /por (7|8|10) dias/.test(chip(d)); }), '3 · true');
+
+  /* I4 — benzatina: AIDPI até 5 anos, CAB 28 acima disso */
+  var bz = benzR.dose || [];
+  ver('respiratoria I4: a linha da AIDPI vale até 5 anos e a do CAB 28 só acima disso',
+      bz.some(function(d){ return /^Criança de 2 meses a 5 anos/.test(d.rot) && /não a do CAB 28/.test(d.rot); }) &&
+      bz.some(function(d){ return /acima de 5 anos/.test(d.rot) && /CAB 28/.test(d.rot); }), 'true');
+  ver('respiratoria I4: o papel da benzatina na ivas decide, não delega ("ver as duas linhas")',
+      ((queixa('ivas').formulario || {}).farmacos || []).some(function(r){
+        return r.id === 'penicilina-benzatina' && /até 5 anos vale a linha da AIDPI/.test(r.papel) && !/ver as duas linhas/.test(r.papel); }), 'true');
+
+  /* I5 — SABA isolado: a força vale dos 6 anos em diante */
+  ver('respiratoria I5: o proibido do SABA isolado não vale para o menor de 6 anos',
+      /6 a 11 anos/.test(rel('resp-saba-isolado-asma').t) && /até 5 anos/.test(rel('resp-saba-isolado-asma').d) && /curso intermitente/.test(rel('resp-saba-isolado-asma').d), 'true');
+  ver('respiratoria I5: asma/farmaco, item 1, diz "a partir de 6 anos"',
+      /^A partir de 6 anos, todo paciente com asma recebe corticoide inalatório/.test(itensDe('asma', 'farmaco')[0]), 'true');
+  ver('respiratoria I5: criança até 5 anos tem o curso intermitente de CI na etapa 1',
+      tq('asma', ['farmaco']).some(function(t){ return /^Criança de 6 a 11 anos/.test(t) && /curso intermitente de CI/.test(t); }), 'true');
+
+  /* I6 — salbutamol: a linha do cartão é a de crise, não o alívio de casa */
+  ver('respiratoria I6: o cartão do salbutamol avisa que a linha de exacerbação não é receita de alívio',
+      /não a receita de alívio para casa/.test(salb.escolher || ''), 'true');
+  ver('respiratoria I6: asma/farmaco tem o VERIFICAR da dose de alívio fora da crise',
+      itensDe('asma', 'farmaco').some(function(i){ return i.v === true && /alívio fora da crise/.test(i.t); }), 'true');
+  ver('respiratoria I6: o papel do salbutamol na asma não chama a linha de crise de alívio',
+      ((queixa('asma').formulario || {}).farmacos || []).some(function(r){ return r.id === 'salbutamol' && /fora da crise: VERIFICAR/.test(r.papel); }), 'true');
+
+  /* I7 / I8 — pneumonia: remoção do adulto e CRB-65 com a hierarquia certa */
+  ver('respiratoria I7: o primeiro red flag da pneumonia é a remoção do adulto com CRB-65 de 2 ou mais, com a primeira dose na UBS',
+      /CRB-65 de 2 ou mais/.test(tq('pneumonia-comunitaria', ['redflags'])[0]) && /primeira dose do antibiótico ainda na UBS/.test(tq('pneumonia-comunitaria', ['redflags'])[0]), 'true');
+  ver('respiratoria I8: a regra do CRB-65 é a do CAB 28 (0 ou 1 em casa) e a SBPT é a ressalva',
+      tq('pneumonia-comunitaria', ['redflags']).some(function(t){ return /^CRB-65 \(CAB 28, MS\): 0 ou 1, pode tratar em casa/.test(t); }) &&
+      tq('pneumonia-comunitaria', ['redflags']).some(function(t){ return /^A SBPT 2018 é mais restritiva: considera casa/.test(t); }), 'true');
+  ver('respiratoria I8: nenhum texto transforma o CRB-65 de 0 em condição necessária ("só com 0", "só libera com 0")',
+      tq('pneumonia-comunitaria').filter(function(t){ return /casa só com CRB-65 igual a 0|só libera com 0/.test(t); }).length, 0);
+
+  /* I9 — fatores de risco da influenza */
+  var fr = tq('ivas', ['perguntas']).filter(function(t){ return /fator de risco para complicar a influenza/.test(t); })[0] || '';
+  ver('respiratoria I9: o fator de risco é a obesidade (IMC 40 é o "sobretudo"), e entram puérpera pós-aborto, câncer e HIV',
+      /obesidade \(sobretudo IMC de 40 ou mais\)/.test(fr) && /aborto ou perda fetal/.test(fr) && /câncer, HIV\/aids/.test(fr), 'true');
+
+  /* I10 — clavulanato multiplica com o comprimido da RENAME */
+  ver('respiratoria I10: o monitor da amoxicilina + clavulanato proíbe multiplicar o comprimido para a dose alta',
+      /Não multiplicar o comprimido/.test(acl.monitor || '') && /125 mg de clavulanato/.test(acl.monitor || ''), 'true');
+
+  /* I11 — número por extenso na queixa; o corte vai para a nota da classe */
+  var clOse = FARMACOS_APS.classes.filter(function(c){ return c.farmacos.some(function(f){ return f.id === 'oseltamivir'; }); })[0] || { nota: '' };
+  ver('respiratoria I11: a ivas não escreve "vinte miligramas" nem "dois litros" por extenso',
+      tq('ivas').filter(function(t){ return /vinte miligramas|dois litros/.test(t); }).length, 0);
+  ver('respiratoria I11: o corte de 20 mg/dia de prednisona está na nota da classe do antiviral',
+      /prednisona acima de 20 mg\/dia por mais de 2 semanas/.test(clOse.nota), 'true');
+  ver('respiratoria I11: "2 litros" só para síndrome gripal leve sem fator de risco, com ressalva de restrição hídrica',
+      tq('ivas', ['conduta']).some(function(t){ return /mais de 2 litros/.test(t) && /sem sinal de alerta nem fator de risco/.test(t) && /restrição hídrica/.test(t); }) + ' · ' +
+      tq('ivas', ['conduta']).some(function(t){ return /^Orientar:/.test(t) && /litros/.test(t); }), 'true · false');
+
+  /* I13 — criança acima de 5 anos ou 24 kg: a queixa avisa que não há linha */
+  ver('respiratoria I13: ivas e pneumonia avisam que não há dose de amoxicilina para a criança acima de 5 anos ou 24 kg',
+      ['ivas', 'pneumonia-comunitaria'].every(function(id){
+        return itensDe(id, 'farmaco').some(function(i){ return i.v === true && /^Criança acima de 5 anos ou acima de 24 kg/.test(i.t); }); }), 'true');
+  })();
+  (function(){ /* urgencias */
+  /* ---------- auditoria da onda APS II · urgencias (27/10/2026) ----------
+     Cada teste FALHA sem a correção do relatório revisao-urgencias.md. Esperado = 'true'. */
+  function dosesDe(id, re){ return (cartao(id).dose || []).filter(function(d){ return re.test(d.rot); }); }
+  function linhaFormulario(qid, fid){ return ((queixa(qid).formulario || {}).farmacos || []).filter(function(r){ return r.id === fid; })[0] || {}; }
+  function linhaResolvida(qid, fid){ var l = linhaFormulario(qid, fid).linha || '#'; return (cartao(fid).dose || []).filter(function(d){ return d.rot.indexOf(l) === 0; })[0] || { rot: '', val: '' }; }
+
+  ver('urgencias C1 · glicose da criança > 5 anos: g/kg, 10% da UBS e proibição do volume na 50%',
+      (function(){ var r = dosesDe('glicose-hipertonica', /mais de 5 anos até o início da puberdade/);
+        return r.length === 1 && /5 a 10 mL\/kg/.test(r[0].val) && /nunca usar esse volume com a glicose 50%/.test(r[0].val); })(), 'true');
+  ver('urgencias C1 · a linha do adulto de glicose cobre o adolescente púbere',
+      dosesDe('glicose-hipertonica', /^Adulto — hipoglicemia grave.*puberdade iniciada/).length, '1');
+
+  ver('urgencias I1 · epinefrina: adulto inclui púbere, criança diz de 29 dias até a puberdade',
+      dosesDe('epinefrina', /^Adulto — anafilaxia.*puberdade iniciada/).length + ' · ' + dosesDe('epinefrina', /^Criança — anafilaxia.*29 dias até o início da puberdade/).length, '1 · 1');
+  ver('urgencias I1 · hidrocortisona e ipratrópio pediátricos dizem até a puberdade, nenhum "2 meses ou mais"',
+      dosesDe('hidrocortisona', /^Criança de 2 meses até o início da puberdade/).length + ' · ' + dosesDe('hidrocortisona', /^Criança de 2 meses ou mais/).length + ' · ' +
+      dosesDe('brometo-de-ipratropio', /^Criança até o início da puberdade/).length, '2 · 0 · 1');
+  ver('urgencias I1 · anafilaxia: o papel da epinefrina avisa que o bebê e a criança têm linha própria',
+      /antes da puberdade: linha própria/.test(linhaFormulario('anafilaxia', 'epinefrina').papel || ''), 'true');
+
+  ver('urgencias I2 · diazepam pediátrico: uma linha só, de 29 dias, com teto de 10 mg; a linha do AIDPI sem teto saiu',
+      (function(){ var r = dosesDe('diazepam', /^(Bebê e criança|Criança)/).filter(function(d){ return /convuls/i.test(d.rot); });
+        return r.length + ' · ' + r.every(function(d){ return /máximo 10 mg/.test(d.val) && /crise convulsiva de 5 minutos ou mais/.test(d.rot); }); })(), '1 · true');
+
+  ver('urgencias I3 · salbutamol tem linha de exacerbação de DPOC (4 a 8 jatos) e a queixa não manda para a linha do paciente estável',
+      dosesDe('salbutamol', /^Adulto — exacerbação de DPOC/).filter(function(d){ return /4 a 8 jatos/.test(d.val); }).length + ' · ' +
+      /linha própria do cartão/.test(linhaFormulario('crise-asma-dpoc', 'salbutamol').papel || ''), '1 · false');
+
+  ver('urgencias I4 · nitrato: a contraindicação separa SCA de edema agudo de pulmão (FC > 100 não veta no EAP)',
+      /Na SCA \(SAMU AC17\)/.test(cartao('dinitrato-de-isossorbida').contraind || '') && /No edema agudo de pulmão \(SAMU AC24\).*só exige PAS acima de 90/.test(cartao('dinitrato-de-isossorbida').contraind || ''), 'true');
+
+  ver('urgencias I5 · dor torácica: dissecção sem AAS nem nitrato, em farmaco e em erros',
+      tq('dor-toracica', ['farmaco']).some(function(t){ return /dissecção de aorta.*não seguir a rotina da SCA.*não usa AAS nem nitrato/.test(t); }) + ' · ' +
+      tq('dor-toracica', ['erros']).some(function(t){ return /AAS e nitrato pela rotina da SCA.*pulsos assimétricos/.test(t); }), 'true · true');
+
+  ver('urgencias I6 · captopril: há linha da urgência comum (12,5 a 25 mg) e o formulário da PA resolve nela',
+      dosesDe('captopril', /^Adulto — urgência hipertensiva, PA que segue elevada/).length + ' · ' +
+      /12,5 a 25 mg VO/.test(linhaResolvida('pa-muito-elevada', 'captopril').val), '1 · true');
+  ver('urgencias I6 · o item do captopril na PA não diz "só com risco iminente"',
+      tq('pa-muito-elevada', ['farmaco']).some(function(t){ return /^Captopril de ação curta só com risco/.test(t); }), 'false');
+
+  ver('urgencias I7 · insulina com cetonúria na UBS manda discutir a remoção (SBD) e a red flag vale sem Kussmaul',
+      /gasometria.*discutir a remoção antes da dose extra/.test(linhaResolvida('hipo-hiperglicemia', 'insulina-regular').val) + ' · ' +
+      tq('hipo-hiperglicemia', ['redflags']).some(function(t){ return /cetonúria de 2\+ ou mais.*discutir a remoção mesmo sem Kussmaul/.test(t); }), 'true · true');
+
+  ver('urgencias I8 · soro na CAD da criança: até a puberdade, sem "mantido" solto, com edema cerebral; adulto com a ressalva cardíaca',
+      (function(){ var c = dosesDe('cloreto-de-sodio-0-9', /^Criança até o início da puberdade — suspeita de cetoacidose/);
+        var a = dosesDe('cloreto-de-sodio-0-9', /^Adulto — suspeita de cetoacidose/);
+        return c.length + ' · ' + /edema cerebral/.test(c[0] ? c[0].val : '') + ' · ' + a.length + ' · ' + a.every(function(d){ return /coração e ao rim/.test(d.val); }); })(), '1 · true · 2 · true');
+
+  ver('urgencias I9 · convulsão: a criança recuperada com cara de febril simples também é referida; a tranquilização vai para a família',
+      tq('convulsao', ['conduta']).some(function(t){ return /mesmo recuperada.*referir com urgência/.test(t); }) + ' · ' +
+      tq('convulsao', ['conduta']).some(function(t){ return /^Crise febril simples recuperada: tratar a febre/.test(t); }), 'true · false');
+
+  ver('urgencias I10 · anafilaxia: ESAVI notificado em até 24 horas, com fonte, e sem item VERIFICAR de ESAVI',
+      tq('anafilaxia', ['conduta']).some(function(t){ return /notificar em até 24 horas no e-SUS Notifica \(módulo ESAVI\)/.test(t); }) + ' · ' +
+      ((queixa('anafilaxia').conduta || {}).itens || []).filter(function(i){ return i.v && /ESAVI/.test(i.t); }).length, 'true · 0');
+  })();
+  (function(){ /* digestivo */
+  /* ---------- auditoria APS II · digestivo (relatorios/revisao-digestivo.md) ---------- */
+  function linhasDe(id, re){ return (cartao(id).dose || []).filter(function(d){ return re.test(d.rot); }); }
+  function relacao(id){ var A = FARMACOS_APS; return [].concat(A.combos.itens, A.proibidos.itens, A.dosemuda.itens).filter(function(i){ return i.id === id; })[0] || {}; }
+  function formDe(qid, fid){ return (((queixa(qid).formulario || {}).farmacos) || []).filter(function(r){ return r.id === fid; })[0] || {}; }
+  var cloro = cartao('cloreto-de-sodio-0-9');
+  ver('auditoria APS II · digestivo C1: plano C de 1 ano ou mais traz a nota 3 (cardiopatia grave abaixo de 5 anos: 10 mL/kg)',
+      linhasDe('cloreto-de-sodio-0-9', /^A partir de 1 ano/).every(function(d){ return /cardiopatia grave/.test(d.val) && /10 mL\/kg/.test(d.val); }) + ' · ' +
+      /cardiopatia grave/.test(cloro.evitar || ''), 'true · true');
+  ver('auditoria APS II · digestivo C2: hemorragia digestiva na dispepsia é atendimento imediato com SAMU, não "investigar"',
+      tq('dispepsia-drge', ['redflags']).some(function(t){ return /^Hematêmese, melena/.test(t) && /acionar o SAMU/.test(t); }) + ' · ' +
+      tq('dispepsia-drge', ['redflags']).some(function(t){ return /não tratar empiricamente/.test(t); }), 'true · false');
+  ver('auditoria APS II · digestivo C2: a diarreia tem red flag de hemorragia digestiva (CAB 28, Figura 8)',
+      tq('diarreia-aguda', ['redflags']).some(function(t){ return /Hematêmese/.test(t) && /melena/.test(t) && /SAMU/.test(t) && /não é plano A\/B/.test(t); }), 'true');
+  var metroSint = linhasDe('metronidazol', /^Adulto — amebíase intestinal sintomática/)[0] || { rot: '', val: '' };
+  ver('auditoria APS II · digestivo C3: amebíase sintomática é 750 mg por 10 dias, e não existe mais "sintomática grave"',
+      (/750 mg/.test(metroSint.val) && /10 dias/.test(metroSint.val)) + ' · ' + linhasDe('metronidazol', /sintomática grave/).length, 'true · 0');
+  ver('auditoria APS II · digestivo C3: o formulário da diarreia aponta a linha da amebíase, não a da giardíase',
+      formDe('diarreia-aguda', 'metronidazol').linha + ' · ' + /amebíase sintomática/.test(formDe('parasitoses-intestinais', 'metronidazol').papel || ''),
+      'Adulto — amebíase intestinal sintomática · true');
+  ver('auditoria APS II · digestivo I1: a tríplice não é a linha do formulário nem o título do combo "padrão"',
+      formDe('dispepsia-drge', 'amoxicilina').linha + ' · ' + /tríplice/.test(formDe('dispepsia-drge', 'amoxicilina').linha) + ' · ' +
+      /padrão/.test(relacao('dig-tripla-claritromicina-h-pylori').t || '') + ' · ' + /desencoraja/.test(relacao('dig-tripla-claritromicina-h-pylori').t || ''),
+      'Adulto — H. pylori, terapia dupla · false · false · true');
+  ver('auditoria APS II · digestivo I1: claritromicina só na concomitante; tríplice só com resistência baixa',
+      linhasDe('claritromicina', /concomitante/).every(function(d){ return /abaixo de 15%/.test(d.rot) && !/\(tríplice ou concomitante\)/.test(d.rot); }), 'true');
+  ver('auditoria APS II · digestivo I2: a dose padrão de 12/12 h do omeprazol não vale para a terapia dupla',
+      linhasDe('omeprazol', /não na terapia dupla/).length + ' · ' + linhasDe('omeprazol', /^Adulto — H. pylori, nos esquemas do V Consenso$/).length + ' · ' +
+      /a dose é a do esquema/.test(formDe('dispepsia-drge', 'omeprazol').papel || ''), '1 · 0 · true');
+  ver('auditoria APS II · digestivo I3: concomitante por 14 dias no combo, no metronidazol e na amoxicilina',
+      /por 14 dias \(V Consenso/.test(relacao('dig-concomitante-h-pylori').d || '') + ' · ' + !/por 10 a 14 dias no TeleCondutas/.test(relacao('dig-concomitante-h-pylori').d || '') + ' · ' +
+      linhasDe('metronidazol', /H\. pylori, terapia concomitante/).every(function(d){ return /por 14 dias/.test(d.val) && !/10 a 14/.test(d.val); }) + ' · ' +
+      linhasDe('amoxicilina', /H\. pylori, concomitante/).every(function(d){ return /por 14 dias/.test(d.val) && !/10 a 14/.test(d.val); }), 'true · true · true · true');
+  ver('auditoria APS II · digestivo I4: de 40 a 45 anos o texto diz que há sobreposição e manda decidir com a preceptora',
+      tq('dispepsia-drge', ['conduta']).some(function(t){ return /De 40 a 45 anos/.test(t) && /preceptora/.test(t); }), 'true');
+  ver('auditoria APS II · digestivo I5: soro do menor de 1 ano (1 hora e 5 horas) está no cartão',
+      linhasDe('cloreto-de-sodio-0-9', /^Menor de 1 ano/).some(function(d){ return /1 hora/.test(d.val) && /5 horas/.test(d.val); }), 'true');
+  ver('auditoria APS II · digestivo I6: albendazol — tricuríase tem linha de 3 a 7 dias e ascaridíase e ancilostomíase não dividem mais a mesma linha',
+      linhasDe('albendazol', /^Tricuríase/).some(function(d){ return /3 a 7 dias/.test(d.val); }) + ' · ' + linhasDe('albendazol', /^Adulto — ascaridíase ou ancilostomíase/).length + ' · ' +
+      /esquema de dias/.test(formDe('parasitoses-intestinais', 'albendazol').papel || ''), 'true · 0 · true');
+  ver('auditoria APS II · digestivo I7: praziquantel da criança diz que não há teto e manda conferir com a preceptora',
+      linhasDe('praziquantel', /^Criança de 2 anos ou mais/).every(function(d){ return /não define a idade/.test(d.rot) && /sem teto/.test(d.val) && /preceptora/.test(d.val); }), 'true');
+  var daa = cartao('sofosbuvir-daclatasvir').dose || [];
+  ver('auditoria APS II · digestivo I8: a 1ª linha da hepatite C diz a concentração do daclatasvir (60 mg ou 30 mg em 2 comprimidos)',
+      daa.length + ' · ' + /daclatasvir 60 mg/.test(daa[0].val) + ' · ' + /daclatasvir 30 mg, 2 comprimidos/.test(daa[0].val) + ' · ' + daa[0].p, '1 · true · true · 46');
+  ver('auditoria APS II · digestivo I9: agranulocitose tem fonte (Manual de Gestação de Alto Risco) na queixa e nos dois cartões',
+      itensComF(queixa('tireoide'), 'redflags').some(function(i){ return /Agranulocitose/.test(i.t) && /Manual de Gestação de Alto Risco/.test(i.f); }) + ' · ' +
+      /Agranulocitose/.test(cartao('metimazol').adversos || '') + ' · ' + /Agranulocitose/.test(cartao('propiltiouracil').adversos || ''), 'true · true · true');
+  ver('auditoria APS II · digestivo I10: o Manual de Alto Risco diverge do TeleCondutas no PTU, no tiamazol e na queixa',
+      /Manual de Gestação de Alto Risco/.test(cartao('propiltiouracil').diverge || '') + ' · ' + /Manual de Gestação de Alto Risco/.test(cartao('metimazol').diverge || '') + ' · ' +
+      tq('tireoide', ['farmaco']).some(function(t){ return /Manual de Alto Risco/.test(t) && /intolerância/.test(t); }), 'true · true · true');
+  ver('auditoria APS II · digestivo I11: titulação da levotiroxina no cardiopata diverge (2 semanas × 4 a 8 semanas) e o rótulo da SBEM diz "acima de 80 anos"',
+      (/2 semanas/.test(cartao('levotiroxina').diverge || '') && /4 a 8 semanas/.test(cartao('levotiroxina').diverge || '')) + ' · ' + linhasDe('levotiroxina', /^Idoso acima de 80 anos/).length, 'true · 1');
+  ver('auditoria APS II · digestivo I12: ferro do idoso só depois de corrigida a causa; o TeleCondutas diz que não separa o idoso',
+      linhasDe('sulfato-ferroso', /^Idoso — anemia ferropriva, depois de corrigida a causa/).length + ' · ' + linhasDe('sulfato-ferroso', /^Idoso — anemia ferropriva, tratamento/).length + ' · ' +
+      linhasDe('sulfato-ferroso', /inclusive idoso/).length, '1 · 0 · 1');
+  ver('auditoria APS II · digestivo (ivermectina): lactante no contraind do cartão',
+      /lacta/i.test(cartao('ivermectina').contraind || ''), 'true');
+  ver('auditoria APS II · digestivo (ciprofloxacino): texto geral (ITU), gestante com o Manual p. 571, adversos de fluoroquinolona e idoso no evitar',
+      /ITU/.test(cartao('ciprofloxacino').escolher || '') + ' · ' + /571/.test(cartao('ciprofloxacino').contraind || '') + ' · ' + /tendão/.test(cartao('ciprofloxacino').adversos || '') + ' · ' +
+      /idoso/.test(cartao('ciprofloxacino').evitar || ''), 'true · true · true · true');
+  ver('auditoria APS II · digestivo (soro): o texto do cartão cobre a dengue, não só a diarreia',
+      /dengue/.test(cloro.porque || ''), 'true');
+  })();
 
   document.querySelector('#tc tbody').innerHTML = linhas.join('');
 
