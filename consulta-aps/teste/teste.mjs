@@ -118,6 +118,38 @@ await ev(`(()=>{const s=document.querySelector('select[data-presc-f]'); s.value=
 const climaFluox = await ev(`(document.querySelector('.chip b')||{}).textContent`);
 ok('quadro Climatério → fluoxetina: o 1º botão de dose é "Climatério — fogacho"', /^Climatério — fogacho/.test(climaFluox), climaFluox);
 
+/* ---------- seletor: os temas da APS II são grupos que abrem (innerText vem vazio em <details> fechado: por open e querySelectorAll) ---------- */
+await vai();
+const QG = await ev(`QUADROS.map(q=>({id:q.id, g:q.grupo||''}))`);
+const qA2 = QG.filter(q => /^A2-/.test(q.g));
+const TEMAS = await ev(`[...document.querySelectorAll('#s-quadros details.qgrupo')].map(d=>({g:d.dataset.qgrupo, open:d.open,
+  s:d.querySelector('summary').textContent, pills:[...d.querySelectorAll('[data-esc="quadros"]')].map(b=>b.dataset.v)}))`);
+ok('seletor: cada tema da APS II com quadro é um grupo', TEMAS.length > 0 && TEMAS.length === new Set(qA2.map(q => q.g)).size, JSON.stringify(TEMAS.map(t => t.g)));
+ok('seletor: os temas da APS II vêm fechados', TEMAS.every(t => !t.open), TEMAS.filter(t => t.open).map(t => t.g).join(', '));
+ok('seletor: cada tema traz a contagem e só os quadros dele', TEMAS.every(t => t.s.endsWith(' (' + t.pills.length + ')') &&
+  t.pills.join() === qA2.filter(q => q.g === t.g).map(q => q.id).join()), TEMAS.map(t => t.s).join(' | '));
+const deCima = await ev(`[...document.querySelectorAll('#s-quadros [data-qgrupo="programas"] [data-esc="quadros"], #s-quadros [data-qgrupo="outros"] [data-esc="quadros"]')].map(b=>b.dataset.v)`);
+const aps1 = QG.filter(q => !/^A2-/.test(q.g)).map(q => q.id);
+ok('seletor: os 18 quadros da APS I continuam nos dois grupos de cima', aps1.length === 18 && deCima.slice().sort().join() === aps1.slice().sort().join(), deCima.length + ' de ' + aps1.length);
+const t0 = TEMAS[0]?.g, q0 = TEMAS[0]?.pills[0];
+if (t0) {
+  const aberto = g => ev(`document.querySelector('details[data-qgrupo="${g}"]').open`);
+  await clica(`details[data-qgrupo="${t0}"] > summary`); await espera(80);
+  ok('seletor: um toque abre o tema', await aberto(t0));
+  await clica(`[data-esc="quadros"][data-v="${q0}"]`); await espera(80);
+  const bloco0 = await ev(`(()=>{const it=Object.values(QUADROS.find(q=>q.id==='${q0}').blocos)[0].itens.find(i=>i.id);
+    return !!document.querySelector('#ficha section:not(#s-quadros) [data-bloco="'+it.id+'"]');})()`);
+  ok('seletor: marcar o quadro do tema põe o bloco dele na ficha', bloco0, q0);
+  ok('seletor: o tema continua aberto depois do redesenho', await aberto(t0));
+  await clica(`[data-esc="quadros"][data-v="${q0}"]`); await espera(80);
+  ok('seletor: desmarcar não fecha o tema sozinho', await aberto(t0));
+  await clica(`[data-esc="quadros"][data-v="${q0}"]`); await espera(80);
+  await clica(`details[data-qgrupo="${t0}"] > summary`); await espera(80);
+  await clica(`[data-esc="quadros"][data-v="${aps1[0]}"]`); await espera(80);
+  ok('seletor: tema fechado à mão continua fechado quando a tela redesenha', !(await aberto(t0)));
+} else pula('tema da APS II para abrir');
+await vai();   // os testes de código começam sem quadro marcado
+
 /* ---------- CID/CIAP: só da tabela ---------- */
 const Q = await ev(`QUADROS.map(q=>({id:q.id, ciap:q.ciap||[], cid:q.cid||[]}))`);
 const qc = Q.find(q => q.ciap.length);

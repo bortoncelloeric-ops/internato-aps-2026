@@ -75,6 +75,14 @@ header{position:sticky; top:0; z-index:20; background:var(--acc); color:#fff; bo
   font-size:var(--fs-md); text-align:left; max-width:100%; overflow-wrap:anywhere}
 .pill[aria-pressed="true"]{background:var(--acc); border-color:var(--acc); color:#fff}
 .grp{font-size:var(--fs-sm); color:var(--mut); margin:.5rem 0 .2rem}
+/* temas da APS II no seletor: grupos que abrem com um toque */
+details.qgrupo{border-top:1px solid var(--line); margin-top:.5rem}
+details.qgrupo summary{display:flex; align-items:center; gap:.4rem; min-height:44px; cursor:pointer;
+  font-size:var(--fs-md); font-weight:600; list-style:none}
+details.qgrupo summary::-webkit-details-marker{display:none}
+details.qgrupo summary::before{content:'▸'; color:var(--mut); width:1em}
+details.qgrupo[open] summary::before{content:'▾'}
+details.qgrupo .pills{padding-bottom:.4rem}
 
 input[type=text], input[type=date], textarea, select{border:1px solid var(--line); border-radius:var(--rs);
   padding:.35rem .5rem; background:#fff; font-size:var(--fs-md); max-width:100%; min-width:0}
@@ -809,10 +817,19 @@ function quadrosHTML(){
     return l.length ? '<div role="group" aria-label="' + rot + '" data-qgrupo="' + cod + '"><div class="grp">' + rot + '</div>' +
       pillsHTML('quadros', l.map(function(q){ return op(q.id, q.nome); }), true) + '</div>' : '';
   };
+  /* tema da APS II: fechado até ter quadro marcado ou ser aberto; fechado à mão, continua fechado */
+  var sel = S.quadros || [];
+  var tema = function(g){
+    var l = qs.filter(function(q){ return q.grupo === g[0]; });
+    var aberto = g[0] in qgAberto ? qgAberto[g[0]] : l.some(function(q){ return sel.indexOf(q.id) > -1; });
+    return l.length ? '<details class="qgrupo" data-qgrupo="' + g[0] + '"' + (aberto ? ' open' : '') + '><summary>' + g[1] + ' (' + l.length + ')</summary>' +
+      pillsHTML('quadros', l.map(function(q){ return op(q.id, q.nome); }), true) + '</details>' : '';
+  };
   var h = '<section class="sec" id="s-quadros"><h2>Quadros desta consulta</h2>' +
     '<p class="nota">Cada quadro marcado acrescenta as perguntas dele à ficha e sugere CID/CIAP. Este cartão não entra no texto.</p>' +
     (qs.length ? grupo('Programas da USF', 'programas', qs.filter(function(q){ return !q.grupo; })) +
-                 grupo('Outros quadros', 'outros', qs.filter(function(q){ return !!q.grupo; }))
+                 grupo('Outros quadros', 'outros', qs.filter(function(q){ return q.grupo === 'outros'; })) +
+                 GRUPOS_A2.map(tema).join('')
                : '<p class="nota">quadros.js não carregou.</p>');
   quadrosSel().forEach(function(q){
     var qx = qxDe(q), rf = qx && qx.redflags;
@@ -829,8 +846,14 @@ function quadrosHTML(){
 
 var elFicha = document.getElementById('ficha'), elSaida = document.getElementById('saida');
 var rfAberto = {};
+/* temas da APS II, com os nomes do seletor do copiloto; o estado aberto de cada um fica só em memória */
+var GRUPOS_A2 = [['A2-Cardiorrenal-Metabolica', 'Cardiorrenal-metabólica'], ['A2-Digestivo-Nutricional', 'Digestivo-nutricional'],
+  ['A2-Respiratoria', 'Respiratória'], ['A2-Neuromusculoesqueletica', 'Neuromuscular e musculoesquelética'],
+  ['A2-Demanda-Comum', 'Outras queixas comuns']];
+var qgAberto = {};
 document.addEventListener('toggle', function(e){
   var d = e.target; if (d.dataset && d.dataset.rf) rfAberto[d.dataset.rf] = d.open;
+  if (d.dataset && d.dataset.qgrupo) qgAberto[d.dataset.qgrupo] = d.open;
 }, true);
 function render(){
   indexa();
@@ -875,7 +898,7 @@ function linhaPresc(i){
   return S.presc[i];
 }
 function limpar(){
-  if (vazioS() || confirm('Apagar tudo o que foi preenchido?')) { S = {}; didatico = false; rfAberto = {}; render(); window.scrollTo(0, 0); }
+  if (vazioS() || confirm('Apagar tudo o que foi preenchido?')) { S = {}; didatico = false; rfAberto = {}; qgAberto = {}; render(); window.scrollTo(0, 0); }
 }
 /* respostas que somem do texto se o quadro q for desmarcado (itens que só ele mostra) */
 function respostasSo(qid){
